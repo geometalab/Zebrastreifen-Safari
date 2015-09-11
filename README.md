@@ -13,4 +13,4 @@ Dafür entwickeln die Praktikanten selbstständig eine Software mit 'echten' Dat
 der Informatik - und bereiten sich so für das Informatik-Studium an der HSR vor - wobei auch der 
 Spass nicht zu kurz kommt.
 
-Website (tba.): http://geometalab.github.io/zebrastreifen-safari/ (http://zebrastreifen-safari.osm.ch)
+Website (tba.): http://geometalab.github.io/Zebrastreifen-Safari/ (http://zebrastreifen-safari.osm.ch)
