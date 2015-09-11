@@ -1,4 +1,4 @@
-# Zebrastreifen-Safari
+# Projekt Zebrastreifen-Safari
 
 English: The zebra-crossing-safari is a project inspired by a project from 
 zürich where they inspected approximately 3'500 zerba crossings. 
