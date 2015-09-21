@@ -1,7 +1,6 @@
 @media all and (min-width: 800px) {
     .main    { flex: 3 0px; }
     .main    { order: 2; }
-    .footer  { order: 4; }
 }
 
 body {
@@ -32,15 +31,17 @@ body {
 
 .footer {
     background: yellow;
+    height: 10%;
 }
 
 .main {
     text-align: left;
+    height: 70%;
 }
 .header {
     display: flex;
     position: relative;
-    height: 10%;
+    height: 100%;
     width: 100%;
     background: yellow;
 }
@@ -56,19 +57,20 @@ body {
     position: relative;
     width: 100%;
 }
-a {
+.header a {
     text-decoration: none;
     color: black;
 }
 
 #linecanvas {
+    justify-content: center;
     position: relative;
-    width: 50%;
+    width: 49%;
     height: auto;
 }
 #barcanvas {
     position: relative;
-    width: 50%;
+    width: 49%;
     height: auto;
 }
 
