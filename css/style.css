@@ -1,7 +1,7 @@
 @media all and (min-width: 800px) {
-    .header { order: 1; }
-    #map    { order: 2; }
-    .footer { order: 3; }
+    .header-text    { order: 2; }
+    .header-logo    { order: 1; }
+    #map            { order: 3; }
 }
 
 body {
@@ -23,6 +23,7 @@ body {
 
     -webkit-flex-flow: row wrap;
     flex-flow: row wrap;
+    flex-wrap: wrap;
 
     font-weight: bold;
     text-align: center;
@@ -34,17 +35,20 @@ body {
 .header {
     display: flex;
     position: relative;
-    background: red;
     height: 10%;
     width: 100%;
 }
 
-.header h1 {
-    margin-right: 60%;
+.header-logo {
+    display: flex;
+    position: relative;
+    width: 275px;
+    height: 100%;
 }
 
-.logo {
-    width: 300px;
+.header-logo img {
+    position: relative;
+    width: 100%;
 }
 
 #map {
