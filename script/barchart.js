@@ -1,8 +1,6 @@
-var ctx = document.getElementById("mycanvas").getContext("2d");
+var ctx = document.getElementById("barcanvas").getContext("2d");
 
-
-
- var data = {
+var data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
         {
@@ -12,8 +10,8 @@ var ctx = document.getElementById("mycanvas").getContext("2d");
             highlightFill: "rgba(220,220,220,0.75)",
             highlightStroke: "rgba(220,220,220,1)",
             data: [65, 59, 80, 81, 56, 55, 40]
-        }
+        },
     ]
 };
-var myLineChart = new Chart(ctx).Line(data);
-var my
+
+var myBarChart = new Chart(ctx).Bar(data);

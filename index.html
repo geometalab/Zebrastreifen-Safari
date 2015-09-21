@@ -7,25 +7,41 @@
         <link rel="stylesheet" href="css/style.css">
         <title>Zebrastreifen-Safari</title>
     </head>
-
     <body>
         <div class="wrapper">
             <div class="header">
                 <div class="header-logo">
-                    <img src="css/hsrlogo.jpg" alt="HSR-Logo"/>
+                    <a href="index.html">
+                        <img src="css/hsrlogo.jpg" alt="HSR-Logo"/>
+                    </a>
                 </div>
                 <div class="header-text">
-                    <h1>Zebrastreifen-Safari</h1>
+                    <a href="index.html">
+                        <h1>Zebrastreifen-Safari</h1>
+                    </a>
                 </div>
             </div>
-
-            <div id="map"></div>
+            <article class="main">
+                <canvas id="linecanvas"></canvas>
+                <canvas id="barcanvas"></canvas>
+                <p>
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                    nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                    erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+                    Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+                    sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+                    At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+                    est Lorem ipsum dolor sit amet.
+                </p>
+            </article>
+            <footer class="footer">@ZebrasafariHSR - Projekt Zebrastreifen-Safari</footer>
         </div>
     </body>
-
     <!-- Import Js libs -->
-    <script type="text/javascript" src="libs/script/leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="libs/script/Chart.js"></script>
 
     <!-- Own Js libs -->
-    <script type="text/javascript" src="script/map.js"></script>
+    <script type="text/javascript" src="script/linechart.js"></script>
+    <script type="text/javascript" src="script/barchart.js"></script>
 </html>
