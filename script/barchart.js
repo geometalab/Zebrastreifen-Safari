@@ -14,4 +14,6 @@ var data = {
     ]
 };
 
-var myBarChart = new Chart(ctx).Bar(data);
+var myBarChart = new Chart(ctx).Bar(data, {
+
+});

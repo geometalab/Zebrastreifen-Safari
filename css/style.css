@@ -1,13 +1,4 @@
-@media all and (min-width: 800px) {
-    .main    { flex: 3 0px; }
-    .main    { order: 2; }
-}
 
-body {
-    padding: 0;
-    margin: 0;
-    font-family: "Arial";
-}
 
 .wrapper {
     display: -webkit-box;
@@ -19,7 +10,6 @@ body {
     -webkit-flex-flow: row wrap;
     flex-flow: row wrap;
 
-    font-weight: bold;
     text-align: center;
 }
 
@@ -28,33 +18,19 @@ body {
     flex: 1 100%;
 }
 
-
-.footer {
-    background: yellow;
-    height: 10%;
-}
-
-.main {
-    text-align: left;
-    height: 70%;
-}
 .header {
     display: flex;
-    position: relative;
     height: 100%;
     width: 100%;
-    background: yellow;
 }
 
 .header-logo {
     display: flex;
-    position: relative;
     width: 275px;
     height: 100%;
 }
 
 .header-logo img {
-    position: relative;
     width: 100%;
 }
 .header a {
@@ -64,13 +40,43 @@ body {
 
 #linecanvas {
     justify-content: center;
-    position: relative;
     width: 49%;
     height: auto;
 }
 #barcanvas {
-    position: relative;
     width: 49%;
     height: auto;
 }
+
+
+.main {
+    text-align: left;
+}
+
+
+.footer {
+}
+
+
+.aside-2 {
+    width: 10%;
+}
+
+@media all and (min-width: 600px) {
+    .aside { flex: 1 auto; }
+}
+
+@media all and (min-width: 800px) {
+    .main    { flex: 3 0px; }
+    .main    { order: 2; }
+    .aside-2 { order: 3; }
+    .footer  { order: 4; }
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Arial";
+}
+
 

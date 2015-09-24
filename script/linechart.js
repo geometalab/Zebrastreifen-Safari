@@ -15,4 +15,7 @@ var ctx = document.getElementById("linecanvas").getContext("2d");
         }
     ]
 };
-var myLineChart = new Chart(ctx).Line(data);
+var myLineChart = new Chart(ctx).Line(data, {
+
+
+});
