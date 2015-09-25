@@ -2,8 +2,8 @@ var ctx = document.getElementById("linecanvas").getContext("2d");
 
 
 
- var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+var data = {
+    labels: ["January", "February", "March", "April", "May", "June", "July", " ejfo", "jebhil", "iojesopi"],
     datasets: [
         {
             label: "My Second dataset",
@@ -13,11 +13,13 @@ var ctx = document.getElementById("linecanvas").getContext("2d");
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
             pointHighlightStroke: "rgba(151,187,205,1)",
-            data: [65, 59, 80, 81, 56, 55, 40]
+            data: [28, 48, 40, 19, 86, 27, 90, 45, 50, 50, 50]
         }
     ]
 };
+
 var myLineChart = new Chart(ctx).Line(data, {
-
-
+    scaleLabel : "<%= Number(value) + ' Zebrastreifen'%>",
+    scaleBeginAtZero: true,
+    responsive: true,
 });

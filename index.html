@@ -3,8 +3,7 @@
     <head>
 
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, inital-scale=1.0, maximum-scale1.0, user-scalable=no" />
-        <link rel="stylesheet" href="libs/script/leaflet/leaflet.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="stylesheet" href="css/style.css">
         <title>Zebrastreifen-Safari</title>
     </head>
@@ -24,35 +23,10 @@
         </header>
 
         <article class="main">
-            <h1>About this Projekt/&Uuml;ber das Projekt</h1>
-            <p><em>
-                The zebra-crossing-safari is a project inspired by a project from zürich where they inspected approximately 3'500 zerba crossings.
-                It takes them three years and over 100'000 CHF to complet this task. We want to do it on our own. We want to record zebra crossings
-                in <a href="http://www.osm.org">OpenStreetMap</a> and rate them accoriding to their security level.
-                It's a crowdsourcing project so everyone can help by recoring zerba crossing in OSM.
-            </em></p>
-            <p>
-                Im August 2015 stellte die Stadt Zürich ein Projekt vor, bei dem alle ca. 3'500 Fussgängerstreifen unter die Lupe genommen werden.
-                Der Tagesanzeiger nannte es «Wolff's Zebra-Safari» und berichtete, dass das Ziel des Projekts sei, die Fussgängersicherheit zu steigern.
-                Für die Erfassung der 50(!) Kriterien würde 45 Minuten pro Fussgängerstreifen dauern und die Software hätte 100'000 Franken gekostet.
-                Bisher sollen 400 Streifen kontrolliert worden sein und das Projekt soll Ende 2016, d.h. nach drei Jahren Laufzeit abgeschlossen sein.
-                Da drängte sich die Frage auf, ob eine solche Aktion nicht auch auf die ganze Schweiz - oder gar weltweit - ausgedehnt werden könnte; und
-                dies vielleicht sogar günstiger und schneller? Jedenfalls könnte es einen Beitrag sein, wie viele Fussgängerstreifen es gibt - denn auch
-                die Behörden wissen das nicht immer sicher.
-            </p>
-            <p>
-                Inspiriert vom Stadt Zürcher Projekt entstand das Projekt <b>«Zebrastreifen-Safari»</b>. Eine Safari "ist eine Reise, deren Ziel es ist,
-                Grosswild zu jagen oder – in neuerer Zeit – zu beobachten" (Zitat Wikipedia DE) - und genau das geschieht nun mit Zebrastreifen.
-                Bei dieser OpenStreetMap-Aktion zum Eintragen von Zebrastreifen kann jedermann/-frau mitmachen - was ja selbstverständlich ist für ein
-                Crowdsourcing-Projekt (siehe unten)!
-            </p>
-            <p>
-                Im Projekt «Zebrastreifen-Safari» überprüfen die <b>Informatik-Praktikant/-innen</b>
-                des Geometa Labs der HSR die bereits vorhandenen Fussgängerstreifen auf selbst definierte Sicherheitsaspekte.
-                Solche eher subjektiven Informationen gehören nicht in OpenStreetMap. Dafür entwickeln die Praktikanten selbstständig eine Software
-                mit 'echten' Daten nach den Grundlagen der Informatik - und bereiten sich so für das Informatik-Studium an der HSR vor - wobei auch
-                der Spass nicht zu kurz kommt.
-            </p>
+            <div class="button">
+                <a href="map.html" class="myButton">Karte</a>
+                <a href="project.html" class="myButton">&Uuml;ber das Projekt</a>
+            </div>
             <h1>
                 Was ist der Zweck der Zebrastreifen-Safari?
             </h1>
@@ -65,33 +39,10 @@
                 auch nicht direkt in OpenStreetMap hochladen. Dafür wird ein kleines Spiel (<a href="http://maproulette.org/">MapRoulette</a> - noch nicht gestartet)
                 eingesetzt - aber davon später.
             </p>
-            <h1>
-                Verfolge das Projekt Zebrastreifen-Safari
-            </h1>
-            <p>
-                Beim Projektstart (19.8.2015) waren 35'155 Fussgängerstreifen in OpenStreetMap Schweiz eingetragen und zwar mit
-                "highway=crossing" und "crossing=traffic_signals/ island/ uncontrolled" (sowie ggf. weitere Attribute ("tags") gemäss dieser Wiki-Seite;
-                crossing_ref ist veraltet bzw. UK-spezifisch). Siehe diese aktuelle Statistik. Mal sehen, wieviele es Ende 2015 sind! Verfolge das Projekt,
-                bzw. uns auf Twitter (siehe <a href="https://twitter.com/search?f=tweets&q=%23zebrastreifensafari">#zebrastreifensafari!</a>) und Instagram.
-                Teile uns deine Meinung über Twitter oder Instagram (oder E-Mail) mit.
-            </p>
-            <h1>
-                Nutze OpenStreetMap - und mach selber mit!
-            </h1>
-            <p>
-                OpenStreetMap kann vielfältig genutzt werden: Beispielsweise online zur Orientierung (<a href="http://www.osm.org">www.osm.org</a>) und als Offline-App für die
-                Navigation/Routing (z.B. OsmAnd oder Skobbler). <br/>
-                Man kann auch selber mitmachen bei diesem Crowdsourcing-Projekt und die
-                Karte verbessern! Einfach anmelden unter <a href="http://www.osm.org">OpenStreetMap</a>. Trage fehlende Fussgängerstreifen ein
-                (Tipp: Man nehme 'Crossing' brw. den "tag highway=crossing". Für Fragen zum OpenStreetMap-Projekt schaue zuerst
-                auf <a href="http://www.osm.ch">osm.ch</a> nach.
-            </p>
-
-            <p>
-                Zur Karte: <a href="map.html">Hier Klicken</a>
-            </p>
             <div class="chart">
+                <h1>Gesamtanzahl der eingetragenen Zebrastreifen</h1>
                 <canvas id="linecanvas"></canvas>
+                <h1>Einträge der letzten 10 Wochen</h1>
                 <canvas id="barcanvas"></canvas>
             </div>
 
@@ -110,6 +61,9 @@
             <p>
                 Anfragen zum Zebrastreifen-Safari-Projekt und zur Micro Mapping Party: Prof. Stefan Keller - <a href="http://wiki.hsr.ch/StefanKeller/Kontakt">Kontakt</a> <br/><br/>
                 Anfragen zum Informatik-Studium: <a href="http://www.hsr.ch">www.hsr.ch</a>, Tel. (0)55 222 41 11
+            </p>
+            <p>
+                &copy; by Praktikanten HSR 2015
             </p>
         </footer>
     </div>

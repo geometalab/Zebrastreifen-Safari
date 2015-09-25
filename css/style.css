@@ -19,6 +19,7 @@
 
 .header {
     display: flex;
+    border-bottom: 1px solid black;
 }
 
 .header-logo {
@@ -37,20 +38,32 @@
     max-height:100%
 }
 
-#linecanvas {
-    justify-content: center;
-    width: 100%;
-    height: auto;
+.myButton {
+    background-color:#c7c7c7;
+    -moz-border-radius:16px;
+    -webkit-border-radius:16px;
+    border-radius:16px;
+    border:3px solid #b9bfba;
+    display:inline-flex;
+    cursor:pointer;
+    color:#3d3d3d;
+    font-family:Arial;
+    font-size:17px;
+    padding:19px 60px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #bdbdbd;
 }
-#barcanvas {
-    width: 100%;
-    height: auto;
+.myButton:hover {
+    background-color:#bcbdbb;
+}
+.myButton:active {
+    position:relative;
+    top:1px;
 }
 
 
-.main {
-    border-top: 1px solid black;
-}
+
+
 .main p {
     color: #3E3E50;
 }
@@ -60,7 +73,7 @@
 
 .footer {
     border-top: 1px solid black;
-    text-align: center;
+
 }
 
 
@@ -96,6 +109,9 @@ body {
     padding: 0;
     margin: 0;
     font-family: "Arial";
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
 
