@@ -23,7 +23,7 @@
 
 .header-logo {
     display: flex;
-    width: 275px;
+    max-width: 275px;
 }
 
 .header-logo img {
@@ -33,14 +33,17 @@
     text-decoration: none;
     color: black;
 }
+.header h1{
+    max-height:100%
+}
 
 #linecanvas {
     justify-content: center;
-    width: 49%;
+    width: 100%;
     height: auto;
 }
 #barcanvas {
-    width: 49%;
+    width: 100%;
     height: auto;
 }
 
@@ -64,6 +67,18 @@
 .aside-2 {
     width: 10%;
 }
+/* changes chart height*/
+/*.chart {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+
+}*/
 
 @media all and (min-width: 600px) {
     .aside { flex: 1 auto; }

@@ -47,7 +47,7 @@ a {
 .header-logo {
     display: flex;
     position: relative;
-    width: 275px;
+    max-width: 275px;
     height: 100%;
 }
 
