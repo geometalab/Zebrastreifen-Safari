@@ -10,7 +10,6 @@
     -webkit-flex-flow: row wrap;
     flex-flow: row wrap;
 
-    text-align: center;
 }
 
 .wrapper > * {
@@ -20,14 +19,11 @@
 
 .header {
     display: flex;
-    height: 100%;
-    width: 100%;
 }
 
 .header-logo {
     display: flex;
     width: 275px;
-    height: 100%;
 }
 
 .header-logo img {
@@ -50,11 +46,18 @@
 
 
 .main {
-    text-align: left;
+    border-top: 1px solid black;
+}
+.main p {
+    color: #3E3E50;
+}
+.twitter-timeline {
 }
 
 
 .footer {
+    border-top: 1px solid black;
+    text-align: center;
 }
 
 
@@ -74,9 +77,11 @@
 }
 
 body {
+    background-color: #f4f4f4;
     padding: 0;
     margin: 0;
     font-family: "Arial";
 }
+
 
 
