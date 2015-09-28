@@ -40,19 +40,17 @@ a {
 .header {
     display: flex;
     position: relative;
-    height: 10%;
-    width: 100%;
+    max-height: 10%;
+    min-height: 10%;
+    display: flex;
 }
 
 .header-logo {
     display: flex;
-    position: relative;
-    max-width: 275px;
-    height: 100%;
+    max-width: 800px;
 }
 
 .header-logo img {
-    position: relative;
     width: 100%;
 }
 

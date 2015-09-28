@@ -17,6 +17,11 @@
     flex: 1 100%;
 }
 
+
+
+
+
+
 .header {
     display: flex;
     border-bottom: 1px solid black;
@@ -61,8 +66,11 @@
     top:1px;
 }
 
-
-
+.main {
+    flex: 1;
+}
+.main h1 {
+}
 
 .main p {
     color: #3E3E50;
@@ -70,9 +78,13 @@
 .twitter-timeline {
 }
 
-
 .footer {
     border-top: 1px solid black;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
 
 }
 
@@ -109,9 +121,12 @@ body {
     padding: 0;
     margin: 0;
     font-family: "Arial";
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
+    margin: 0 0 100px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
 }
 
 
