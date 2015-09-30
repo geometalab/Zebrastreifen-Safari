@@ -169,6 +169,11 @@ public class GUI extends javax.swing.JFrame {
         });
 
         jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Choose File");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -334,6 +339,15 @@ public class GUI extends javax.swing.JFrame {
                 bv.getSelectedButtonInt(buttonGroup3), bv.getSelectedButtonInt(buttonGroup1), jTextArea1.getText(), f);
         z.print();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        buttonGroup1.clearSelection();
+        buttonGroup2.clearSelection();
+        buttonGroup3.clearSelection();
+        osmNode.setText("");
+        jTextArea1.setText("");
+        jTextField1.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
