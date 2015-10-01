@@ -73,12 +73,12 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel1.setText("OSM Node");
 
-        jLabel2.setText("User");
+        jLabel2.setText("Benutzer");
 
-        jLabel3.setText("Overview");
+        jLabel3.setText("Übersicht");
 
         buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Good");
+        jRadioButton1.setText("Gut");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -94,17 +94,17 @@ public class GUI extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Bad");
+        jRadioButton3.setText("Schlecht");
         jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton3ActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("Illumination");
+        jLabel4.setText("Beleuchtung");
 
         buttonGroup2.add(jRadioButton4);
-        jRadioButton4.setText("Good");
+        jRadioButton4.setText("Gut");
         jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton4ActionPerformed(evt);
@@ -120,17 +120,17 @@ public class GUI extends javax.swing.JFrame {
         });
 
         buttonGroup2.add(jRadioButton6);
-        jRadioButton6.setText("Bad");
+        jRadioButton6.setText("Schlecht");
         jRadioButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton6ActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("Traffic");
+        jLabel5.setText("Verkehr");
 
         buttonGroup3.add(jRadioButton7);
-        jRadioButton7.setText("None");
+        jRadioButton7.setText("Kein");
         jRadioButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton7ActionPerformed(evt);
@@ -138,7 +138,7 @@ public class GUI extends javax.swing.JFrame {
         });
 
         buttonGroup3.add(jRadioButton8);
-        jRadioButton8.setText("little");
+        jRadioButton8.setText("wenig");
         jRadioButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton8ActionPerformed(evt);
@@ -146,7 +146,7 @@ public class GUI extends javax.swing.JFrame {
         });
 
         buttonGroup3.add(jRadioButton9);
-        jRadioButton9.setText("a Lot");
+        jRadioButton9.setText("viel");
         jRadioButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton9ActionPerformed(evt);
@@ -157,9 +157,9 @@ public class GUI extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jLabel6.setText("Comment");
+        jLabel6.setText("Kommentar");
 
-        jLabel7.setText("Image");
+        jLabel7.setText("Bild");
 
         jButton1.setText("Send");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -239,7 +239,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
