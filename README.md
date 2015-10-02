@@ -1,4 +1,4 @@
-# Zebrastreifen-Safari
+# Projekt Zebrastreifen-Safari
 
 English: The zebra-crossing-safari is a project inspired by a project from 
 zürich where they inspected approximately 3'500 zerba crossings. 
@@ -13,4 +13,7 @@ Dafür entwickeln die Praktikanten selbstständig eine Software mit 'echten' Dat
 der Informatik - und bereiten sich so für das Informatik-Studium an der HSR vor - wobei auch der 
 Spass nicht zu kurz kommt.
 
-Website (tba.): http://geometalab.github.io/Zebrastreifen-Safari/ 
+Websites: 
+ * Public website: http://giswiki.hsr.ch/Zebrasteifen-Safari
+ * New public websites: (tba.): http://geometalab.github.io/zebrastreifen-safari/ http://zebrastreifen-safari.osm.ch 
+ * Other project website: http://wiki.hsr.ch/StefanKeller/wiki.cgi?ProjektZebrastreifenSafari
