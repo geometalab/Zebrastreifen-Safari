@@ -10,7 +10,7 @@ header('Content-type: application/json');
 require_once('data.php');
 
 if (!empty($_GET['type'])) {
-    $type = $_GET['type'];
+    $type = pg_escape_string($_GET['type']);
 
     if ($type == 'linechart') {
         echo json_encode(linechartStatistic());
@@ -19,21 +19,11 @@ if (!empty($_GET['type'])) {
     } else if ($type == 'crosswalks') {
         echo json_encode(zebracrossingPoints());
     } else {
-        echo json_encode(
-            array(
-                "error" => 404,
-                "reason" => 'Parameter "type" has an invalid value.'
-            )
-        );
+        echo json_encode(array("error" => 404, "reason" => 'Parameter "type" has an invalid value.'));
     }
 } else if (!empty($_GET['crosswalk'])) {
-    echo json_encode(zebracrossingDetail());
+    echo json_encode(zebracrossingDetail(pg_escape_string($_GET['crosswalk'])));
 } else {
-    echo json_encode(
-        array(
-            "error" => 404,
-            "reason" => 'Missing required parameter.'
-        )
-    );
+    echo json_encode(array("error" => 404, "reason" => 'Missing required parameter.'));
 }
 ?>

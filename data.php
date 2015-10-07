@@ -137,9 +137,7 @@ function zebracrossingPoints() {
 }
 
 //Get the details about a specific zebracrossing
-function zebracrossingDetail() {
-    $node = $_GET['crosswalk'];
-
+function zebracrossingDetail($node) {
     if (!is_numeric($node)) {
         return array("error" => 404, "reason" => 'Parameter "crosswalk" has an invalid value.');
     }
