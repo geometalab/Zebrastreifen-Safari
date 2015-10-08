@@ -11,8 +11,8 @@ import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
-import jpa.controllers.*;
 import jpa.entities.*;
+import zebra.Zebra;
 
 /**
  *
@@ -21,15 +21,17 @@ import jpa.entities.*;
 public class CreateGUI extends javax.swing.JFrame {
 
     private File f;
-    static ArrayList<User> users; 
+    static ArrayList<User> users;
+
     /**
      * Creates new form GUI
+     *
      * @param users the users which are listed in the JCombobox
      */
     public CreateGUI(ArrayList<User> users) {
         CreateGUI.users = users;
         initComponents();
-        for(User u : users){
+        for (User u : users) {
             usersCB.addItem(u.getName());
         }
 
@@ -251,28 +253,41 @@ public class CreateGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_chooseFileActionPerformed
 
     private void sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
-        //Todo: add Zebra to crossing
+        //ToDo: node redundency
+        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), f==null ? null: f.getName(), null);
+
+        Zebra.addZebracrossing(z);
+
+        Rating r = new Rating(null, CommentsTA.getText(),
+                Zebra.getIlluminationValue(getSelectedButtonInt(buttonGroup2)),
+                Zebra.getOverviewValue(getSelectedButtonInt(buttonGroup1)), Zebra.getTrafficValue(getSelectedButtonInt(buttonGroup3)),
+                Zebra.getUserByName((String)usersCB.getSelectedItem()), Zebra.getZebracrossingByNode(z.getNode()));
         
+        System.out.println(Zebra.getZebracrossingByNode(z.getNode()).getZebracrossingId());
+       
+        z.getRatingList().add(r);
+        Zebra.addRating(r);
+        
+        this.dispose();
     }//GEN-LAST:event_sendActionPerformed
 
-    
-   public int getSelectedButtonInt(ButtonGroup bg) {
-        
+    public int getSelectedButtonInt(ButtonGroup bg) {
+
         int i = 1;
-        
+
         for (Enumeration<AbstractButton> buttons = bg.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
-            
-            if(button.isSelected()){
+
+            if (button.isSelected()) {
                 return i;
             }
-            
+
             i++;
-            
+
         }
         return 0;
-    } 
-    
+    }
+
     /**
      * @param args the command line arguments
      */

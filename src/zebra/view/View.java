@@ -50,10 +50,25 @@ public final class View extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         addButton.setText("Hinzufügen");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         updateButton.setText("Bearbeiten");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setText("Löschen");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         switchButton.setText("Bewertungen");
         switchButton.addActionListener(new java.awt.event.ActionListener() {
@@ -106,16 +121,30 @@ public final class View extends javax.swing.JFrame {
     private void switchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
         model.setZebraB(!model.isZebraB());
         if(model.isZebraB()){
-            return;
+            switchButton.setText("Bewertungen");           
         }else{
             int row = jTable1.getSelectedRow();
             Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()),
-                    Long.parseLong(zebraTM.getValueAt(row, 1).toString()), zebraTM.getValueAt(row, 2).toString(), null);
-            //System.out.println(z.getImage()+" Node: "+z.getNode());
+                    Long.parseLong(zebraTM.getValueAt(row, 1).toString()),
+                    zebraTM.getValueAt(row, 2)==null? "" : zebraTM.getValueAt(row, 2).toString(), null);
+            model.fetchData(z);
+            switchButton.setText("Zebrastreifen");
         }
+        addDataToTable();
         jTable1.setModel(getCurrentTableModel());
     }//GEN-LAST:event_switchButtonActionPerformed
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
     public TableModel getCurrentTableModel(){
         if(model.isZebraB()){
@@ -125,6 +154,8 @@ public final class View extends javax.swing.JFrame {
     }
     
     public void addDataToTable(){
+        zebraTM.setRowCount(0);
+        ratingTM.setRowCount(0);
         if(model.isZebraB()){
             for(Zebracrossing z: model.getZebras()){
                 zebraTM.addRow(new String[]{z.getZebracrossingId().toString(), Long.toString(z.getNode()), z.getImage()});
@@ -134,9 +165,7 @@ public final class View extends javax.swing.JFrame {
                 ratingTM.addRow(new String[]{r.getRatingId().toString(), r.getUserFk().getName(), r.getTrafficFk().getTrafficValue(),
                     r.getOverviewFk().getOverviewValue(), r.getIlluminationFk().getIlluminationValue(), r.getComment()});
             }
-        }
-        
-        
+        }    
     }
     
     /**

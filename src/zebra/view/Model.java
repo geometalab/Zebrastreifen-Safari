@@ -22,6 +22,7 @@ public final class Model {
     public Model() {
         zebraB = true;
         zebras = new ArrayList<>();
+        ratings = new ArrayList<>();
         
         fetchData(null);
         

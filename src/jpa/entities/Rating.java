@@ -61,6 +61,18 @@ public class Rating implements Serializable {
         this.ratingId = ratingId;
     }
 
+    public Rating(Integer ratingId, String comment, Illumination illuminationFk, Overview overviewFk, Traffic trafficFk, User userFk, Zebracrossing zebracrossingFk) {
+        this.ratingId = ratingId;
+        this.comment = comment;
+        this.illuminationFk = illuminationFk;
+        this.overviewFk = overviewFk;
+        this.trafficFk = trafficFk;
+        this.userFk = userFk;
+        this.zebracrossingFk = zebracrossingFk;
+    }
+    
+    
+
     public Integer getRatingId() {
         return ratingId;
     }

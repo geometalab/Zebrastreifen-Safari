@@ -55,6 +55,61 @@ public class Zebra {
         return ratings;
     }
     
+    public static void removeZebracrossing(int i){
+        ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
+       // zjc.destroy();
+    }
+    
+    public static void addZebracrossing(Zebracrossing zebra){
+        ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
+        zjc.create(zebra);
+    }
+    
+    public static void addRating(Rating rating){
+        RatingJpaController rjc = new RatingJpaController(emFactory);
+        rjc.create(rating);
+    }
+    
+    public static Illumination getIlluminationValue(int value){
+        IlluminationJpaController ijc = new IlluminationJpaController(emFactory);
+        Illumination i = ijc.findIllumination(value);
+        return i;
+    }
+    
+    public static Overview getOverviewValue(int value){
+        OverviewJpaController ojc = new OverviewJpaController(emFactory);
+        Overview o = ojc.findOverview(value);
+        return o;
+    }
+    
+    public static Traffic getTrafficValue(int value){
+        TrafficJpaController tjc = new TrafficJpaController(emFactory);
+        Traffic t = tjc.findTraffic(value);
+        return t;
+    }
+    
+    public static User getUserByName(String name){
+        UserJpaController ujc = new UserJpaController(emFactory);
+        for(User u: ujc.findUserEntities()){
+            if(u.getName().equals(name)){
+                return u;
+            }
+        }
+        return null;
+    }
+    
+    public static Zebracrossing getZebracrossingByNode(long node){
+        ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
+        for(Zebracrossing zebra: zjc.findZebracrossingEntities()){
+            if(node == zebra.getNode()){
+                return zebra;
+            }         
+        }
+         return null;
+    }
+            
+
+    
     public static void main(String[] args) {
         
         //getZebracrossings();             
