@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import jpa.controllers.*;
+import jpa.controllers.exceptions.NonexistentEntityException;
 import jpa.entities.*;
 import zebra.create.CreateGUI;
 import zebra.view.View;
@@ -59,9 +61,14 @@ public class Zebra {
         return ratings;
     }
     
-    public static void removeZebracrossing(int i){
+    public static void removeZebracrossing(int id){
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
-       // zjc.destroy();
+
+        try {
+            zjc.destroy(id);
+        } catch (NonexistentEntityException neex) {
+            neex.printStackTrace();
+        }
     }
     
     public static void addZebracrossing(Zebracrossing zebra){
@@ -72,6 +79,16 @@ public class Zebra {
     public static void addRating(Rating rating){
         RatingJpaController rjc = new RatingJpaController(emFactory);
         rjc.create(rating);
+    }
+
+    public static void removeRating(int id) {
+        RatingJpaController rjc = new RatingJpaController(emFactory);
+
+        try {
+            rjc.destroy(id);
+        } catch (NonexistentEntityException neex) {
+            neex.printStackTrace();
+        }
     }
     
     public static Illumination getIlluminationValue(int value){

@@ -127,11 +127,12 @@ public class ZebracrossingJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The zebracrossing with id " + id + " no longer exists.", enfe);
             }
-            List<Rating> ratingList = zebracrossing.getRatingList();
+            //When a zebracrossing gets deleted, the ratings should be deleted as well. (on delete cascade)
+            /*List<Rating> ratingList = zebracrossing.getRatingList();
             for (Rating ratingListRating : ratingList) {
                 ratingListRating.setZebracrossingFk(null);
                 ratingListRating = em.merge(ratingListRating);
-            }
+            }*/
             em.remove(zebracrossing);
             em.getTransaction().commit();
         } finally {
