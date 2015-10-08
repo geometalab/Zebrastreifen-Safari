@@ -135,7 +135,7 @@ public final class View extends javax.swing.JFrame {
                 Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()),
                         Long.parseLong(zebraTM.getValueAt(row, 1).toString()),
                         zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
-                model.fetchData(z);
+                model.setRatings(Zebra.getRatingsOfZebra(z));
                 switchButton.setText("Zebrastreifen");
             }
             addDataToTable();
@@ -158,10 +158,11 @@ public final class View extends javax.swing.JFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
             if (model.isZebraB()){
-                Zebra.removeZebracrossing(Integer.parseInt((String) jTable1.getValueAt(jTable1.getSelectedRow(), 0)));
-                model.fetchData(null);
+                Zebra.removeZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+                model.getZebras().remove(jTable1.getSelectedRow());
             } else {
-                //todo: remove rating
+                Zebra.removeRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+                model.getRatings().remove(jTable1.getSelectedRow());
             }
 
             addDataToTable();
