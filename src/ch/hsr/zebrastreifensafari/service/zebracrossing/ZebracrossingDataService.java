@@ -1,64 +1,70 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package zebra;
+package ch.hsr.zebrastreifensafari.service.zebracrossing;
 
-import java.util.ArrayList;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import jpa.controllers.*;
 import jpa.controllers.exceptions.NonexistentEntityException;
 import jpa.entities.*;
-import zebra.create.CreateGUI;
-import zebra.view.View;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
- * @author aeugster
+ * @author : Mike Marti
+ * @version : 1.0
+ * @project : Zebrastreifen-Safari
+ * @time : 15:34
+ * @date : 08.10.2015
  */
-public class Zebra {
-    
-    private static EntityManagerFactory emFactory;
-    
-    
-    
-    static{
+
+public class ZebracrossingDataService implements IZebracrossingDataService {
+
+    private EntityManagerFactory emFactory;
+
+    public ZebracrossingDataService() {
         emFactory = Persistence.createEntityManagerFactory("ZebraPU");
     }
-    
-    public static ArrayList<User> getUsers(){
-        ArrayList<User> users = new ArrayList<>();
+
+    @Override
+    public List<User> getUsers(){
+        List<User> users = new ArrayList<>();
         UserJpaController ujc = new UserJpaController(emFactory);
+
         for(User u : ujc.findUserEntities()){
             users.add(u);
         }
+
         return users;
     }
-    
-    public static ArrayList<Zebracrossing> getZebracrossings(){
-        ArrayList<Zebracrossing> zebras = new ArrayList<>();
+
+    @Override
+    public List<Zebracrossing> getZebracrossings(){
+        List<Zebracrossing> zebras = new ArrayList<>();
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
+
         for(Zebracrossing z : zjc.findZebracrossingEntities()){
             zebras.add(z);
         }
+
         return zebras;
-    } 
-    
-    public static ArrayList<Rating> getRatingsOfZebra(Zebracrossing zebra){
-        ArrayList<Rating> ratings = new ArrayList<>();
+    }
+
+    @Override
+    public List<Rating> getRatingsOfZebra(Zebracrossing zebra){
+        List<Rating> ratings = new ArrayList<>();
         RatingJpaController rjc = new RatingJpaController(emFactory);
+
         for(Rating r : rjc.findRatingEntities()){
             if(r.getZebracrossingFk().equals(zebra)){
                 ratings.add(r);
             }
         }
+
         return ratings;
     }
-    
-    public static void removeZebracrossing(int id){
+
+    @Override
+    public void removeZebracrossing(int id){
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
 
         try {
@@ -67,18 +73,21 @@ public class Zebra {
             neex.printStackTrace();
         }
     }
-    
-    public static void addZebracrossing(Zebracrossing zebra){
+
+    @Override
+    public void addZebracrossing(Zebracrossing zebra){
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
         zjc.create(zebra);
     }
-    
-    public static void addRating(Rating rating){
+
+    @Override
+    public void addRating(Rating rating){
         RatingJpaController rjc = new RatingJpaController(emFactory);
         rjc.create(rating);
     }
 
-    public static void removeRating(int id) {
+    @Override
+    public void removeRating(int id) {
         RatingJpaController rjc = new RatingJpaController(emFactory);
 
         try {
@@ -87,53 +96,48 @@ public class Zebra {
             neex.printStackTrace();
         }
     }
-    
-    public static Illumination getIlluminationValue(int value){
+
+    @Override
+    public Illumination getIlluminationValue(int value){
         IlluminationJpaController ijc = new IlluminationJpaController(emFactory);
-        Illumination i = ijc.findIllumination(value);
-        return i;
+        return ijc.findIllumination(value);
     }
-    
-    public static Overview getOverviewValue(int value){
+
+    @Override
+    public Overview getOverviewValue(int value){
         OverviewJpaController ojc = new OverviewJpaController(emFactory);
-        Overview o = ojc.findOverview(value);
-        return o;
+        return ojc.findOverview(value);
     }
-    
-    public static Traffic getTrafficValue(int value){
+
+    @Override
+    public Traffic getTrafficValue(int value){
         TrafficJpaController tjc = new TrafficJpaController(emFactory);
-        Traffic t = tjc.findTraffic(value);
-        return t;
+        return tjc.findTraffic(value);
     }
-    
-    public static User getUserByName(String name){
+
+    @Override
+    public User getUserByName(String name){
         UserJpaController ujc = new UserJpaController(emFactory);
+
         for(User u: ujc.findUserEntities()){
             if(u.getName().equals(name)){
                 return u;
             }
         }
+
         return null;
     }
-    
-    public static Zebracrossing getZebracrossingByNode(long node){
+
+    @Override
+    public Zebracrossing getZebracrossingByNode(long node){
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
+
         for(Zebracrossing zebra: zjc.findZebracrossingEntities()){
             if(node == zebra.getNode()){
                 return zebra;
-            }         
+            }
         }
-         return null;
-    }
-            
 
-    
-    public static void main(String[] args) {
-
-        //getZebracrossings();
-        
-        View view = new View();
-        view.setVisible(true);
-        
+        return null;
     }
 }
