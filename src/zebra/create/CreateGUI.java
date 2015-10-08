@@ -8,9 +8,8 @@ package zebra.create;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JFileChooser;
+import javax.swing.*;
+
 import jpa.entities.*;
 import zebra.Zebra;
 
@@ -34,6 +33,8 @@ public class CreateGUI extends javax.swing.JFrame {
         for (User u : users) {
             usersCB.addItem(u.getName());
         }
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }
 

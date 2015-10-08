@@ -21,11 +21,8 @@ public final class Model {
 
     public Model() {
         zebraB = true;
-        zebras = new ArrayList<>();
-        ratings = new ArrayList<>();
-        
-        fetchData(null);
-        
+        zebras = Zebra.getZebracrossings();
+        ratings = new ArrayList<>();      
     }
     
     public Rating getRatingById(int id){
@@ -37,13 +34,6 @@ public final class Model {
         return null;
     }
     
-    public void fetchData(Zebracrossing zebra){
-        if(isZebraB()){
-            setZebras(Zebra.getZebracrossings());
-        }else{
-            setRatings(Zebra.getRatingsOfZebra(zebra));
-        }
-    }
 
     /**
      * @return the zebras
