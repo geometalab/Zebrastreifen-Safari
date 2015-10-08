@@ -4,13 +4,16 @@ $("#menu").click(function(){
     $(".buttons").toggle();
     hide = !hide;
     $(".header-text").hide();
+
     if (!hide){
         $(".header-text").show();
+        $(".header").height("15%");
+        $("#map").height("85%");
     }
-});
+    if (hide) {
+        $(".header").height("40%");
+        $("#map").height("60%");
+    }
 
-$(window).resize(function(){
-    if(window.innerWidth > 799) {
-        $(".buttons").removeAttr("style");
-    }
+
 });
