@@ -5,8 +5,11 @@
  */
 package zebra.view;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import jpa.controllers.ZebracrossingJpaController;
 import jpa.entities.*;
 import zebra.Zebra;
 import zebra.create.CreateGUI;
@@ -122,19 +125,25 @@ public final class View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void switchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
-        model.setZebraB(!model.isZebraB());
-        if(model.isZebraB()){
-            switchButton.setText("Bewertungen");           
-        }else{
-            int row = jTable1.getSelectedRow();
-            Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()),
-                    Long.parseLong(zebraTM.getValueAt(row, 1).toString()),
-                    zebraTM.getValueAt(row, 2)==null? "" : zebraTM.getValueAt(row, 2).toString(), null);
-            model.fetchData(z);
-            switchButton.setText("Zebrastreifen");
+        try {
+            model.setZebraB(!model.isZebraB());
+
+            if (model.isZebraB()) {
+                switchButton.setText("Bewertungen");
+            } else {
+                int row = jTable1.getSelectedRow();
+                Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()),
+                        Long.parseLong(zebraTM.getValueAt(row, 1).toString()),
+                        zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
+                model.fetchData(z);
+                switchButton.setText("Zebrastreifen");
+            }
+            addDataToTable();
+            jTable1.setModel(getCurrentTableModel());
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+            model.setZebraB(!model.isZebraB());
+            JOptionPane.showMessageDialog(this, "Select a row to show its ratings!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        addDataToTable();
-        jTable1.setModel(getCurrentTableModel());
     }//GEN-LAST:event_switchButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -147,7 +156,18 @@ public final class View extends javax.swing.JFrame {
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            if (model.isZebraB()){
+                Zebra.removeZebracrossing(Integer.parseInt((String) jTable1.getValueAt(jTable1.getSelectedRow(), 0)));
+                model.fetchData(null);
+            } else {
+                //todo: remove rating
+            }
+
+            addDataToTable();
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+            JOptionPane.showMessageDialog(this, "Select a row to delete it!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     public TableModel getCurrentTableModel(){
