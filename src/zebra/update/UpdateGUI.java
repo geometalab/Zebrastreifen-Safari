@@ -310,7 +310,7 @@ public class UpdateGUI extends javax.swing.JFrame {
     }
 
     private void updateComponents() {
-        CommentsTA.setText(rating.getComment());
+        CommentsTA.setText(rating.getComment() == null ? "": rating.getComment());
         osmNode.setText(Long.toString(Zebra.getZebracrossingById(rating.getRatingId()).getNode()));
         imageTF.setText(Zebra.getZebracrossingById(rating.getRatingId()).getImage() == null ? "" : Zebra.getZebracrossingById(rating.getRatingId()).getImage());
         setButtonGroupValue(buttonGroup1, rating.getOverviewFk().getOverviewId());

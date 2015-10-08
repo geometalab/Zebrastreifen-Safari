@@ -20,20 +20,28 @@ import zebra.update.UpdateGUI;
  * @author aeugster
  */
 public final class View extends javax.swing.JFrame {
-    
+
     private final Model model;
     private DefaultTableModel ratingTM;
     private DefaultTableModel zebraTM;
-    
+
     //private DefaultTableModel dtm;
-    
     public View() {
         model = new Model();
-        
-        zebraTM = new DefaultTableModel(new String[]{"ID", "Node", "Bild"}, 0);
-        ratingTM = new DefaultTableModel(new String[]{"ID", "Benutzer", "Verkehr", "Übersicht","Beleuchtung", "Kommentar" }, 0);
+
+        zebraTM = new DefaultTableModel(new String[]{"ID", "Node", "Bild"}, 0) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        ratingTM = new DefaultTableModel(new String[]{"ID", "Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar"}, 0) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         initComponents();
-        
+        updateButton.setEnabled(false);
+        this.setTitle("Zebrastreifen Administration Tool");
         addDataToTable();
     }
 
@@ -130,6 +138,7 @@ public final class View extends javax.swing.JFrame {
 
             if (model.isZebraB()) {
                 switchButton.setText("Bewertungen");
+                updateButton.setEnabled(false);
             } else {
                 int row = jTable1.getSelectedRow();
                 Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()),
@@ -137,6 +146,7 @@ public final class View extends javax.swing.JFrame {
                         zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
                 model.setRatings(Zebra.getRatingsOfZebra(z));
                 switchButton.setText("Zebrastreifen");
+                updateButton.setEnabled(true);
             }
             addDataToTable();
             jTable1.setModel(getCurrentTableModel());
@@ -152,15 +162,18 @@ public final class View extends javax.swing.JFrame {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        
-        UpdateGUI ug = new UpdateGUI(Zebra.getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
-        ug.setVisible(rootPaneCheckingEnabled);
-        addDataToTable();
+        try {
+            UpdateGUI ug = new UpdateGUI(Zebra.getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
+            ug.setVisible(rootPaneCheckingEnabled);
+            addDataToTable();
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+            JOptionPane.showMessageDialog(this, "Select a row to delete it!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
-            if (model.isZebraB()){
+            if (model.isZebraB()) {
                 Zebra.removeZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
                 model.getZebras().remove(jTable1.getSelectedRow());
             } else {
@@ -174,41 +187,41 @@ public final class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    public TableModel getCurrentTableModel(){
-        if(model.isZebraB()){
+    public TableModel getCurrentTableModel() {
+        if (model.isZebraB()) {
             return zebraTM;
         }
         return ratingTM;
     }
-    
-    public Rating getRatingFromTable(){
+
+    public Rating getRatingFromTable() {
         int row = jTable1.getSelectedRow();
         Rating r = new Rating(Integer.parseInt(jTable1.getValueAt(row, 0).toString()),
-                (String)jTable1.getValueAt(row,6),
+                (String) jTable1.getValueAt(row, 6),
                 Zebra.getIlluminationValue(Integer.parseInt(jTable1.getValueAt(row, 5).toString())),
                 Zebra.getOverviewValue(Integer.parseInt(jTable1.getValueAt(row, 3).toString())),
                 Zebra.getTrafficValue(Integer.parseInt(jTable1.getValueAt(row, 4).toString())),
                 Zebra.getUserByID(Integer.parseInt(jTable1.getValueAt(row, 2).toString())),
                 Zebra.getZebracrossingById(Integer.parseInt(jTable1.getValueAt(row, 1).toString())));
-            
+
         return r;
     }
-    
-    public void addDataToTable(){
+
+    public void addDataToTable() {
         zebraTM.setRowCount(0);
         ratingTM.setRowCount(0);
-        if(model.isZebraB()){
-            for(Zebracrossing z: model.getZebras()){
+        if (model.isZebraB()) {
+            for (Zebracrossing z : model.getZebras()) {
                 zebraTM.addRow(new String[]{z.getZebracrossingId().toString(), Long.toString(z.getNode()), z.getImage()});
             }
-        }else{
-            for(Rating r: model.getRatings()){
+        } else {
+            for (Rating r : model.getRatings()) {
                 ratingTM.addRow(new String[]{r.getRatingId().toString(), r.getUserFk().getName(), r.getTrafficFk().getTrafficValue(),
                     r.getOverviewFk().getOverviewValue(), r.getIlluminationFk().getIlluminationValue(), r.getComment()});
             }
-        }    
+        }
     }
-    
+
     /**
      * @param args the command line arguments
      */

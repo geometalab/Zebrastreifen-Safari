@@ -138,7 +138,7 @@ public class Zebra {
         }
          return null;
     }
-    
+
     public static Zebracrossing getZebracrossingById(int id){
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
         for(Zebracrossing zebra: zjc.findZebracrossingEntities()){
