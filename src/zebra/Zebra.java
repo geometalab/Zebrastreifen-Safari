@@ -6,9 +6,11 @@
 package zebra;
 
 import java.util.ArrayList;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import jpa.controllers.*;
+import jpa.controllers.exceptions.NonexistentEntityException;
 import jpa.entities.*;
 import zebra.create.CreateGUI;
 import zebra.view.View;
@@ -58,7 +60,11 @@ public class Zebra {
     
     public static void removeZebracrossing(int i){
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
-       // zjc.destroy();
+        try {
+            zjc.destroy(i);
+        } catch (NonexistentEntityException neex) {
+            neex.printStackTrace();
+        }
     }
     
     public static void addZebracrossing(Zebracrossing zebra){
