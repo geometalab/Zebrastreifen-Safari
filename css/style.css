@@ -17,49 +17,79 @@
     flex: 1 100%;
 }
 
-
-
-
-
-
 .header {
+    background-color: #0065A3;
     display: flex;
     border-bottom: 1px solid black;
+    justify-content: space-around;
+    /* TODO justify-content: space-between;*/
+
 }
 
 .header-logo {
     display: flex;
-    max-width: 275px;
+    max-width: 200px;
 }
 
 .header-logo img {
+    display: flex;
     width: 100%;
 }
-.header a {
+.header a{
     text-decoration: none;
-    color: black;
+    color: white;
 }
 .header h1{
     max-height:100%
 }
+.dropdown {
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-flow:column;
+    -webkit-justify-content: space-between;
+    position: absolute;
+}
+
+.dropdown a {
+    padding: 5px;
+    display: block;
+    background: #0065A3;
+
+}
+.dropdown a:hover {
+    background: #3384B5;
+    color: white;
+}
+
+
+.myButton1:not(:hover):not(:target) > .dropdown {
+    display: none;
+}
+
+
+
+.myButton1 {
+    background-color:transparent;
+    display:inline-flex;
+    color: white;
+    font-size:20px;
+    padding:19px 50px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #bdbdbd;
+}
+
 
 .myButton {
-    background-color:#c7c7c7;
-    -moz-border-radius:16px;
-    -webkit-border-radius:16px;
-    border-radius:16px;
-    border:3px solid #b9bfba;
+    background-color:transparent;
     display:inline-flex;
-    cursor:pointer;
     color:#3d3d3d;
-    font-family:Arial;
-    font-size:17px;
-    padding:19px 60px;
+    font-size:20px;
+    padding:19px 50px;
     text-decoration:none;
     text-shadow:0px 1px 0px #bdbdbd;
 }
 .myButton:hover {
-    background-color:#bcbdbb;
+    background-color: #3384B5;
 }
 .myButton:active {
     position:relative;
@@ -84,7 +114,7 @@
     left: 0;
     bottom: 0;
     height: 100px;
-    width: 98.7%;
+    width: 96%;
 
 }
 
@@ -92,32 +122,31 @@
 .aside-2 {
     width: 10%;
 }
-/* changes chart height*/
-/*.chart {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
 
-    -webkit-flex-flow: row wrap;
-    flex-flow: row wrap;
-
-}*/
 
 @media all and (min-width: 600px) {
     .aside { flex: 1 auto; }
 }
 
-@media all and (min-width: 800px) {
+@media all and (min-width: 600px) {
     .main    { flex: 3 0px; }
     .main    { order: 2; }
     .aside-2 { order: 3; }
     .footer  { order: 4; }
+    #menu    { display: none; }
+}
+@media all and (max-width: 600px) {
+    .buttons {display: none; }
+    .header-text {
+        order: 1;
+        display: inline-block;
+    }
+    .header-logo {display: none; }
 }
 
 body {
-    background-color: #f4f4f4;
+    /*background-color: #f4f4f4;*/
+
     padding: 0;
     font-family: "Arial";
     margin: 0 0 150px;

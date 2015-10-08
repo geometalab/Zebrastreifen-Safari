@@ -3,22 +3,44 @@
     <head>
 
         <meta charset="UTF-8">
+        <!-- Stops unwanted scaling -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <!-- Import Css libs -->
         <link rel="stylesheet" href="libs/script/leaflet/leaflet.css" />
+        <!-- Import own stylesheet-->
         <link rel="stylesheet" href="css/stylemap.css">
         <title>Zebrastreifen-Safari</title>
     </head>
 
     <body>
+        <!-- Container for the body -->
         <div class="wrapper">
-            <div class="header">
-                <div class="header-logo">
+            <header class="header">
+                <div class="header-text">
                     <a href="index.html">
-                        <img src="css/header.png" alt="Zebrastreifen-Safari">
+                        <h1>Zebrastreifen-Safari</h1>
                     </a>
                 </div>
-            </div>
+                <!-- Container for the Buttons -->
 
+                <div class="buttons">
+                    <a href="map.html" class="myButton">Karte</a>
+                    <a href="project.html" class="myButton">&Uuml;ber das Projekt</a>
+                    <div class=myButton1>Footer &raquo;
+                        <span class=dropdown>
+                            <a href=#>Feedback</a>
+                            <a href=#>Terms of Use</a>
+                            <a href=#>Geometa Lab</a>
+                          </span>
+                    </div>
+                </div>
+                <div class="header-logo">
+                    <a href="http://i.hsr.ch">
+                        <img id="hsr" src="css/hsrlogo.jpg" alt="HSR-Logo"/>
+                    </a>
+                </div>
+            </header>
+            <!-- Container for the map -->
             <div id="map"></div>
         </div>
     </body>
@@ -28,4 +50,5 @@
     <script type="text/javascript" src="libs/script/jquery-1.11.3.js"></script>
     <!-- Own Js libs -->
     <script type="text/javascript" src="script/map.js"></script>
+    <script type="text/javascript" src="script/mobilemenu.js"></script>
 </html>

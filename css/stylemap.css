@@ -1,19 +1,3 @@
-@media all and (min-width: 800px) {
-    .header-text    { order: 2; }
-    .header-logo    { order: 1; }
-    #map            { order: 3; }
-}
-
-body {
-    padding: 0;
-    margin: 0;
-    font-family: "Arial";
-}
-
-.wrapper > .header, .footer, #map {
-    flex: 1 100%;
-}
-
 .wrapper {
     display: -webkit-box;
     display: -moz-box;
@@ -23,27 +7,189 @@ body {
 
     -webkit-flex-flow: row wrap;
     flex-flow: row wrap;
-    flex-wrap: wrap;
-
-    font-weight: bold;
     position: absolute;
     height: 100%;
     width: 100%;
 }
 
+.wrapper > .header, .footer, #map {
+    flex: 1 100%;
+}
 
 .header {
-    height: 10%;
+    background-color: #0065A3;
+    display: flex;
+    position: relative;
+    justify-content: space-around;
+    z-index: 1;
+    height: 13%;
+
+    /* TODO justify-content: space-between;*/
+
+}
+.header-logo {
+    max-width: 200px;
+    max-height: 78px;
+    overflow: hidden;
+}
+.header-logo img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
-.header-logo img {
-    max-width: 50%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
+
+.header a{
+    text-decoration: none;
+    color: white;
 }
+.dropdown {
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-flow:column;
+    -webkit-justify-content: space-between;
+    position: absolute;
+}
+
+.dropdown a {
+    padding: 5px;
+    display: block;
+    background: #0065A3;
+}
+.dropdown a:hover {
+    background: #3384B5;
+    color: white;
+}
+
+
+.myButton1:not(:hover):not(:target) > .dropdown {
+    display: none;
+}
+
+
+
+.myButton1 {
+    background-color:#0065A3;
+    display:inline-flex;
+    color: white;
+    font-size:20px;
+    padding:19px 50px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #bdbdbd;
+}
+
+
+.myButton {
+    background-color:#0065A3;
+    display:inline-flex;
+    color:#3d3d3d;
+    font-size:20px;
+    padding:19px 50px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #bdbdbd;
+}
+.myButton:hover {
+    background-color: #3384B5;
+}
+.myButton:active {
+    position:relative;
+    top:1px;
+}
+
 
 #map {
-    width: 100%;
-    height: 90%;
+    width: auto;
+    height: 87%;
+}
+#menu {
+    font-size: 25px;
+}
+
+/*Disable Menu for the not Mobile version*/
+@media all and (min-width: 600px) {
+    #menu    { display: none; }
+}
+
+@media all and (max-height: 600px){
+    .header { height: 18%;}
+    #map {height: 82%; }
+}
+@media all and (max-height: 475px){
+    .header { height: 23%;}
+    #map {height: 77%; }
+}
+
+
+@media all and (max-width: 1083px) {
+    .header { height: 18%;}
+    #map {height: 82%; }
+}
+@media all and (max-width: 1083px) and (max-height: 692px){
+    .header { height: 23%;}
+    #map {height: 77%; }
+}
+@media all and (max-width: 1083px) and (max-height: 350px){
+    .header { height: 28%;}
+    #map {height: 72%; }
+}
+
+
+
+@media all and (max-width: 1060px) {
+    .header { height: 25%;}
+    #map {height: 75%; }
+}
+@media all and (max-width: 1060px) and (max-height: 486px) {
+    .header { height: 30%;}
+    #map {height: 70%; }
+}
+@media all and (max-width: 1060px) and (max-height: 408px) {
+    .header { height: 35%;}
+    #map {height: 65%; }
+}
+
+
+@media all and (max-width: 753px) {
+    .header { height: 30%;}
+    #map {height: 70%; }
+}
+@media all and (max-width: 753px) and (max-height: 610px) {
+    .header { height: 40%;}
+    #map {height: 60%; }
+}
+@media all and (max-width: 753px) and (max-height: 456px) {
+    .header { height: 52%;}
+    #map {height: 48%; }
+}
+
+/*Css for Mobile */
+@media all and (max-width: 600px) {
+    .header { height: 15%;}
+    #map {height: 85%; }
+    .buttons {display: none; }
+    .header-text {
+        order: 1;
+    }
+    .header-logo {display: none; }
+}
+@media all and (max-width: 325px) {
+    .header { height: 20%;}
+    #map {height: 80%; }
+}
+@media all and (max-width: 600px) and (max-height: 440px) {
+    .header { height: 25%;}
+    #map {height: 75%; }
+}
+
+body {
+    /*background-color: #f4f4f4;*/
+
+    padding: 0 ;
+    font-family: "Arial";
+    margin: 0 0 150px;
+}
+
+
+html {
+    position: relative;
+    min-height: 100%;
 }
