@@ -22,8 +22,18 @@ public final class Model {
     public Model() {
         zebraB = true;
         zebras = Zebra.getZebracrossings();
-        ratings = new ArrayList<>();
+        ratings = new ArrayList<>();      
     }
+    
+    public Rating getRatingById(int id){
+        for(Rating r: ratings){
+            if(r.getRatingId() == id){
+                return r;
+            }
+        }
+        return null;
+    }
+    
 
     /**
      * @return the zebras

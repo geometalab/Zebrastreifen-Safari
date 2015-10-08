@@ -14,6 +14,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import jpa.controllers.*;
 import jpa.entities.*;
+import zebra.Zebra;
+import zebra.view.View;
 
 /**
  *
@@ -22,18 +24,25 @@ import jpa.entities.*;
 public class UpdateGUI extends javax.swing.JFrame {
 
     private File f;
-    static ArrayList<User> users; 
+    private static ArrayList<User> users;
+    private static Rating rating;
+    private static View view;
+
     /**
-     * Creates new form GUI
+     * Creates new form GUI s
+     *
      * @param users the users which are listed in the JCombobox
+     * @param rating
      */
-    public UpdateGUI(ArrayList<User> users) {
+    public UpdateGUI(ArrayList<User> users, Rating rating, View view) {
         UpdateGUI.users = users;
         initComponents();
-        for(User u : users){
+        for (User u : users) {
             usersCB.addItem(u.getName());
         }
-
+        this.rating = rating;
+        this.view = view;
+        updateComponents();
     }
 
     /**
@@ -252,28 +261,65 @@ public class UpdateGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_chooseFileActionPerformed
 
     private void sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
-        //Todo: add Zebra to crossing
+        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), f == null ? null : f.getName(), null);
+
+        rating.setComment(CommentsTA.getText());
+        rating.setIlluminationFk(Zebra.getIlluminationValue(getSelectedButtonInt(buttonGroup2)));
+        rating.setOverviewFk(Zebra.getOverviewValue(getSelectedButtonInt(buttonGroup1)));
+        rating.setTrafficFk(Zebra.getTrafficValue(getSelectedButtonInt(buttonGroup3)));
+        rating.setZebracrossingFk(Zebra.getZebracrossingByNode(z.getNode()));
+        rating.setUserFk(Zebra.getUserByName((String) usersCB.getSelectedItem()));
+        Zebra.updateRating(rating);
         
+        view.addDataToTable();
+        
+        this.dispose();
     }//GEN-LAST:event_sendActionPerformed
 
-    
-   public int getSelectedButtonInt(ButtonGroup bg) {
-        
+    public int getSelectedButtonInt(ButtonGroup bg) {
+
         int i = 1;
-        
+
         for (Enumeration<AbstractButton> buttons = bg.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
-            
-            if(button.isSelected()){
+
+            if (button.isSelected()) {
                 return i;
             }
-            
+
             i++;
-            
+
         }
         return 0;
-    } 
-    
+    }
+
+    public void setButtonGroupValue(ButtonGroup bg, int selectedButtonInt) {
+        int counter = 1;
+        for (Enumeration<AbstractButton> buttons = bg.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+
+            if (counter == selectedButtonInt) {
+                button.setSelected(true);
+                return;
+            }
+
+            counter++;
+
+        }
+
+    }
+
+    private void updateComponents() {
+        CommentsTA.setText(rating.getComment() == null ? "": rating.getComment());
+        osmNode.setText(Long.toString(Zebra.getZebracrossingById(rating.getRatingId()).getNode()));
+        imageTF.setText(Zebra.getZebracrossingById(rating.getRatingId()).getImage() == null ? "" : Zebra.getZebracrossingById(rating.getRatingId()).getImage());
+        setButtonGroupValue(buttonGroup1, rating.getOverviewFk().getOverviewId());
+        setButtonGroupValue(buttonGroup2, rating.getIlluminationFk().getIlluminationId());
+        setButtonGroupValue(buttonGroup3, rating.getTrafficFk().getTrafficId());
+        usersCB.setSelectedItem(rating.getUserFk().getName());
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -307,7 +353,7 @@ public class UpdateGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UpdateGUI(users).setVisible(true);
+                new UpdateGUI(users, rating, view).setVisible(true);
             }
         });
     }
@@ -341,4 +387,5 @@ public class UpdateGUI extends javax.swing.JFrame {
     private javax.swing.JButton send;
     private javax.swing.JComboBox<String> usersCB;
     // End of variables declaration//GEN-END:variables
+
 }
