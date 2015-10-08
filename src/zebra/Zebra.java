@@ -6,6 +6,9 @@
 package zebra;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import jpa.controllers.*;
@@ -99,6 +102,16 @@ public class Zebra {
         return null;
     }
     
+    public static User getUserByID(int id){
+        UserJpaController ujc = new UserJpaController(emFactory);
+        for(User u: ujc.findUserEntities()){
+            if(u.getUserId() == id){
+                return u;
+            }
+        }
+        return null;
+    }
+    
     public static Zebracrossing getZebracrossingByNode(long node){
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
         for(Zebracrossing zebra: zjc.findZebracrossingEntities()){
@@ -107,6 +120,25 @@ public class Zebra {
             }         
         }
          return null;
+    }
+    
+    public static Zebracrossing getZebracrossingById(int id){
+        ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
+        for(Zebracrossing zebra: zjc.findZebracrossingEntities()){
+            if(id == zebra.getZebracrossingId()){
+                return zebra;
+            }         
+        }
+         return null;
+    }
+    
+    public static void updateRating(Rating rating){
+        RatingJpaController rjc = new RatingJpaController(emFactory);
+        try {
+            rjc.edit(rating);
+        } catch (Exception ex) {
+            Logger.getLogger(Zebra.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
             
 

@@ -28,6 +28,15 @@ public final class Model {
         
     }
     
+    public Rating getRatingById(int id){
+        for(Rating r: ratings){
+            if(r.getRatingId() == id){
+                return r;
+            }
+        }
+        return null;
+    }
+    
     public void fetchData(Zebracrossing zebra){
         if(isZebraB()){
             setZebras(Zebra.getZebracrossings());

@@ -143,7 +143,10 @@ public final class View extends javax.swing.JFrame {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        UpdateGUI ug = new UpdateGUI(Zebra.getUsers());
+        
+        UpdateGUI ug = new UpdateGUI(Zebra.getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
+        ug.setVisible(rootPaneCheckingEnabled);
+        addDataToTable();
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -155,6 +158,19 @@ public final class View extends javax.swing.JFrame {
             return zebraTM;
         }
         return ratingTM;
+    }
+    
+    public Rating getRatingFromTable(){
+        int row = jTable1.getSelectedRow();
+        Rating r = new Rating(Integer.parseInt(jTable1.getValueAt(row, 0).toString()),
+                (String)jTable1.getValueAt(row,6),
+                Zebra.getIlluminationValue(Integer.parseInt(jTable1.getValueAt(row, 5).toString())),
+                Zebra.getOverviewValue(Integer.parseInt(jTable1.getValueAt(row, 3).toString())),
+                Zebra.getTrafficValue(Integer.parseInt(jTable1.getValueAt(row, 4).toString())),
+                Zebra.getUserByID(Integer.parseInt(jTable1.getValueAt(row, 2).toString())),
+                Zebra.getZebracrossingById(Integer.parseInt(jTable1.getValueAt(row, 1).toString())));
+            
+        return r;
     }
     
     public void addDataToTable(){
