@@ -1,6 +1,6 @@
 package ch.hsr.zebrastreifensafari.service.zebracrossing;
 
-import jpa.entities.*;
+import ch.hsr.zebrastreifensafari.jpa.entities.*;
 
 import java.util.List;
 
@@ -36,5 +36,11 @@ public interface IZebracrossingDataService {
 
     User getUserByName(String name);
 
+    User getUserByID(int id);
+
     Zebracrossing getZebracrossingByNode(long node);
+
+    Zebracrossing getZebracrossingById(int id);
+
+    void updateRating(Rating rating);
 }

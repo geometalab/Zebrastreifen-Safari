@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jpa.controllers;
+package ch.hsr.zebrastreifensafari.jpa.controllers;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,8 +13,8 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import jpa.controllers.exceptions.NonexistentEntityException;
-import jpa.entities.User;
+import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
+import ch.hsr.zebrastreifensafari.jpa.entities.User;
 
 /**
  *

@@ -1,4 +1,4 @@
-package jpa.controllers.exceptions;
+package ch.hsr.zebrastreifensafari.jpa.controllers.exceptions;
 
 public class NonexistentEntityException extends Exception {
     public NonexistentEntityException(String message, Throwable cause) {

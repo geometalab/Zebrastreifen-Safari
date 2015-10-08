@@ -1,4 +1,4 @@
-package jpa.controllers.exceptions;
+package ch.hsr.zebrastreifensafari.jpa.controllers.exceptions;
 
 public class PreexistingEntityException extends Exception {
     public PreexistingEntityException(String message, Throwable cause) {

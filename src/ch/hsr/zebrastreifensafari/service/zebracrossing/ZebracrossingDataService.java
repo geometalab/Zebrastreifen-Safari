@@ -1,13 +1,15 @@
 package ch.hsr.zebrastreifensafari.service.zebracrossing;
 
-import jpa.controllers.*;
-import jpa.controllers.exceptions.NonexistentEntityException;
-import jpa.entities.*;
+import ch.hsr.zebrastreifensafari.jpa.controllers.*;
+import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
+import ch.hsr.zebrastreifensafari.jpa.entities.*;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author : Mike Marti
@@ -128,16 +130,50 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
         return null;
     }
 
+    public User getUserByID(int id){
+        UserJpaController ujc = new UserJpaController(emFactory);
+
+        for(User u: ujc.findUserEntities()){
+            if(u.getUserId() == id){
+                return u;
+            }
+        }
+
+        return null;
+    }
+
     @Override
-    public Zebracrossing getZebracrossingByNode(long node){
+    public Zebracrossing getZebracrossingByNode(long node) {
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
 
-        for(Zebracrossing zebra: zjc.findZebracrossingEntities()){
-            if(node == zebra.getNode()){
+        for (Zebracrossing zebra: zjc.findZebracrossingEntities()) {
+            if (node == zebra.getNode()) {
                 return zebra;
             }
         }
 
         return null;
+    }
+
+    public Zebracrossing getZebracrossingById(int id){
+        ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
+
+        for(Zebracrossing zebra: zjc.findZebracrossingEntities()){
+            if(id == zebra.getZebracrossingId()){
+                return zebra;
+            }
+        }
+
+        return null;
+    }
+
+    public void updateRating(Rating rating) {
+        RatingJpaController rjc = new RatingJpaController(emFactory);
+
+        try {
+            rjc.edit(rating);
+        } catch (Exception ex) {
+            Logger.getLogger(ZebracrossingDataService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

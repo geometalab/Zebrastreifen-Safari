@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package zebra.create;
+package ch.hsr.zebrastreifensafari.gui.create;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import javax.swing.*;
 
-import jpa.entities.*;
-import zebra.Zebra;
+import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 /**
  *
@@ -20,14 +21,14 @@ import zebra.Zebra;
 public class CreateGUI extends javax.swing.JFrame {
 
     private File f;
-    static ArrayList<User> users;
+    static List<User> users;
 
     /**
      * Creates new form GUI
      *
      * @param users the users which are listed in the JCombobox
      */
-    public CreateGUI(ArrayList<User> users) {
+    public CreateGUI(List<User> users) {
         CreateGUI.users = users;
         initComponents();
         for (User u : users) {
@@ -257,17 +258,17 @@ public class CreateGUI extends javax.swing.JFrame {
         //ToDo: node redundency
         Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), f==null ? null: f.getName(), null);
 
-        Zebra.addZebracrossing(z);
+        DataServiceLoader.getZebraData().addZebracrossing(z);
 
         Rating r = new Rating(null, CommentsTA.getText(),
-                Zebra.getIlluminationValue(getSelectedButtonInt(buttonGroup2)),
-                Zebra.getOverviewValue(getSelectedButtonInt(buttonGroup1)), Zebra.getTrafficValue(getSelectedButtonInt(buttonGroup3)),
-                Zebra.getUserByName((String)usersCB.getSelectedItem()), Zebra.getZebracrossingByNode(z.getNode()));
+                DataServiceLoader.getZebraData().getIlluminationValue(getSelectedButtonInt(buttonGroup2)),
+                DataServiceLoader.getZebraData().getOverviewValue(getSelectedButtonInt(buttonGroup1)), DataServiceLoader.getZebraData().getTrafficValue(getSelectedButtonInt(buttonGroup3)),
+                DataServiceLoader.getZebraData().getUserByName((String) usersCB.getSelectedItem()), DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()));
         
-        System.out.println(Zebra.getZebracrossingByNode(z.getNode()).getZebracrossingId());
+        System.out.println(DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()).getZebracrossingId());
        
         z.getRatingList().add(r);
-        Zebra.addRating(r);
+        DataServiceLoader.getZebraData().addRating(r);
         
         this.dispose();
     }//GEN-LAST:event_sendActionPerformed
