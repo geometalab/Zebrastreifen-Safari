@@ -8,6 +8,9 @@ package zebra.view;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import jpa.entities.*;
+import zebra.Zebra;
+import zebra.create.CreateGUI;
+import zebra.update.UpdateGUI;
 
 /**
  *
@@ -135,11 +138,12 @@ public final class View extends javax.swing.JFrame {
     }//GEN-LAST:event_switchButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        // TODO add your handling code here:
+        CreateGUI gc = new CreateGUI(Zebra.getUsers());
+        gc.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        // TODO add your handling code here:
+        UpdateGUI ug = new UpdateGUI(Zebra.getUsers());
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed

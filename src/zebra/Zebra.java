@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 import jpa.controllers.*;
 import jpa.entities.*;
 import zebra.create.CreateGUI;
+import zebra.view.View;
 
 /**
  *
@@ -114,8 +115,8 @@ public class Zebra {
         
         //getZebracrossings();             
         
-        CreateGUI gui = new CreateGUI(getUsers());
-        gui.setVisible(true);
+        View view = new View();
+        view.setVisible(true);
         
     }
 }
