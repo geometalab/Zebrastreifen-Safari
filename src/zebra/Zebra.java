@@ -58,10 +58,11 @@ public class Zebra {
         return ratings;
     }
     
-    public static void removeZebracrossing(int i){
+    public static void removeZebracrossing(int id){
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
+
         try {
-            zjc.destroy(i);
+            zjc.destroy(id);
         } catch (NonexistentEntityException neex) {
             neex.printStackTrace();
         }
@@ -75,6 +76,16 @@ public class Zebra {
     public static void addRating(Rating rating){
         RatingJpaController rjc = new RatingJpaController(emFactory);
         rjc.create(rating);
+    }
+
+    public static void removeRating(int id) {
+        RatingJpaController rjc = new RatingJpaController(emFactory);
+
+        try {
+            rjc.destroy(id);
+        } catch (NonexistentEntityException neex) {
+            neex.printStackTrace();
+        }
     }
     
     public static Illumination getIlluminationValue(int value){
