@@ -3,25 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package zebra.view;
+package ch.hsr.zebrastreifensafari.gui.view;
 
 import java.util.ArrayList;
-import jpa.entities.*;
-import zebra.Zebra;
+import java.util.List;
+
+import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 /**
  *
  * @author aeugster
  */
-public final class Model {
+public class Model {
     
     private boolean zebraB; //True: List of Zebras; False: List of Ratings
-    private ArrayList<Zebracrossing> zebras;
-    private ArrayList<Rating> ratings;
+    private List<Zebracrossing> zebras;
+    private List<Rating> ratings;
 
     public Model() {
         zebraB = true;
-        zebras = Zebra.getZebracrossings();
+        zebras = DataServiceLoader.getZebraData().getZebracrossings();
         ratings = new ArrayList<>();      
     }
     
@@ -31,6 +33,7 @@ public final class Model {
                 return r;
             }
         }
+
         return null;
     }
     
@@ -38,28 +41,28 @@ public final class Model {
     /**
      * @return the zebras
      */
-    public ArrayList<Zebracrossing> getZebras() {
+    public List<Zebracrossing> getZebras() {
         return zebras;
     }
 
     /**
      * @param zebras the zebras to set
      */
-    public void setZebras(ArrayList<Zebracrossing> zebras) {
+    public void setZebras(List<Zebracrossing> zebras) {
         this.zebras = zebras;
     }
 
     /**
      * @return the ratings
      */
-    public ArrayList<Rating> getRatings() {
+    public List<Rating> getRatings() {
         return ratings;
     }
 
     /**
      * @param ratings the ratings to set
      */
-    public void setRatings(ArrayList<Rating> ratings) {
+    public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
     }
 

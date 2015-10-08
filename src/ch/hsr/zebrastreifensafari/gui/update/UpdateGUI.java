@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package zebra.update;
+package ch.hsr.zebrastreifensafari.gui.update;
 
-import zebra.create.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
-import jpa.controllers.*;
-import jpa.entities.*;
-import zebra.Zebra;
-import zebra.view.View;
+
+import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.zebrastreifensafari.gui.view.View;
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 /**
  *
@@ -24,7 +24,7 @@ import zebra.view.View;
 public class UpdateGUI extends javax.swing.JFrame {
 
     private File f;
-    private static ArrayList<User> users;
+    private static List<User> users;
     private static Rating rating;
     private static View view;
 
@@ -34,7 +34,7 @@ public class UpdateGUI extends javax.swing.JFrame {
      * @param users the users which are listed in the JCombobox
      * @param rating
      */
-    public UpdateGUI(ArrayList<User> users, Rating rating, View view) {
+    public UpdateGUI(List<User> users, Rating rating, View view) {
         UpdateGUI.users = users;
         initComponents();
         for (User u : users) {
@@ -264,12 +264,12 @@ public class UpdateGUI extends javax.swing.JFrame {
         Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), f == null ? null : f.getName(), null);
 
         rating.setComment(CommentsTA.getText());
-        rating.setIlluminationFk(Zebra.getIlluminationValue(getSelectedButtonInt(buttonGroup2)));
-        rating.setOverviewFk(Zebra.getOverviewValue(getSelectedButtonInt(buttonGroup1)));
-        rating.setTrafficFk(Zebra.getTrafficValue(getSelectedButtonInt(buttonGroup3)));
-        rating.setZebracrossingFk(Zebra.getZebracrossingByNode(z.getNode()));
-        rating.setUserFk(Zebra.getUserByName((String) usersCB.getSelectedItem()));
-        Zebra.updateRating(rating);
+        rating.setIlluminationFk(DataServiceLoader.getZebraData().getIlluminationValue(getSelectedButtonInt(buttonGroup2)));
+        rating.setOverviewFk(DataServiceLoader.getZebraData().getOverviewValue(getSelectedButtonInt(buttonGroup1)));
+        rating.setTrafficFk(DataServiceLoader.getZebraData().getTrafficValue(getSelectedButtonInt(buttonGroup3)));
+        rating.setZebracrossingFk(DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()));
+        rating.setUserFk(DataServiceLoader.getZebraData().getUserByName((String) usersCB.getSelectedItem()));
+        DataServiceLoader.getZebraData().updateRating(rating);
         
         view.addDataToTable();
         
@@ -311,8 +311,8 @@ public class UpdateGUI extends javax.swing.JFrame {
 
     private void updateComponents() {
         CommentsTA.setText(rating.getComment() == null ? "": rating.getComment());
-        osmNode.setText(Long.toString(Zebra.getZebracrossingById(rating.getRatingId()).getNode()));
-        imageTF.setText(Zebra.getZebracrossingById(rating.getRatingId()).getImage() == null ? "" : Zebra.getZebracrossingById(rating.getRatingId()).getImage());
+        osmNode.setText(Long.toString(DataServiceLoader.getZebraData().getZebracrossingById(rating.getRatingId()).getNode()));
+        imageTF.setText(DataServiceLoader.getZebraData().getZebracrossingById(rating.getRatingId()).getImage() == null ? "" : DataServiceLoader.getZebraData().getZebracrossingById(rating.getRatingId()).getImage());
         setButtonGroupValue(buttonGroup1, rating.getOverviewFk().getOverviewId());
         setButtonGroupValue(buttonGroup2, rating.getIlluminationFk().getIlluminationId());
         setButtonGroupValue(buttonGroup3, rating.getTrafficFk().getTrafficId());
