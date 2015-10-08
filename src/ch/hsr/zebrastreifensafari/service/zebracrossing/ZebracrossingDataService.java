@@ -29,7 +29,7 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
 
     @Override
     public List<User> getUsers(){
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         UserJpaController ujc = new UserJpaController(emFactory);
 
         for(User u : ujc.findUserEntities()){
@@ -41,7 +41,7 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
 
     @Override
     public List<Zebracrossing> getZebracrossings(){
-        List<Zebracrossing> zebras = new ArrayList<>();
+        List<Zebracrossing> zebras = new ArrayList<Zebracrossing>();
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
 
         for(Zebracrossing z : zjc.findZebracrossingEntities()){
@@ -53,7 +53,7 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
 
     @Override
     public List<Rating> getRatingsOfZebra(Zebracrossing zebra){
-        List<Rating> ratings = new ArrayList<>();
+        List<Rating> ratings = new ArrayList<Rating>();
         RatingJpaController rjc = new RatingJpaController(emFactory);
 
         for(Rating r : rjc.findRatingEntities()){
