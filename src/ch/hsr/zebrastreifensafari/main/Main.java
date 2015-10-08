@@ -18,8 +18,8 @@ import ch.hsr.zebrastreifensafari.service.zebracrossing.ZebracrossingDataService
 public class Main {
 
     public static void main(String[] args) {
-        Model model = new Model();
         DataServiceLoader.provideZebraData(new ZebracrossingDataService());
+        Model model = new Model();
         View view = new View(model);
         view.setVisible(true);
     }
