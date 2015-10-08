@@ -8,9 +8,9 @@ package zebra;
 import java.util.ArrayList;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import jpa.controllers.UserJpaController;
-import jpa.entities.User;
-import zebra.create.GUI;
+import jpa.controllers.*;
+import jpa.entities.*;
+import zebra.create.CreateGUI;
 
 /**
  *
@@ -19,32 +19,47 @@ import zebra.create.GUI;
 public class Zebra {
     
     private static EntityManagerFactory emFactory;
-    private static ArrayList<User> users = new ArrayList<>();
+    
+    
     
     static{
         emFactory = Persistence.createEntityManagerFactory("ZebraPU");
     }
     
-    public static void addUsers(){
+    public static ArrayList<User> getUsers(){
+        ArrayList<User> users = new ArrayList<>();
         UserJpaController ujc = new UserJpaController(emFactory);
         for(User u : ujc.findUserEntities()){
             users.add(u);
         }
+        return users;
+    }
+    
+    public static ArrayList<Zebracrossing> getZebracrossings(){
+        ArrayList<Zebracrossing> zebras = new ArrayList<>();
+        ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
+        for(Zebracrossing z : zjc.findZebracrossingEntities()){
+            zebras.add(z);
+        }
+        return zebras;
+    } 
+    
+    public static ArrayList<Rating> getRatingsOfZebra(Zebracrossing zebra){
+        ArrayList<Rating> ratings = new ArrayList<>();
+        RatingJpaController rjc = new RatingJpaController(emFactory);
+        for(Rating r : rjc.findRatingEntities()){
+            if(r.getZebracrossingFk().equals(zebra)){
+                ratings.add(r);
+            }
+        }
+        return ratings;
     }
     
     public static void main(String[] args) {
         
-        addUsers();      
-        /*
-        users.add(new User("Alex", "AE"));
-        users.add(new User("Joël", "JS"));
-        users.add(new User("Stefan", "SK"));
-        users.add(new User("Mike", "MM"));
-        users.add(new User("Fabienne", "FK"));
-        */
+        //getZebracrossings();             
         
-        
-        GUI gui = new GUI(users);
+        CreateGUI gui = new CreateGUI(getUsers());
         gui.setVisible(true);
         
     }

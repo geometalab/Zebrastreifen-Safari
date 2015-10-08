@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author aeugster
  */
 @Entity
-@Table(name = "illumination")
+@Table(name = "crossing.illumination")
 @NamedQueries({
     @NamedQuery(name = "Illumination.findAll", query = "SELECT i FROM Illumination i"),
     @NamedQuery(name = "Illumination.findByIlluminationId", query = "SELECT i FROM Illumination i WHERE i.illuminationId = :illuminationId"),

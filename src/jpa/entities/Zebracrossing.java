@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author aeugster
  */
 @Entity
-@Table(name = "zebracrossing")
+@Table(name = "crossing.zebracrossing")
 @NamedQueries({
     @NamedQuery(name = "Zebracrossing.findAll", query = "SELECT z FROM Zebracrossing z"),
     @NamedQuery(name = "Zebracrossing.findByZebracrossingId", query = "SELECT z FROM Zebracrossing z WHERE z.zebracrossingId = :zebracrossingId"),

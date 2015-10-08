@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author aeugster
  */
 @Entity
-@Table(name = "overview")
+@Table(name = "crossing.overview")
 @NamedQueries({
     @NamedQuery(name = "Overview.findAll", query = "SELECT o FROM Overview o"),
     @NamedQuery(name = "Overview.findByOverviewId", query = "SELECT o FROM Overview o WHERE o.overviewId = :overviewId"),
