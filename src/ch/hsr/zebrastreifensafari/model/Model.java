@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hsr.zebrastreifensafari.gui.view;
+package ch.hsr.zebrastreifensafari.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class Model {
     public Model() {
         zebraB = true;
         zebras = DataServiceLoader.getZebraData().getZebracrossings();
-        ratings = new ArrayList<>();      
+        ratings = new ArrayList<Rating>();
     }
     
     public Rating getRatingById(int id){
