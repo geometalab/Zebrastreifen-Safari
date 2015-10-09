@@ -34,6 +34,8 @@ public class CreateRatingGUI extends CreateUpdateGUI {
     protected void onSendClick() {
         Zebracrossing z = DataServiceLoader.getZebraData().getZebracrossingByNode(node);
 
+        System.out.println(z.getZebracrossingId());
+
         Rating r = new Rating(null,
                 CommentsTA.getText(),
                 DataServiceLoader.getZebraData().getIlluminationValue(getSelectedButtonInt(buttonGroup2)),
