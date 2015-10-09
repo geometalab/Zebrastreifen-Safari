@@ -19,7 +19,7 @@ import ch.hsr.zebrastreifensafari.jpa.entities.*;
  */
 public abstract class CreateUpdateGUI extends JFrame {
 
-    private File f;
+    protected File file;
 
     /**
      * Creates new form GUI
@@ -257,8 +257,8 @@ public abstract class CreateUpdateGUI extends JFrame {
     private void chooseFileActionPerformed(ActionEvent evt) {                                           
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
-        f = chooser.getSelectedFile();
-        String filename = f.getAbsolutePath();
+        file = chooser.getSelectedFile();
+        String filename = file.getAbsolutePath();
         imageTF.setText(filename);
     }                                                                             
         
