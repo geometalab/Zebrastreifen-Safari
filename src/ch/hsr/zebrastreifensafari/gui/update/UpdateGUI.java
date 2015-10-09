@@ -28,9 +28,9 @@ public class UpdateGUI extends CreateUpdateGUI {
      * @param rating
      */
     public UpdateGUI(List<User> users, Rating rating, View view) {
-        super(users);
+        super(users, view);
         this.rating = rating;
-        this.view = view;
+        this.view = view; 
         updateComponents();
     }
 
@@ -46,7 +46,8 @@ public class UpdateGUI extends CreateUpdateGUI {
         rating.setUserFk(DataServiceLoader.getZebraData().getUserByName((String) usersCB.getSelectedItem()));
         DataServiceLoader.getZebraData().updateRating(rating);
 
-        view.addDataToTable();
+        observable.notifyObservers(null);
+        //view.addDataToTable();
 
         this.dispose();
     }

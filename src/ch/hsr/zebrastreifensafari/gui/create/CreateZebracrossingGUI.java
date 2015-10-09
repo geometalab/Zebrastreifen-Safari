@@ -17,7 +17,6 @@ public class CreateZebracrossingGUI extends CreateUpdateGUI {
 
     private File f;
     private View view;
-    private Model model;
 
     /**
      * Creates new form GUI
@@ -25,15 +24,8 @@ public class CreateZebracrossingGUI extends CreateUpdateGUI {
      * @param users the users which are listed in the JCombobox
      */
 
-    public CreateZebracrossingGUI(List<User> users, long node, View view, Model model) {
-        super(users);
-        this.model = model;
-        this.view = view;
-
-        if (node != 0) {
-            osmNode.setText(Long.toString(node));
-            osmNode.setEnabled(false);
-        }
+    public CreateZebracrossingGUI(List<User> users, View view) {
+        super(users, view);
     }
 
     @Override
@@ -61,8 +53,7 @@ public class CreateZebracrossingGUI extends CreateUpdateGUI {
         DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()).getRatingList().add(r);
         DataServiceLoader.getZebraData().addRating(r);
 
-        model.getRatings().add(r);
-        view.addDataToTable();
+        observable.notifyObservers(r);
 
         this.dispose();
     }
