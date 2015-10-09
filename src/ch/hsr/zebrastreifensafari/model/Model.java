@@ -19,12 +19,12 @@ import java.util.Observer;
  */
 public class Model{
     
-    private boolean ratingMod; //True: List of Zebras; False: List of Ratings
+    private boolean ratingMode;
     private List<Zebracrossing> zebras;
     private List<Rating> ratings;
 
     public Model() {
-        ratingMod = true;
+        ratingMode = false;
         zebras = DataServiceLoader.getZebraData().getZebracrossings();
         ratings = new ArrayList<Rating>();
     }
@@ -81,14 +81,14 @@ public class Model{
     /**
      * @return the zebraB
      */
-    public boolean isRatingMod() {
-        return ratingMod;
+    public boolean isRatingMode() {
+        return ratingMode;
     }
 
     /**
      * @param zebraB the zebraB to set
      */
-    public void setRatingMod(boolean ratingMod) {
-        this.ratingMod = ratingMod;
+    public void setRatingMode(boolean ratingMode) {
+        this.ratingMode = ratingMode;
     }   
 }
