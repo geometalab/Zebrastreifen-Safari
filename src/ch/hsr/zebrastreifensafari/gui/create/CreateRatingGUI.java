@@ -15,8 +15,6 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  */
 public class CreateRatingGUI extends CreateUpdateGUI {
 
-    private View view;
-    private Model model;
     private long node;
 
     /**
@@ -25,11 +23,9 @@ public class CreateRatingGUI extends CreateUpdateGUI {
      * @param users the users which are listed in the JCombobox
      */
 
-    public CreateRatingGUI(List<User> users, long node, View view, Model model) {
-        super(users);
-        this.node = node;
-        this.model = model;
-        this.view = view;
+    public CreateRatingGUI(List<User> users, long node, View view) {
+        super(users, view);
+        osmNode.setText(Long.toString(node));
         osmNode.setEnabled(false);
     }
 
@@ -47,10 +43,7 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
         DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()).getRatingList().add(r);
         DataServiceLoader.getZebraData().addRating(r);
-
-        model.getRatings().add(r);
-        view.addDataToTable();
-
+        observable.notifyObservers(r);
         this.dispose();
     }
 }

@@ -10,12 +10,14 @@ import java.util.List;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author aeugster
  */
-public class Model {
+public class Model{
     
     private boolean ratingMod; //True: List of Zebras; False: List of Ratings
     private List<Zebracrossing> zebras;

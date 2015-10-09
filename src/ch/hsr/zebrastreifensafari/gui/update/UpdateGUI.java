@@ -17,9 +17,7 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  */
 public class UpdateGUI extends CreateUpdateGUI {
 
-    private File f;
     private Rating rating;
-    private View view;
 
     /**
      * Creates new form GUI s
@@ -28,15 +26,14 @@ public class UpdateGUI extends CreateUpdateGUI {
      * @param rating
      */
     public UpdateGUI(List<User> users, Rating rating, View view) {
-        super(users);
+        super(users, view);
         this.rating = rating;
-        this.view = view;
         updateComponents();
     }
 
     @Override
     protected void onSendClick() {
-        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), f == null ? null : f.getName(), null);
+        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), file == null ? null : file.getName(), null);
 
         rating.setComment(CommentsTA.getText());
         rating.setIlluminationFk(DataServiceLoader.getZebraData().getIlluminationValue(getSelectedButtonInt(buttonGroup2)));
@@ -46,7 +43,8 @@ public class UpdateGUI extends CreateUpdateGUI {
         rating.setUserFk(DataServiceLoader.getZebraData().getUserByName((String) usersCB.getSelectedItem()));
         DataServiceLoader.getZebraData().updateRating(rating);
 
-        view.addDataToTable();
+        observable.notifyObservers(null);
+        //view.addDataToTable();
 
         this.dispose();
     }
