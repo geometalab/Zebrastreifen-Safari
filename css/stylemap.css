@@ -20,11 +20,11 @@
     background-color: #0065A3;
     display: flex;
     position: relative;
-    justify-content: space-around;
+    /*justify-content: space-around;*/
     z-index: 1;
     height: 13%;
 
-    /* TODO justify-content: space-between;*/
+     justify-content: space-between;
 
 }
 .header-logo {
