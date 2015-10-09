@@ -17,12 +17,14 @@ import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 import java.awt.event.ActionEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author aeugster
  */
-public class View extends JFrame {
+public class View extends JFrame implements Observer {
 
     private final Model model;
     private DefaultTableModel ratingTM;
@@ -166,9 +168,9 @@ public class View extends JFrame {
         CreateUpdateGUI gc;
 
         if (model.isRatingMod()) {
-            gc = new CreateZebracrossingGUI(DataServiceLoader.getZebraData().getUsers(), this, model);
+            gc = new CreateZebracrossingGUI(DataServiceLoader.getZebraData().getUsers(), this);
         } else {
-            gc = new CreateRatingGUI(DataServiceLoader.getZebraData().getUsers(), 0, this, model);
+            gc = new CreateRatingGUI(DataServiceLoader.getZebraData().getUsers(), getSelectedRatingFromTable().getZebracrossingFk().getNode(), this);
         }
 
         gc.setVisible(rootPaneCheckingEnabled);
@@ -206,7 +208,7 @@ public class View extends JFrame {
         return ratingTM;
     }
 
-    public Rating getRatingFromTable() {
+    public Rating getSelectedRatingFromTable() {
         int row = jTable1.getSelectedRow();
 
         if (row == -1) {
@@ -241,4 +243,15 @@ public class View extends JFrame {
     private javax.swing.JButton switchButton;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(arg instanceof Rating){
+            model.getRatings().add((Rating)arg);
+        } else if (arg instanceof Zebracrossing) {
+            model.getZebras().add((Zebracrossing)arg);
+        }
+
+        addDataToTable();
+    }
 }
