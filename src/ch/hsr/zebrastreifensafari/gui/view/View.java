@@ -53,6 +53,7 @@ public class View extends JFrame implements Observer {
         updateButton.setEnabled(false);
         this.setTitle("Zebrastreifen Administration Tool");
         addDataToTable();
+        setDefaultSelection();
     }
 
     /**
@@ -143,26 +144,22 @@ public class View extends JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void switchButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
-        try {
-            model.setRatingMode(!model.isRatingMode());
+        model.setRatingMode(!model.isRatingMode());
 
-            if (!model.isRatingMode()) {
-                switchButton.setText("Bewertungen");
-                updateButton.setEnabled(false);
-            } else {
-                int row = jTable1.getSelectedRow();
-                Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()), Long.parseLong(zebraTM.getValueAt(row, 1).toString()), zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
-                model.setRatings(DataServiceLoader.getZebraData().getRatingsOfZebra(z));
-                switchButton.setText("Zebrastreifen");
-                updateButton.setEnabled(true);
-            }
-
-            addDataToTable();
-            jTable1.setModel(getCurrentTableModel());
-        } catch (ArrayIndexOutOfBoundsException aioobe) {
-            model.setRatingMode(!model.isRatingMode());
-            JOptionPane.showMessageDialog(this, "Select a row to show its ratings!", "Error", JOptionPane.ERROR_MESSAGE);
+        if (!model.isRatingMode()) {
+            switchButton.setText("Bewertungen");
+            updateButton.setEnabled(false);
+        } else {
+            int row = jTable1.getSelectedRow();
+            Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()), Long.parseLong(zebraTM.getValueAt(row, 1).toString()), zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
+            model.setRatings(DataServiceLoader.getZebraData().getRatingsOfZebra(z));
+            switchButton.setText("Zebrastreifen");
+            updateButton.setEnabled(true);
         }
+
+        addDataToTable();
+        jTable1.setModel(getCurrentTableModel());
+        setDefaultSelection();
     }//GEN-LAST:event_switchButtonActionPerformed
 
     private void addButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -178,30 +175,21 @@ public class View extends JFrame implements Observer {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        UpdateGUI ug;
-        try {
-            ug = new UpdateGUI(DataServiceLoader.getZebraData().getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
-        } catch (ArrayIndexOutOfBoundsException aioobe) {
-            ug = new UpdateGUI(DataServiceLoader.getZebraData().getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(0, 0).toString())), this);
-        }
+        UpdateGUI ug = new UpdateGUI(DataServiceLoader.getZebraData().getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
         ug.setVisible(rootPaneCheckingEnabled);
 
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        try {
-            if (!model.isRatingMode()) {
-                DataServiceLoader.getZebraData().removeZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-                model.getZebras().remove(jTable1.getSelectedRow());
-            } else {
-                DataServiceLoader.getZebraData().removeRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-                model.getRatings().remove(jTable1.getSelectedRow());
-            }
-
-            addDataToTable();
-        } catch (ArrayIndexOutOfBoundsException aioobe) {
-            JOptionPane.showMessageDialog(this, "Select a row to delete it!", "Error", JOptionPane.ERROR_MESSAGE);
+        if (!model.isRatingMode()) {
+            DataServiceLoader.getZebraData().removeZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            model.getZebras().remove(jTable1.getSelectedRow());
+        } else {
+            DataServiceLoader.getZebraData().removeRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            model.getRatings().remove(jTable1.getSelectedRow());
         }
+
+        addDataToTable();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     public TableModel getCurrentTableModel() {
@@ -212,13 +200,7 @@ public class View extends JFrame implements Observer {
     }
 
     public Rating getSelectedRatingFromTable() {
-        int row = jTable1.getSelectedRow();
-
-        if (row == -1) {
-            row = 0;
-        }
-
-        return model.getRatingById(Integer.parseInt(jTable1.getValueAt(row, 0).toString()));
+        return model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
     }
 
     public void addDataToTable() {
@@ -237,15 +219,9 @@ public class View extends JFrame implements Observer {
         }
     }
 
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
-    private javax.swing.JButton deleteButton;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JButton switchButton;
-    private javax.swing.JButton updateButton;
-    // End of variables declaration//GEN-END:variables
+    private void setDefaultSelection() {
+        jTable1.changeSelection(0, 0, false, false);
+    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -257,4 +233,14 @@ public class View extends JFrame implements Observer {
 
         addDataToTable();
     }
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton switchButton;
+    private javax.swing.JButton updateButton;
+    // End of variables declaration//GEN-END:variables
 }

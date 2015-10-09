@@ -67,7 +67,6 @@ public class UpdateGUI extends CreateUpdateGUI {
 
     private void updateComponents() {
         CommentsTA.setText(rating.getComment() == null ? "": rating.getComment());
-        System.out.println(rating.getZebracrossingFk().getZebracrossingId());
         osmNode.setText(Long.toString(DataServiceLoader.getZebraData().getZebracrossingById(rating.getZebracrossingFk().getZebracrossingId()).getNode()));
         imageTF.setText(DataServiceLoader.getZebraData().getZebracrossingById(rating.getZebracrossingFk().getZebracrossingId()).getImage() == null ? "" : DataServiceLoader.getZebraData().getZebracrossingById(rating.getZebracrossingFk().getZebracrossingId()).getImage());
         setButtonGroupValue(buttonGroup1, rating.getOverviewFk().getOverviewId());
