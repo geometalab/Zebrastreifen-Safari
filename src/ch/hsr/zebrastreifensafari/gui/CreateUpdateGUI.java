@@ -5,16 +5,13 @@
  */
 package ch.hsr.zebrastreifensafari.gui;
 
-import ch.hsr.zebrastreifensafari.gui.view.View;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.List;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.model.Model;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import java.awt.event.ActionEvent;
 
 /**
  *
@@ -257,36 +254,36 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void chooseFileActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chooseFileActionPerformed
+    private void chooseFileActionPerformed(ActionEvent evt) {                                           
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         f = chooser.getSelectedFile();
         String filename = f.getAbsolutePath();
         imageTF.setText(filename);
-    }//GEN-LAST:event_chooseFileActionPerformed
-
-    private void sendActionPerformed(ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
+    }                                                                             
         
+    private void sendActionPerformed(ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
+        onSendClick();
     }//GEN-LAST:event_sendActionPerformed
 
     private void cancelActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_cancelActionPerformed
 
-    public int getSelectedButtonInt(ButtonGroup bg) {
+    protected void onSendClick() {
+    }
 
-        int i = 1;
+    protected int getSelectedButtonInt(ButtonGroup bg) {
+        Enumeration<AbstractButton> buttons = bg.getElements();
 
-        for (Enumeration<AbstractButton> buttons = bg.getElements(); buttons.hasMoreElements();) {
+        for (int i = 1; buttons.hasMoreElements(); i++) {
             AbstractButton button = buttons.nextElement();
 
             if (button.isSelected()) {
                 return i;
             }
-
-            i++;
-
         }
+
         return 0;
     }
 
