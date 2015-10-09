@@ -14,6 +14,7 @@ import javax.swing.*;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -256,7 +257,7 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void chooseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseFileActionPerformed
+    private void chooseFileActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chooseFileActionPerformed
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         f = chooser.getSelectedFile();
@@ -264,11 +265,11 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
         imageTF.setText(filename);
     }//GEN-LAST:event_chooseFileActionPerformed
 
-    private void sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
+    private void sendActionPerformed(ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
         
     }//GEN-LAST:event_sendActionPerformed
 
-    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+    private void cancelActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_cancelActionPerformed
 
