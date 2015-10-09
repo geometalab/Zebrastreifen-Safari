@@ -9,9 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JFileChooser;
+import javax.swing.*;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.gui.view.View;
@@ -24,9 +22,8 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 public class UpdateGUI extends javax.swing.JFrame {
 
     private File f;
-    private static List<User> users;
-    private static Rating rating;
-    private static View view;
+    private Rating rating;
+    private View view;
 
     /**
      * Creates new form GUI s
@@ -35,14 +32,16 @@ public class UpdateGUI extends javax.swing.JFrame {
      * @param rating
      */
     public UpdateGUI(List<User> users, Rating rating, View view) {
-        UpdateGUI.users = users;
+        this.rating = rating;
+        this.view = view;
         initComponents();
+
         for (User u : users) {
             usersCB.addItem(u.getName());
         }
-        this.rating = rating;
-        this.view = view;
+
         updateComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**

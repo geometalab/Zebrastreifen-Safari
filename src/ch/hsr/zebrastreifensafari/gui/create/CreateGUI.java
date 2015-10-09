@@ -6,7 +6,6 @@
 package ch.hsr.zebrastreifensafari.gui.create;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import javax.swing.*;
@@ -21,7 +20,6 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 public class CreateGUI extends javax.swing.JFrame {
 
     private File f;
-    static List<User> users;
 
     /**
      * Creates new form GUI
@@ -29,14 +27,13 @@ public class CreateGUI extends javax.swing.JFrame {
      * @param users the users which are listed in the JCombobox
      */
     public CreateGUI(List<User> users) {
-        CreateGUI.users = users;
         initComponents();
+
         for (User u : users) {
             usersCB.addItem(u.getName());
         }
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
     }
 
     /**
