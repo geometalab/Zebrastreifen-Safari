@@ -9,17 +9,20 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.gui.create.CreateGUI;
+import ch.hsr.zebrastreifensafari.gui.create.*;
 import ch.hsr.zebrastreifensafari.gui.update.UpdateGUI;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+
+import java.awt.event.ActionEvent;
 
 /**
  *
  * @author aeugster
  */
-public class View extends javax.swing.JFrame {
+public class View extends JFrame {
 
     private final Model model;
     private DefaultTableModel ratingTM;
@@ -43,6 +46,7 @@ public class View extends javax.swing.JFrame {
                 return false;
             }
         };
+
         initComponents();
         updateButton.setEnabled(false);
         this.setTitle("Zebrastreifen Administration Tool");
@@ -136,7 +140,7 @@ public class View extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void switchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
+    private void switchButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
         try {
             model.setZebraB(!model.isZebraB());
 
@@ -160,17 +164,17 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_switchButtonActionPerformed
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        CreateGUI gc;
+    private void addButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        CreateUpdateGUI gc;
         if (model.isZebraB()) {
-            gc = new CreateGUI(DataServiceLoader.getZebraData().getUsers(), 0, this, model);
+            gc = new CreateRatingGUI(DataServiceLoader.getZebraData().getUsers(), 0, this, model);
         } else {
-            gc = new CreateGUI(DataServiceLoader.getZebraData().getUsers(), getRatingFromTable().getZebracrossingFk().getNode(), this, model);
+            gc = new CreateZebracrossingGUI(DataServiceLoader.getZebraData().getUsers(), getRatingFromTable().getZebracrossingFk().getNode(), this, model);
         }
         gc.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+    private void updateButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         try {
             UpdateGUI ug = new UpdateGUI(DataServiceLoader.getZebraData().getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
             ug.setVisible(rootPaneCheckingEnabled);
@@ -180,7 +184,7 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_updateButtonActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+    private void deleteButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
             if (model.isZebraB()) {
                 DataServiceLoader.getZebraData().removeZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
