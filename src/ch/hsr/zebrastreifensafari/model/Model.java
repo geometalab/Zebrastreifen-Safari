@@ -37,6 +37,16 @@ public class Model {
         return null;
     }
     
+    public Zebracrossing getZebrasById(int id){
+        for(Zebracrossing z: zebras){
+            if(z.getZebracrossingId()== id){
+                return z;
+            }
+        }
+
+        return null;
+    }
+    
 
     /**
      * @return the zebras

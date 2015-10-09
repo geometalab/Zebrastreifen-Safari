@@ -163,9 +163,9 @@ public class View extends javax.swing.JFrame {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateGUI gc;
         if (model.isZebraB()) {
-            gc = new CreateGUI(DataServiceLoader.getZebraData().getUsers(), 0);
+            gc = new CreateGUI(DataServiceLoader.getZebraData().getUsers(), 0, this, model);
         } else {
-            gc = new CreateGUI(DataServiceLoader.getZebraData().getUsers(), getRatingFromTable().getZebracrossingFk().getNode());
+            gc = new CreateGUI(DataServiceLoader.getZebraData().getUsers(), getRatingFromTable().getZebracrossingFk().getNode(), this, model);
         }
         gc.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_addButtonActionPerformed
