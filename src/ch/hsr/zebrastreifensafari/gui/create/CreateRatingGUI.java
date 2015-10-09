@@ -25,6 +25,7 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
     public CreateRatingGUI(List<User> users, long node, View view) {
         super(users, view);
+        this.node = node;
         osmNode.setText(Long.toString(node));
         osmNode.setEnabled(false);
     }

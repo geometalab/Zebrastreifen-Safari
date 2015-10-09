@@ -171,6 +171,7 @@ public class View extends JFrame implements Observer {
         if (!model.isRatingMode()) {
             gc = new CreateZebracrossingGUI(DataServiceLoader.getZebraData().getUsers(), this);
         } else {
+           Rating  r = getSelectedRatingFromTable();
             gc = new CreateRatingGUI(DataServiceLoader.getZebraData().getUsers(), getSelectedRatingFromTable().getZebracrossingFk().getNode(), this);
         }
 
