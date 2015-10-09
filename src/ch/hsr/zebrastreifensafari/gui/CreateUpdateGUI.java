@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hsr.zebrastreifensafari.gui.create;
+package ch.hsr.zebrastreifensafari.gui;
 
 import ch.hsr.zebrastreifensafari.gui.view.View;
 import java.io.File;
@@ -19,11 +19,9 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  *
  * @author aeugster
  */
-public class CreateGUI extends javax.swing.JFrame {
+public class CreateUpdateGUI extends javax.swing.JFrame {
 
     private File f;
-    private View view;
-    private Model model;
 
     /**
      * Creates new form GUI
@@ -31,19 +29,12 @@ public class CreateGUI extends javax.swing.JFrame {
      * @param users the users which are listed in the JCombobox
      */
 
-    public CreateGUI(List<User> users, long node, View view, Model model) {
+    public CreateUpdateGUI(List<User> users) {
 
-        this.model = model;
-        this.view = view;
         initComponents();
 
         for (User u : users) {
             usersCB.addItem(u.getName());
-        }
-
-        if (node != 0) {
-            osmNode.setText(Long.toString(node));
-            osmNode.setEnabled(false);
         }
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -270,33 +261,7 @@ public class CreateGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_chooseFileActionPerformed
 
     private void sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
-        //TODO: node redundency
-        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), f == null ? null : f.getName(), null);
-
-        boolean unique = true;
-        for (Zebracrossing zebra : DataServiceLoader.getZebraData().getZebracrossings()) {
-            if (zebra.getNode() == z.getNode()) {
-                unique = false;
-            }
-        }
-
-        if (unique) {
-            DataServiceLoader.getZebraData().addZebracrossing(z);
-            
-        }
-
-        Rating r = new Rating(null, CommentsTA.getText(),
-                DataServiceLoader.getZebraData().getIlluminationValue(getSelectedButtonInt(buttonGroup2)),
-                DataServiceLoader.getZebraData().getOverviewValue(getSelectedButtonInt(buttonGroup1)), DataServiceLoader.getZebraData().getTrafficValue(getSelectedButtonInt(buttonGroup3)),
-                DataServiceLoader.getZebraData().getUserByName((String) usersCB.getSelectedItem()), DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()));
-
-        DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()).getRatingList().add(r);
-        DataServiceLoader.getZebraData().addRating(r);
         
-        model.getRatings().add(r);
-        view.addDataToTable();
-
-        this.dispose();
     }//GEN-LAST:event_sendActionPerformed
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
