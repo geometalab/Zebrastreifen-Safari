@@ -75,6 +75,7 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
         imageTF = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setText("OSM Node");
 
@@ -92,6 +93,7 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
         jRadioButton3.setText("Bad");
 
         jLabel4.setText("Illumination");
+        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         buttonGroup2.add(jRadioButton4);
         jRadioButton4.setText("Good");
@@ -245,6 +247,8 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
                     .addComponent(cancel))
                 .addGap(20, 20, 20))
         );
+
+        jLabel4.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
