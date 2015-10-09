@@ -18,7 +18,7 @@ import java.util.Observable;
  *
  * @author aeugster
  */
-public class CreateUpdateGUI extends javax.swing.JFrame {
+public abstract class CreateUpdateGUI extends JFrame {
 
     private File f;
 
@@ -272,8 +272,7 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_cancelActionPerformed
 
-    protected void onSendClick() {
-    }
+    protected abstract void onSendClick();
 
     protected int getSelectedButtonInt(ButtonGroup bg) {
         Enumeration<AbstractButton> buttons = bg.getElements();
