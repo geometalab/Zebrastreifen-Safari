@@ -5,12 +5,14 @@
  */
 package ch.hsr.zebrastreifensafari.gui.create;
 
+import ch.hsr.zebrastreifensafari.gui.view.View;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.List;
 import javax.swing.*;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 /**
@@ -20,6 +22,8 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 public class CreateGUI extends javax.swing.JFrame {
 
     private File f;
+    private View view;
+    private Model model;
 
     /**
      * Creates new form GUI
@@ -27,8 +31,10 @@ public class CreateGUI extends javax.swing.JFrame {
      * @param users the users which are listed in the JCombobox
      */
 
-    public CreateGUI(List<User> users, long node) {
+    public CreateGUI(List<User> users, long node, View view, Model model) {
 
+        this.model = model;
+        this.view = view;
         initComponents();
 
         for (User u : users) {
@@ -276,6 +282,7 @@ public class CreateGUI extends javax.swing.JFrame {
 
         if (unique) {
             DataServiceLoader.getZebraData().addZebracrossing(z);
+            
         }
 
         Rating r = new Rating(null, CommentsTA.getText(),
@@ -285,6 +292,9 @@ public class CreateGUI extends javax.swing.JFrame {
 
         DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()).getRatingList().add(r);
         DataServiceLoader.getZebraData().addRating(r);
+        
+        model.getRatings().add(r);
+        view.addDataToTable();
 
         this.dispose();
     }//GEN-LAST:event_sendActionPerformed
