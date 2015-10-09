@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import java.util.Observable;
 
 /**
  *
@@ -29,6 +30,7 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
 
     public CreateUpdateGUI(List<User> users) {
 
+        Observable observable = new Observable();
         initComponents();
 
         for (User u : users) {
