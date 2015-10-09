@@ -177,12 +177,14 @@ public class View extends JFrame implements Observer {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        UpdateGUI ug;
         try {
-            UpdateGUI ug = new UpdateGUI(DataServiceLoader.getZebraData().getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
-            ug.setVisible(rootPaneCheckingEnabled);
+            ug = new UpdateGUI(DataServiceLoader.getZebraData().getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
         } catch (ArrayIndexOutOfBoundsException aioobe) {
-            JOptionPane.showMessageDialog(this, "Select a row to delete it!", "Error", JOptionPane.ERROR_MESSAGE);
+            ug = new UpdateGUI(DataServiceLoader.getZebraData().getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(0, 0).toString())), this);
         }
+        ug.setVisible(rootPaneCheckingEnabled);
+
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -246,10 +248,10 @@ public class View extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof Rating){
-            model.getRatings().add((Rating)arg);
+        if (arg instanceof Rating) {
+            model.getRatings().add((Rating) arg);
         } else if (arg instanceof Zebracrossing) {
-            model.getZebras().add((Zebracrossing)arg);
+            model.getZebras().add((Zebracrossing) arg);
         }
 
         addDataToTable();
