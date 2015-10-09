@@ -29,31 +29,23 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
 
     @Override
     public List<User> getUsers(){
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         UserJpaController ujc = new UserJpaController(emFactory);
-
-        for(User u : ujc.findUserEntities()){
-            users.add(u);
-        }
-
+        users.addAll(ujc.findUserEntities());
         return users;
     }
 
     @Override
     public List<Zebracrossing> getZebracrossings(){
-        List<Zebracrossing> zebras = new ArrayList<>();
+        List<Zebracrossing> zebras = new ArrayList<Zebracrossing>();
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
-
-        for(Zebracrossing z : zjc.findZebracrossingEntities()){
-            zebras.add(z);
-        }
-
+        zebras.addAll(zjc.findZebracrossingEntities());
         return zebras;
     }
 
     @Override
     public List<Rating> getRatingsOfZebra(Zebracrossing zebra){
-        List<Rating> ratings = new ArrayList<>();
+        List<Rating> ratings = new ArrayList<Rating>();
         RatingJpaController rjc = new RatingJpaController(emFactory);
 
         for(Rating r : rjc.findRatingEntities()){
@@ -130,6 +122,7 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
         return null;
     }
 
+    @Override
     public User getUserByID(int id){
         UserJpaController ujc = new UserJpaController(emFactory);
 
@@ -155,6 +148,7 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
         return null;
     }
 
+    @Override
     public Zebracrossing getZebracrossingById(int id){
         ZebracrossingJpaController zjc = new ZebracrossingJpaController(emFactory);
 
@@ -167,6 +161,7 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
         return null;
     }
 
+    @Override
     public void updateRating(Rating rating) {
         RatingJpaController rjc = new RatingJpaController(emFactory);
 
