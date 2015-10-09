@@ -156,7 +156,12 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_switchButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        CreateGUI gc = new CreateGUI(DataServiceLoader.getZebraData().getUsers());
+        CreateGUI gc;
+        if (model.isZebraB()) {
+            gc = new CreateGUI(DataServiceLoader.getZebraData().getUsers(), 0);
+        } else {
+            gc = new CreateGUI(DataServiceLoader.getZebraData().getUsers(), getRatingFromTable().getZebracrossingFk().getNode());
+        }
         gc.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -195,13 +200,11 @@ public class View extends javax.swing.JFrame {
 
     public Rating getRatingFromTable() {
         int row = jTable1.getSelectedRow();
-        return new Rating(Integer.parseInt(jTable1.getValueAt(row, 0).toString()),
-                (String) jTable1.getValueAt(row, 6),
-                DataServiceLoader.getZebraData().getIlluminationValue(Integer.parseInt(jTable1.getValueAt(row, 5).toString())),
-                DataServiceLoader.getZebraData().getOverviewValue(Integer.parseInt(jTable1.getValueAt(row, 3).toString())),
-                DataServiceLoader.getZebraData().getTrafficValue(Integer.parseInt(jTable1.getValueAt(row, 4).toString())),
-                DataServiceLoader.getZebraData().getUserByID(Integer.parseInt(jTable1.getValueAt(row, 2).toString())),
-                DataServiceLoader.getZebraData().getZebracrossingById(Integer.parseInt(jTable1.getValueAt(row, 1).toString())));
+        if (row == -1) {
+            row = 0;
+        }
+
+        return model.getRatingById(Integer.parseInt(jTable1.getValueAt(row, 0).toString()));
     }
 
     public void addDataToTable() {
@@ -214,11 +217,10 @@ public class View extends javax.swing.JFrame {
         } else {
             for (Rating r : model.getRatings()) {
                 ratingTM.addRow(new String[]{r.getRatingId().toString(), r.getUserFk().getName(), r.getTrafficFk().getTrafficValue(),
-                    r.getOverviewFk().getOverviewValue(), r.getIlluminationFk().getIlluminationValue(), r.getComment()==null? "": r.getComment()});
+                    r.getOverviewFk().getOverviewValue(), r.getIlluminationFk().getIlluminationValue(), r.getComment() == null ? "" : r.getComment()});
             }
         }
     }
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

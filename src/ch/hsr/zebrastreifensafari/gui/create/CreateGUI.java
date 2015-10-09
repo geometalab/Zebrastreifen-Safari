@@ -28,11 +28,16 @@ public class CreateGUI extends javax.swing.JFrame {
      *
      * @param users the users which are listed in the JCombobox
      */
-    public CreateGUI(List<User> users) {
+    public CreateGUI(List<User> users, long node) {
         CreateGUI.users = users;
         initComponents();
         for (User u : users) {
             usersCB.addItem(u.getName());
+        }
+
+        if (node != 0) {
+            osmNode.setText(Long.toString(node));
+            osmNode.setEnabled(false);
         }
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -131,6 +136,11 @@ public class CreateGUI extends javax.swing.JFrame {
         });
 
         cancel.setText("Cancel");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelActionPerformed(evt);
+            }
+        });
 
         chooseFile.setText("Choose File");
         chooseFile.addActionListener(new java.awt.event.ActionListener() {
@@ -255,23 +265,34 @@ public class CreateGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_chooseFileActionPerformed
 
     private void sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
-        //ToDo: node redundency
-        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), f==null ? null: f.getName(), null);
+        //TODO: node redundency
+        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), f == null ? null : f.getName(), null);
 
-        DataServiceLoader.getZebraData().addZebracrossing(z);
+        boolean unique = true;
+        for (Zebracrossing zebra : DataServiceLoader.getZebraData().getZebracrossings()) {
+            if (zebra.getNode() == z.getNode()) {
+                unique = false;
+            }
+        }
+
+        if (unique) {
+            DataServiceLoader.getZebraData().addZebracrossing(z);
+        }
 
         Rating r = new Rating(null, CommentsTA.getText(),
                 DataServiceLoader.getZebraData().getIlluminationValue(getSelectedButtonInt(buttonGroup2)),
                 DataServiceLoader.getZebraData().getOverviewValue(getSelectedButtonInt(buttonGroup1)), DataServiceLoader.getZebraData().getTrafficValue(getSelectedButtonInt(buttonGroup3)),
                 DataServiceLoader.getZebraData().getUserByName((String) usersCB.getSelectedItem()), DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()));
-        
-        System.out.println(DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()).getZebracrossingId());
-       
-        z.getRatingList().add(r);
+
+        DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()).getRatingList().add(r);
         DataServiceLoader.getZebraData().addRating(r);
-        
+
         this.dispose();
     }//GEN-LAST:event_sendActionPerformed
+
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cancelActionPerformed
 
     public int getSelectedButtonInt(ButtonGroup bg) {
 

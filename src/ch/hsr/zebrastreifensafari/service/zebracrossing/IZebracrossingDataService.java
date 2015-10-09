@@ -29,7 +29,7 @@ public interface IZebracrossingDataService {
     void removeRating(int id);
 
     Illumination getIlluminationValue(int value);
-
+    
     Overview getOverviewValue(int value);
 
     Traffic getTrafficValue(int value);
