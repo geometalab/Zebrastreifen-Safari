@@ -28,7 +28,6 @@ public class View extends JFrame {
     private DefaultTableModel ratingTM;
     private DefaultTableModel zebraTM;
 
-    //private DefaultTableModel dtm;
     public View(Model model) {
         this.model = model;
 
@@ -39,6 +38,7 @@ public class View extends JFrame {
                 return false;
             }
         };
+
         ratingTM = new DefaultTableModel(new String[]{"ID", "Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar"}, 0) {
 
             @Override
@@ -142,16 +142,14 @@ public class View extends JFrame {
 
     private void switchButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
         try {
-            model.setZebraB(!model.isZebraB());
+            model.setRatingMod(!model.isRatingMod());
 
-            if (model.isZebraB()) {
+            if (model.isRatingMod()) {
                 switchButton.setText("Bewertungen");
                 updateButton.setEnabled(false);
             } else {
                 int row = jTable1.getSelectedRow();
-                Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()),
-                        Long.parseLong(zebraTM.getValueAt(row, 1).toString()),
-                        zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
+                Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()), Long.parseLong(zebraTM.getValueAt(row, 1).toString()), zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
                 model.setRatings(DataServiceLoader.getZebraData().getRatingsOfZebra(z));
                 switchButton.setText("Zebrastreifen");
                 updateButton.setEnabled(true);
@@ -159,18 +157,20 @@ public class View extends JFrame {
             addDataToTable();
             jTable1.setModel(getCurrentTableModel());
         } catch (ArrayIndexOutOfBoundsException aioobe) {
-            model.setZebraB(!model.isZebraB());
+            model.setRatingMod(!model.isRatingMod());
             JOptionPane.showMessageDialog(this, "Select a row to show its ratings!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_switchButtonActionPerformed
 
     private void addButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateUpdateGUI gc;
-        if (model.isZebraB()) {
-            gc = new CreateRatingGUI(DataServiceLoader.getZebraData().getUsers(), 0, this, model);
+
+        if (model.isRatingMod()) {
+            gc = new CreateZebracrossingGUI(DataServiceLoader.getZebraData().getUsers(), this, model);
         } else {
-            gc = new CreateZebracrossingGUI(DataServiceLoader.getZebraData().getUsers(), getRatingFromTable().getZebracrossingFk().getNode(), this, model);
+            gc = new CreateRatingGUI(DataServiceLoader.getZebraData().getUsers(), 0, this, model);
         }
+
         gc.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -178,7 +178,6 @@ public class View extends JFrame {
         try {
             UpdateGUI ug = new UpdateGUI(DataServiceLoader.getZebraData().getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
             ug.setVisible(rootPaneCheckingEnabled);
-            addDataToTable();
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             JOptionPane.showMessageDialog(this, "Select a row to delete it!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -186,7 +185,7 @@ public class View extends JFrame {
 
     private void deleteButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
-            if (model.isZebraB()) {
+            if (model.isRatingMod()) {
                 DataServiceLoader.getZebraData().removeZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
                 model.getZebras().remove(jTable1.getSelectedRow());
             } else {
@@ -201,7 +200,7 @@ public class View extends JFrame {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     public TableModel getCurrentTableModel() {
-        if (model.isZebraB()) {
+        if (model.isRatingMod()) {
             return zebraTM;
         }
         return ratingTM;
@@ -209,6 +208,7 @@ public class View extends JFrame {
 
     public Rating getRatingFromTable() {
         int row = jTable1.getSelectedRow();
+
         if (row == -1) {
             row = 0;
         }
@@ -219,7 +219,8 @@ public class View extends JFrame {
     public void addDataToTable() {
         zebraTM.setRowCount(0);
         ratingTM.setRowCount(0);
-        if (model.isZebraB()) {
+
+        if (model.isRatingMod()) {
             for (Zebracrossing z : model.getZebras()) {
                 zebraTM.addRow(new String[]{z.getZebracrossingId().toString(), Long.toString(z.getNode()), z.getImage()});
             }

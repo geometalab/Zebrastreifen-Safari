@@ -15,9 +15,9 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  */
 public class CreateRatingGUI extends CreateUpdateGUI {
 
-    private File f;
     private View view;
     private Model model;
+    private long node;
 
     /**
      * Creates new form GUI
@@ -27,36 +27,23 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
     public CreateRatingGUI(List<User> users, long node, View view, Model model) {
         super(users);
+        this.node = node;
         this.model = model;
         this.view = view;
-
-        if (node != 0) {
-            osmNode.setText(Long.toString(node));
-            osmNode.setEnabled(false);
-        }
+        osmNode.setEnabled(false);
     }
 
     @Override
     protected void onSendClick() {
-        //TODO: node redundency
-        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), f == null ? null : f.getName(), null);
+        Zebracrossing z = DataServiceLoader.getZebraData().getZebracrossingByNode(node);
 
-        boolean unique = true;
-        for (Zebracrossing zebra : DataServiceLoader.getZebraData().getZebracrossings()) {
-            if (zebra.getNode() == z.getNode()) {
-                unique = false;
-            }
-        }
-
-        if (unique) {
-            DataServiceLoader.getZebraData().addZebracrossing(z);
-
-        }
-
-        Rating r = new Rating(null, CommentsTA.getText(),
+        Rating r = new Rating(null,
+                CommentsTA.getText(),
                 DataServiceLoader.getZebraData().getIlluminationValue(getSelectedButtonInt(buttonGroup2)),
-                DataServiceLoader.getZebraData().getOverviewValue(getSelectedButtonInt(buttonGroup1)), DataServiceLoader.getZebraData().getTrafficValue(getSelectedButtonInt(buttonGroup3)),
-                DataServiceLoader.getZebraData().getUserByName((String) usersCB.getSelectedItem()), DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()));
+                DataServiceLoader.getZebraData().getOverviewValue(getSelectedButtonInt(buttonGroup1)),
+                DataServiceLoader.getZebraData().getTrafficValue(getSelectedButtonInt(buttonGroup3)),
+                DataServiceLoader.getZebraData().getUserByName((String) usersCB.getSelectedItem()),
+                DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()));
 
         DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()).getRatingList().add(r);
         DataServiceLoader.getZebraData().addRating(r);

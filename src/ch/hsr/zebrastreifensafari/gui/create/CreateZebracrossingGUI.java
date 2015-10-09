@@ -15,7 +15,6 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  */
 public class CreateZebracrossingGUI extends CreateUpdateGUI {
 
-    private File f;
     private View view;
     private Model model;
 
@@ -25,32 +24,19 @@ public class CreateZebracrossingGUI extends CreateUpdateGUI {
      * @param users the users which are listed in the JCombobox
      */
 
-    public CreateZebracrossingGUI(List<User> users, long node, View view, Model model) {
+    public CreateZebracrossingGUI(List<User> users, View view, Model model) {
         super(users);
         this.model = model;
         this.view = view;
-
-        if (node != 0) {
-            osmNode.setText(Long.toString(node));
-            osmNode.setEnabled(false);
-        }
     }
 
     @Override
     protected void onSendClick() {
-        //TODO: node redundency
-        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), f == null ? null : f.getName(), null);
+        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), file == null ? null : file.getName(), null);
 
-        boolean unique = true;
-        for (Zebracrossing zebra : DataServiceLoader.getZebraData().getZebracrossings()) {
-            if (zebra.getNode() == z.getNode()) {
-                unique = false;
-            }
-        }
-
-        if (unique) {
+        if (DataServiceLoader.getZebraData().getZebracrossings().stream().filter(zebracrossing -> zebracrossing.getNode() == z.getNode()).count() == 0) {
             DataServiceLoader.getZebraData().addZebracrossing(z);
-
+            model.getZebras().add(z);
         }
 
         Rating r = new Rating(null, CommentsTA.getText(),
@@ -60,10 +46,8 @@ public class CreateZebracrossingGUI extends CreateUpdateGUI {
 
         DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()).getRatingList().add(r);
         DataServiceLoader.getZebraData().addRating(r);
-
         model.getRatings().add(r);
         view.addDataToTable();
-
         this.dispose();
     }
 }

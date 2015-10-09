@@ -17,12 +17,12 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  */
 public class Model {
     
-    private boolean zebraB; //True: List of Zebras; False: List of Ratings
+    private boolean ratingMod; //True: List of Zebras; False: List of Ratings
     private List<Zebracrossing> zebras;
     private List<Rating> ratings;
 
     public Model() {
-        zebraB = true;
+        ratingMod = true;
         zebras = DataServiceLoader.getZebraData().getZebracrossings();
         ratings = new ArrayList<Rating>();
     }
@@ -79,14 +79,14 @@ public class Model {
     /**
      * @return the zebraB
      */
-    public boolean isZebraB() {
-        return zebraB;
+    public boolean isRatingMod() {
+        return ratingMod;
     }
 
     /**
      * @param zebraB the zebraB to set
      */
-    public void setZebraB(boolean zebraB) {
-        this.zebraB = zebraB;
+    public void setRatingMod(boolean ratingMod) {
+        this.ratingMod = ratingMod;
     }   
 }
