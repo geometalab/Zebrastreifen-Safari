@@ -78,6 +78,7 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
         imageTF = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setText("OSM Node");
 
@@ -95,6 +96,7 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
         jRadioButton3.setText("Bad");
 
         jLabel4.setText("Illumination");
+        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         buttonGroup2.add(jRadioButton4);
         jRadioButton4.setText("Good");
@@ -249,6 +251,8 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
+        jLabel4.getAccessibleContext().setAccessibleName("");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -287,32 +291,32 @@ public class CreateUpdateGUI extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea CommentsTA;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.JButton cancel;
-    private javax.swing.JButton chooseFile;
-    private javax.swing.JTextField imageTF;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
-    private javax.swing.JRadioButton jRadioButton7;
-    private javax.swing.JRadioButton jRadioButton8;
-    private javax.swing.JRadioButton jRadioButton9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField osmNode;
-    private javax.swing.JButton send;
-    private javax.swing.JComboBox<String> usersCB;
+    protected javax.swing.JTextArea CommentsTA;
+    protected javax.swing.ButtonGroup buttonGroup1;
+    protected javax.swing.ButtonGroup buttonGroup2;
+    protected javax.swing.ButtonGroup buttonGroup3;
+    protected javax.swing.JButton cancel;
+    protected javax.swing.JButton chooseFile;
+    protected javax.swing.JTextField imageTF;
+    protected javax.swing.JLabel jLabel1;
+    protected javax.swing.JLabel jLabel2;
+    protected javax.swing.JLabel jLabel3;
+    protected javax.swing.JLabel jLabel4;
+    protected javax.swing.JLabel jLabel5;
+    protected javax.swing.JLabel jLabel6;
+    protected javax.swing.JLabel jLabel7;
+    protected javax.swing.JRadioButton jRadioButton1;
+    protected javax.swing.JRadioButton jRadioButton2;
+    protected javax.swing.JRadioButton jRadioButton3;
+    protected javax.swing.JRadioButton jRadioButton4;
+    protected javax.swing.JRadioButton jRadioButton5;
+    protected javax.swing.JRadioButton jRadioButton6;
+    protected javax.swing.JRadioButton jRadioButton7;
+    protected javax.swing.JRadioButton jRadioButton8;
+    protected javax.swing.JRadioButton jRadioButton9;
+    protected javax.swing.JScrollPane jScrollPane1;
+    protected javax.swing.JTextField osmNode;
+    protected javax.swing.JButton send;
+    protected javax.swing.JComboBox<String> usersCB;
     // End of variables declaration//GEN-END:variables
 }
