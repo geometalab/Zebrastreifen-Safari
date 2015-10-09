@@ -12,6 +12,7 @@ import javax.swing.table.TableModel;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.gui.create.CreateGUI;
 import ch.hsr.zebrastreifensafari.gui.update.UpdateGUI;
+import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 /**
@@ -29,11 +30,15 @@ public class View extends javax.swing.JFrame {
         this.model = model;
 
         zebraTM = new DefaultTableModel(new String[]{"ID", "Node", "Bild"}, 0) {
+
+            @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         ratingTM = new DefaultTableModel(new String[]{"ID", "Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar"}, 0) {
+
+            @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
