@@ -17,12 +17,14 @@ import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 import java.awt.event.ActionEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author aeugster
  */
-public class View extends JFrame {
+public class View extends JFrame implements Observer {
 
     private final Model model;
     private DefaultTableModel ratingTM;
@@ -167,9 +169,9 @@ public class View extends JFrame {
     private void addButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         CreateUpdateGUI gc;
         if (model.isZebraB()) {
-            gc = new CreateRatingGUI(DataServiceLoader.getZebraData().getUsers(), 0, this, model);
+            gc = new CreateZebracrossingGUI(DataServiceLoader.getZebraData().getUsers(), null);
         } else {
-            gc = new CreateZebracrossingGUI(DataServiceLoader.getZebraData().getUsers(), getRatingFromTable().getZebracrossingFk().getNode(), this, model);
+            gc = new CreateRatingGUI(DataServiceLoader.getZebraData().getUsers(), getSelectedRatingFromTable().getZebracrossingFk().getNode(), this);
         }
         gc.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_addButtonActionPerformed
@@ -207,7 +209,7 @@ public class View extends JFrame {
         return ratingTM;
     }
 
-    public Rating getRatingFromTable() {
+    public Rating getSelectedRatingFromTable() {
         int row = jTable1.getSelectedRow();
         if (row == -1) {
             row = 0;
@@ -240,4 +242,12 @@ public class View extends JFrame {
     private javax.swing.JButton switchButton;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(arg != null){
+            model.getRatings().add((Rating)arg);
+        }
+        addDataToTable();
+    }
 }
