@@ -137,6 +137,11 @@ public class UpdateGUI extends javax.swing.JFrame {
         });
 
         cancel.setText("Cancel");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelActionPerformed(evt);
+            }
+        });
 
         chooseFile.setText("Choose File");
         chooseFile.addActionListener(new java.awt.event.ActionListener() {
@@ -275,6 +280,10 @@ public class UpdateGUI extends javax.swing.JFrame {
         
         this.dispose();
     }//GEN-LAST:event_sendActionPerformed
+
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+       this.dispose();
+    }//GEN-LAST:event_cancelActionPerformed
 
     public int getSelectedButtonInt(ButtonGroup bg) {
 
