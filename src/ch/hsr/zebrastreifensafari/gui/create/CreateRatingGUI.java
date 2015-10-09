@@ -13,7 +13,7 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  *
  * @author aeugster
  */
-public class CreateGUI extends CreateUpdateGUI {
+public class CreateRatingGUI extends CreateUpdateGUI {
 
     private File f;
     private View view;
@@ -25,7 +25,7 @@ public class CreateGUI extends CreateUpdateGUI {
      * @param users the users which are listed in the JCombobox
      */
 
-    public CreateGUI(List<User> users, long node, View view, Model model) {
+    public CreateRatingGUI(List<User> users, long node, View view, Model model) {
         super(users);
         this.model = model;
         this.view = view;
