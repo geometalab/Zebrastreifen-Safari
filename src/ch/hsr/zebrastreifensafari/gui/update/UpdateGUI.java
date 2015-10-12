@@ -57,8 +57,6 @@ public class UpdateGUI extends CreateUpdateGUI {
     }
 
     private void updateComponents() {
-        System.out.println(rating.getZebracrossingFk().getZebracrossingId());
-
         CommentsTA.setText(rating.getComment() == null ? "": rating.getComment());
         osmNode.setText(Long.toString(model.getZebracrossing(rating.getZebracrossingFk().getZebracrossingId()).getNode()));
         imageTF.setText(model.getZebracrossing(rating.getZebracrossingFk().getZebracrossingId()).getImage() == null ? "" : model.getZebracrossing(rating.getZebracrossingFk().getZebracrossingId()).getImage());

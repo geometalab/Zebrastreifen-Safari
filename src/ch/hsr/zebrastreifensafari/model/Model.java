@@ -52,7 +52,6 @@ public class Model {
     }
 
     public Zebracrossing getZebracrossing(int id){
-        System.out.println("id");
         for(Zebracrossing z : zebras){
             if(z.getZebracrossingId() == id){
                 return z;
@@ -63,7 +62,6 @@ public class Model {
     }
 
     public Zebracrossing getZebracrossing(long node) {
-        System.out.println("node");
         for(Zebracrossing z: zebras){
             if(z.getNode() == node){
                 return z;
