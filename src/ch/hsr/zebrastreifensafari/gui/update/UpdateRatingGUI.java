@@ -13,11 +13,11 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  *
  * @author aeugster
  */
-public class UpdateGUI extends CreateUpdateGUI {
+public class UpdateRatingGUI extends CreateUpdateGUI {
 
     private Rating rating;
 
-    public UpdateGUI(Model model, Rating rating, View view) {
+    public UpdateRatingGUI(Model model, Rating rating, View view) {
         super(model, view);
         this.rating = rating;
         updateComponents();

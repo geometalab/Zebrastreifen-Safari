@@ -10,9 +10,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
+import ch.hsr.zebrastreifensafari.gui.update.UpdateRatingGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.gui.create.*;
-import ch.hsr.zebrastreifensafari.gui.update.UpdateGUI;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
@@ -167,9 +167,7 @@ public class View extends JFrame implements Observer {
             switchButton.setText("Bewertungen");
             changeButton.setEnabled(false);
         } else {
-            int row = jTable1.getSelectedRow();
-            Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()), Long.parseLong(zebraTM.getValueAt(row, 1).toString()), zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
-            model.reloadRating(z);
+            model.reloadRating(model.getZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())));
             switchButton.setText("Zebrastreifen");
             changeButton.setEnabled(true);
         }
@@ -179,20 +177,20 @@ public class View extends JFrame implements Observer {
     }//GEN-LAST:event_switchButtonActionPerformed
 
     private void addButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        CreateUpdateGUI gc;
+        CreateUpdateGUI createGui;
 
         if (!model.isRatingMode()) {
-            gc = new CreateZebracrossingGUI(model, this);
+            createGui = new CreateZebracrossingGUI(model, this);
         } else {
-            gc = new CreateRatingGUI(model, getRatingFromTable().getZebracrossingFk().getNode(), this);
+            createGui = new CreateRatingGUI(model, getRatingFromTable().getZebracrossingFk().getNode(), this);
         }
 
-        gc.setVisible(rootPaneCheckingEnabled);
+        createGui.setVisible(true);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void changeButtonActionPerformed(ActionEvent evt) {
-        UpdateGUI ug = new UpdateGUI(model, getRatingFromTable(), this);
-        ug.setVisible(rootPaneCheckingEnabled);
+        CreateUpdateGUI updateGui = new UpdateRatingGUI(model, getRatingFromTable(), this);
+        updateGui.setVisible(true);
     }
 
     private void deleteButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
