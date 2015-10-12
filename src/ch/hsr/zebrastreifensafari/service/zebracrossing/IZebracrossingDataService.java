@@ -18,7 +18,13 @@ public interface IZebracrossingDataService {
 
     List<Zebracrossing> getZebracrossings();
 
-    List<Rating> getRatingsByZebracrossing(Zebracrossing zebracrossing);
+    List<Rating> getRatings(Zebracrossing zebracrossing);
+
+    List<Illumination> getIlluminations();
+
+    List<Overview> getOverviews();
+
+    List<Traffic> getTraffics();
 
     void addZebracrossing(Zebracrossing zebra);
 
@@ -28,11 +34,6 @@ public interface IZebracrossingDataService {
 
     void removeRating(int id);
 
-    Illumination getIlluminationValue(int value);
-    
-    Overview getOverviewValue(int value);
-
-    Traffic getTrafficValue(int value);
-
     void updateRating(Rating rating);
+
 }

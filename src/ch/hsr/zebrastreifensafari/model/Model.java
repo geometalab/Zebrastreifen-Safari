@@ -17,18 +17,28 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 public class Model {
 
     private boolean ratingMode;
+    private List<User> users;
     private List<Zebracrossing> zebras;
     private List<Rating> ratings;
-    private List<User> users;
+    private List<Illumination> illuminations;
+    private List<Overview> overviews;
+    private List<Traffic> traffics;
 
     public Model() {
         ratingMode = false;
         users = DataServiceLoader.getZebraData().getUsers();
-        updateData();
+        illuminations = DataServiceLoader.getZebraData().getIlluminations();
+        overviews = DataServiceLoader.getZebraData().getOverviews();
+        traffics = DataServiceLoader.getZebraData().getTraffics();
+        reloadZebra();
     }
 
-    public void updateData() {
+    public void reloadZebra() {
         zebras = DataServiceLoader.getZebraData().getZebracrossings();
+    }
+
+    public void reloadRating(Zebracrossing zebracrossing) {
+        ratings = DataServiceLoader.getZebraData().getRatings(zebracrossing);
     }
 
     public User getUser(int id){
@@ -53,9 +63,9 @@ public class Model {
 
     public Zebracrossing getZebracrossing(int id){
         System.out.println("id");
-        for(Zebracrossing z : zebras){
-            if(z.getZebracrossingId() == id){
-                return z;
+        for(Zebracrossing zebracrossing : zebras){
+            if(zebracrossing.getZebracrossingId() == id){
+                return zebracrossing;
             }
         }
 
@@ -64,9 +74,9 @@ public class Model {
 
     public Zebracrossing getZebracrossing(long node) {
         System.out.println("node");
-        for(Zebracrossing z: zebras){
-            if(z.getNode() == node){
-                return z;
+        for(Zebracrossing zebracrossing: zebras){
+            if(zebracrossing.getNode() == node){
+                return zebracrossing;
             }
         }
 
@@ -74,17 +84,43 @@ public class Model {
     }
 
     public Rating getRating(int id){
-        for(Rating r : ratings){
-            if(r.getRatingId() == id){
-                return r;
+        for(Rating rating : ratings){
+            if(rating.getRatingId() == id){
+                return rating;
             }
         }
 
         return null;
     }
 
-    public void setRatings(Zebracrossing zebracrossing) {
-        ratings = DataServiceLoader.getZebraData().getRatingsByZebracrossing(zebracrossing);
+    public Illumination getIllumination(int id) {
+        for(Illumination illumination : illuminations){
+            if(illumination.getIlluminationId() == id){
+                return illumination;
+            }
+        }
+
+        return null;
+    }
+
+    public Overview getOverview(int id) {
+        for(Overview overview : overviews){
+            if(overview.getOverviewId() == id){
+                return overview;
+            }
+        }
+
+        return null;
+    }
+
+    public Traffic getTraffic(int id) {
+        for(Traffic traffic : traffics){
+            if(traffic.getTrafficId() == id){
+                return traffic;
+            }
+        }
+
+        return null;
     }
 
     /**

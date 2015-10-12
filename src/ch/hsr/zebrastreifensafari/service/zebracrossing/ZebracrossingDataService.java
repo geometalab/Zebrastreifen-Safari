@@ -37,8 +37,23 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
     }
 
     @Override
-    public List<Rating> getRatingsByZebracrossing(Zebracrossing zebracrossing){
+    public List<Rating> getRatings(Zebracrossing zebracrossing){
         return new RatingJpaController(emFactory).findRatingByZebracrossing(zebracrossing);
+    }
+
+    @Override
+    public List<Illumination> getIlluminations() {
+        return new IlluminationJpaController(emFactory).findIlluminationEntities();
+    }
+
+    @Override
+    public List<Overview> getOverviews() {
+        return new OverviewJpaController(emFactory).findOverviewEntities();
+    }
+
+    @Override
+    public List<Traffic> getTraffics() {
+        return new TrafficJpaController(emFactory).findTrafficEntities();
     }
 
     @Override
@@ -67,21 +82,6 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
         } catch (NonexistentEntityException neex) {
             neex.printStackTrace();
         }
-    }
-
-    @Override
-    public Illumination getIlluminationValue(int value){
-        return new IlluminationJpaController(emFactory).findIllumination(value);
-    }
-
-    @Override
-    public Overview getOverviewValue(int value){
-        return new OverviewJpaController(emFactory).findOverview(value);
-    }
-
-    @Override
-    public Traffic getTrafficValue(int value){
-        return new TrafficJpaController(emFactory).findTraffic(value);
     }
 
     @Override

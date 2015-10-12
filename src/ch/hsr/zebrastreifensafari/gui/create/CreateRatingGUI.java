@@ -32,9 +32,9 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
         Rating r = new Rating(null,
                 CommentsTA.getText(),
-                DataServiceLoader.getZebraData().getIlluminationValue(getSelectedButtonInt(buttonGroup2)),
-                DataServiceLoader.getZebraData().getOverviewValue(getSelectedButtonInt(buttonGroup1)),
-                DataServiceLoader.getZebraData().getTrafficValue(getSelectedButtonInt(buttonGroup3)),
+                model.getIllumination(getSelectedButtonInt(buttonGroup2)),
+                model.getOverview(getSelectedButtonInt(buttonGroup1)),
+                model.getTraffic(getSelectedButtonInt(buttonGroup3)),
                 model.getUser((String) usersCB.getSelectedItem()),
                 model.getZebracrossing(z.getNode()));
 
