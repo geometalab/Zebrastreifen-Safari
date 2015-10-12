@@ -28,6 +28,7 @@ public abstract class CreateUpdateGUI extends JFrame {
 
     public CreateUpdateGUI(Model model, View view) {
 
+        this.model = model;
         observable = new ObservableHelper();
         observable.addObserver(view);
         initComponents();
