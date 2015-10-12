@@ -295,7 +295,7 @@ public abstract class CreateUpdateGUI extends JFrame {
                 || buttonGroup2.getSelection() == null
                 || buttonGroup3.getSelection() == null
                 || osmNode.getText() == null) {
-            JOptionPane.showMessageDialog(this, "There is an Imput missing", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "There is an Input missing", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;

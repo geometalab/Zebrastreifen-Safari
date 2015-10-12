@@ -28,9 +28,9 @@ public class UpdateGUI extends CreateUpdateGUI {
         Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), file == null ? null : file.getName(), null);
 
         rating.setComment(CommentsTA.getText());
-        rating.setIlluminationFk(DataServiceLoader.getZebraData().getIlluminationValue(getSelectedButtonInt(buttonGroup2)));
-        rating.setOverviewFk(DataServiceLoader.getZebraData().getOverviewValue(getSelectedButtonInt(buttonGroup1)));
-        rating.setTrafficFk(DataServiceLoader.getZebraData().getTrafficValue(getSelectedButtonInt(buttonGroup3)));
+        rating.setIlluminationFk(model.getIllumination(getSelectedButtonInt(buttonGroup2)));
+        rating.setOverviewFk(model.getOverview(getSelectedButtonInt(buttonGroup1)));
+        rating.setTrafficFk(model.getTraffic(getSelectedButtonInt(buttonGroup3)));
         rating.setZebracrossingFk(model.getZebracrossing(z.getNode()));
         rating.setUserFk(model.getUser((String) usersCB.getSelectedItem()));
         DataServiceLoader.getZebraData().updateRating(rating);

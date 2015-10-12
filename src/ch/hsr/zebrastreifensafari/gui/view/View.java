@@ -169,7 +169,7 @@ public class View extends JFrame implements Observer {
         } else {
             int row = jTable1.getSelectedRow();
             Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()), Long.parseLong(zebraTM.getValueAt(row, 1).toString()), zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
-            model.setRatings(z);
+            model.reloadRating(z);
             switchButton.setText("Zebrastreifen");
             changeButton.setEnabled(true);
         }
@@ -211,7 +211,7 @@ public class View extends JFrame implements Observer {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void updateDBButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDBButtonActionPerformed
-        model.updateData();
+        model.reloadZebra();
     }//GEN-LAST:event_updateDBButtonActionPerformed
 
     public TableModel getCurrentTableModel() {
