@@ -17,14 +17,8 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
     private long node;
 
-    /**
-     * Creates new form GUI
-     *
-     * @param users the users which are listed in the JCombobox
-     */
-
-    public CreateRatingGUI(List<User> users, long node, View view) {
-        super(users, view);
+    public CreateRatingGUI(Model model, long node, View view) {
+        super(model, view);
         this.node = node;
         osmNode.setText(Long.toString(node));
         osmNode.setEnabled(false);
@@ -32,7 +26,7 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
     @Override
     protected void onSendClick() {
-        Zebracrossing z = DataServiceLoader.getZebraData().getZebracrossingByNode(node);
+        Zebracrossing z = model.getZebracrossing(node);
 
         System.out.println(z.getZebracrossingId());
 
@@ -41,10 +35,10 @@ public class CreateRatingGUI extends CreateUpdateGUI {
                 DataServiceLoader.getZebraData().getIlluminationValue(getSelectedButtonInt(buttonGroup2)),
                 DataServiceLoader.getZebraData().getOverviewValue(getSelectedButtonInt(buttonGroup1)),
                 DataServiceLoader.getZebraData().getTrafficValue(getSelectedButtonInt(buttonGroup3)),
-                DataServiceLoader.getZebraData().getUserByName((String) usersCB.getSelectedItem()),
-                DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()));
+                model.getUser((String) usersCB.getSelectedItem()),
+                model.getZebracrossing(z.getNode()));
 
-        DataServiceLoader.getZebraData().getZebracrossingByNode(z.getNode()).getRatingList().add(r);
+        model.getZebracrossing(z.getNode()).getRatingList().add(r);
         DataServiceLoader.getZebraData().addRating(r);
         observable.notifyObservers(r);
         this.dispose();

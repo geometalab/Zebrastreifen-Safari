@@ -251,5 +251,8 @@ public class RatingJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public List<Rating> findRatingByZebracrossing(Zebracrossing zebracrossing) {
+        return getEntityManager().createNamedQuery("Rating.findByZebracrossing", Rating.class).setParameter("zebracrossingId", zebracrossing).getResultList();
+    }
 }

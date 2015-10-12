@@ -28,7 +28,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Rating.findAll", query = "SELECT r FROM Rating r"),
     @NamedQuery(name = "Rating.findByRatingId", query = "SELECT r FROM Rating r WHERE r.ratingId = :ratingId"),
-    @NamedQuery(name = "Rating.findByComment", query = "SELECT r FROM Rating r WHERE r.comment = :comment")})
+    @NamedQuery(name = "Rating.findByComment", query = "SELECT r FROM Rating r WHERE r.comment = :comment"),
+    @NamedQuery(name = "Rating.findByZebracrossing", query = "SELECT r FROM Rating r WHERE r.zebracrossingFk = :zebracrossingId")})
 public class Rating implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

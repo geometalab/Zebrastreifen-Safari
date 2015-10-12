@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 
 import ch.hsr.zebrastreifensafari.gui.view.View;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.zebrastreifensafari.model.Model;
 
 /**
  *
@@ -23,20 +24,15 @@ public abstract class CreateUpdateGUI extends JFrame {
 
     protected File file;
     protected ObservableHelper observable;
+    protected Model model;
 
-    /**
-     * Creates new form GUI
-     *
-     * @param users the users which are listed in the JCombobox
-     */
-
-    public CreateUpdateGUI(List<User> users, View view) {
+    public CreateUpdateGUI(Model model, View view) {
 
         observable = new ObservableHelper();
         observable.addObserver(view);
         initComponents();
    
-        for (User u : users) {
+        for (User u : model.getUsers()) {
             usersCB.addItem(u.getName());
         }
 
