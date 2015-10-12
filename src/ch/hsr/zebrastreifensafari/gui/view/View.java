@@ -73,7 +73,7 @@ public class View extends JFrame implements Observer {
         jTable1 = new javax.swing.JTable();
         updateDBButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         addButton.setText("Hinzufügen");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +106,7 @@ public class View extends JFrame implements Observer {
         jTable1.setModel(getCurrentTableModel());
         jScrollPane1.setViewportView(jTable1);
 
-        updateDBButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/hsr/zebrastreifensafari/gui/view/images/Refresh-icon - Copy.png"))); // NOI18N
+        updateDBButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/hsr/zebrastreifensafari/gui/view/images/RefreshIcon.png"))); // NOI18N
         updateDBButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateDBButtonActionPerformed(evt);
