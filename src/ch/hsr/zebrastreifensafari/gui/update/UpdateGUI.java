@@ -44,7 +44,6 @@ public class UpdateGUI extends CreateUpdateGUI {
         DataServiceLoader.getZebraData().updateRating(rating);
 
         observable.notifyObservers(null);
-        //view.addDataToTable();
 
         this.dispose();
     }
