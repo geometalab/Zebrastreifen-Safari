@@ -152,7 +152,7 @@ public class View extends JFrame implements Observer {
         } else {
             int row = jTable1.getSelectedRow();
             Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()), Long.parseLong(zebraTM.getValueAt(row, 1).toString()), zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
-            model.setRatings(DataServiceLoader.getZebraData().getRatingsOfZebra(z));
+            model.setRatings(z);
             switchButton.setText("Zebrastreifen");
             updateButton.setEnabled(true);
         }
@@ -166,17 +166,16 @@ public class View extends JFrame implements Observer {
         CreateUpdateGUI gc;
 
         if (!model.isRatingMode()) {
-            gc = new CreateZebracrossingGUI(DataServiceLoader.getZebraData().getUsers(), this);
+            gc = new CreateZebracrossingGUI(model, this);
         } else {
-           Rating  r = getSelectedRatingFromTable();
-            gc = new CreateRatingGUI(DataServiceLoader.getZebraData().getUsers(), getSelectedRatingFromTable().getZebracrossingFk().getNode(), this);
+            gc = new CreateRatingGUI(model, getSelectedRatingFromTable().getZebracrossingFk().getNode(), this);
         }
 
         gc.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        UpdateGUI ug = new UpdateGUI(DataServiceLoader.getZebraData().getUsers(), model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
+        UpdateGUI ug = new UpdateGUI(model, model.getRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
         ug.setVisible(rootPaneCheckingEnabled);
 
     }//GEN-LAST:event_updateButtonActionPerformed
@@ -201,7 +200,7 @@ public class View extends JFrame implements Observer {
     }
 
     public Rating getSelectedRatingFromTable() {
-        return model.getRatingById(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+        return model.getRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
     }
 
     public void addDataToTable() {
