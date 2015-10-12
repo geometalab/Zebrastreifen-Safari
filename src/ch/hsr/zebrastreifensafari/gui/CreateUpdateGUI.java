@@ -255,15 +255,18 @@ public abstract class CreateUpdateGUI extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void chooseFileActionPerformed(ActionEvent evt) {                                           
+    private void chooseFileActionPerformed(ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         file = chooser.getSelectedFile();
         String filename = file.getAbsolutePath();
         imageTF.setText(filename);
-    }                                                                             
-        
+    }
+
     private void sendActionPerformed(ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
+        if (!checkValues()) {
+            return;
+        }
         onSendClick();
     }//GEN-LAST:event_sendActionPerformed
 
@@ -285,6 +288,17 @@ public abstract class CreateUpdateGUI extends JFrame {
         }
 
         return 0;
+    }
+
+    private boolean checkValues() {
+        if (buttonGroup1.getSelection() == null
+                || buttonGroup2.getSelection() == null
+                || buttonGroup3.getSelection() == null
+                || osmNode.getText() == null) {
+            JOptionPane.showMessageDialog(this, "There is an Imput missing", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
 

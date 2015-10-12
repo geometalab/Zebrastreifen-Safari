@@ -50,7 +50,7 @@ public class View extends JFrame implements Observer {
         };
 
         initComponents();
-        updateButton.setEnabled(false);
+        changeButton.setEnabled(false);
         this.setTitle("Zebrastreifen Administration Tool");
         addDataToTable();
         setDefaultSelection();
@@ -66,11 +66,12 @@ public class View extends JFrame implements Observer {
     private void initComponents() {
 
         addButton = new javax.swing.JButton();
-        updateButton = new javax.swing.JButton();
+        changeButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         switchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        updateDBButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,10 +82,10 @@ public class View extends JFrame implements Observer {
             }
         });
 
-        updateButton.setText("Bearbeiten");
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
+        changeButton.setText("Bearbeiten");
+        changeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
+                changeButtonActionPerformed(evt);
             }
         });
 
@@ -105,39 +106,55 @@ public class View extends JFrame implements Observer {
         jTable1.setModel(getCurrentTableModel());
         jScrollPane1.setViewportView(jTable1);
 
+        updateDBButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/hsr/zebrastreifensafari/gui/view/images/Refresh-icon - Copy.png"))); // NOI18N
+        updateDBButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateDBButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(updateDBButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addButton)
-                    .addComponent(switchButton)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(updateButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(switchButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(changeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(19, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addComponent(addButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(updateButton)
+                        .addComponent(addButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(updateDBButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(changeButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(deleteButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(switchButton)))
-                .addGap(36, 36, 36))
+                        .addComponent(switchButton))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
@@ -148,13 +165,13 @@ public class View extends JFrame implements Observer {
 
         if (!model.isRatingMode()) {
             switchButton.setText("Bewertungen");
-            updateButton.setEnabled(false);
+            changeButton.setEnabled(false);
         } else {
             int row = jTable1.getSelectedRow();
             Zebracrossing z = new Zebracrossing(Integer.parseInt(zebraTM.getValueAt(row, 0).toString()), Long.parseLong(zebraTM.getValueAt(row, 1).toString()), zebraTM.getValueAt(row, 2) == null ? "" : zebraTM.getValueAt(row, 2).toString(), null);
             model.setRatings(z);
             switchButton.setText("Zebrastreifen");
-            updateButton.setEnabled(true);
+            changeButton.setEnabled(true);
         }
 
         addDataToTable();
@@ -174,11 +191,11 @@ public class View extends JFrame implements Observer {
         gc.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void updateButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+    private void changeButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         UpdateGUI ug = new UpdateGUI(model, model.getRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
         ug.setVisible(rootPaneCheckingEnabled);
 
-    }//GEN-LAST:event_updateButtonActionPerformed
+    }//GEN-LAST:event_changeButtonActionPerformed
 
     private void deleteButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         if (!model.isRatingMode()) {
@@ -188,9 +205,14 @@ public class View extends JFrame implements Observer {
             DataServiceLoader.getZebraData().removeRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
             model.getRatings().remove(jTable1.getSelectedRow());
         }
-
+       
         addDataToTable();
+        setDefaultSelection();
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void updateDBButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDBButtonActionPerformed
+        model.updateData();
+    }//GEN-LAST:event_updateDBButtonActionPerformed
 
     public TableModel getCurrentTableModel() {
         if (!model.isRatingMode()) {
@@ -237,10 +259,11 @@ public class View extends JFrame implements Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JButton changeButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton switchButton;
-    private javax.swing.JButton updateButton;
+    private javax.swing.JButton updateDBButton;
     // End of variables declaration//GEN-END:variables
 }
