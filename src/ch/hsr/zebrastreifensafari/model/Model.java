@@ -5,21 +5,17 @@
  */
 package ch.hsr.zebrastreifensafari.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ch.hsr.zebrastreifensafari.jpa.controllers.RatingJpaController;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  *
  * @author aeugster
  */
-public class Model{
-    
+public class Model {
+
     private boolean ratingMode;
     private List<Zebracrossing> zebras;
     private List<Rating> ratings;
@@ -124,5 +120,6 @@ public class Model{
      */
     public void setRatingMode(boolean ratingMode) {
         this.ratingMode = ratingMode;
-    }   
+    }
+
 }
