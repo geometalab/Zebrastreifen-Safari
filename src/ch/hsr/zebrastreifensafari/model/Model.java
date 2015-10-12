@@ -9,6 +9,7 @@ import java.util.List;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,11 +27,12 @@ public class Model {
 
     public Model() {
         ratingMode = false;
-        users = DataServiceLoader.getZebraData().getUsers();
+        ratings = new ArrayList<Rating>();
         illuminations = DataServiceLoader.getZebraData().getIlluminations();
         overviews = DataServiceLoader.getZebraData().getOverviews();
         traffics = DataServiceLoader.getZebraData().getTraffics();
         reloadZebra();
+        reloadUsers();
     }
 
     public void reloadZebra() {
@@ -41,9 +43,13 @@ public class Model {
         ratings = DataServiceLoader.getZebraData().getRatings(zebracrossing);
     }
 
-    public User getUser(int id){
-        for(User user : users){
-            if(user.getUserId() == id){
+    public void reloadUsers() {
+        users = DataServiceLoader.getZebraData().getUsers();
+    }
+
+    public User getUser(int id) {
+        for (User user : users) {
+            if (user.getUserId() == id) {
                 return user;
             }
         }
@@ -61,9 +67,9 @@ public class Model {
         return null;
     }
 
-    public Zebracrossing getZebracrossing(int id){
-        for(Zebracrossing zebracrossing : zebras){
-            if(zebracrossing.getZebracrossingId() == id){
+    public Zebracrossing getZebracrossing(int id) {
+        for (Zebracrossing zebracrossing : zebras) {
+            if (zebracrossing.getZebracrossingId() == id) {
                 return zebracrossing;
             }
         }
@@ -72,8 +78,8 @@ public class Model {
     }
 
     public Zebracrossing getZebracrossing(long node) {
-        for(Zebracrossing zebracrossing: zebras){
-            if(zebracrossing.getNode() == node){
+        for (Zebracrossing zebracrossing : zebras) {
+            if (zebracrossing.getNode() == node) {
                 return zebracrossing;
             }
         }
@@ -81,9 +87,9 @@ public class Model {
         return null;
     }
 
-    public Rating getRating(int id){
-        for(Rating rating : ratings){
-            if(rating.getRatingId() == id){
+    public Rating getRating(int id) {
+        for (Rating rating : ratings) {
+            if (rating.getRatingId() == id) {
                 return rating;
             }
         }
@@ -92,8 +98,8 @@ public class Model {
     }
 
     public Illumination getIllumination(int id) {
-        for(Illumination illumination : illuminations){
-            if(illumination.getIlluminationId() == id){
+        for (Illumination illumination : illuminations) {
+            if (illumination.getIlluminationId() == id) {
                 return illumination;
             }
         }
@@ -102,8 +108,8 @@ public class Model {
     }
 
     public Overview getOverview(int id) {
-        for(Overview overview : overviews){
-            if(overview.getOverviewId() == id){
+        for (Overview overview : overviews) {
+            if (overview.getOverviewId() == id) {
                 return overview;
             }
         }
@@ -112,8 +118,8 @@ public class Model {
     }
 
     public Traffic getTraffic(int id) {
-        for(Traffic traffic : traffics){
-            if(traffic.getTrafficId() == id){
+        for (Traffic traffic : traffics) {
+            if (traffic.getTrafficId() == id) {
                 return traffic;
             }
         }
@@ -155,5 +161,4 @@ public class Model {
     public void setRatingMode(boolean ratingMode) {
         this.ratingMode = ratingMode;
     }
-
 }

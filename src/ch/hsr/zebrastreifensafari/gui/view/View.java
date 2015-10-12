@@ -186,17 +186,17 @@ public class View extends JFrame implements Observer {
         if (!model.isRatingMode()) {
             gc = new CreateZebracrossingGUI(model, this);
         } else {
-            gc = new CreateRatingGUI(model, getSelectedRatingFromTable().getZebracrossingFk().getNode(), this);
+            gc = new CreateRatingGUI(model, getRatingFromTable().getZebracrossingFk().getNode(), this);
         }
 
         gc.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void changeButtonActionPerformed(ActionEvent evt) {                                             
-        UpdateGUI ug = new UpdateGUI(model, model.getRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())), this);
+    private void changeButtonActionPerformed(ActionEvent evt) {
+        UpdateGUI ug = new UpdateGUI(model, getRatingFromTable(), this);
         ug.setVisible(rootPaneCheckingEnabled);
 
-    }                                            
+    }
 
     private void deleteButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         if (!model.isRatingMode()) {
@@ -206,14 +206,24 @@ public class View extends JFrame implements Observer {
             DataServiceLoader.getZebraData().removeRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
             model.getRatings().remove(jTable1.getSelectedRow());
         }
-       
+
         addDataToTable();
         setDefaultSelection();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void updateDBButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDBButtonActionPerformed
-        model.reloadZebra();
+        if (model.isRatingMode()) {
+            model.reloadRating(getRatingFromTable().getZebracrossingFk());
+        } else {
+            model.reloadZebra();
+        }
+        model.reloadUsers();
+        addDataToTable();
     }//GEN-LAST:event_updateDBButtonActionPerformed
+
+    public Rating getRatingFromTable() {
+        return model.getRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow() == -1? 0:jTable1.getSelectedRow(), 0).toString()));
+    }
 
     public TableModel getCurrentTableModel() {
         if (!model.isRatingMode()) {
@@ -222,9 +232,6 @@ public class View extends JFrame implements Observer {
         return ratingTM;
     }
 
-    public Rating getSelectedRatingFromTable() {
-        return model.getRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-    }
 
     public void addDataToTable() {
         zebraTM.setRowCount(0);

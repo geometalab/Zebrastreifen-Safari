@@ -28,8 +28,6 @@ public class CreateRatingGUI extends CreateUpdateGUI {
     protected void onSendClick() {
         Zebracrossing z = model.getZebracrossing(node);
 
-        System.out.println(z.getZebracrossingId());
-
         Rating r = new Rating(null,
                 CommentsTA.getText(),
                 model.getIllumination(getSelectedButtonInt(buttonGroup2)),
