@@ -91,4 +91,13 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
             Logger.getLogger(ZebracrossingDataService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    @Override
+    public void updateZebracrossing(Zebracrossing zebracrossing) {
+        try {
+            new ZebracrossingJpaController(emFactory).edit(zebracrossing);
+        } catch (Exception ex) {
+            Logger.getLogger(ZebracrossingDataService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

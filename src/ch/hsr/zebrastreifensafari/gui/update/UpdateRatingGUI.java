@@ -17,52 +17,47 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
 
     private Rating rating;
 
-    public UpdateRatingGUI(Model model, Rating rating, View view) {
-        super(model, view);
+    public UpdateRatingGUI(Model model, View view, Rating rating) {
+        super(model, view, "Update the rating from " + rating.getUserFk().getName() + " for the zebracrossing " + rating.getZebracrossingFk().getNode());
         this.rating = rating;
-        updateComponents();
+        setValues();
+        jLabel1.setVisible(false);
+        jLabel7.setVisible(false);
+        osmNode.setVisible(false);
+        imageTF.setVisible(false);
+        chooseFile.setVisible(false);
     }
 
     @Override
     protected void onSendClick() {
-        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), file == null ? null : file.getName(), null);
-
-        rating.setComment(CommentsTA.getText());
+        rating.setUserFk(model.getUser((String) usersCB.getSelectedItem()));
         rating.setIlluminationFk(model.getIllumination(getSelectedButtonInt(buttonGroup2)));
         rating.setOverviewFk(model.getOverview(getSelectedButtonInt(buttonGroup1)));
         rating.setTrafficFk(model.getTraffic(getSelectedButtonInt(buttonGroup3)));
-        rating.setZebracrossingFk(model.getZebracrossing(z.getNode()));
-        rating.setUserFk(model.getUser((String) usersCB.getSelectedItem()));
+        rating.setComment(CommentsTA.getText());
         DataServiceLoader.getZebraData().updateRating(rating);
-
-        observable.notifyObservers(null);
-
+        observable.notifyObservers(rating.getZebracrossingFk());
         this.dispose();
     }
 
     public void setButtonGroupValue(ButtonGroup bg, int selectedButtonInt) {
-        int counter = 1;
-        for (Enumeration<AbstractButton> buttons = bg.getElements(); buttons.hasMoreElements();) {
+        Enumeration<AbstractButton> buttons = bg.getElements();
+
+        for (int counter = 1; buttons.hasMoreElements(); counter++) {
             AbstractButton button = buttons.nextElement();
 
             if (counter == selectedButtonInt) {
                 button.setSelected(true);
                 return;
             }
-
-            counter++;
-
         }
-
     }
 
-    private void updateComponents() {
-        CommentsTA.setText(rating.getComment() == null ? "": rating.getComment());
-        osmNode.setText(Long.toString(model.getZebracrossing(rating.getZebracrossingFk().getZebracrossingId()).getNode()));
-        imageTF.setText(model.getZebracrossing(rating.getZebracrossingFk().getZebracrossingId()).getImage() == null ? "" : model.getZebracrossing(rating.getZebracrossingFk().getZebracrossingId()).getImage());
+    private void setValues() {
+        usersCB.setSelectedItem(rating.getUserFk().getName());
         setButtonGroupValue(buttonGroup1, rating.getOverviewFk().getOverviewId());
         setButtonGroupValue(buttonGroup2, rating.getIlluminationFk().getIlluminationId());
         setButtonGroupValue(buttonGroup3, rating.getTrafficFk().getTrafficId());
-        usersCB.setSelectedItem(rating.getUserFk().getName());
+        CommentsTA.setText(rating.getComment() == null ? "": rating.getComment());
     }
 }

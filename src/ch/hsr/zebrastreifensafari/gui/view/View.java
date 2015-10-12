@@ -11,6 +11,7 @@ import javax.swing.table.TableModel;
 
 import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
 import ch.hsr.zebrastreifensafari.gui.update.UpdateRatingGUI;
+import ch.hsr.zebrastreifensafari.gui.update.UpdateZebracrossingGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.gui.create.*;
 import ch.hsr.zebrastreifensafari.model.Model;
@@ -50,7 +51,6 @@ public class View extends JFrame implements Observer {
         };
 
         initComponents();
-        changeButton.setEnabled(false);
         this.setTitle("Zebrastreifen Administration Tool");
         addDataToTable();
     }
@@ -108,7 +108,7 @@ public class View extends JFrame implements Observer {
         updateDBButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ch/hsr/zebrastreifensafari/gui/view/images/RefreshIcon.png"))); // NOI18N
         updateDBButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateDBButtonActionPerformed(evt);
+                reloadButtonActionPerformed(evt);
             }
         });
 
@@ -161,89 +161,107 @@ public class View extends JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void switchButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
-        model.setRatingMode(!model.isRatingMode());
+        try {
+            model.setRatingMode(!model.isRatingMode());
 
-        if (!model.isRatingMode()) {
-            switchButton.setText("Bewertungen");
-            changeButton.setEnabled(false);
-        } else {
-            model.reloadRating(model.getZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString())));
-            switchButton.setText("Zebrastreifen");
-            changeButton.setEnabled(true);
+            if (model.isRatingMode()) {
+                model.reloadRating(getZebracrossingFromTable());
+                switchButton.setText("Zebrastreifen");
+            } else {
+                model.reloadZebracrossing();
+                switchButton.setText("Bewertungen");
+            }
+
+            jTable1.setModel(getCurrentTableModel());
+            addDataToTable();
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+            JOptionPane.showMessageDialog(this, "There is no selected zebracrossing", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        jTable1.setModel(getCurrentTableModel());
-        addDataToTable();
     }//GEN-LAST:event_switchButtonActionPerformed
 
     private void addButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        CreateUpdateGUI createGui;
+        CreateUpdateGUI createGUI;
 
-        if (!model.isRatingMode()) {
-            createGui = new CreateZebracrossingGUI(model, this);
+        if (model.isRatingMode()) {
+            createGUI = new CreateRatingGUI(model, this, getRatingFromTable().getZebracrossingFk().getNode());
         } else {
-            createGui = new CreateRatingGUI(model, getRatingFromTable().getZebracrossingFk().getNode(), this);
+            createGUI = new CreateZebracrossingGUI(model, this);
         }
 
-        createGui.setVisible(true);
+        createGUI.setVisible(true);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void changeButtonActionPerformed(ActionEvent evt) {
-        CreateUpdateGUI updateGui = new UpdateRatingGUI(model, getRatingFromTable(), this);
-        updateGui.setVisible(true);
+        try {
+            CreateUpdateGUI updateGUI;
+
+            if (model.isRatingMode()) {
+                updateGUI = new UpdateRatingGUI(model, this, getRatingFromTable());
+            } else {
+                updateGUI = new UpdateZebracrossingGUI(model, this, getZebracrossingFromTable());
+            }
+
+            updateGUI.setVisible(true);
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+            JOptionPane.showMessageDialog(this, "There is no data selected to change", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void deleteButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         try {
-            if (!model.isRatingMode()) {
-                DataServiceLoader.getZebraData().removeZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-                model.getZebras().remove(jTable1.getSelectedRow());
-            } else {
-                DataServiceLoader.getZebraData().removeRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+            if (model.isRatingMode()) {
+                DataServiceLoader.getZebraData().removeRating(getRatingFromTable().getRatingId());
                 model.getRatings().remove(jTable1.getSelectedRow());
+            } else {
+                DataServiceLoader.getZebraData().removeZebracrossing(getZebracrossingFromTable().getZebracrossingId());
+                model.getZebracrossings().remove(jTable1.getSelectedRow());
             }
 
+            addDataToTable();
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             JOptionPane.showMessageDialog(this, "There is no data to delete", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        addDataToTable();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void updateDBButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDBButtonActionPerformed
+    private void reloadButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_updateDBButtonActionPerformed
         if (model.isRatingMode()) {
             model.reloadRating(getRatingFromTable().getZebracrossingFk());
         } else {
-            model.reloadZebra();
+            model.reloadZebracrossing();
         }
 
         model.reloadUsers();
         addDataToTable();
     }//GEN-LAST:event_updateDBButtonActionPerformed
 
+    public Zebracrossing getZebracrossingFromTable() {
+        return model.getZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow() == -1 ? 0 : jTable1.getSelectedRow(), 0).toString()));
+    }
+    //todo: überarbeiten (schmeisst exceptions)
     public Rating getRatingFromTable() {
         return model.getRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow() == -1 ? 0 : jTable1.getSelectedRow(), 0).toString()));
     }
 
     public TableModel getCurrentTableModel() {
-        if (!model.isRatingMode()) {
-            return zebraTM;
+        if (model.isRatingMode()) {
+            return ratingTM;
         }
-        return ratingTM;
+
+        return zebraTM;
     }
 
     public void addDataToTable() {
         zebraTM.setRowCount(0);
         ratingTM.setRowCount(0);
 
-        if (!model.isRatingMode()) {
-            for (Zebracrossing z : model.getZebras()) {
-                zebraTM.addRow(new String[]{z.getZebracrossingId().toString(), Long.toString(z.getNode()), z.getImage()});
-            }
-        } else {
+        if (model.isRatingMode()) {
             for (Rating r : model.getRatings()) {
                 ratingTM.addRow(new String[]{r.getRatingId().toString(), r.getUserFk().getName(), r.getTrafficFk().getTrafficValue(),
-                    r.getOverviewFk().getOverviewValue(), r.getIlluminationFk().getIlluminationValue(), r.getComment() == null ? "" : r.getComment()});
+                        r.getOverviewFk().getOverviewValue(), r.getIlluminationFk().getIlluminationValue(), r.getComment() == null ? "" : r.getComment()});
+            }
+        } else {
+            for (Zebracrossing z : model.getZebracrossings()) {
+                zebraTM.addRow(new String[]{z.getZebracrossingId().toString(), Long.toString(z.getNode()), z.getImage()});
             }
         }
 
@@ -252,10 +270,10 @@ public class View extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof Rating) {
-            model.getRatings().add((Rating) arg);
-        } else if (arg instanceof Zebracrossing) {
-            model.getZebras().add((Zebracrossing) arg);
+        if (arg instanceof Zebracrossing) {
+            model.reloadRating((Zebracrossing)arg);
+        } else {
+            model.reloadZebracrossing();
         }
 
         addDataToTable();

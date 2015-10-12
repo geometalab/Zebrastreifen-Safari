@@ -50,10 +50,14 @@ public class Zebracrossing implements Serializable {
     }
 
     public Zebracrossing(Integer zebracrossingId, long node, String image, List<Rating> ratingList) {
+        this(node, image);
         this.zebracrossingId = zebracrossingId;
+        this.ratingList = ratingList;
+    }
+
+    public Zebracrossing(long node, String image) {
         this.node = node;
         this.image = image;
-        this.ratingList = ratingList;
     }
 
     public Zebracrossing(Integer zebracrossingId) {
