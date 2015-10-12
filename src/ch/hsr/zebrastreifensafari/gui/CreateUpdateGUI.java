@@ -20,14 +20,14 @@ import ch.hsr.zebrastreifensafari.model.Model;
  *
  * @author aeugster
  */
-public abstract class CreateUpdateGUI extends JFrame {
+public abstract class CreateUpdateGUI extends JDialog {
 
     protected File file;
     protected ObservableHelper observable;
     protected Model model;
 
     public CreateUpdateGUI(Model model, View view) {
-
+        super(view, "", true);
         this.model = model;
         observable = new ObservableHelper();
         observable.addObserver(view);
@@ -77,7 +77,7 @@ public abstract class CreateUpdateGUI extends JFrame {
         chooseFile = new javax.swing.JButton();
         imageTF = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setText("OSM Node");
