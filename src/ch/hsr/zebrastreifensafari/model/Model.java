@@ -17,8 +17,8 @@ import java.util.Observer;
  *
  * @author aeugster
  */
-public class Model{
-    
+public class Model {
+
     private boolean ratingMode;
     private List<Zebracrossing> zebras;
     private List<Rating> ratings;
@@ -28,27 +28,30 @@ public class Model{
         zebras = DataServiceLoader.getZebraData().getZebracrossings();
         ratings = new ArrayList<Rating>();
     }
-    
-    public Rating getRatingById(int id){
-        for(Rating r: ratings){
-            if(r.getRatingId() == id){
+
+    public Rating getRatingById(int id) {
+        for (Rating r : ratings) {
+            if (r.getRatingId() == id) {
                 return r;
             }
         }
 
         return null;
     }
-    
-    public Zebracrossing getZebrasById(int id){
-        for(Zebracrossing z: zebras){
-            if(z.getZebracrossingId()== id){
+
+    public Zebracrossing getZebrasById(int id) {
+        for (Zebracrossing z : zebras) {
+            if (z.getZebracrossingId() == id) {
                 return z;
             }
         }
 
         return null;
     }
-    
+
+    public void refresh() {
+        zebras = DataServiceLoader.getZebraData().getZebracrossings();
+    }
 
     /**
      * @return the zebras
@@ -90,5 +93,6 @@ public class Model{
      */
     public void setRatingMode(boolean ratingMode) {
         this.ratingMode = ratingMode;
-    }   
+    }
+
 }
