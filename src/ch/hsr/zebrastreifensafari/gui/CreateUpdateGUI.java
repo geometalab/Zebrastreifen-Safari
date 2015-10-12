@@ -25,8 +25,8 @@ public abstract class CreateUpdateGUI extends JDialog {
     protected ObservableHelper observable;
     protected Model model;
 
-    public CreateUpdateGUI(Model model, View view) {
-        super(view, "", true);
+    public CreateUpdateGUI(Model model, View view, String title) {
+        super(view, title, true);
         this.model = model;
         observable = new ObservableHelper();
         observable.addObserver(view);
@@ -35,8 +35,6 @@ public abstract class CreateUpdateGUI extends JDialog {
         for (User u : model.getUsers()) {
             usersCB.addItem(u.getName());
         }
-
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**

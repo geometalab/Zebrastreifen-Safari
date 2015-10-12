@@ -35,4 +35,5 @@ public interface IZebracrossingDataService {
 
     void updateRating(Rating rating);
 
+    void updateZebracrossing(Zebracrossing zebracrossing);
 }

@@ -19,7 +19,7 @@ public class Model {
 
     private boolean ratingMode;
     private List<User> users;
-    private List<Zebracrossing> zebras;
+    private List<Zebracrossing> zebracrossings;
     private List<Rating> ratings;
     private List<Illumination> illuminations;
     private List<Overview> overviews;
@@ -31,12 +31,12 @@ public class Model {
         illuminations = DataServiceLoader.getZebraData().getIlluminations();
         overviews = DataServiceLoader.getZebraData().getOverviews();
         traffics = DataServiceLoader.getZebraData().getTraffics();
-        reloadZebra();
+        reloadZebracrossing();
         reloadUsers();
     }
 
-    public void reloadZebra() {
-        zebras = DataServiceLoader.getZebraData().getZebracrossings();
+    public void reloadZebracrossing() {
+        zebracrossings = DataServiceLoader.getZebraData().getZebracrossings();
     }
 
     public void reloadRating(Zebracrossing zebracrossing) {
@@ -45,16 +45,6 @@ public class Model {
 
     public void reloadUsers() {
         users = DataServiceLoader.getZebraData().getUsers();
-    }
-
-    public User getUser(int id) {
-        for (User user : users) {
-            if (user.getUserId() == id) {
-                return user;
-            }
-        }
-
-        return null;
     }
 
     public User getUser(String name) {
@@ -68,7 +58,7 @@ public class Model {
     }
 
     public Zebracrossing getZebracrossing(int id) {
-        for (Zebracrossing zebracrossing : zebras) {
+        for (Zebracrossing zebracrossing : zebracrossings) {
             if (zebracrossing.getZebracrossingId() == id) {
                 return zebracrossing;
             }
@@ -78,7 +68,7 @@ public class Model {
     }
 
     public Zebracrossing getZebracrossing(long node) {
-        for (Zebracrossing zebracrossing : zebras) {
+        for (Zebracrossing zebracrossing : zebracrossings) {
             if (zebracrossing.getNode() == node) {
                 return zebracrossing;
             }
@@ -137,8 +127,8 @@ public class Model {
     /**
      * @return the zebras
      */
-    public List<Zebracrossing> getZebras() {
-        return zebras;
+    public List<Zebracrossing> getZebracrossings() {
+        return zebracrossings;
     }
 
     /**

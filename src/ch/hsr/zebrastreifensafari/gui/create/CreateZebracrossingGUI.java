@@ -7,6 +7,8 @@ import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
+import javax.swing.*;
+
 /**
  *
  * @author aeugster
@@ -14,29 +16,30 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 public class CreateZebracrossingGUI extends CreateUpdateGUI {
 
     public CreateZebracrossingGUI(Model model, View view) {
-        super(model, view);
+        super(model, view, "Create a new zebracrossing");
     }
 
     @Override
     protected void onSendClick() {
-        Zebracrossing z = new Zebracrossing(null, Long.parseLong(osmNode.getText()), file == null ? null : file.getName(), null);
+        try {
+            long osmNode = Long.parseLong(this.osmNode.getText());
 
-        if (DataServiceLoader.getZebraData().getZebracrossings().stream().filter(zebracrossing -> zebracrossing.getNode() == z.getNode()).count() == 0) {
-            DataServiceLoader.getZebraData().addZebracrossing(z);
-            observable.notifyObservers(z);
+            if (model.getZebracrossing(osmNode) == null) {
+                DataServiceLoader.getZebraData().addZebracrossing(new Zebracrossing(osmNode, file == null ? null : file.getName()));
+                observable.notifyObservers(null);
+            }
+
+            DataServiceLoader.getZebraData().addRating(
+                    new Rating(null,
+                            CommentsTA.getText(),
+                            model.getIllumination(getSelectedButtonInt(buttonGroup2)),
+                            model.getOverview(getSelectedButtonInt(buttonGroup1)),
+                            model.getTraffic(getSelectedButtonInt(buttonGroup3)),
+                            model.getUser((String) usersCB.getSelectedItem()),
+                            model.getZebracrossing(osmNode)));
+            this.dispose();
+        } catch (NumberFormatException nfex) {
+            JOptionPane.showMessageDialog(this, "The Node needs to be a number", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        Rating r = new Rating(null,
-                CommentsTA.getText(),
-                model.getIllumination(getSelectedButtonInt(buttonGroup2)),
-                model.getOverview(getSelectedButtonInt(buttonGroup1)),
-                model.getTraffic(getSelectedButtonInt(buttonGroup3)),
-                model.getUser((String) usersCB.getSelectedItem()),
-                model.getZebracrossing(z.getNode()));
-
-        model.getZebracrossing(z.getNode()).getRatingList().add(r);
-        DataServiceLoader.getZebraData().addRating(r);
-        observable.notifyObservers(r);
-        this.dispose();
     }
 }

@@ -15,28 +15,27 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
     private long node;
 
-    public CreateRatingGUI(Model model, long node, View view) {
-        super(model, view);
+    public CreateRatingGUI(Model model, View view, long node) {
+        super(model, view, "Create a new rating for the zebracrossing " + node);
         this.node = node;
-        osmNode.setText(Long.toString(node));
-        osmNode.setEnabled(false);
+        jLabel1.setVisible(false);
+        jLabel7.setVisible(false);
+        osmNode.setVisible(false);
+        imageTF.setVisible(false);
+        chooseFile.setVisible(false);
     }
 
     @Override
     protected void onSendClick() {
-        Zebracrossing z = model.getZebracrossing(node);
-
-        Rating r = new Rating(null,
+        DataServiceLoader.getZebraData().addRating(
+            new Rating(null,
                 CommentsTA.getText(),
                 model.getIllumination(getSelectedButtonInt(buttonGroup2)),
                 model.getOverview(getSelectedButtonInt(buttonGroup1)),
                 model.getTraffic(getSelectedButtonInt(buttonGroup3)),
                 model.getUser((String) usersCB.getSelectedItem()),
-                model.getZebracrossing(z.getNode()));
-
-        model.getZebracrossing(z.getNode()).getRatingList().add(r);
-        DataServiceLoader.getZebraData().addRating(r);
-        observable.notifyObservers(r);
+                model.getZebracrossing(node)));
+        observable.notifyObservers(model.getZebracrossing(node));
         this.dispose();
     }
 }
