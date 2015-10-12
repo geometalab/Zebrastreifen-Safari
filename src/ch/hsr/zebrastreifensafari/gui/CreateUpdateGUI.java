@@ -8,7 +8,6 @@ package ch.hsr.zebrastreifensafari.gui;
 import ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
 import java.io.File;
 import java.util.Enumeration;
-import java.util.List;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
@@ -32,7 +31,7 @@ public abstract class CreateUpdateGUI extends JDialog {
         observable = new ObservableHelper();
         observable.addObserver(view);
         initComponents();
-   
+
         for (User u : model.getUsers()) {
             usersCB.addItem(u.getName());
         }

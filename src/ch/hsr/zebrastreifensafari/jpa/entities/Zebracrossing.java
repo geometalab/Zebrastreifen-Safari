@@ -31,6 +31,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Zebracrossing.findByNode", query = "SELECT z FROM Zebracrossing z WHERE z.node = :node"),
     @NamedQuery(name = "Zebracrossing.findByImage", query = "SELECT z FROM Zebracrossing z WHERE z.image = :image")})
 public class Zebracrossing implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -120,5 +121,5 @@ public class Zebracrossing implements Serializable {
     public String toString() {
         return "entities.Zebracrossing[ zebracrossingId=" + zebracrossingId + " ]";
     }
-    
+
 }

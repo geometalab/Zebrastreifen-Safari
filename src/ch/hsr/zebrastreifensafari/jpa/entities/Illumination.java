@@ -30,6 +30,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Illumination.findByIlluminationId", query = "SELECT i FROM Illumination i WHERE i.illuminationId = :illuminationId"),
     @NamedQuery(name = "Illumination.findByIlluminationValue", query = "SELECT i FROM Illumination i WHERE i.illuminationValue = :illuminationValue")})
 public class Illumination implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,5 +103,5 @@ public class Illumination implements Serializable {
     public String toString() {
         return "entities.Illumination[ illuminationId=" + illuminationId + " ]";
     }
-    
+
 }

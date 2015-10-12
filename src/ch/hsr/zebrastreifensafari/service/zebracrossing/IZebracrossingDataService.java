@@ -11,7 +11,6 @@ import java.util.List;
  * @time : 15:34
  * @date : 08.10.2015
  */
-
 public interface IZebracrossingDataService {
 
     List<User> getUsers();

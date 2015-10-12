@@ -17,7 +17,6 @@ import java.util.logging.Logger;
  * @time : 15:34
  * @date : 08.10.2015
  */
-
 public class ZebracrossingDataService implements IZebracrossingDataService {
 
     private EntityManagerFactory emFactory;
@@ -27,17 +26,17 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
     }
 
     @Override
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return new UserJpaController(emFactory).findUserEntities();
     }
 
     @Override
-    public List<Zebracrossing> getZebracrossings(){
+    public List<Zebracrossing> getZebracrossings() {
         return new ZebracrossingJpaController(emFactory).findZebracrossingEntities();
     }
 
     @Override
-    public List<Rating> getRatings(Zebracrossing zebracrossing){
+    public List<Rating> getRatings(Zebracrossing zebracrossing) {
         return new RatingJpaController(emFactory).findRatingByZebracrossing(zebracrossing);
     }
 
@@ -57,7 +56,7 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
     }
 
     @Override
-    public void removeZebracrossing(int id){
+    public void removeZebracrossing(int id) {
         try {
             new ZebracrossingJpaController(emFactory).destroy(id);
         } catch (NonexistentEntityException neex) {
@@ -66,12 +65,12 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
     }
 
     @Override
-    public void addZebracrossing(Zebracrossing zebra){
+    public void addZebracrossing(Zebracrossing zebra) {
         new ZebracrossingJpaController(emFactory).create(zebra);
     }
 
     @Override
-    public void addRating(Rating rating){
+    public void addRating(Rating rating) {
         new RatingJpaController(emFactory).create(rating);
     }
 

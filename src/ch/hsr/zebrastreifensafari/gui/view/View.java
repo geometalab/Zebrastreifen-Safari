@@ -224,7 +224,7 @@ public class View extends JFrame implements Observer {
     }//GEN-LAST:event_updateDBButtonActionPerformed
 
     public Rating getRatingFromTable() {
-        return model.getRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow() == -1? 0:jTable1.getSelectedRow(), 0).toString()));
+        return model.getRating(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow() == -1 ? 0 : jTable1.getSelectedRow(), 0).toString()));
     }
 
     public TableModel getCurrentTableModel() {
@@ -233,7 +233,6 @@ public class View extends JFrame implements Observer {
         }
         return ratingTM;
     }
-
 
     public void addDataToTable() {
         zebraTM.setRowCount(0);

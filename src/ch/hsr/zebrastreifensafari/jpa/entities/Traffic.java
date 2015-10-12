@@ -30,6 +30,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Traffic.findByTrafficId", query = "SELECT t FROM Traffic t WHERE t.trafficId = :trafficId"),
     @NamedQuery(name = "Traffic.findByTrafficValue", query = "SELECT t FROM Traffic t WHERE t.trafficValue = :trafficValue")})
 public class Traffic implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,5 +103,5 @@ public class Traffic implements Serializable {
     public String toString() {
         return "entities.Traffic[ trafficId=" + trafficId + " ]";
     }
-    
+
 }

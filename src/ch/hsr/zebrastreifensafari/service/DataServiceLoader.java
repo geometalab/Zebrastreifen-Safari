@@ -9,7 +9,6 @@ import ch.hsr.zebrastreifensafari.service.zebracrossing.IZebracrossingDataServic
  * @time : 15:34
  * @date : 08.10.2015
  */
-
 public class DataServiceLoader {
 
     private static IZebracrossingDataService zebracrossingDataService;

@@ -129,10 +129,10 @@ public class ZebracrossingJpaController implements Serializable {
             }
             //When a zebracrossing gets deleted, the ratings should be deleted as well. (on delete cascade)
             /*List<Rating> ratingList = zebracrossing.getRatingList();
-            for (Rating ratingListRating : ratingList) {
-                ratingListRating.setZebracrossingFk(null);
-                ratingListRating = em.merge(ratingListRating);
-            }*/
+             for (Rating ratingListRating : ratingList) {
+             ratingListRating.setZebracrossingFk(null);
+             ratingListRating = em.merge(ratingListRating);
+             }*/
             em.remove(zebracrossing);
             em.getTransaction().commit();
         } finally {
@@ -187,5 +187,5 @@ public class ZebracrossingJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

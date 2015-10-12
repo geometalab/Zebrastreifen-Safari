@@ -186,5 +186,5 @@ public class TrafficJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
