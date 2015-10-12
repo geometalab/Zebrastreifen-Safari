@@ -53,7 +53,6 @@ public class View extends JFrame implements Observer {
         changeButton.setEnabled(false);
         this.setTitle("Zebrastreifen Administration Tool");
         addDataToTable();
-        setDefaultSelection();
     }
 
     /**
@@ -175,9 +174,8 @@ public class View extends JFrame implements Observer {
             changeButton.setEnabled(true);
         }
 
-        addDataToTable();
         jTable1.setModel(getCurrentTableModel());
-        setDefaultSelection();
+        addDataToTable();
     }//GEN-LAST:event_switchButtonActionPerformed
 
     private void addButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -195,7 +193,6 @@ public class View extends JFrame implements Observer {
     private void changeButtonActionPerformed(ActionEvent evt) {
         UpdateGUI ug = new UpdateGUI(model, getRatingFromTable(), this);
         ug.setVisible(rootPaneCheckingEnabled);
-
     }
 
     private void deleteButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -213,7 +210,6 @@ public class View extends JFrame implements Observer {
         }
 
         addDataToTable();
-        setDefaultSelection();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void updateDBButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDBButtonActionPerformed
@@ -222,6 +218,7 @@ public class View extends JFrame implements Observer {
         } else {
             model.reloadZebra();
         }
+
         model.reloadUsers();
         addDataToTable();
     }//GEN-LAST:event_updateDBButtonActionPerformed
@@ -252,9 +249,7 @@ public class View extends JFrame implements Observer {
                     r.getOverviewFk().getOverviewValue(), r.getIlluminationFk().getIlluminationValue(), r.getComment() == null ? "" : r.getComment()});
             }
         }
-    }
 
-    private void setDefaultSelection() {
         jTable1.changeSelection(0, 0, false, false);
     }
 
