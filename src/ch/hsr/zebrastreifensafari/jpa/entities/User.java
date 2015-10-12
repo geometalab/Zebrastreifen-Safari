@@ -28,6 +28,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
     @NamedQuery(name = "User.findByInitials", query = "SELECT u FROM User u WHERE u.initials = :initials")})
 public class User implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,5 +103,5 @@ public class User implements Serializable {
     public String toString() {
         return "ch.hsr.zebrastreifensafari.jpa.entities.User[ userId=" + userId + " ]";
     }
-    
+
 }

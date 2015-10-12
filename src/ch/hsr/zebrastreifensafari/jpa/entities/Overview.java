@@ -30,6 +30,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Overview.findByOverviewId", query = "SELECT o FROM Overview o WHERE o.overviewId = :overviewId"),
     @NamedQuery(name = "Overview.findByOverviewValue", query = "SELECT o FROM Overview o WHERE o.overviewValue = :overviewValue")})
 public class Overview implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,5 +103,5 @@ public class Overview implements Serializable {
     public String toString() {
         return "entities.Overview[ overviewId=" + overviewId + " ]";
     }
-    
+
 }

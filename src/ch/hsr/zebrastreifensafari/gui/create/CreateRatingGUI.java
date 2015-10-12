@@ -2,8 +2,6 @@ package ch.hsr.zebrastreifensafari.gui.create;
 
 import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
 import ch.hsr.zebrastreifensafari.gui.view.View;
-import java.io.File;
-import java.util.List;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;

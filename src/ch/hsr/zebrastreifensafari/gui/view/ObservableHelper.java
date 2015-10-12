@@ -7,8 +7,8 @@ import java.util.Observer;
  *
  * @author aeugster
  */
-public class ObservableHelper extends Observable{
-    
+public class ObservableHelper extends Observable {
+
     @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o);
@@ -25,7 +25,5 @@ public class ObservableHelper extends Observable{
         setChanged();
         super.notifyObservers(arg);
     }
-    
-    
-    
+
 }

@@ -31,6 +31,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Rating.findByComment", query = "SELECT r FROM Rating r WHERE r.comment = :comment"),
     @NamedQuery(name = "Rating.findByZebracrossing", query = "SELECT r FROM Rating r WHERE r.zebracrossingFk = :zebracrossingId")})
 public class Rating implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,8 +72,6 @@ public class Rating implements Serializable {
         this.userFk = userFk;
         this.zebracrossingFk = zebracrossingFk;
     }
-    
-    
 
     public Integer getRatingId() {
         return ratingId;
@@ -154,5 +153,5 @@ public class Rating implements Serializable {
     public String toString() {
         return "entities.Rating[ ratingId=" + ratingId + " ]";
     }
-    
+
 }

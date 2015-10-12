@@ -14,7 +14,6 @@ import ch.hsr.zebrastreifensafari.service.zebracrossing.ZebracrossingDataService
  *
  * @author aeugster
  */
-
 public class Main {
 
     public static void main(String[] args) {

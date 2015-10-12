@@ -186,5 +186,5 @@ public class IlluminationJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
