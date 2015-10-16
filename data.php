@@ -112,6 +112,9 @@ function zebracrossingPoints() {
                 doubleval($row['y'])
             );
         }
+
+        //Get all the osm data and write it into the array
+        $zebracrossings['features'][$i]['properties'] += getOsmData($zebracrossings['features'][$i]['properties']['node'], $gisConnection);
     }
 
     $zebracrossingConnection->closeConnection();
@@ -157,38 +160,8 @@ function zebracrossingDetail($node) {
         "image" => $resultset[0]['image']
     );
 
-    //Get the sloped_curb state
-    //TODO: ask for better implementation
-    //Standard value
-    $sloped_curb = "no";
-    //If there's a sloped_curb on one side
-    $sloped_curb_query = $gisConnection->getState("sloped_curb", "one", $zebracrossing['node']);
-    $resultset = pg_fetch_all($sloped_curb_query);
-
-    if ($resultset) {
-        $sloped_curb = "one";
-    }
-    //If there's a sloped_curb on both sides
-    $sloped_curb_query = $gisConnection->getState("sloped_curb", "both", $zebracrossing['node']);
-    $resultset = pg_fetch_all($sloped_curb_query);
-
-    if ($resultset) {
-        $sloped_curb = "both";
-    }
-
     //Get all the osm data and write it into the array
-    $query = $gisConnection->getGisData($zebracrossing['node']);
-    $resultset = pg_fetch_all($query);
-    $zebracrossing['osm'] = array(
-        "traffic_signals" => $resultset[0]['traffic_signals'] == "f" ? false : true,
-        "island" => $resultset[0]['island'] == "f" ? false : true,
-        "unmarked" => $resultset[0]['unmarked'] == "f" ? false : true,
-        "button_operated" => $resultset[0]['button_operated'] == "f" ? false : true,
-        "slooped_curb" => $sloped_curb,
-        "tactile_paving" => $resultset[0]['tactile_paving'] == "f" ? false : true,
-        "traffic_signals_vibration" => $resultset[0]['traffic_signals_vibration'] == "f" ? false : true,
-        "traffic_signals_sound" => $resultset[0]['traffic_signals_sound'] == "f" ? false : true
-    );
+    $zebracrossing['osm'] = getOsmData($zebracrossing['node'], $gisConnection);
 
     //Get the ratings of the zebracrossing
     $query = $zebracrossingConnection->getRating($zebracrossing['id']);
@@ -269,5 +242,39 @@ function zebracrossingDetail($node) {
     echo "</table>";
     /**/
     return $zebracrossing;
+}
+
+function getOsmData($node, $gisConnection) {
+    //Get the sloped_curb state
+    //TODO: ask for better implementation
+    //Default value
+    $sloped_curb = "no";
+    //If there's a sloped_curb on one side
+    $sloped_curb_query = $gisConnection->getState("sloped_curb", "one", $node);
+    $resultset = pg_fetch_all($sloped_curb_query);
+
+    if ($resultset) {
+        $sloped_curb = "one";
+    }
+    //If there's a sloped_curb on both sides
+    $sloped_curb_query = $gisConnection->getState("sloped_curb", "both", $node);
+    $resultset = pg_fetch_all($sloped_curb_query);
+
+    if ($resultset) {
+        $sloped_curb = "both";
+    }
+
+    $query = $gisConnection->getGisData($node);
+    $resultset = pg_fetch_all($query);
+    return array(
+        "traffic_signals" => $resultset[0]['traffic_signals'] == "f" ? false : true,
+        "island" => $resultset[0]['island'] == "f" ? false : true,
+        "unmarked" => $resultset[0]['unmarked'] == "f" ? false : true,
+        "button_operated" => $resultset[0]['button_operated'] == "f" ? false : true,
+        "slooped_curb" => $sloped_curb,
+        "tactile_paving" => $resultset[0]['tactile_paving'] == "f" ? false : true,
+        "traffic_signals_vibration" => $resultset[0]['traffic_signals_vibration'] == "f" ? false : true,
+        "traffic_signals_sound" => $resultset[0]['traffic_signals_sound'] == "f" ? false : true
+    );
 }
 ?>
