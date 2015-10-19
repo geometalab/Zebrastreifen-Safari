@@ -30,6 +30,8 @@ var json ={
         }
     ]
 };
+/* TODO generate table with javascript instead of html*/
+
 /*changes the value of the table*/
 document.getElementById("node").textContent = json.node;
 document.getElementById("image").src= json.image;
