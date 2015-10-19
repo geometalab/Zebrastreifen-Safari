@@ -13,78 +13,50 @@
 }
 
 .wrapper > * {
-    padding: 10px;
+    padding: 1px;
     flex: 1 100%;
 }
-
+/*Header*/
 .header {
+    margin: 0;
     background-color: #3384B5;
     display: flex;
-    border-bottom: 1px solid black;
     /*justify-content: space-around;*/
     justify-content: space-between;
-
 }
-
 .header-logo {
     display: flex;
-    max-width: 200px;
+    /*max-width: 13%;*/
+    max-width: 115px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .header-logo img {
     display: flex;
     width: 100%;
 }
+.header-text {
+    font-size: 65%;
+}
 .header a{
     text-decoration: none;
     color: white;
 }
-.header h1{
-    max-height:100%
+.buttons img{
+    max-width: 115px;
+    margin-top: 4px;
+    margin-bottom: -16px;
 }
-.dropdown {
-    display: flex;
-    display: -webkit-flex;
-    -webkit-flex-flow:column;
-    -webkit-justify-content: space-between;
-    position: absolute;
-}
-
-.dropdown a {
-    padding: 5px;
-    display: block;
-    background: #0065A3;
-
-}
-.dropdown a:hover {
-    background: #3384B5;
-    color: white;
-}
-
-
-.myButton1:not(:hover):not(:target) > .dropdown {
-    display: none;
-}
-
-
-
-.myButton1 {
-    background-color:#0065A3;
-    display:inline-flex;
-    color: white;
-    font-size:20px;
-    padding:19px 50px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #bdbdbd;
-}
-
-
+/*Header-Buttons*/
 .myButton {
+    margin-top: 5px;
+    margin-bottom: 5px;
     background-color:#0065A3;
     display:inline-flex;
     color:#3d3d3d;
-    font-size:20px;
-    padding:19px 50px;
+    /*font-size:20px;*/
+    padding:14px 50px;
     text-decoration:none;
     text-shadow:0px 1px 0px #bdbdbd;
 }
@@ -95,6 +67,37 @@
     position:relative;
     top:1px;
 }
+/*Dropdown Menu*/
+.dropdown {
+    display: flex;
+    display: -webkit-flex;
+    -webkit-flex-flow:column;
+    -webkit-justify-content: space-between;
+    position: absolute;
+}
+.dropdown a {
+    padding: 5px;
+    display: block;
+    background: #0065A3;
+}
+.dropdown a:hover {
+    background: #3384B5;
+    color: white;
+}
+/*Buttons for the Dropdown-Menu*/
+.myButton1:not(:hover):not(:target) > .dropdown {
+    display: none;
+}
+.myButton1 {
+    background-color:#0065A3;
+    display:inline-flex;
+    color: white;
+    /*font-size:20px;*/
+    padding:14px 25px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #bdbdbd;
+}
+
 
 .main {
     flex: 1;
@@ -139,10 +142,19 @@
     #menu    { display: none; }
 }
 @media all and (max-width: 600px) {
-    .buttons {display: none; }
-    .header-text {
+    .buttons {
+        display: none;
+
+    }
+    .buttons img{
+        display: none;
+    }
+    #menu{
         order: 1;
-        display: inline-block;
+    }
+    .header-text {
+        order: 0;
+        display: flex;
     }
     .header-logo {display: none; }
 }
