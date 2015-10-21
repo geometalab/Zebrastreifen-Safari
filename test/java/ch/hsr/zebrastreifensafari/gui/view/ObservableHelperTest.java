@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui.create;
+package java.ch.hsr.zebrastreifensafari.gui.view;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  * @date : 21.10.2015
  */
 
-public class CreateZebracrossingGUITest {
+public class ObservableHelperTest {
 
     @Before
     public void setUp() throws Exception {
@@ -27,7 +27,17 @@ public class CreateZebracrossingGUITest {
     }
 
     @Test
-    public void testOnSendClick() throws Exception {
+    public void testAddObserver() throws Exception {
+
+    }
+
+    @Test
+    public void testNotifyObservers() throws Exception {
+
+    }
+
+    @Test
+    public void testNotifyObservers1() throws Exception {
 
     }
 }
