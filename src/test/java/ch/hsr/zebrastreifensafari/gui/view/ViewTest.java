@@ -1,7 +1,8 @@
-package java.ch.hsr.zebrastreifensafari.gui;
+package test.java.ch.hsr.zebrastreifensafari.gui.view;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -9,11 +10,11 @@ import static org.junit.Assert.*;
  * @author : Mike Marti
  * @version : 1.0
  * @project : Zebrastreifen-Safari
- * @time : 13:33
+ * @time : 13:38
  * @date : 21.10.2015
  */
 
-public class CreateUpdateGUITest {
+public class ViewTest {
 
     @Before
     public void setUp() throws Exception {
@@ -25,13 +26,8 @@ public class CreateUpdateGUITest {
 
     }
 
-    @org.junit.Test
-    public void testOnSendClick() throws Exception {
-
-    }
-
-    @org.junit.Test
-    public void testGetSelectedButtonInt() throws Exception {
+    @Test
+    public void testUpdate() throws Exception {
 
     }
 }

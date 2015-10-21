@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hsr.zebrastreifensafari.gui.view;
+package main.java.ch.hsr.zebrastreifensafari.gui.view;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -105,7 +104,7 @@ public class View extends JFrame implements Observer {
         jTable1.setModel(getCurrentTableModel());
         jScrollPane1.setViewportView(jTable1);
 
-        updateDBButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/java/ch/hsr/zebrastreifensafari/gui/view/images/RefreshIcon.png"))); // NOI18N
+        updateDBButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/zebrastreifensafari/gui/view/images/RefreshIcon.png"))); // NOI18N
         updateDBButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reloadButtonActionPerformed(evt);

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hsr.zebrastreifensafari.model;
+package main.java.ch.hsr.zebrastreifensafari.model;
 
 import java.util.List;
 
