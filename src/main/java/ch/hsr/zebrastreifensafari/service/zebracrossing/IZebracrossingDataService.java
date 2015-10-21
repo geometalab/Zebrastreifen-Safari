@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.service.zebracrossing;
+package main.java.ch.hsr.zebrastreifensafari.service.zebracrossing;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 

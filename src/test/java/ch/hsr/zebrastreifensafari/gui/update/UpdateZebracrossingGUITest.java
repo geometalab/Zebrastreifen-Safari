@@ -1,4 +1,4 @@
-package java.ch.hsr.zebrastreifensafari.gui.create;
+package test.java.ch.hsr.zebrastreifensafari.gui.update;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  * @date : 21.10.2015
  */
 
-public class CreateZebracrossingGUITest {
+public class UpdateZebracrossingGUITest {
 
     @Before
     public void setUp() throws Exception {

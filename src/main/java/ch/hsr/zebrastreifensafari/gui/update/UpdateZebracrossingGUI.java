@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui.update;
+package main.java.ch.hsr.zebrastreifensafari.gui.update;
 
 import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
 import ch.hsr.zebrastreifensafari.gui.view.View;

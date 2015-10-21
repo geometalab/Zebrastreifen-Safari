@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hsr.zebrastreifensafari.gui;
+package main.java.ch.hsr.zebrastreifensafari.gui;
 
-import ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
+import main.java.ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
 import java.io.File;
 import java.util.Enumeration;
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui.update;
+package main.java.ch.hsr.zebrastreifensafari.gui.update;
 
 import java.util.Enumeration;
 import javax.swing.*;

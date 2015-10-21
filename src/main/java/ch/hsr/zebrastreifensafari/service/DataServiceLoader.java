@@ -1,6 +1,6 @@
-package ch.hsr.zebrastreifensafari.service;
+package main.java.ch.hsr.zebrastreifensafari.service;
 
-import ch.hsr.zebrastreifensafari.service.zebracrossing.IZebracrossingDataService;
+import main.java.ch.hsr.zebrastreifensafari.service.zebracrossing.IZebracrossingDataService;
 
 /**
  * @author : Mike Marti

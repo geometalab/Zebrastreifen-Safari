@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.jpa.controllers.exceptions;
+package main.java.ch.hsr.zebrastreifensafari.jpa.controllers.exceptions;
 
 public class PreexistingEntityException extends Exception {
 
