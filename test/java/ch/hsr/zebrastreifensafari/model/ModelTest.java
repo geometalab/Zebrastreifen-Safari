@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.model;
+package java.ch.hsr.zebrastreifensafari.model;
 
 import org.junit.After;
 import org.junit.Before;
