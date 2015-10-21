@@ -8,17 +8,19 @@ package main.java.ch.hsr.zebrastreifensafari.gui.view;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
-import ch.hsr.zebrastreifensafari.gui.update.UpdateRatingGUI;
-import ch.hsr.zebrastreifensafari.gui.update.UpdateZebracrossingGUI;
-import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.gui.create.*;
-import ch.hsr.zebrastreifensafari.model.Model;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import main.java.ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
+import main.java.ch.hsr.zebrastreifensafari.gui.update.UpdateRatingGUI;
+import main.java.ch.hsr.zebrastreifensafari.gui.update.UpdateZebracrossingGUI;
+import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
+import main.java.ch.hsr.zebrastreifensafari.gui.create.*;
+import main.java.ch.hsr.zebrastreifensafari.model.Model;
+import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 import java.awt.event.ActionEvent;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
