@@ -1,10 +1,10 @@
 package main.java.ch.hsr.zebrastreifensafari.gui.update;
 
-import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
-import ch.hsr.zebrastreifensafari.gui.view.View;
-import ch.hsr.zebrastreifensafari.jpa.entities.Zebracrossing;
-import ch.hsr.zebrastreifensafari.model.Model;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import main.java.ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
+import main.java.ch.hsr.zebrastreifensafari.gui.view.View;
+import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Zebracrossing;
+import main.java.ch.hsr.zebrastreifensafari.model.Model;
+import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 import javax.swing.*;
 import java.awt.*;

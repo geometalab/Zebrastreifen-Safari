@@ -7,8 +7,8 @@ package main.java.ch.hsr.zebrastreifensafari.model;
 
 import java.util.List;
 
-import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
+import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import java.util.ArrayList;
 
 /**
