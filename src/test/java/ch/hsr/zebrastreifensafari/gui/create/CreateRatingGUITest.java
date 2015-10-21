@@ -1,4 +1,4 @@
-package test.ch.hsr.zebrastreifensafari.gui.view;
+package ch.hsr.zebrastreifensafari.gui.create;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,11 +10,11 @@ import static org.junit.Assert.*;
  * @author : Mike Marti
  * @version : 1.0
  * @project : Zebrastreifen-Safari
- * @time : 13:38
+ * @time : 13:35
  * @date : 21.10.2015
  */
 
-public class ViewTest {
+public class CreateRatingGUITest {
 
     @Before
     public void setUp() throws Exception {
@@ -27,7 +27,7 @@ public class ViewTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    public void testOnSendClick() throws Exception {
 
     }
 }

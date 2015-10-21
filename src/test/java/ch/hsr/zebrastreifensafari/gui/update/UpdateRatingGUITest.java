@@ -1,4 +1,4 @@
-package test.ch.hsr.zebrastreifensafari.gui.view;
+package ch.hsr.zebrastreifensafari.gui.update;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  * @date : 21.10.2015
  */
 
-public class ObservableHelperTest {
+public class UpdateRatingGUITest {
 
     @Before
     public void setUp() throws Exception {
@@ -27,17 +27,12 @@ public class ObservableHelperTest {
     }
 
     @Test
-    public void testAddObserver() throws Exception {
+    public void testOnSendClick() throws Exception {
 
     }
 
     @Test
-    public void testNotifyObservers() throws Exception {
-
-    }
-
-    @Test
-    public void testNotifyObservers1() throws Exception {
+    public void testSetButtonGroupValue() throws Exception {
 
     }
 }
