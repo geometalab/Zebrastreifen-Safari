@@ -20,8 +20,15 @@ function barchartStatistic() {
     for ($i = 0; $i < count($resultset); $i++) {
         //Formate the date
         $resultset[$i]['week'] = /*date('Y-m-d', strtotime($resultset[$i]['week'])).' - '.*/date('Y-m-d', strtotime("+7 day", strtotime($resultset[$i]['week'])));
-        //Needs to be casted to an integer
-        $resultset[$i]['amount'] = intval($resultset[$i]['amount']);
+
+        if ($i != 0) {
+            //Makes automatically an integer
+            //Adds this week to all the previous ones
+            $resultset[$i]['amount'] += $resultset[$i - 1]['amount'];
+        } else {
+            //First one needs to be casted to an integer
+            $resultset[$i]['amount'] = intval($resultset[$i]['amount']);
+        }
     }
 
     $statisticConnection->closeConnection();
@@ -52,14 +59,8 @@ function linechartStatistic() {
         //Formate the date
         $resultset[$i]['week'] = /*date('Y-m-d', strtotime($resultset[$i]['week'])).' - '.*/date('Y-m-d', strtotime("+7 day", strtotime($resultset[$i]['week'])));
 
-        if ($i != 0) {
-            //Makes automatically an integer
-            //Adds this week to all the previous ones
-            $resultset[$i]['total'] += $resultset[$i - 1]['total'];
-        } else {
-            //First one needs to be casted to an integer
-            $resultset[$i]['total'] = intval($resultset[$i]['total']);
-        }
+        //Needs to be casted to an integer
+        $resultset[$i]['total'] = intval($resultset[$i]['total']);
     }
 
     $statisticConnection->closeConnection();
@@ -246,22 +247,23 @@ function zebracrossingDetail($node) {
 
 function getOsmData($node, $gisConnection) {
     //Get the sloped_curb state
-    //TODO: ask for better implementation
     //Default value
     $sloped_curb = "no";
+
     //If there's a sloped_curb on one side
     $sloped_curb_query = $gisConnection->getState("sloped_curb", "one", $node);
     $resultset = pg_fetch_all($sloped_curb_query);
 
     if ($resultset) {
         $sloped_curb = "one";
-    }
-    //If there's a sloped_curb on both sides
-    $sloped_curb_query = $gisConnection->getState("sloped_curb", "both", $node);
-    $resultset = pg_fetch_all($sloped_curb_query);
+    } else {
+        //If there's a sloped_curb on both sides
+        $sloped_curb_query = $gisConnection->getState("sloped_curb", "both", $node);
+        $resultset = pg_fetch_all($sloped_curb_query);
 
-    if ($resultset) {
-        $sloped_curb = "both";
+        if ($resultset) {
+            $sloped_curb = "both";
+        }
     }
 
     $query = $gisConnection->getGisData($node);
