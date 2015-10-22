@@ -1,101 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
+<html>
+<head>
+    <title>Zebrastreifensafari</title>
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
 
-        <meta charset="UTF-8">
-        <!-- Stops unwanted scaling -->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <!-- import own Stylesheet -->
-        <link id="size-stylesheet" rel="stylesheet" href="css/style.css"/>
-        <title>Zebrastreifen-Safari</title>
-    </head>
-    <body>
-        <!--Container for the body-->
-        <div class="wrapper">
-            <!-- Container for the header -->
-            <header class="header">
-                <div class="header-text">
-                    <a href="index.html">
-                        <h1>Zebrastreifen-Safari</h1>
-                    </a>
-                </div>
-                <!-- Container for the Buttons -->
-                <div class="test">
-                <div class="buttons">
-                    <a href="map.html" class="myButton">Karte</a>
-                    <a href="project.html" class="myButton">&Uuml;ber das Projekt</a>
-                    <div class=myButton1>Menu &raquo;
-                          <span class=dropdown>
-                            <a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Kontakt">Feedback</a>
-                            <a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Terms_of_Use">Terms of Use</a>
-                            <a href="http://geometalab.tumblr.com/">Geometa Lab Blog</a>
-                          </span>
-                    </div>
-                    <a href="http://i.hsr.ch">
-                        <img src="css/hsrlogo.jpg" alt="HSR-Logo"/>
-                    </a>
-                </div>
-                <!--<div class="header-logo">-->
 
-                <!--</div>-->
-                </div>
+    <!--Using Media Queries, if the viewport is smaller than 700px use another stylesheet-->
+    <link rel="stylesheet" type="text/css" media="all" href="css/style.css"/>
+</head>
 
-            </header>
-            <!-- Container for the Content on the website -->
-            <article class="main">
-                <h1>
-                    Was ist der Zweck der Zebrastreifen-Safari?
-                </h1>
-                <p>
-                    Bei der Erfassung dieser Daten geht es nicht nur um die <b>Sicherheit von Fussgängern</b> sondern auch um die <b>Verbesserung der Navigation
-                    von Fussgängern</b>. Davon profitieren auch Sehbehinderte und Rollstuhlfahrer, für die
-                    Fussgängerstreifen eine besonders wichtige Information ist. Zudem wird im Herbstsemester am Geometa Lab der HSR ein Projekt zur
-                    automatischen Erkennung (weltweit) von aus Satellitenbildern durchgeführt. Die bereits eingetragenen Fussgängerstreifen dienen dann zur
-                    Qualitätskontrolle. Dieses Verfahren wird nicht alle Fussgängerstreifen erkennen - besonders nicht in Stadtgebieten - und wird die Daten
-                    auch nicht direkt in OpenStreetMap hochladen. Dafür wird ein kleines Spiel (<a href="http://maproulette.org/">MapRoulette</a> - noch nicht gestartet)
-                    eingesetzt - aber davon später.
-                </p>
-                <!-- Container for the Charts -->
-                <div class="chart">
-                    <h1>Gesamtanzahl der eingetragenen Zebrastreifen</h1>
-                    <canvas id="linecanvas"></canvas>
-                    <p>*Zeb = Zebrastreifen</p>
-                    <h1>Einträge der letzten 10 Wochen</h1>
-                    <canvas id="barcanvas"></canvas>
-                    <p>*Zeb = Zebrastreifen</p>
-                </div>
-            </article>
-            <!-- Container for the Sidebar/ Twitter -->
-            <aside class="aside aside-2">
-                <a class="twitter-timeline" href="https://twitter.com/ZebrasafariHSR" data-widget-id="645935557948932100" data-chrome="transparent" width="100%" max-width="520" min-width="180">
-                    Tweets von @ZebrasafariHSR
-                </a>
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
-                    if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}
-                    (document,"script","twitter-wjs");
-                </script>
-            </aside>
-            <!-- Container for the footer
-            <footer class="footer">
-                <h3>Kontakt:</h3>
-                <p>
-                    Anfragen zum Zebrastreifen-Safari-Projekt und zur Micro Mapping Party: Prof. Stefan Keller - <a href="http://wiki.hsr.ch/StefanKeller/Kontakt">Kontakt</a> <br/><br/>
-                    Anfragen zum Informatik-Studium: <a href="http://www.hsr.ch">www.hsr.ch</a>, Tel. (0)55 222 41 11
-                </p>
-                <p>
-                    &copy; by Praktikanten HSR 2015
-                </p>
-            </footer> -->
+<body>
+
+<!--This wrapping container is used to get the width of the whole content-->
+<div id="container">
+    <div>
+    <!--The Hamburger Button in the Header-->
+    <header>
+        <div id="navigation">
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-    </body>
-    <!-- Import Js libs -->
-    <script type="text/javascript" src="libs/script/Chart.js"></script>
-    <script type="text/javascript" src="libs/script/jquery-1.11.3.js"></script>
+    </header>
 
+    <!--The mobile navigation Markup hidden via css-->
+    <nav>
+        <ul>
+            <li><a href="#">menuitem 1</a></li>
+            <li><a href="#">menuitem 2</a></li>
+            <li><a href="#">menuitem 3</a></li>
+            <li><a href="#">menuitem 4</a></li>
+            <li><a href="#">menuitem 5</a></li>
+            <li><a href="#">menuitem 6</a></li>
+        </ul>
+    </nav>
+    </div>
+    <!--The Layer that will be layed over the content
+    so that the content is unclickable while menu is shown-->
+    <div id="contentLayer"></div>
 
-    <!-- Import own Js libs -->
-    <script type="text/javascript" src="script/linechart.js"></script>
-    <script type="text/javascript" src="script/barchart.js"></script>
-    <!--<script type="text/javascript" src="script/size.js"></script>-->
-    <script type="text/javascript" src="script/mobilemenu.js"></script>
+    <!--The content of the site-->
+    <div id="content">
+        <h3>
+            Was ist der Zweck der Zebrastreifen-Safari?
+        </h3>
+        <p>
+            Bei der Erfassung dieser Daten geht es nicht nur um die <b>Sicherheit von Fussg&auml;ngern</b> sondern auch um die <b>Verbesserung der Navigation
+            von Fussg&auml;ngern</b>. Davon profitieren auch Sehbehinderte und Rollstuhlfahrer, f&uuml;r die
+            Fussg&auml;ngerstreifen eine besonders wichtige Information ist. Zudem wird im Herbstsemester am Geometa Lab der HSR ein Projekt zur
+            automatischen Erkennung (weltweit) von aus Satellitenbildern durchgeführt. Die bereits eingetragenen Fussg&auml;ngerstreifen dienen dann zur
+            Qualit&auml;tskontrolle. Dieses Verfahren wird nicht alle Fussg&auml;ngerstreifen erkennen - besonders nicht in Stadtgebieten - und wird die Daten
+            auch nicht direkt in OpenStreetMap hochladen. Daf&uuml;r wird ein kleines Spiel (<a href="http://maproulette.org/">MapRoulette</a> - noch nicht gestartet)
+            eingesetzt - aber davon sp&auml;ter.
+        </p>
+        <!-- Container for the Charts -->
+        <div class="chart">
+            <h3>Gesamtanzahl der eingetragenen Zebrastreifen</h3>
+            <canvas id="linecanvas"></canvas>
+            <p>*Zeb = Zebrastreifen</p>
+            <h3>Eintr&auml;ge der letzten 10 Wochen</h3>
+            <canvas id="barcanvas"></canvas>
+            <p>*Zeb = Zebrastreifen</p>
+        </div>
+
+        <!-- Container for the Sidebar/ Twitter -->
+        <aside class="aside">
+            <a class="twitter-timeline" href="https://twitter.com/ZebrasafariHSR" data-widget-id="645935557948932100" data-chrome="transparent" width="100%" max-width="520" min-width="180">
+                Tweets von @ZebrasafariHSR
+            </a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+                if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}
+            (document,"script","twitter-wjs");
+            </script>
+        </aside>
+
+    </div>
+
+</div>
+</body>
+<!--Using jQuery and jQuery UI for display effects-->
+<script src="libs/script/jquery-1.11.3.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="libs/script/Chart.js"></script>
+
+<!--Using the hamburger menu display code-->
+<script src="script/mobilemenu.js"></script>
+<script type="text/javascript" src="script/linechart.js"></script>
+<script type="text/javascript" src="script/barchart.js"></script>
 </html>

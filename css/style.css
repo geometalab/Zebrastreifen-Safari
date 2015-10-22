@@ -1,198 +1,138 @@
-
-
-.wrapper {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-
-    -webkit-flex-flow: row wrap;
-    flex-flow: row wrap;
-
-}
-
-.wrapper > * {
-    padding: 1px;
-    flex: 1 100%;
-}
-/*Header*/
-.header {
-    margin: 0;
-    background-color: #3384B5;
-    display: flex;
-    /*justify-content: space-around;*/
-    justify-content: space-between;
-}
-.header-logo {
-    display: flex;
-    /*max-width: 13%;*/
-    max-width: 115px;
-    margin-top: 4px;
-    margin-bottom: 4px;
-}
-
-.header-logo img {
-    display: flex;
-    width: 100%;
-}
-.header-text {
-    font-size: 65%;
-}
-.header a{
-    text-decoration: none;
-    color: white;
-}
-.buttons img{
-    max-width: 115px;
-    margin-top: 4px;
-    margin-bottom: -16px;
-}
-/*Header-Buttons*/
-.myButton {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    background-color:#0065A3;
-    display:inline-flex;
-    color:#3d3d3d;
-    /*font-size:20px;*/
-    padding:14px 50px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #bdbdbd;
-}
-.myButton:hover {
-    background-color: #99C1DA;
-}
-.myButton:active {
-    position:relative;
-    top:1px;
-}
-/*Dropdown Menu*/
-.dropdown {
-    display: flex;
-    display: -webkit-flex;
-    -webkit-flex-flow:column;
-    -webkit-justify-content: space-between;
-    position: absolute;
-}
-.dropdown a {
-    padding: 5px;
-    display: block;
-    background: #0065A3;
-}
-.dropdown a:hover {
-    background: #3384B5;
-    color: white;
-}
-/*Buttons for the Dropdown-Menu*/
-.myButton1:not(:hover):not(:target) > .dropdown {
-    display: none;
-}
-.myButton1 {
-    background-color:#0065A3;
-    display:inline-flex;
-    color: white;
-    /*font-size:20px;*/
-    padding:14px 25px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #bdbdbd;
-}
-
-
-.main {
-    flex: 1;
-}
-.main h1 {
-}
-
-.main p {
-    color: #3E3E50;
-}
-.twitter-timeline {
-}
-
-.footer {
-    border-top: 1px solid black;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 100px;
-    width: 96%;
-
-}
-
-
-.aside-2 {
-    width: 10%;
-}
-
-.t_mobile {
-    display: none;
-}
-
-@media all and (min-width: 600px) {
-    .aside { flex: 1 auto; }
-}
-
-@media all and (min-width: 600px) {
-    .main    { flex: 3 0px; }
-    .main    { order: 2; }
-    .aside-2 { order: 3; }
-    .footer  { order: 4; }
-    #menu    { display: none; }
-}
-@media all and (max-width: 600px) {
-    .buttons {
-        display: none;
-
-    }
-    .buttons img{
-        display: none;
-    }
-    #menu{
-        order: 1;
-    }
-    .header-text {
-        order: 0;
-        display: flex;
-    }
-    .header-logo {display: none; }
-}
-
-body {
-    /*background-color: #f4f4f4;*/
-
-    padding: 0;
-    font-family: "Arial";
-    margin: 0 0 150px;
-}
-
 html {
+    overflow-y: scroll;
+}
+
+/*
+Setup a basic body
+*/
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: Arial;
+    font-size: 18px;
+}
+
+/*
+Header is relative so z-index: 1 guarantees always displayed on top
+*/
+header {
+    background-color: #3b5998;
+    padding: 10px;
+    text-decoration: none;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    -webkit-box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+}
+
+/*
+using background color is important to cover the menu
+position absolute isset to cover the whole viewport
+*/
+#content {
+    background-color: #FFFFFF;
+    padding: 52px 10px 10px 10px;
     position: relative;
-    min-height: 100%;
+    width: auto;
+    height: 100%;
+    -webkit-box-shadow: -10px 0px 9px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: -10px 0px 9px 0px rgba(0, 0, 0, 0.4);
 }
-@media
-only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px) {
 
-    table, thead, tbody, th, td, tr {
-        display: block;
-        width: 100%;
-    }
-    tr{
-        border: 1px solid;
-    }
-
-.t_mobile {
-    display: flex;
+/*
+the button with a little gradient effekt
+*/
+#navigation {
+    border: 1px solid #374C77;
+    border-radius: 3px 3px 3px 3px;
+    cursor: pointer;
+    display: block;
+    height: 24px;
+    padding: 3px 4px 3px;
+    position: relative;
+    width: 25px;
+    background: #4569b2;
+    background: -moz-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4569b2), color-stop(100%, #4062a5));
+    background: -webkit-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+    background: -o-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+    background: -ms-linear-gradient(top, #4569b2 0%, #4062a5 100%);
+    background: linear-gradient(to bottom, #4569b2 0%, #4062a5 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4569b2', endColorstr='#4062a5', GradientType=0);
 }
-.t_head {
+
+/*
+The white stripes button
+*/
+#navigation div {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 2px 2px 2px 2px;
+    height: 2px;
+    margin-top: 3px;
+    width: 90%;
+}
+
+/*
+The navigation container in the background
+*/
+nav {
+    opacity: 0;
+    left: 0px;
+    top: 0px;
+    position: fixed;
+    z-index: 0;
+    width: 70%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #3e3c3d;
+    background: -moz-linear-gradient(top, #3e3c3d 0%, #2d2c2d 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3e3c3d), color-stop(100%, #2d2c2d));
+    background: -webkit-linear-gradient(top, #3e3c3d 0%, #2d2c2d 100%);
+    background: -o-linear-gradient(top, #3e3c3d 0%, #2d2c2d 100%);
+    background: -ms-linear-gradient(top, #3e3c3d 0%, #2d2c2d 100%);
+    background: linear-gradient(to bottom, #3e3c3d 0%, #2d2c2d 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3e3c3d', endColorstr='#2d2c2d', GradientType=0);
+}
+
+/*
+Style the navigation menu
+*/
+nav ul {
+    list-style: none;
+    margin: 0;
+    width: 100%;
+    padding: 0;
+}
+
+nav li {
+    position: relative;
+    font-size: 1em;
+    font-weight: bold;
+    border-bottom: 1px solid #222222;
+    border-top: 1px solid #444444;
+    padding: 15px;
+}
+
+nav li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+#contentLayer {
     display: none;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30%;
+    z-index: 5;
 }
-
-
-}
-
-
-
-
