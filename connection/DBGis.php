@@ -13,6 +13,10 @@ class DBGis extends DBConnection {
         parent::__construct(DBConfig::GIS);
     }
 
+    public function getAllZebracrossings() {
+
+    }
+
     public function getGisData($node) {
         return pg_query($this->connection, "select
                                             tags @> hstore('crossing', 'traffic_signals') as traffic_signals,
