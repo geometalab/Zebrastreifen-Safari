@@ -1,7 +1,7 @@
 jQuery(document).ready(function () {
 
     //Open the menu
-    jQuery("#hamburger").click(function () {
+    jQuery("#navigation").click(function () {
 
         jQuery('#content').css('min-height', jQuery(window).height());
 
@@ -22,7 +22,7 @@ jQuery(document).ready(function () {
         });
 
         //set margin for the whole container with a jquery UI animation
-        jQuery("#container").animate({"marginLeft": ["70%", 'easeOutExpo']}, {
+        jQuery("#container").animate({"marginLeft": ["30%", 'easeOutExpo']}, {
             duration: 700
         });
 

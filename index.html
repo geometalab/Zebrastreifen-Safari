@@ -13,7 +13,7 @@
 
 <!--This wrapping container is used to get the width of the whole content-->
 <div id="container">
-    <div>
+    <div class="nav-mobil">
     <!--The Hamburger Button in the Header-->
     <header>
         <div id="navigation">
@@ -21,17 +21,18 @@
             <div></div>
             <div></div>
         </div>
+        <h1>Zebrastreifen-Safari</h1>
+
     </header>
 
     <!--The mobile navigation Markup hidden via css-->
     <nav>
         <ul>
-            <li><a href="#">menuitem 1</a></li>
-            <li><a href="#">menuitem 2</a></li>
-            <li><a href="#">menuitem 3</a></li>
-            <li><a href="#">menuitem 4</a></li>
-            <li><a href="#">menuitem 5</a></li>
-            <li><a href="#">menuitem 6</a></li>
+            <li class="map"><a href="map.html">Karte</a></li>
+            <li><a href="http://geometalab.tumblr.com/">Blog</a></li>
+            <li><a href="project.html" class="myButton">&Uuml;ber...</a></li>
+            <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Kontakt">Kontakt</a></li>
+            <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Terms_of_Use">Terms of Use</a></li>
         </ul>
     </nav>
     </div>
@@ -39,32 +40,61 @@
     so that the content is unclickable while menu is shown-->
     <div id="contentLayer"></div>
 
+    <div class="nav-desktop">
+
+        <header class="header">
+            <div class="header-text">
+            <a href="index.html">
+                <h1>Zebrastreifen-Safari</h1>
+            </a>
+
+            </div>
+            <div class="nav">
+                <ul>
+                        <li class="map"><a href="map.html">Karte</a></li>
+                        <li class="dropmenu"><a href="#">&#9776;</a>
+                        <ul>
+                            <li><a href="http://geometalab.tumblr.com/">Blog</a></li>
+                            <li><a href="project.html" class="myButton">&Uuml;ber...</a></li>
+                            <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Kontakt">Kontakt</a></li>
+                            <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Terms_of_Use">Terms of Use</a></li>
+                        </ul>
+                    </li>
+                    <li class="hsrlogo">
+                        <a href="http://i.hsr.ch">
+                            <img src="css/hsrlogo.jpg" alt="HSR-Logo"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+    </div>
     <!--The content of the site-->
     <div id="content">
         <h3>
             Was ist der Zweck der Zebrastreifen-Safari?
         </h3>
         <p>
-            Bei der Erfassung dieser Daten geht es nicht nur um die <b>Sicherheit von Fussg&auml;ngern</b> sondern auch um die <b>Verbesserung der Navigation
-            von Fussg&auml;ngern</b>. Davon profitieren auch Sehbehinderte und Rollstuhlfahrer, f&uuml;r die
-            Fussg&auml;ngerstreifen eine besonders wichtige Information ist. Zudem wird im Herbstsemester am Geometa Lab der HSR ein Projekt zur
-            automatischen Erkennung (weltweit) von aus Satellitenbildern durchgeführt. Die bereits eingetragenen Fussg&auml;ngerstreifen dienen dann zur
-            Qualit&auml;tskontrolle. Dieses Verfahren wird nicht alle Fussg&auml;ngerstreifen erkennen - besonders nicht in Stadtgebieten - und wird die Daten
-            auch nicht direkt in OpenStreetMap hochladen. Daf&uuml;r wird ein kleines Spiel (<a href="http://maproulette.org/">MapRoulette</a> - noch nicht gestartet)
-            eingesetzt - aber davon sp&auml;ter.
+            Bei der Erfassung dieser Daten geht es nicht nur um die <b>Sicherheit von Fussgängern</b> sondern auch um die <b>Verbesserung der Navigation
+            von Fussgängern</b>. Davon profitieren auch Sehbehinderte und Rollstuhlfahrer, für die
+            Fussgängerstreifen eine besonders wichtige Information ist. Zudem wird im Herbstsemester am Geometa Lab der HSR ein Projekt zur
+            automatischen Erkennung (weltweit) von aus Satellitenbildern durchgeführt. Die bereits eingetragenen Fussgängerstreifen dienen dann zur
+            Qualitätskontrolle. Dieses Verfahren wird nicht alle Fussgängerstreifen erkennen - besonders nicht in Stadtgebieten - und wird die Daten
+            auch nicht direkt in OpenStreetMap hochladen. Dafür wird ein kleines Spiel (<a href="http://maproulette.org/">MapRoulette</a> - noch nicht gestartet)
+            eingesetzt - aber davon später.
         </p>
         <!-- Container for the Charts -->
         <div class="chart">
             <h3>Gesamtanzahl der eingetragenen Zebrastreifen</h3>
             <canvas id="linecanvas"></canvas>
             <p>*Zeb = Zebrastreifen</p>
-            <h3>Eintr&auml;ge der letzten 10 Wochen</h3>
+            <h3>Einträge der letzten 10 Wochen</h3>
             <canvas id="barcanvas"></canvas>
             <p>*Zeb = Zebrastreifen</p>
         </div>
 
         <!-- Container for the Sidebar/ Twitter -->
-        <aside class="aside">
+        <aside class="aside aside-2">
             <a class="twitter-timeline" href="https://twitter.com/ZebrasafariHSR" data-widget-id="645935557948932100" data-chrome="transparent" width="100%" max-width="520" min-width="180">
                 Tweets von @ZebrasafariHSR
             </a>
