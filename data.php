@@ -17,20 +17,13 @@ function barchartStatistic() {
     $query = $statisticConnection->getBarChartStatistic();
     $resultset = pg_fetch_all($query);
 
-    for ($i = 0; $i < count($resultset); $i++) {
+    for ($i = 0; $i < count($resultset) - 1; $i++) {
         //Formate the date
         $resultset[$i]['week'] = /*date('Y-m-d', strtotime($resultset[$i]['week'])).' - '.*/date('Y-m-d', strtotime("+7 day", strtotime($resultset[$i]['week'])));
-
-        if ($i != 0) {
-            //Makes automatically an integer
-            //Adds this week to all the previous ones
-            $resultset[$i]['amount'] += $resultset[$i - 1]['amount'];
-        } else {
-            //First one needs to be casted to an integer
-            $resultset[$i]['amount'] = intval($resultset[$i]['amount']);
-        }
+        $resultset[$i]['amount'] = $resultset[$i + 1]['amount'] - $resultset[$i]['amount'];
     }
 
+    unset($resultset[10]);
     $statisticConnection->closeConnection();
     /* testoutput
     echo "<table border='1'><th>Week</th><th>Amount</th>";
@@ -58,9 +51,7 @@ function linechartStatistic() {
     for ($i = 0; $i < count($resultset); $i++) {
         //Formate the date
         $resultset[$i]['week'] = /*date('Y-m-d', strtotime($resultset[$i]['week'])).' - '.*/date('Y-m-d', strtotime("+7 day", strtotime($resultset[$i]['week'])));
-
-        //Needs to be casted to an integer
-        $resultset[$i]['total'] = intval($resultset[$i]['total']);
+        $resultset[$i]['amount'] = intval($resultset[$i]['amount']);
     }
 
     $statisticConnection->closeConnection();
@@ -72,7 +63,7 @@ function linechartStatistic() {
         echo $result['week'];
         echo "</td>";
         echo "<td>";
-        echo $result['total'];
+        echo $result['amount'];
         echo "</td>";
         echo "</tr>";
     }
@@ -98,14 +89,15 @@ function zebracrossingPoints() {
                 "type" => "Point"
             ),
             "properties" => array(
-                "node" => doubleval($row['node'])
+                "osm_node_id" => doubleval($row['osm_node_id']),
+                "status" => intval($row['status'])
             )
         );
     }
 
     for ($i = 0; $i < count($zebracrossings['features']); $i++) {
         //Get the x and y coordinates of the zebracrossing
-        $query = $gisConnection->getCoordinates($zebracrossings['features'][$i]['properties']['node']);
+        $query = $gisConnection->getCoordinates($zebracrossings['features'][$i]['properties']['osm_node_id']);
 
         while ($row = pg_fetch_array($query, null, PGSQL_ASSOC)) {
             $zebracrossings['features'][$i]['geometry']['coordinates'] = array(
@@ -115,7 +107,7 @@ function zebracrossingPoints() {
         }
 
         //Get all the osm data and write it into the array
-        $zebracrossings['features'][$i]['properties'] += getOsmData($zebracrossings['features'][$i]['properties']['node'], $gisConnection);
+        $zebracrossings['features'][$i]['properties'] += getOsmData($zebracrossings['features'][$i]['properties']['osm_node_id'], $gisConnection);
     }
 
     $zebracrossingConnection->closeConnection();
@@ -126,7 +118,7 @@ function zebracrossingPoints() {
     foreach ($zebracrossings['features'] as $zebracrossing) {
         echo "<tr>";
         echo "<td>";
-        echo $zebracrossing['properties']['node'];
+        echo $zebracrossing['properties']['osm_node_id'];
         echo "</td>";
         echo "<td>";
         echo $zebracrossing['geometry']['coordinates'][0];
@@ -156,13 +148,13 @@ function zebracrossingDetail($node) {
     }
 
     $zebracrossing = array(
-        "id" => $resultset[0]['zebracrossing_id'],
-        "node" => doubleval($resultset[0]['node']),
-        "image" => $resultset[0]['image']
+        "id" => $resultset[0]['id'],
+        "osm_node_id" => doubleval($resultset[0]['osm_node_id']),
+        "status" => intval($resultset[0]['status'])
     );
 
     //Get all the osm data and write it into the array
-    $zebracrossing['osm'] = getOsmData($zebracrossing['node'], $gisConnection);
+    $zebracrossing['osm'] = getOsmData($zebracrossing['osm_node_id'], $gisConnection);
 
     //Get the ratings of the zebracrossing
     $query = $zebracrossingConnection->getRating($zebracrossing['id']);
@@ -170,11 +162,12 @@ function zebracrossingDetail($node) {
 
     while ($row = pg_fetch_array($query, null, PGSQL_ASSOC)) {
         $zebracrossing['ratings'][] = array(
+            "spatial_clarity" => $row['sc_value'],
+            "illumination" => $row['i_value'],
+            "traffic" => $row['t_value'],
+            "image_weblink" => $row['image_weblink'],
             "comment" => $row['comment'],
-            "username" => $row['name'],
-            "overview" => $row['overview_value'],
-            "illumination" => $row['illumination_value'],
-            "traffic" => $row['traffic_value']
+            "username" => $row['name']
         );
     }
 
@@ -185,7 +178,7 @@ function zebracrossingDetail($node) {
     echo "<table border='1'><th>Node</th><th>image</th><th>traffic_signals</th><th>island</th><th>unmarked</th><th>button_operated</th><th>slooped_curb</th><th>tactile_paving</th><th>traffic_signals_vibration</th><th>traffic_signals_sound</th><th>rating</th>";
     echo "<tr>";
     echo "<td>";
-    echo $zebracrossing['node'];
+    echo $zebracrossing['osm_node_id'];
     echo "</td>";
     echo "<td>";
     echo $zebracrossing['image'];
@@ -216,7 +209,7 @@ function zebracrossingDetail($node) {
     echo "</td>";
     echo "<td>";
 
-    echo "<table border='1'><th>comment</th><th>username</th><th>overview</th><th>illumination</th><th>traffic</th>";
+    echo "<table border='1'><th>comment</th><th>username</th><th>spatial_clarity</th><th>illumination</th><th>traffic</th>";
     foreach ($zebracrossing['ratings'] as $rating) {
         echo "<tr>";
         echo "<td>";
@@ -226,7 +219,7 @@ function zebracrossingDetail($node) {
         echo $rating['username'];
         echo "</td>";
         echo "<td>";
-        echo $rating['overview'];
+        echo $rating['spatial_clarity'];
         echo "</td>";
         echo "<td>";
         echo $rating['illumination'];
