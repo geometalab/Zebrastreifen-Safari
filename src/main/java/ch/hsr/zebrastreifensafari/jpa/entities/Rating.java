@@ -27,13 +27,14 @@ import javax.persistence.TemporalType;
  * @author aeugster
  */
 @Entity
-@Table(name = "rating")
+@Table(name = "crossing.rating")
 @NamedQueries({
     @NamedQuery(name = "Rating.findAll", query = "SELECT r FROM Rating r"),
     @NamedQuery(name = "Rating.findById", query = "SELECT r FROM Rating r WHERE r.id = :id"),
     @NamedQuery(name = "Rating.findByImageWeblink", query = "SELECT r FROM Rating r WHERE r.imageWeblink = :imageWeblink"),
     @NamedQuery(name = "Rating.findByComment", query = "SELECT r FROM Rating r WHERE r.comment = :comment"),
-    @NamedQuery(name = "Rating.findByLastChanged", query = "SELECT r FROM Rating r WHERE r.lastChanged = :lastChanged")})
+    @NamedQuery(name = "Rating.findByLastChanged", query = "SELECT r FROM Rating r WHERE r.lastChanged = :lastChanged"),
+    @NamedQuery(name = "Rating.findByCrossing", query = "SELECT r FROM Rating r WHERE r.crossingId = :crossingId")})
 public class Rating implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -75,6 +76,17 @@ public class Rating implements Serializable {
     public Rating(Integer id, Date lastChanged) {
         this.id = id;
         this.lastChanged = lastChanged;
+    }
+
+    public Rating(Integer id, String comment, Illumination illuminationId, SpatialClarity spatialClarityId, Traffic trafficId, User userId, Crossing crossingId, String imageWeblink, Date lastChanged) {
+        this(id, lastChanged);
+        this.comment = comment;
+        this.illuminationId = illuminationId;
+        this.spatialClarityId = spatialClarityId;
+        this.trafficId = trafficId;
+        this.userId = userId;
+        this.crossingId = crossingId;
+        this.imageWeblink = imageWeblink;
     }
 
     public Integer getId() {

@@ -127,11 +127,12 @@ public class CrossingJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The crossing with id " + id + " no longer exists.", enfe);
             }
-            List<Rating> ratingList = crossing.getRatingList();
+            //When a Crossing gets deleted, the ratings should be deleted as well. (on delete cascade)
+            /*List<Rating> ratingList = crossing.getRatingList();
             for (Rating ratingListRating : ratingList) {
                 ratingListRating.setCrossingId(null);
                 ratingListRating = em.merge(ratingListRating);
-            }
+            }*/
             em.remove(crossing);
             em.getTransaction().commit();
         } finally {

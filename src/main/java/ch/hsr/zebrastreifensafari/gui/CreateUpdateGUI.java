@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 import main.java.ch.hsr.zebrastreifensafari.gui.view.View;
-import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.*;
+import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
 import main.java.ch.hsr.zebrastreifensafari.model.Model;
 
 /**

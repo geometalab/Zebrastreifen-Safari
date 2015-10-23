@@ -2,7 +2,7 @@ package main.java.ch.hsr.zebrastreifensafari.gui.update;
 
 import main.java.ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
 import main.java.ch.hsr.zebrastreifensafari.gui.view.View;
-import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Zebracrossing;
+import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import main.java.ch.hsr.zebrastreifensafari.model.Model;
 import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
@@ -17,13 +17,13 @@ import java.awt.*;
  * @date : 12.10.2015
  */
 
-public class UpdateZebracrossingGUI extends CreateUpdateGUI {
+public class UpdateCrossingGUI extends CreateUpdateGUI {
 
-    private Zebracrossing zebracrossing;
+    private Crossing crossing;
 
-    public UpdateZebracrossingGUI(Model model, View view, Zebracrossing zebracrossing) {
-        super(model, view, "Update the zebracrossing " + zebracrossing.getNode());
-        this.zebracrossing = zebracrossing;
+    public UpdateCrossingGUI(Model model, View view, Crossing crossing) {
+        super(model, view, "Update the crossing " + crossing.getOsmNodeId());
+        this.crossing = crossing;
         setValues();
         imageTF.setPreferredSize(new Dimension(150, imageTF.getHeight()));
         jLabel2.setVisible(false);
@@ -42,14 +42,14 @@ public class UpdateZebracrossingGUI extends CreateUpdateGUI {
         jRadioButton8.setVisible(false);
         jRadioButton9.setVisible(false);
         jScrollPane1.setVisible(false);
+        imageTF.setVisible(false);
     }
 
     @Override
     protected void onSendClick() {
         try{
-            zebracrossing.setNode(Long.parseLong(osmNode.getText()));
-            zebracrossing.setImage(imageTF.getText());
-            DataServiceLoader.getZebraData().updateZebracrossing(zebracrossing);
+            crossing.setOsmNodeId(Long.parseLong(osmNode.getText()));
+            DataServiceLoader.getCrossingData().updateCrossing(crossing);
             observable.notifyObservers();
             this.dispose();
         } catch (NumberFormatException nfex) {
@@ -58,8 +58,7 @@ public class UpdateZebracrossingGUI extends CreateUpdateGUI {
     }
 
     private void setValues() {
-        osmNode.setText(Long.toString(zebracrossing.getNode()));
-        imageTF.setText(zebracrossing.getImage() == null ? "" : zebracrossing.getImage());
+        osmNode.setText(Long.toString(crossing.getOsmNodeId()));
         jRadioButton1.setSelected(true);
         jRadioButton4.setSelected(true);
         jRadioButton7.setSelected(true);

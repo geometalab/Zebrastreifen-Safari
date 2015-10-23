@@ -4,7 +4,7 @@ import java.util.Enumeration;
 import javax.swing.*;
 
 import main.java.ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
-import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.*;
+import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
 import main.java.ch.hsr.zebrastreifensafari.gui.view.View;
 import main.java.ch.hsr.zebrastreifensafari.model.Model;
 import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -18,25 +18,24 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
     private Rating rating;
 
     public UpdateRatingGUI(Model model, View view, Rating rating) {
-        super(model, view, "Update the rating from " + rating.getUserFk().getName() + " for the zebracrossing " + rating.getZebracrossingFk().getNode());
+        super(model, view, "Update the rating from " + rating.getUserId().getName() + " for the Crossing " + rating.getCrossingId().getOsmNodeId());
         this.rating = rating;
         setValues();
         jLabel1.setVisible(false);
         jLabel7.setVisible(false);
         osmNode.setVisible(false);
-        imageTF.setVisible(false);
-        chooseFile.setVisible(false);
     }
 
     @Override
     protected void onSendClick() {
-        rating.setUserFk(model.getUser((String) usersCB.getSelectedItem()));
-        rating.setIlluminationFk(model.getIllumination(getSelectedButtonInt(buttonGroup2)));
-        rating.setOverviewFk(model.getOverview(getSelectedButtonInt(buttonGroup1)));
-        rating.setTrafficFk(model.getTraffic(getSelectedButtonInt(buttonGroup3)));
+        rating.setUserId(model.getUser((String) usersCB.getSelectedItem()));
+        rating.setIlluminationId(model.getIllumination(getSelectedButtonInt(buttonGroup2)));
+        rating.setSpatialClarityId(model.getSpatialClarity(getSelectedButtonInt(buttonGroup1)));
+        rating.setTrafficId(model.getTraffic(getSelectedButtonInt(buttonGroup3)));
+        rating.setImageWeblink(imageTF.getText());
         rating.setComment(CommentsTA.getText());
-        DataServiceLoader.getZebraData().updateRating(rating);
-        observable.notifyObservers(rating.getZebracrossingFk());
+        DataServiceLoader.getCrossingData().updateRating(rating);
+        observable.notifyObservers(rating.getCrossingId());
         this.dispose();
     }
 
@@ -54,10 +53,11 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
     }
 
     private void setValues() {
-        usersCB.setSelectedItem(rating.getUserFk().getName());
-        setButtonGroupValue(buttonGroup1, rating.getOverviewFk().getOverviewId());
-        setButtonGroupValue(buttonGroup2, rating.getIlluminationFk().getIlluminationId());
-        setButtonGroupValue(buttonGroup3, rating.getTrafficFk().getTrafficId());
+        usersCB.setSelectedItem(rating.getUserId().getName());
+        setButtonGroupValue(buttonGroup1, rating.getSpatialClarityId().getId());
+        setButtonGroupValue(buttonGroup2, rating.getIlluminationId().getId());
+        setButtonGroupValue(buttonGroup3, rating.getTrafficId().getId());
         CommentsTA.setText(rating.getComment() == null ? "": rating.getComment());
+        imageTF.setText(rating.getImageWeblink() == null ? "" : rating.getImageWeblink());
     }
 }

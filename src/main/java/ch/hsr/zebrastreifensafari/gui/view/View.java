@@ -10,8 +10,8 @@ import javax.swing.table.TableModel;
 
 import main.java.ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
 import main.java.ch.hsr.zebrastreifensafari.gui.update.UpdateRatingGUI;
-import main.java.ch.hsr.zebrastreifensafari.gui.update.UpdateZebracrossingGUI;
-import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.*;
+import main.java.ch.hsr.zebrastreifensafari.gui.update.UpdateCrossingGUI;
+import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
 import main.java.ch.hsr.zebrastreifensafari.gui.create.*;
 import main.java.ch.hsr.zebrastreifensafari.model.Model;
 import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -35,7 +35,7 @@ public class View extends JFrame implements Observer {
     public View(Model model) {
         this.model = model;
 
-        zebraTM = new DefaultTableModel(new String[]{"ID", "Node", "Bild"}, 0) {
+        zebraTM = new DefaultTableModel(new String[]{"ID", "Osm Node"}, 0) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -43,7 +43,7 @@ public class View extends JFrame implements Observer {
             }
         };
 
-        ratingTM = new DefaultTableModel(new String[]{"ID", "Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar"}, 0) {
+        ratingTM = new DefaultTableModel(new String[]{"ID", "Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar", "Bild", "Letzte Änderung"}, 0) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -165,7 +165,7 @@ public class View extends JFrame implements Observer {
         try {
             changeView();
         } catch (ArrayIndexOutOfBoundsException aioobe) {
-            JOptionPane.showMessageDialog(this, "There is no selected zebracrossing", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "There is no selected Crossing", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_switchButtonActionPerformed
 
@@ -173,9 +173,9 @@ public class View extends JFrame implements Observer {
         CreateUpdateGUI createGUI;
 
         if (model.isRatingMode()) {
-            createGUI = new CreateRatingGUI(model, this, getRatingFromTable().getZebracrossingFk().getNode());
+            createGUI = new CreateRatingGUI(model, this, getRatingFromTable().getCrossingId().getOsmNodeId());
         } else {
-            createGUI = new CreateZebracrossingGUI(model, this);
+            createGUI = new CreateCrossingGUI(model, this);
         }
 
         createGUI.setVisible(true);
@@ -188,7 +188,7 @@ public class View extends JFrame implements Observer {
             if (model.isRatingMode()) {
                 updateGUI = new UpdateRatingGUI(model, this, getRatingFromTable());
             } else {
-                updateGUI = new UpdateZebracrossingGUI(model, this, getZebracrossingFromTable());
+                updateGUI = new UpdateCrossingGUI(model, this, getCrossingFromTable());
             }
 
             updateGUI.setVisible(true);
@@ -201,17 +201,17 @@ public class View extends JFrame implements Observer {
         try {
             if (model.isRatingMode()) {
                 Rating removeRating = getRatingFromTable();
-                DataServiceLoader.getZebraData().removeRating(removeRating.getRatingId());
-                model.reloadRating(removeRating.getZebracrossingFk());
+                DataServiceLoader.getCrossingData().removeRating(removeRating.getId());
+                model.reloadRating(removeRating.getCrossingId());
 
                 if (model.getRatings().isEmpty()) {
                     changeView();
-                    DataServiceLoader.getZebraData().removeZebracrossing(removeRating.getZebracrossingFk().getZebracrossingId());
-                    model.reloadZebracrossing();
+                    DataServiceLoader.getCrossingData().removeCrossing(removeRating.getCrossingId().getId());
+                    model.reloadCrossing();
                 }
             } else {
-                DataServiceLoader.getZebraData().removeZebracrossing(getZebracrossingFromTable().getZebracrossingId());
-                model.reloadZebracrossing();
+                DataServiceLoader.getCrossingData().removeCrossing(getCrossingFromTable().getId());
+                model.reloadCrossing();
             }
 
             addDataToTable();
@@ -222,9 +222,9 @@ public class View extends JFrame implements Observer {
 
     private void reloadButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_updateDBButtonActionPerformed
         if (model.isRatingMode()) {
-            model.reloadRating(getRatingFromTable().getZebracrossingFk());
+            model.reloadRating(getRatingFromTable().getCrossingId());
         } else {
-            model.reloadZebracrossing();
+            model.reloadCrossing();
         }
 
         model.reloadUsers();
@@ -235,10 +235,10 @@ public class View extends JFrame implements Observer {
         model.setRatingMode(!model.isRatingMode());
 
         if (model.isRatingMode()) {
-            model.reloadRating(getZebracrossingFromTable());
+            model.reloadRating(getCrossingFromTable());
             switchButton.setText("Zebrastreifen");
         } else {
-            model.reloadZebracrossing();
+            model.reloadCrossing();
             switchButton.setText("Bewertungen");
         }
 
@@ -246,8 +246,8 @@ public class View extends JFrame implements Observer {
         addDataToTable();
     }
 
-    private Zebracrossing getZebracrossingFromTable() {
-        return model.getZebracrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+    private Crossing getCrossingFromTable() {
+        return model.getCrossing(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
     }
 
     private Rating getRatingFromTable() {
@@ -268,12 +268,19 @@ public class View extends JFrame implements Observer {
 
         if (model.isRatingMode()) {
             for (Rating r : model.getRatings()) {
-                ratingTM.addRow(new String[]{r.getRatingId().toString(), r.getUserFk().getName(), r.getTrafficFk().getTrafficValue(),
-                        r.getOverviewFk().getOverviewValue(), r.getIlluminationFk().getIlluminationValue(), r.getComment() == null ? "" : r.getComment()});
+                ratingTM.addRow(new String[]{r.getId().toString(),
+                        r.getUserId().getName(),
+                        r.getTrafficId().getValue(),
+                        r.getSpatialClarityId().getValue(),
+                        r.getIlluminationId().getValue(),
+                        r.getComment() == null ? "" : r.getComment(),
+                        r.getImageWeblink(),
+                        r.getLastChanged().toString()
+                });
             }
         } else {
-            for (Zebracrossing z : model.getZebracrossings()) {
-                zebraTM.addRow(new String[]{z.getZebracrossingId().toString(), Long.toString(z.getNode()), z.getImage()});
+            for (Crossing z : model.getCrossings()) {
+                zebraTM.addRow(new String[]{z.getId().toString(), Long.toString(z.getOsmNodeId())});
             }
         }
 
@@ -282,10 +289,10 @@ public class View extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof Zebracrossing) {
-            model.reloadRating((Zebracrossing)arg);
+        if (arg instanceof Crossing) {
+            model.reloadRating((Crossing)arg);
         } else {
-            model.reloadZebracrossing();
+            model.reloadCrossing();
         }
 
         addDataToTable();
