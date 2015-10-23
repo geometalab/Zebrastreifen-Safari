@@ -11,7 +11,7 @@ import javax.swing.table.TableModel;
 import main.java.ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
 import main.java.ch.hsr.zebrastreifensafari.gui.update.UpdateRatingGUI;
 import main.java.ch.hsr.zebrastreifensafari.gui.update.UpdateZebracrossingGUI;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.*;
 import main.java.ch.hsr.zebrastreifensafari.gui.create.*;
 import main.java.ch.hsr.zebrastreifensafari.model.Model;
 import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;

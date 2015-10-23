@@ -1,8 +1,8 @@
 package main.java.ch.hsr.zebrastreifensafari.service.zebracrossing;
 
-import main.java.ch.hsr.zebrastreifensafari.jpa.controllers.*;
-import main.java.ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.controllers.*;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.controllers.exceptions.NonexistentEntityException;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.*;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
