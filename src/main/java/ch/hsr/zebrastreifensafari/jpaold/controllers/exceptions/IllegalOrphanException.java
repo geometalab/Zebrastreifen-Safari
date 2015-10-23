@@ -1,4 +1,4 @@
-package main.java.ch.hsr.zebrastreifensafari.jpa.controllers.exceptions;
+package main.java.ch.hsr.zebrastreifensafari.jpaold.controllers.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,28 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.jpa.controllers;
+package main.java.ch.hsr.zebrastreifensafari.jpaold.controllers;
 
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Rating;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Zebracrossing;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Rating;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Traffic;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import main.java.ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.controllers.exceptions.NonexistentEntityException;
 
 /**
  *
  * @author aeugster
  */
-public class ZebracrossingJpaController implements Serializable {
+public class TrafficJpaController implements Serializable {
 
-    public ZebracrossingJpaController(EntityManagerFactory emf) {
+    public TrafficJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -33,28 +33,28 @@ public class ZebracrossingJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Zebracrossing zebracrossing) {
-        if (zebracrossing.getRatingList() == null) {
-            zebracrossing.setRatingList(new ArrayList<Rating>());
+    public void create(Traffic traffic) {
+        if (traffic.getRatingList() == null) {
+            traffic.setRatingList(new ArrayList<Rating>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             List<Rating> attachedRatingList = new ArrayList<Rating>();
-            for (Rating ratingListRatingToAttach : zebracrossing.getRatingList()) {
+            for (Rating ratingListRatingToAttach : traffic.getRatingList()) {
                 ratingListRatingToAttach = em.getReference(ratingListRatingToAttach.getClass(), ratingListRatingToAttach.getRatingId());
                 attachedRatingList.add(ratingListRatingToAttach);
             }
-            zebracrossing.setRatingList(attachedRatingList);
-            em.persist(zebracrossing);
-            for (Rating ratingListRating : zebracrossing.getRatingList()) {
-                Zebracrossing oldZebracrossingFkOfRatingListRating = ratingListRating.getZebracrossingFk();
-                ratingListRating.setZebracrossingFk(zebracrossing);
+            traffic.setRatingList(attachedRatingList);
+            em.persist(traffic);
+            for (Rating ratingListRating : traffic.getRatingList()) {
+                Traffic oldTrafficFkOfRatingListRating = ratingListRating.getTrafficFk();
+                ratingListRating.setTrafficFk(traffic);
                 ratingListRating = em.merge(ratingListRating);
-                if (oldZebracrossingFkOfRatingListRating != null) {
-                    oldZebracrossingFkOfRatingListRating.getRatingList().remove(ratingListRating);
-                    oldZebracrossingFkOfRatingListRating = em.merge(oldZebracrossingFkOfRatingListRating);
+                if (oldTrafficFkOfRatingListRating != null) {
+                    oldTrafficFkOfRatingListRating.getRatingList().remove(ratingListRating);
+                    oldTrafficFkOfRatingListRating = em.merge(oldTrafficFkOfRatingListRating);
                 }
             }
             em.getTransaction().commit();
@@ -65,36 +65,36 @@ public class ZebracrossingJpaController implements Serializable {
         }
     }
 
-    public void edit(Zebracrossing zebracrossing) throws NonexistentEntityException, Exception {
+    public void edit(Traffic traffic) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Zebracrossing persistentZebracrossing = em.find(Zebracrossing.class, zebracrossing.getZebracrossingId());
-            List<Rating> ratingListOld = persistentZebracrossing.getRatingList();
-            List<Rating> ratingListNew = zebracrossing.getRatingList();
+            Traffic persistentTraffic = em.find(Traffic.class, traffic.getTrafficId());
+            List<Rating> ratingListOld = persistentTraffic.getRatingList();
+            List<Rating> ratingListNew = traffic.getRatingList();
             List<Rating> attachedRatingListNew = new ArrayList<Rating>();
             for (Rating ratingListNewRatingToAttach : ratingListNew) {
                 ratingListNewRatingToAttach = em.getReference(ratingListNewRatingToAttach.getClass(), ratingListNewRatingToAttach.getRatingId());
                 attachedRatingListNew.add(ratingListNewRatingToAttach);
             }
             ratingListNew = attachedRatingListNew;
-            zebracrossing.setRatingList(ratingListNew);
-            zebracrossing = em.merge(zebracrossing);
+            traffic.setRatingList(ratingListNew);
+            traffic = em.merge(traffic);
             for (Rating ratingListOldRating : ratingListOld) {
                 if (!ratingListNew.contains(ratingListOldRating)) {
-                    ratingListOldRating.setZebracrossingFk(null);
+                    ratingListOldRating.setTrafficFk(null);
                     ratingListOldRating = em.merge(ratingListOldRating);
                 }
             }
             for (Rating ratingListNewRating : ratingListNew) {
                 if (!ratingListOld.contains(ratingListNewRating)) {
-                    Zebracrossing oldZebracrossingFkOfRatingListNewRating = ratingListNewRating.getZebracrossingFk();
-                    ratingListNewRating.setZebracrossingFk(zebracrossing);
+                    Traffic oldTrafficFkOfRatingListNewRating = ratingListNewRating.getTrafficFk();
+                    ratingListNewRating.setTrafficFk(traffic);
                     ratingListNewRating = em.merge(ratingListNewRating);
-                    if (oldZebracrossingFkOfRatingListNewRating != null && !oldZebracrossingFkOfRatingListNewRating.equals(zebracrossing)) {
-                        oldZebracrossingFkOfRatingListNewRating.getRatingList().remove(ratingListNewRating);
-                        oldZebracrossingFkOfRatingListNewRating = em.merge(oldZebracrossingFkOfRatingListNewRating);
+                    if (oldTrafficFkOfRatingListNewRating != null && !oldTrafficFkOfRatingListNewRating.equals(traffic)) {
+                        oldTrafficFkOfRatingListNewRating.getRatingList().remove(ratingListNewRating);
+                        oldTrafficFkOfRatingListNewRating = em.merge(oldTrafficFkOfRatingListNewRating);
                     }
                 }
             }
@@ -102,9 +102,9 @@ public class ZebracrossingJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = zebracrossing.getZebracrossingId();
-                if (findZebracrossing(id) == null) {
-                    throw new NonexistentEntityException("The zebracrossing with id " + id + " no longer exists.");
+                Integer id = traffic.getTrafficId();
+                if (findTraffic(id) == null) {
+                    throw new NonexistentEntityException("The traffic with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -120,20 +120,19 @@ public class ZebracrossingJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Zebracrossing zebracrossing;
+            Traffic traffic;
             try {
-                zebracrossing = em.getReference(Zebracrossing.class, id);
-                zebracrossing.getZebracrossingId();
+                traffic = em.getReference(Traffic.class, id);
+                traffic.getTrafficId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The zebracrossing with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The traffic with id " + id + " no longer exists.", enfe);
             }
-            //When a zebracrossing gets deleted, the ratings should be deleted as well. (on delete cascade)
-            /*List<Rating> ratingList = zebracrossing.getRatingList();
-             for (Rating ratingListRating : ratingList) {
-             ratingListRating.setZebracrossingFk(null);
-             ratingListRating = em.merge(ratingListRating);
-             }*/
-            em.remove(zebracrossing);
+            List<Rating> ratingList = traffic.getRatingList();
+            for (Rating ratingListRating : ratingList) {
+                ratingListRating.setTrafficFk(null);
+                ratingListRating = em.merge(ratingListRating);
+            }
+            em.remove(traffic);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -142,19 +141,19 @@ public class ZebracrossingJpaController implements Serializable {
         }
     }
 
-    public List<Zebracrossing> findZebracrossingEntities() {
-        return findZebracrossingEntities(true, -1, -1);
+    public List<Traffic> findTrafficEntities() {
+        return findTrafficEntities(true, -1, -1);
     }
 
-    public List<Zebracrossing> findZebracrossingEntities(int maxResults, int firstResult) {
-        return findZebracrossingEntities(false, maxResults, firstResult);
+    public List<Traffic> findTrafficEntities(int maxResults, int firstResult) {
+        return findTrafficEntities(false, maxResults, firstResult);
     }
 
-    private List<Zebracrossing> findZebracrossingEntities(boolean all, int maxResults, int firstResult) {
+    private List<Traffic> findTrafficEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Zebracrossing.class));
+            cq.select(cq.from(Traffic.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -166,20 +165,20 @@ public class ZebracrossingJpaController implements Serializable {
         }
     }
 
-    public Zebracrossing findZebracrossing(Integer id) {
+    public Traffic findTraffic(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Zebracrossing.class, id);
+            return em.find(Traffic.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getZebracrossingCount() {
+    public int getTrafficCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Zebracrossing> rt = cq.from(Zebracrossing.class);
+            Root<Traffic> rt = cq.from(Traffic.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

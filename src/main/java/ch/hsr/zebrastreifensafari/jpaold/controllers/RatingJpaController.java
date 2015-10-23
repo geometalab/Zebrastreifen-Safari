@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.jpa.controllers;
+package main.java.ch.hsr.zebrastreifensafari.jpaold.controllers;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,12 +13,12 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import main.java.ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Illumination;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Overview;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Rating;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Traffic;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Zebracrossing;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.controllers.exceptions.NonexistentEntityException;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Illumination;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Overview;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Rating;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Traffic;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Zebracrossing;
 
 /**
  *

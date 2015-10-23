@@ -3,28 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.jpa.controllers;
+package main.java.ch.hsr.zebrastreifensafari.jpaold.controllers;
 
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Illumination;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Rating;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Rating;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Zebracrossing;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import main.java.ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.controllers.exceptions.NonexistentEntityException;
 
 /**
  *
  * @author aeugster
  */
-public class IlluminationJpaController implements Serializable {
+public class ZebracrossingJpaController implements Serializable {
 
-    public IlluminationJpaController(EntityManagerFactory emf) {
+    public ZebracrossingJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -33,28 +33,28 @@ public class IlluminationJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Illumination illumination) {
-        if (illumination.getRatingList() == null) {
-            illumination.setRatingList(new ArrayList<Rating>());
+    public void create(Zebracrossing zebracrossing) {
+        if (zebracrossing.getRatingList() == null) {
+            zebracrossing.setRatingList(new ArrayList<Rating>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             List<Rating> attachedRatingList = new ArrayList<Rating>();
-            for (Rating ratingListRatingToAttach : illumination.getRatingList()) {
+            for (Rating ratingListRatingToAttach : zebracrossing.getRatingList()) {
                 ratingListRatingToAttach = em.getReference(ratingListRatingToAttach.getClass(), ratingListRatingToAttach.getRatingId());
                 attachedRatingList.add(ratingListRatingToAttach);
             }
-            illumination.setRatingList(attachedRatingList);
-            em.persist(illumination);
-            for (Rating ratingListRating : illumination.getRatingList()) {
-                Illumination oldIlluminationFkOfRatingListRating = ratingListRating.getIlluminationFk();
-                ratingListRating.setIlluminationFk(illumination);
+            zebracrossing.setRatingList(attachedRatingList);
+            em.persist(zebracrossing);
+            for (Rating ratingListRating : zebracrossing.getRatingList()) {
+                Zebracrossing oldZebracrossingFkOfRatingListRating = ratingListRating.getZebracrossingFk();
+                ratingListRating.setZebracrossingFk(zebracrossing);
                 ratingListRating = em.merge(ratingListRating);
-                if (oldIlluminationFkOfRatingListRating != null) {
-                    oldIlluminationFkOfRatingListRating.getRatingList().remove(ratingListRating);
-                    oldIlluminationFkOfRatingListRating = em.merge(oldIlluminationFkOfRatingListRating);
+                if (oldZebracrossingFkOfRatingListRating != null) {
+                    oldZebracrossingFkOfRatingListRating.getRatingList().remove(ratingListRating);
+                    oldZebracrossingFkOfRatingListRating = em.merge(oldZebracrossingFkOfRatingListRating);
                 }
             }
             em.getTransaction().commit();
@@ -65,36 +65,36 @@ public class IlluminationJpaController implements Serializable {
         }
     }
 
-    public void edit(Illumination illumination) throws NonexistentEntityException, Exception {
+    public void edit(Zebracrossing zebracrossing) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Illumination persistentIllumination = em.find(Illumination.class, illumination.getIlluminationId());
-            List<Rating> ratingListOld = persistentIllumination.getRatingList();
-            List<Rating> ratingListNew = illumination.getRatingList();
+            Zebracrossing persistentZebracrossing = em.find(Zebracrossing.class, zebracrossing.getZebracrossingId());
+            List<Rating> ratingListOld = persistentZebracrossing.getRatingList();
+            List<Rating> ratingListNew = zebracrossing.getRatingList();
             List<Rating> attachedRatingListNew = new ArrayList<Rating>();
             for (Rating ratingListNewRatingToAttach : ratingListNew) {
                 ratingListNewRatingToAttach = em.getReference(ratingListNewRatingToAttach.getClass(), ratingListNewRatingToAttach.getRatingId());
                 attachedRatingListNew.add(ratingListNewRatingToAttach);
             }
             ratingListNew = attachedRatingListNew;
-            illumination.setRatingList(ratingListNew);
-            illumination = em.merge(illumination);
+            zebracrossing.setRatingList(ratingListNew);
+            zebracrossing = em.merge(zebracrossing);
             for (Rating ratingListOldRating : ratingListOld) {
                 if (!ratingListNew.contains(ratingListOldRating)) {
-                    ratingListOldRating.setIlluminationFk(null);
+                    ratingListOldRating.setZebracrossingFk(null);
                     ratingListOldRating = em.merge(ratingListOldRating);
                 }
             }
             for (Rating ratingListNewRating : ratingListNew) {
                 if (!ratingListOld.contains(ratingListNewRating)) {
-                    Illumination oldIlluminationFkOfRatingListNewRating = ratingListNewRating.getIlluminationFk();
-                    ratingListNewRating.setIlluminationFk(illumination);
+                    Zebracrossing oldZebracrossingFkOfRatingListNewRating = ratingListNewRating.getZebracrossingFk();
+                    ratingListNewRating.setZebracrossingFk(zebracrossing);
                     ratingListNewRating = em.merge(ratingListNewRating);
-                    if (oldIlluminationFkOfRatingListNewRating != null && !oldIlluminationFkOfRatingListNewRating.equals(illumination)) {
-                        oldIlluminationFkOfRatingListNewRating.getRatingList().remove(ratingListNewRating);
-                        oldIlluminationFkOfRatingListNewRating = em.merge(oldIlluminationFkOfRatingListNewRating);
+                    if (oldZebracrossingFkOfRatingListNewRating != null && !oldZebracrossingFkOfRatingListNewRating.equals(zebracrossing)) {
+                        oldZebracrossingFkOfRatingListNewRating.getRatingList().remove(ratingListNewRating);
+                        oldZebracrossingFkOfRatingListNewRating = em.merge(oldZebracrossingFkOfRatingListNewRating);
                     }
                 }
             }
@@ -102,9 +102,9 @@ public class IlluminationJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = illumination.getIlluminationId();
-                if (findIllumination(id) == null) {
-                    throw new NonexistentEntityException("The illumination with id " + id + " no longer exists.");
+                Integer id = zebracrossing.getZebracrossingId();
+                if (findZebracrossing(id) == null) {
+                    throw new NonexistentEntityException("The zebracrossing with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -120,19 +120,20 @@ public class IlluminationJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Illumination illumination;
+            Zebracrossing zebracrossing;
             try {
-                illumination = em.getReference(Illumination.class, id);
-                illumination.getIlluminationId();
+                zebracrossing = em.getReference(Zebracrossing.class, id);
+                zebracrossing.getZebracrossingId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The illumination with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The zebracrossing with id " + id + " no longer exists.", enfe);
             }
-            List<Rating> ratingList = illumination.getRatingList();
-            for (Rating ratingListRating : ratingList) {
-                ratingListRating.setIlluminationFk(null);
-                ratingListRating = em.merge(ratingListRating);
-            }
-            em.remove(illumination);
+            //When a zebracrossing gets deleted, the ratings should be deleted as well. (on delete cascade)
+            /*List<Rating> ratingList = zebracrossing.getRatingList();
+             for (Rating ratingListRating : ratingList) {
+             ratingListRating.setZebracrossingFk(null);
+             ratingListRating = em.merge(ratingListRating);
+             }*/
+            em.remove(zebracrossing);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -141,19 +142,19 @@ public class IlluminationJpaController implements Serializable {
         }
     }
 
-    public List<Illumination> findIlluminationEntities() {
-        return findIlluminationEntities(true, -1, -1);
+    public List<Zebracrossing> findZebracrossingEntities() {
+        return findZebracrossingEntities(true, -1, -1);
     }
 
-    public List<Illumination> findIlluminationEntities(int maxResults, int firstResult) {
-        return findIlluminationEntities(false, maxResults, firstResult);
+    public List<Zebracrossing> findZebracrossingEntities(int maxResults, int firstResult) {
+        return findZebracrossingEntities(false, maxResults, firstResult);
     }
 
-    private List<Illumination> findIlluminationEntities(boolean all, int maxResults, int firstResult) {
+    private List<Zebracrossing> findZebracrossingEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Illumination.class));
+            cq.select(cq.from(Zebracrossing.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -165,20 +166,20 @@ public class IlluminationJpaController implements Serializable {
         }
     }
 
-    public Illumination findIllumination(Integer id) {
+    public Zebracrossing findZebracrossing(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Illumination.class, id);
+            return em.find(Zebracrossing.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getIlluminationCount() {
+    public int getZebracrossingCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Illumination> rt = cq.from(Illumination.class);
+            Root<Zebracrossing> rt = cq.from(Zebracrossing.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.jpa.entities;
+package main.java.ch.hsr.zebrastreifensafari.jpaold.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -101,7 +101,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "ch.hsr.zebrastreifensafari.jpa.entities.User[ userId=" + userId + " ]";
+        return "ch.hsr.zebrastreifensafari.jpaold.entities.User[ userId=" + userId + " ]";
     }
 
 }

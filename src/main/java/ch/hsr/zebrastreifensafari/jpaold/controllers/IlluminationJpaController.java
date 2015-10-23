@@ -3,28 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.jpa.controllers;
+package main.java.ch.hsr.zebrastreifensafari.jpaold.controllers;
 
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Illumination;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Rating;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Traffic;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.Rating;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import main.java.ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
+import main.java.ch.hsr.zebrastreifensafari.jpaold.controllers.exceptions.NonexistentEntityException;
 
 /**
  *
  * @author aeugster
  */
-public class TrafficJpaController implements Serializable {
+public class IlluminationJpaController implements Serializable {
 
-    public TrafficJpaController(EntityManagerFactory emf) {
+    public IlluminationJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -33,28 +33,28 @@ public class TrafficJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Traffic traffic) {
-        if (traffic.getRatingList() == null) {
-            traffic.setRatingList(new ArrayList<Rating>());
+    public void create(Illumination illumination) {
+        if (illumination.getRatingList() == null) {
+            illumination.setRatingList(new ArrayList<Rating>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             List<Rating> attachedRatingList = new ArrayList<Rating>();
-            for (Rating ratingListRatingToAttach : traffic.getRatingList()) {
+            for (Rating ratingListRatingToAttach : illumination.getRatingList()) {
                 ratingListRatingToAttach = em.getReference(ratingListRatingToAttach.getClass(), ratingListRatingToAttach.getRatingId());
                 attachedRatingList.add(ratingListRatingToAttach);
             }
-            traffic.setRatingList(attachedRatingList);
-            em.persist(traffic);
-            for (Rating ratingListRating : traffic.getRatingList()) {
-                Traffic oldTrafficFkOfRatingListRating = ratingListRating.getTrafficFk();
-                ratingListRating.setTrafficFk(traffic);
+            illumination.setRatingList(attachedRatingList);
+            em.persist(illumination);
+            for (Rating ratingListRating : illumination.getRatingList()) {
+                Illumination oldIlluminationFkOfRatingListRating = ratingListRating.getIlluminationFk();
+                ratingListRating.setIlluminationFk(illumination);
                 ratingListRating = em.merge(ratingListRating);
-                if (oldTrafficFkOfRatingListRating != null) {
-                    oldTrafficFkOfRatingListRating.getRatingList().remove(ratingListRating);
-                    oldTrafficFkOfRatingListRating = em.merge(oldTrafficFkOfRatingListRating);
+                if (oldIlluminationFkOfRatingListRating != null) {
+                    oldIlluminationFkOfRatingListRating.getRatingList().remove(ratingListRating);
+                    oldIlluminationFkOfRatingListRating = em.merge(oldIlluminationFkOfRatingListRating);
                 }
             }
             em.getTransaction().commit();
@@ -65,36 +65,36 @@ public class TrafficJpaController implements Serializable {
         }
     }
 
-    public void edit(Traffic traffic) throws NonexistentEntityException, Exception {
+    public void edit(Illumination illumination) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Traffic persistentTraffic = em.find(Traffic.class, traffic.getTrafficId());
-            List<Rating> ratingListOld = persistentTraffic.getRatingList();
-            List<Rating> ratingListNew = traffic.getRatingList();
+            Illumination persistentIllumination = em.find(Illumination.class, illumination.getIlluminationId());
+            List<Rating> ratingListOld = persistentIllumination.getRatingList();
+            List<Rating> ratingListNew = illumination.getRatingList();
             List<Rating> attachedRatingListNew = new ArrayList<Rating>();
             for (Rating ratingListNewRatingToAttach : ratingListNew) {
                 ratingListNewRatingToAttach = em.getReference(ratingListNewRatingToAttach.getClass(), ratingListNewRatingToAttach.getRatingId());
                 attachedRatingListNew.add(ratingListNewRatingToAttach);
             }
             ratingListNew = attachedRatingListNew;
-            traffic.setRatingList(ratingListNew);
-            traffic = em.merge(traffic);
+            illumination.setRatingList(ratingListNew);
+            illumination = em.merge(illumination);
             for (Rating ratingListOldRating : ratingListOld) {
                 if (!ratingListNew.contains(ratingListOldRating)) {
-                    ratingListOldRating.setTrafficFk(null);
+                    ratingListOldRating.setIlluminationFk(null);
                     ratingListOldRating = em.merge(ratingListOldRating);
                 }
             }
             for (Rating ratingListNewRating : ratingListNew) {
                 if (!ratingListOld.contains(ratingListNewRating)) {
-                    Traffic oldTrafficFkOfRatingListNewRating = ratingListNewRating.getTrafficFk();
-                    ratingListNewRating.setTrafficFk(traffic);
+                    Illumination oldIlluminationFkOfRatingListNewRating = ratingListNewRating.getIlluminationFk();
+                    ratingListNewRating.setIlluminationFk(illumination);
                     ratingListNewRating = em.merge(ratingListNewRating);
-                    if (oldTrafficFkOfRatingListNewRating != null && !oldTrafficFkOfRatingListNewRating.equals(traffic)) {
-                        oldTrafficFkOfRatingListNewRating.getRatingList().remove(ratingListNewRating);
-                        oldTrafficFkOfRatingListNewRating = em.merge(oldTrafficFkOfRatingListNewRating);
+                    if (oldIlluminationFkOfRatingListNewRating != null && !oldIlluminationFkOfRatingListNewRating.equals(illumination)) {
+                        oldIlluminationFkOfRatingListNewRating.getRatingList().remove(ratingListNewRating);
+                        oldIlluminationFkOfRatingListNewRating = em.merge(oldIlluminationFkOfRatingListNewRating);
                     }
                 }
             }
@@ -102,9 +102,9 @@ public class TrafficJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = traffic.getTrafficId();
-                if (findTraffic(id) == null) {
-                    throw new NonexistentEntityException("The traffic with id " + id + " no longer exists.");
+                Integer id = illumination.getIlluminationId();
+                if (findIllumination(id) == null) {
+                    throw new NonexistentEntityException("The illumination with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -120,19 +120,19 @@ public class TrafficJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Traffic traffic;
+            Illumination illumination;
             try {
-                traffic = em.getReference(Traffic.class, id);
-                traffic.getTrafficId();
+                illumination = em.getReference(Illumination.class, id);
+                illumination.getIlluminationId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The traffic with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The illumination with id " + id + " no longer exists.", enfe);
             }
-            List<Rating> ratingList = traffic.getRatingList();
+            List<Rating> ratingList = illumination.getRatingList();
             for (Rating ratingListRating : ratingList) {
-                ratingListRating.setTrafficFk(null);
+                ratingListRating.setIlluminationFk(null);
                 ratingListRating = em.merge(ratingListRating);
             }
-            em.remove(traffic);
+            em.remove(illumination);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -141,19 +141,19 @@ public class TrafficJpaController implements Serializable {
         }
     }
 
-    public List<Traffic> findTrafficEntities() {
-        return findTrafficEntities(true, -1, -1);
+    public List<Illumination> findIlluminationEntities() {
+        return findIlluminationEntities(true, -1, -1);
     }
 
-    public List<Traffic> findTrafficEntities(int maxResults, int firstResult) {
-        return findTrafficEntities(false, maxResults, firstResult);
+    public List<Illumination> findIlluminationEntities(int maxResults, int firstResult) {
+        return findIlluminationEntities(false, maxResults, firstResult);
     }
 
-    private List<Traffic> findTrafficEntities(boolean all, int maxResults, int firstResult) {
+    private List<Illumination> findIlluminationEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Traffic.class));
+            cq.select(cq.from(Illumination.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -165,20 +165,20 @@ public class TrafficJpaController implements Serializable {
         }
     }
 
-    public Traffic findTraffic(Integer id) {
+    public Illumination findIllumination(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Traffic.class, id);
+            return em.find(Illumination.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getTrafficCount() {
+    public int getIlluminationCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Traffic> rt = cq.from(Traffic.class);
+            Root<Illumination> rt = cq.from(Illumination.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
