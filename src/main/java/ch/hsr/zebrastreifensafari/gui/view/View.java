@@ -35,7 +35,7 @@ public class View extends JFrame implements Observer {
     public View(Model model) {
         this.model = model;
 
-        zebraTM = new DefaultTableModel(new String[]{"ID", "Osm Node"}, 0) {
+        zebraTM = new DefaultTableModel(new String[]{"ID", "Osm Node", "Status"}, 0) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -268,19 +268,21 @@ public class View extends JFrame implements Observer {
 
         if (model.isRatingMode()) {
             for (Rating r : model.getRatings()) {
-                ratingTM.addRow(new String[]{r.getId().toString(),
-                        r.getUserId().getName(),
-                        r.getTrafficId().getValue(),
-                        r.getSpatialClarityId().getValue(),
-                        r.getIlluminationId().getValue(),
-                        r.getComment() == null ? "" : r.getComment(),
-                        r.getImageWeblink(),
-                        r.getLastChanged().toString()
-                });
+                ratingTM.addRow(
+                        new String[]{r.getId().toString(),
+                            r.getUserId().getName(),
+                            r.getTrafficId().getValue(),
+                            r.getSpatialClarityId().getValue(),
+                            r.getIlluminationId().getValue(),
+                            r.getComment() == null ? "" : r.getComment(),
+                            r.getImageWeblink(),
+                            r.getLastChanged().toString()
+                    }
+                );
             }
         } else {
             for (Crossing z : model.getCrossings()) {
-                zebraTM.addRow(new String[]{z.getId().toString(), Long.toString(z.getOsmNodeId())});
+                zebraTM.addRow(new String[]{z.getId().toString(), Long.toString(z.getOsmNodeId()), Integer.toString(z.getStatus())});
             }
         }
 
