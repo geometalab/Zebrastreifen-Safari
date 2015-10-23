@@ -1,113 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <!-- Stops unwanted scaling -->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <!-- import own Stylesheet -->
-        <link id="size-stylesheet" rel="stylesheet" href="css/style.css"/>
-        <title>Zebrastreifen-Safari</title>
-    </head>
-    <body>
-    <!--Container for the body-->
-    <div class="wrapper">
-        <!-- Container for the header -->
+<html>
+<head>
+    <title>Zebrastreifensafari</title>
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
+
+
+    <link rel="stylesheet" type="text/css" media="all" href="css/style.css"/>
+</head>
+
+<body>
+
+<!--This wrapping container is used to get the width of the whole content-->
+<div id="container">
+    <div class="nav-mobil">
+        <!--The Hamburger Button in the Header-->
+        <header>
+            <div id="navigation">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <h1>Zebrastreifen-Safari</h1>
+
+        </header>
+
+        <!--The mobile navigation Markup hidden via css-->
+        <nav>
+            <ul>
+                <li class="map"><a href="map.html">Karte</a></li>
+                <li><a href="http://geometalab.tumblr.com/">Blog</a></li>
+                <li><a href="project.html" class="myButton">&Uuml;ber...</a></li>
+                <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Kontakt">Kontakt</a></li>
+                <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Terms_of_Use">Terms of Use</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!--The Layer that will be layed over the content
+    so that the content is unclickable while menu is shown-->
+    <div id="contentLayer"></div>
+
+    <div class="nav-desktop">
+
         <header class="header">
             <div class="header-text">
                 <a href="index.html">
                     <h1>Zebrastreifen-Safari</h1>
                 </a>
+
             </div>
-            <!-- Container for the Buttons -->
-            <div class="buttons">
-                <a href="map.html" class="myButton">Karte</a>
-                <a href="project.html" class="myButton">&Uuml;ber das Projekt</a>
-                <div class=myButton1>Footer &raquo;
-                    <span class=dropdown>
-                                <a href=#>Feedback</a>
-                                <a href=#>Terms of Use</a>
-                                <a href=#>Geometa Lab</a>
-                              </span>
-                </div>
-            </div>
-            <div class="header-logo">
-                <a href="http://i.hsr.ch">
-                    <img src="css/hsrlogo.jpg" alt="HSR-Logo"/>
-                </a>
+            <div class="nav">
+                <ul>
+                    <li class="map"><a href="map.html">Karte</a></li>
+                    <li class="dropmenu"><a href="#">&#9776;</a>
+                        <ul>
+                            <li><a href="http://geometalab.tumblr.com/">Blog</a></li>
+                            <li><a href="project.html" class="myButton">&Uuml;ber...</a></li>
+                            <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Kontakt">Kontakt</a></li>
+                            <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Terms_of_Use">Terms of Use</a></li>
+                        </ul>
+                    </li>
+                    <li class="hsrlogo">
+                        <a href="http://i.hsr.ch">
+                            <img src="css/hsrlogo.jpg" alt="HSR-Logo"/>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </header>
-        <!-- Container for the Content on the website -->
-        <article class="main">
-            <table  width="50%" >
-                <tr>
-                    <th class="t_mobile">Node:   </th>
-                    <td class="t_head">Node:   </td>
-                    <td id="node"></td>
-                </tr>
-                <tr>
-                    <th class="t_mobile">Lichtsignal:    </th>
-                    <td class="t_head">Lichtsignal:    </td>
-                    <td id="traffic_signal"></td>
-                </tr>
-                <tr>
-                    <th class="t_mobile">Insel:  </th>
-                    <td class="t_head">Insel:  </td>
-                    <td id="island"></td>
-                </tr>
-                <tr>
-                    <th class="t_mobile">Bodenmarkierung:     </th>
-                    <td class="t_head">Bodenmarkierung:     </td>
-                    <td id="unmarked"></td>
-                </tr>
-                <tr>
-                    <th class="t_mobile">Knopf f&uuml;r das Lichtsignal:    </th>
-                    <td class="t_head">Knopf f&uuml;r das Lichtsignal:     </td>
-                    <td id="button_operated"></td>
-                </tr>
-                <tr>
-                    <th class="t_mobile">Geeignet f&uuml;r Rollstuhlfahrer:   </th>
-                    <td class="t_head">Geeignet f&uuml;r Rollstuhlfahrer:   </td>
-                    <td id="slooped_curb"></td>
-                </tr>
-                <tr>
-                    <th class="t_mobile">Rillen für Blindenstock:     </th>
-                    <td class="t_head">Rillen für Blindenstock:     </td>
-                    <td id="tactile_paving"></td>
-                </tr>
-                <tr>
-                    <th class="t_mobile">Vibrationsfunktion bei Grünlicht:   </th>
-                    <td class="t_head">Vibrationsfunktion bei Grünlicht:   </td>
-                    <td id="traffic_signals_vibration"></td>
-                </tr>
-                <tr>
-                    <th class="t_mobile">Sound bei Grünlicht:    </th>
-                    <td class="t_head">Sound bei Grünlicht:    </td>
-                    <td id="traffic_signals_sound"></td>
-                </tr>
-                <tr>
-                    <td>Bewertung</td>
-                    <td id="rating">
-                        <table id="t_rating" border="1" width="100%">
-                            <tr>
-                                <td class="t_head">Kommentar</td>
-                                <td class="t_head">Benutzername</td>
-                                <td class="t_head">&Uuml;bersicht</td>
-                                <td class="t_head">Beleuchtung</td>
-                                <td class="t_head">Verkehr</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="t_mobile">Bild:   </th>
-                    <td class="t_head">Bild:   </td>
-                    <td><img id="image" src="" alt="Bild des Zebrastreifens"></td>
-                </tr>
-            </table>
-        </article>
     </div>
-    </body>
-    <script type="text/javascript" src="libs/script/jquery-1.11.3.js"></script>
-    <script type="text/javascript" src="script/mobilemenu.js"></script>
-    <script type="text/javascript" src="script/crossing.js"></script>
+    <!--The content of the site-->
+    <div id="content">
+        <p id="error"> </p>
+        <p id="reason"></p>
+        <table id="table" width="50%" >
+            <tr>
+                <th class="t_mobile">Node:</th>
+                <td class="t_head">Node:</td>
+                <td id="node"></td>
+            </tr>
+            <tr>
+                <th class="t_mobile">Lichtsignal:</th>
+                <td class="t_head">Lichtsignal:</td>
+                <td id="traffic_signal"></td>
+            </tr>
+            <tr>
+                <th class="t_mobile">Insel:</th>
+                <td class="t_head">Insel:</td>
+                <td id="island"></td>
+            </tr>
+            <tr>
+                <th class="t_mobile">Bodenmarkierung:</th>
+                <td class="t_head">Bodenmarkierung:</td>
+                <td id="unmarked"></td>
+            </tr>
+            <tr>
+                <th class="t_mobile">Knopf f&uuml;r das Lichtsignal:</th>
+                <td class="t_head">Knopf f&uuml;r das Lichtsignal:</td>
+                <td id="button_operated"></td>
+            </tr>
+            <tr>
+                <th class="t_mobile">Geeignet f&uuml;r Rollstuhlfahrer:</th>
+                <td class="t_head">Geeignet f&uuml;r Rollstuhlfahrer:</td>
+                <td id="slooped_curb"></td>
+            </tr>
+            <tr>
+                <th class="t_mobile">Rillen für Blindenstock:</th>
+                <td class="t_head">Rillen für Blindenstock:</td>
+                <td id="tactile_paving"></td>
+            </tr>
+            <tr>
+                <th class="t_mobile">Vibrationsfunktion bei Grünlicht:</th>
+                <td class="t_head">Vibrationsfunktion bei Grünlicht:</td>
+                <td id="traffic_signals_vibration"></td>
+            </tr>
+            <tr>
+                <th class="t_mobile">Sound bei Grünlicht:</th>
+                <td class="t_head">Sound bei Grünlicht:</td>
+                <td id="traffic_signals_sound"></td>
+            </tr>
+            <tr>
+                <td>Bewertung</td>
+                <td id="rating">
+                    <table id="t_rating" border="1" width="100%">
+                        <tr>
+                            <td class="t_head">Kommentar</td>
+                            <td class="t_head">Benutzername</td>
+                            <td class="t_head">&Uuml;bersicht</td>
+                            <td class="t_head">Beleuchtung</td>
+                            <td class="t_head">Verkehr</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <th class="t_mobile">Bild:</th>
+                <td class="t_head">Bild:</td>
+                <td><img id="image" src="" alt="Bild des Zebrastreifens"></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+</body>
+<!--Using jQuery and jQuery UI for display effects-->
+<script src="libs/script/jquery-1.11.3.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+
+<!--Using the hamburger menu display code-->
+<script src="script/mobilemenu.js"></script>
+<script type="text/javascript" src="script/crossing.js"></script>
 </html>

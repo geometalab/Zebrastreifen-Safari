@@ -12,6 +12,9 @@ body {
     font-family: Arial;
     font-size: 18px;
 }
+p {
+    font-size: 0.9em;
+}
 @media screen and (min-width: 800px) {
     .nav-mobil {
         display: none;
@@ -118,6 +121,33 @@ body {
     .nav li ul li {
         display: block;
     }
+    .wrapper {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+
+        -webkit-flex-flow: row wrap;
+        flex-flow: row wrap;
+
+    }
+
+    .wrapper > * {
+        padding: 1px;
+        flex: 1 100%;
+    }
+    #content {
+        flex: 3 0px;
+        order: 2;
+    }
+
+    .aside-2 {
+        width: 10%;
+        flex: 1 auto;
+        order: 3;
+    }
+
 }
 @media all and (max-width: 800px){
     /*
@@ -254,4 +284,25 @@ the button with a little gradient effekt
         width: 70%;
         z-index: 5;
     }
+}
+@media
+only screen and (max-width: 800px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+    }
+    tr{
+        border: 1px solid;
+    }
+
+    .t_mobile {
+        display: flex;
+    }
+    .t_head {
+        display: none;
+    }
+
+
 }

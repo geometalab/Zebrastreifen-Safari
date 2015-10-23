@@ -12,7 +12,6 @@ $(document).ready(function() {
             } else {
                 $("#error").hide();
                 $("#reason").hide();
-                /* TODO generate table with javascript instead of html*/
 
                 /*changes the value of the table*/
                 document.getElementById("node").textContent = json.node;

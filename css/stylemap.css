@@ -1,401 +1,268 @@
-.wrapper {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-
-    -webkit-flex-flow: row wrap;
-    flex-flow: row wrap;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-}
-
-.wrapper > .header, .footer, #map {
-    flex: 1 100%;
-}
-
-.header {
-    background-color: #3384B5;
-    display: flex;
-    position: relative;
-    /*justify-content: space-around;*/
-    z-index: 1;
-    height: 5%;
-
-     justify-content: space-between;
-
-}
-.header-logo {
-    display: flex;
-    /*max-width: 13%;*/
-    max-width: 115px;
-    margin-top: 4px;
-    margin-bottom: 4px;
-}
-
-.header-logo img {
-    display: flex;
-    width: 100%;
-}
-.header-text {
-    font-size: 65%;
-}
-.header a{
-    text-decoration: none;
-    color: white;
-}
-.buttons img{
-    max-width: 115px;
-    margin-top: 4px;
-    margin-bottom: -16px;
-}
-/*Header-Buttons*/
-.myButton {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    background-color:#0065A3;
-    display:inline-flex;
-    color:#3d3d3d;
-    /*font-size:20px;*/
-    padding:14px 50px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #bdbdbd;
-}
-.myButton:hover {
-    background-color: #99C1DA;
-}
-.myButton:active {
-    position:relative;
-    top:1px;
-}
-/*Dropdown Menu*/
-.dropdown {
-    display: flex;
-    display: -webkit-flex;
-    -webkit-flex-flow:column;
-    -webkit-justify-content: space-between;
-    position: absolute;
-}
-.dropdown a {
-    padding: 5px;
-    display: block;
-    background: #0065A3;
-}
-.dropdown a:hover {
-    background: #3384B5;
-    color: white;
-}
-/*Buttons for the Dropdown-Menu*/
-.myButton1:not(:hover):not(:target) > .dropdown {
-    display: none;
-}
-.myButton1 {
-    background-color:#0065A3;
-    display:inline-flex;
-    color: white;
-    /*font-size:20px;*/
-    padding:14px 25px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #bdbdbd;
-}
-
-
-
-#map {
-    width: auto;
-    height: 95%;
-}
-#menu {
-    font-size: 25px;
-}
-
-/*Disable Menu for the not Mobile version*/
-@media all and (min-width: 600px) {
-    #menu    { display: none; }
-}
-
-/*Change the height if width is bigger then 1083px*/
-@media all and (max-height: 600px){
-    .header { height: 18%;}
-    #map {height: 82%; }
-}
-@media all and (max-height: 1080px) {
-    .header { height: 6%;}
-    #map {height: 94%; }
-}
-@media all and (max-height: 930px) {
-    .header { height: 7%;}
-    #map {height: 93%; }
-}
-@media all and (max-height: 800px) {
-    .header { height: 8%;}
-    #map {height: 92%; }
-}
-@media all and (max-height: 680px) {
-    .header { height: 9%;}
-    #map {height: 91%; }
-}
-@media all and (max-height: 600px) {
-    .header { height: 10%;}
-    #map {height: 90%; }
-}
-@media all and (max-height: 550px) {
-    .header { height: 12%;}
-    #map {height: 88%; }
-}
-@media all and (max-height: 475px){
-    .header { height: 15%;}
-    #map {height: 85%; }
-}
-
-/*Change height when Width is less than 1083*/
-@media all and (max-width: 1083px) {
-    .header { height: 5%;}
-    #map {height: 95%; }
-}
-@media all and (max-width: 1083px) and (max-height: 1090px){
-    .header { height: 6%;}
-    #map {height: 94%; }
-}
-@media all and (max-width: 1083px) and (max-height: 909px){
-    .header { height: 7%;}
-    #map {height: 93%; }
-}
-@media all and (max-width: 1083px) and (max-height: 775px){
-    .header { height: 8%;}
-    #map {height: 92%; }
-}
-@media all and (max-width: 1083px) and (max-height: 678px){
-    .header { height: 9%;}
-    #map {height: 91%; }
-}
-@media all and (max-width: 1083px) and (max-height: 602px){
-    .header { height: 10%;}
-    #map {height: 90%; }
-}
-@media all and (max-width: 1083px) and (max-height: 519px){
-    .header { height: 12%;}
-    #map {height: 88%; }
-}
-@media all and (max-width: 1083px) and (max-height: 450px){
-    .header { height: 15%;}
-    #map {height: 85%; }
-}
-
-
-/*Change height when*/
-@media all and (max-width: 1060px) {
-    .header { height: 5%;}
-    #map {height: 95%; }
-}
-@media all and (max-width: 1060px) and (max-height: 1082px) {
-    .header { height: 6%;}
-    #map {height: 94%; }
-}
-@media all and (max-width: 1060px) and (max-height: 905px) {
-    .header { height: 7%;}
-    #map {height: 93%; }
-}
-@media all and (max-width: 1060px) and (max-height: 790px) {
-    .header { height: 8%;}
-    #map {height: 92%; }
-}
-@media all and (max-width: 1060px) and (max-height: 700px) {
-    .header { height: 9%;}
-    #map {height: 91%; }
-}
-@media all and (max-width: 1060px) and (max-height: 600px) {
-    .header { height: 10%;}
-    #map {height: 90%; }
-}
-@media all and (max-width: 1060px) and (max-height: 535px) {
-    .header { height: 12%;}
-    #map {height: 88%; }
-}
-@media all and (max-width: 1060px) and (max-height: 445px) {
-    .header { height: 15%;}
-    #map {height: 85%; }
-}
-@media all and (max-width: 1060px) and (max-height: 380px) {
-    .header { height: 18%;}
-    #map {height: 82%; }
-}
-
-/*css for mobile Landscape*/
-@media all and (max-width: 783px) {
-    .header { height: 10%;}
-    #map {height: 90%; }
-}
-@media all and (max-width: 783px) and (max-height: 1075px) {
-    .header { height: 12%;}
-    #map {height: 88%; }
-}
-@media all and (max-width: 783px) and (max-height: 900px) {
-    .header { height: 15%;}
-    #map {height: 85%; }
-}
-@media all and (max-width: 783px) and (max-height: 738px) {
-    .header { height: 18%;}
-    #map {height: 82%; }
-}
-@media all and (max-width: 783px) and (max-height: 590px) {
-    .header { height: 20%;}
-    #map {height: 80%; }
-}
-@media all and (max-width: 783px) and (max-height: 530px) {
-    .header { height: 22%;}
-    #map {height: 78%; }
-}
-@media all and (max-width: 783px) and (max-height: 490px) {
-    .header { height: 25%;}
-    #map {height: 75%; }
-}
-@media all and (max-width: 783px) and (max-height: 430px) {
-    .header { height: 27%;}
-    #map {height: 73%; }
-}
-@media all and (max-width: 783px) and (max-height: 400px) {
-    .header { height: 30%;}
-    #map {height: 70%; }
-}
-@media all and (max-width: 783px) and (max-height: 365px) {
-    .header { height: 34%;}
-    #map {height: 66%; }
-}
-
-/*Css for Mobile */
-@media all and (max-width: 600px) {
-    .header { height: 5%;}
-    #map {height: 95%; }
-    .buttons {display: none; }
-    .header-text {
-        order: 1;
-    }
-    .header-logo {display: none; }
-
-}
-@media all and (max-width: 600px) and (max-height: 705px) {
-    .header { height: 7%;}
-    #map {height: 93%; }
-}
-@media all and (max-width: 600px) and (max-height: 575px) {
-    .header { height: 10%;}
-    #map {height: 90%; }
-}
-@media all and (max-width: 600px) and (max-height: 440px) {
-    .header { height: 12%;}
-    #map {height: 88%; }
-}
-@media all and (max-width: 600px) and (max-height: 335px) {
-    .header { height: 15%;}
-    #map {height: 85%; }
-}
-@media all and (max-width: 600px) and (max-height: 250px) {
-    .header { height: 17%;}
-    #map {height: 83%; }
-}
-@media all and (max-width: 325px) {
-    .header { height: 5%;}
-    #map {height: 95%; }
-}
-@media all and (max-width: 325px) and (max-height: 745px) {
-    .header { height: 7%;}
-    #map {height: 93%; }
-}
-@media all and (max-width: 325px) and (max-height: 575px) {
-    .header { height: 8%;}
-    #map {height: 92%; }
-}
-@media all and (max-width: 325px) and (max-height: 470px) {
-    .header { height: 10%;}
-    #map {height: 90%; }
-}
-@media all and (max-width: 325px) and (max-height: 360px) {
-    .header { height: 12%;}
-    #map {height: 88%; }
-}
-@media all and (max-width: 325px) and (max-height: 310px) {
-    .header { height: 15%;}
-    #map {height: 85%; }
-}
-body {
-    /*background-color: #f4f4f4;*/
-
-    padding: 0 ;
-    font-family: "Arial";
-    margin: 0 0 150px;
-}
-
-
 html {
-    position: relative;
-    min-height: 100%;
+    overflow-y: scroll;
 }
-/*.header-logo {*/
-/*max-width: 200px;*/
-/*max-height: 78px;*/
-/*overflow: hidden;*/
-/*}*/
-/*.header-logo img {*/
-/*max-width: 100%;*/
-/*max-height: 100%;*/
-/*}*/
 
+/*
+Setup a basic body
+*/
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: Arial;
+    font-size: 18px;
 
-/*.header a{*/
-/*text-decoration: none;*/
-/*color: white;*/
-/*}*/
-/*.dropdown {*/
-/*display: flex;*/
-/*display: -webkit-flex;*/
-/*-webkit-flex-flow:column;*/
-/*-webkit-justify-content: space-between;*/
-/*position: absolute;*/
-/*}*/
+}
 
-/*.dropdown a {*/
-/*padding: 5px;*/
-/*display: block;*/
-/*background: #0065A3;*/
-/*}*/
-/*.dropdown a:hover {*/
-/*background: #3384B5;*/
-/*color: white;*/
-/*}*/
+@media screen and (min-width: 800px) {
+    .nav-mobil {
+        display: none;
+    }
+    .header {
+        margin: 0;
+        background-color: #3384B5;
+        display: flex;
+        /*justify-content: space-around;*/
+        justify-content: space-between;
+    }
+    .header-logo {
+        display: flex;
+        /*max-width: 13%;*/
+        max-width: 115px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
 
+    .header-logo img {
+        display: flex;
+        width: 100%;
+    }
+    .header-text {
+        font-size: 65%;
+    }
+    .header a{
+        text-decoration: none;
+        color: white;
+    }
+    .nav {
+        overflow: hidden;
+        margin: 5px;
+    }
+    .nav ul {
 
-/*.myButton1:not(:hover):not(:target) > .dropdown {*/
-/*display: none;*/
-/*}*/
+        text-align: center;
+        padding: 0;
+        margin: 0;
+    }
+    .nav li {
+        text-align: left;
+    }
 
+    .nav a {
+        background-color: #0065A3;
+        color: #fff;
+        display: block;
+        padding-left: 15px;
+        transition: .3s background-color;
+    }
 
+    .nav a:hover {
+        background-color: #99C1DA;
+    }
+    .nav a.active {
+        background-color: #aaa;
+        color: #444;
+        cursor: default;
+    }
 
-/*.myButton1 {*/
-/*display:inline-flex;*/
-/*color: white;*/
-/*font-size:20px;*/
-/*padding:19px 50px;*/
-/*text-decoration:none;*/
-/*text-shadow:0px 1px 0px #bdbdbd;*/
-/*}*/
+    /* Sub Menus */
+    .nav li li {
+        font-size: .8em;
+    }
+    .nav img {
+        max-width: 125px;
+        margin-bottom: -16px;
+    }
+    .nav li {
+        width: 130px;
+        border-bottom: none;
+        height: 50px;
+        line-height: 50px;
+        font-size: 1em;
+        display: inline-block;
+        margin-right: -4px;
+    }
 
+    .nav a {
+        border-bottom: none;
+    }
 
-/*.myButton {*/
-/*background-color:#0065A3;*/
-/*display:inline-flex;*/
-/*color:#3d3d3d;*/
-/*font-size:20px;*/
-/*padding:19px 50px;*/
-/*text-decoration:none;*/
-/*text-shadow:0px 1px 0px #bdbdbd;*/
-/*}*/
-/*.myButton:hover {*/
-/*background-color: #99C1DA;*/
-/*}*/
-/*.myButton:active {*/
-/*position:relative;*/
-/*top:1px;*/
-/*}*/
+    .nav > ul > li {
+        text-align: center;
+        margin-right: 5px;
+    }
+
+    .nav > ul > li > a {
+        padding-left: 0;
+    }
+
+    /* Sub Menus */
+    .nav li ul {
+        z-index: 5;
+        position: absolute;
+        display: none;
+        width: inherit;
+    }
+
+    .nav li:hover ul {
+        display: block;
+    }
+
+    .nav li ul li {
+        display: block;
+    }
+
+    #map {
+        width: auto;
+        height: 95%;
+    }
+
+}
+@media all and (max-width: 800px){
+/* Header is relative so z-index: 1 guarantees always displayed on top*/
+    header {
+        justify-content: space-between;
+        display: flex;
+        background-color: #3384B5;
+        text-decoration: none;
+        position: absolute;
+        padding-top: 10px;
+        width: 100%;
+        z-index: 1;
+        -webkit-box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+        box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
+    }
+    header h1{
+        color: white;
+        font-size: 1.2em;
+
+    }
+    header a{
+        text-decoration: none;
+    }
+
+    /*
+    using background color is important to cover the menu
+    position absolute isset to cover the whole viewport
+    */
+    #content {
+        background-color: #FFFFFF;
+        position: relative;
+        width: auto;
+        height: 100%;
+        -webkit-box-shadow: -10px 0px 9px 0px rgba(0, 0, 0, 0.4);
+        box-shadow: -10px 0px 9px 0px rgba(0, 0, 0, 0.4);
+    }
+    .nav-desktop {
+        display: none;
+    }
+    .nav-mobil {
+        display: block;
+    }
+    /*
+the button with a little gradient effekt
+*/
+    #navigation {
+        border: 1px solid #3384B5;
+        border-radius: 3px 3px 3px 3px;
+        cursor: pointer;
+        display: block;
+        height: 24px;
+        padding: 3px 4px 3px;
+        position: relative;
+        width: 25px;
+        background: #3384B5;
+        background: -moz-linear-gradient(top, #3384B5 0%, #3384B5 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3384B5), color-stop(100%, #3384B5));
+        background: -webkit-linear-gradient(top, #3384B5 0%, #3384B5 100%);
+        background: -o-linear-gradient(top, #3384B5 0%, #3384B5 100%);
+        background: -ms-linear-gradient(top, #3384B5 0%, #3384B5 100%);
+        background: linear-gradient(to bottom, #3384B5 0%, #3384B5 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4569b2', endColorstr='#4062a5', GradientType=0);
+    }
+
+    /*
+    The white stripes button
+    */
+    #navigation div {
+        background-color: #fff;
+        border: 1px solid #eee;
+        border-radius: 2px 2px 2px 2px;
+        height: 2px;
+        margin-top: 3px;
+        width: 90%;
+    }
+
+    /*
+    The navigation container in the background
+    */
+    nav {
+        opacity: 0;
+        left: 0px;
+        top: 0px;
+        position: fixed;
+        z-index: 0;
+        width: 30%;
+        height: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: #3384B5;
+        background: -moz-linear-gradient(top, #3384B5 0%, #2d2c2d 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3e3c3d), color-stop(100%, #2d2c2d));
+        background: -webkit-linear-gradient(top, #3384B5 0%, #2d2c2d 100%);
+        background: -o-linear-gradient(top, #3384B5 0%, #2d2c2d 100%);
+        background: -ms-linear-gradient(top, #3384B5 0%, #2d2c2d 100%);
+        background: linear-gradient(to bottom, #3384B5 0%, #2d2c2d 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3384B5', endColorstr='#2d2c2d', GradientType=0);
+    }
+
+    /*
+    Style the navigation menu
+    */
+    nav ul {
+        list-style: none;
+        margin: 0;
+        width: 100%;
+        padding: 0;
+    }
+
+    nav li {
+        position: relative;
+        font-size: 1em;
+        font-weight: bold;
+        border-bottom: 1px solid #222222;
+        border-top: 1px solid #444444;
+        padding: 15px;
+    }
+
+    nav li a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    #contentLayer {
+        display: none;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 70%;
+        z-index: 5;
+    }
+
+}
