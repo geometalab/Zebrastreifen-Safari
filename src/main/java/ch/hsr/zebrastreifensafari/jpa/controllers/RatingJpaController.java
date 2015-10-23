@@ -280,5 +280,8 @@ public class RatingJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public List<Rating> findRatingByCrossing(Crossing Crossing) {
+        return getEntityManager().createNamedQuery("Rating.findByCrossing", Rating.class).setParameter("crossingId", Crossing).getResultList();
+    }
 }

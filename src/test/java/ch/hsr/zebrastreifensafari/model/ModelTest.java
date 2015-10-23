@@ -27,7 +27,7 @@ public class ModelTest {
     }
 
     @Test
-    public void testReloadZebracrossing() throws Exception {
+    public void testReloadCrossing() throws Exception {
 
     }
 
@@ -47,12 +47,12 @@ public class ModelTest {
     }
 
     @Test
-    public void testGetZebracrossing() throws Exception {
+    public void testGetCrossing() throws Exception {
 
     }
 
     @Test
-    public void testGetZebracrossing1() throws Exception {
+    public void testGetCrossing1() throws Exception {
 
     }
 
@@ -67,7 +67,7 @@ public class ModelTest {
     }
 
     @Test
-    public void testGetOverview() throws Exception {
+    public void testGetSpatialClarity() throws Exception {
 
     }
 
@@ -82,7 +82,7 @@ public class ModelTest {
     }
 
     @Test
-    public void testGetZebracrossings() throws Exception {
+    public void testGetCrossings() throws Exception {
 
     }
 

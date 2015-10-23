@@ -1,6 +1,6 @@
 package main.java.ch.hsr.zebrastreifensafari.service;
 
-import main.java.ch.hsr.zebrastreifensafari.service.zebracrossing.IZebracrossingDataService;
+import main.java.ch.hsr.zebrastreifensafari.service.crossing.ICrossingDataService;
 
 /**
  * @author : Mike Marti
@@ -11,16 +11,16 @@ import main.java.ch.hsr.zebrastreifensafari.service.zebracrossing.IZebracrossing
  */
 public class DataServiceLoader {
 
-    private static IZebracrossingDataService zebracrossingDataService;
+    private static ICrossingDataService CrossingDataService;
 
     private DataServiceLoader() {
     }
 
-    public static IZebracrossingDataService getZebraData() {
-        return zebracrossingDataService;
+    public static ICrossingDataService getCrossingData() {
+        return CrossingDataService;
     }
 
-    public static void provideZebraData(IZebracrossingDataService zebracrossingDataService) {
-        DataServiceLoader.zebracrossingDataService = zebracrossingDataService;
+    public static void provideCrossingData(ICrossingDataService CrossingDataService) {
+        DataServiceLoader.CrossingDataService = CrossingDataService;
     }
 }

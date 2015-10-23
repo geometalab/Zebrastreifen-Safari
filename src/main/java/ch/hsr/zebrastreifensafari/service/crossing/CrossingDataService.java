@@ -1,8 +1,8 @@
-package main.java.ch.hsr.zebrastreifensafari.service.zebracrossing;
+package main.java.ch.hsr.zebrastreifensafari.service.crossing;
 
-import main.java.ch.hsr.zebrastreifensafari.jpaold.controllers.*;
-import main.java.ch.hsr.zebrastreifensafari.jpaold.controllers.exceptions.NonexistentEntityException;
-import main.java.ch.hsr.zebrastreifensafari.jpaold.entities.*;
+import main.java.ch.hsr.zebrastreifensafari.jpa.controllers.*;
+import main.java.ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
+import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -17,11 +17,12 @@ import java.util.logging.Logger;
  * @time : 15:34
  * @date : 08.10.2015
  */
-public class ZebracrossingDataService implements IZebracrossingDataService {
+
+public class CrossingDataService implements ICrossingDataService {
 
     private EntityManagerFactory emFactory;
 
-    public ZebracrossingDataService() {
+    public CrossingDataService() {
         emFactory = Persistence.createEntityManagerFactory("ZebraPU");
     }
 
@@ -31,13 +32,13 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
     }
 
     @Override
-    public List<Zebracrossing> getZebracrossings() {
-        return new ZebracrossingJpaController(emFactory).findZebracrossingEntities();
+    public List<Crossing> getCrossings() {
+        return new CrossingJpaController(emFactory).findCrossingEntities();
     }
 
     @Override
-    public List<Rating> getRatings(Zebracrossing zebracrossing) {
-        return new RatingJpaController(emFactory).findRatingByZebracrossing(zebracrossing);
+    public List<Rating> getRatings(Crossing Crossing) {
+        return new RatingJpaController(emFactory).findRatingByCrossing(Crossing);
     }
 
     @Override
@@ -46,8 +47,8 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
     }
 
     @Override
-    public List<Overview> getOverviews() {
-        return new OverviewJpaController(emFactory).findOverviewEntities();
+    public List<SpatialClarity> getSpatialClaritys() {
+        return new SpatialClarityJpaController(emFactory).findSpatialClarityEntities();
     }
 
     @Override
@@ -56,17 +57,17 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
     }
 
     @Override
-    public void removeZebracrossing(int id) {
+    public void removeCrossing(int id) {
         try {
-            new ZebracrossingJpaController(emFactory).destroy(id);
+            new CrossingJpaController(emFactory).destroy(id);
         } catch (NonexistentEntityException neex) {
             neex.printStackTrace();
         }
     }
 
     @Override
-    public void addZebracrossing(Zebracrossing zebra) {
-        new ZebracrossingJpaController(emFactory).create(zebra);
+    public void addCrossing(Crossing zebra) {
+        new CrossingJpaController(emFactory).create(zebra);
     }
 
     @Override
@@ -88,16 +89,16 @@ public class ZebracrossingDataService implements IZebracrossingDataService {
         try {
             new RatingJpaController(emFactory).edit(rating);
         } catch (Exception ex) {
-            Logger.getLogger(ZebracrossingDataService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CrossingDataService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public void updateZebracrossing(Zebracrossing zebracrossing) {
+    public void updateCrossing(Crossing Crossing) {
         try {
-            new ZebracrossingJpaController(emFactory).edit(zebracrossing);
+            new CrossingJpaController(emFactory).edit(Crossing);
         } catch (Exception ex) {
-            Logger.getLogger(ZebracrossingDataService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CrossingDataService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

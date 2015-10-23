@@ -8,7 +8,7 @@ package main.java.ch.hsr.zebrastreifensafari.main;
 import main.java.ch.hsr.zebrastreifensafari.model.Model;
 import main.java.ch.hsr.zebrastreifensafari.gui.view.View;
 import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import main.java.ch.hsr.zebrastreifensafari.service.zebracrossing.ZebracrossingDataService;
+import main.java.ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
 
 /**
  *
@@ -17,7 +17,7 @@ import main.java.ch.hsr.zebrastreifensafari.service.zebracrossing.ZebracrossingD
 public class Main {
 
     public static void main(String[] args) {
-        DataServiceLoader.provideZebraData(new ZebracrossingDataService());
+        DataServiceLoader.provideCrossingData(new CrossingDataService());
         Model model = new Model();
         View view = new View(model);
         view.setVisible(true);

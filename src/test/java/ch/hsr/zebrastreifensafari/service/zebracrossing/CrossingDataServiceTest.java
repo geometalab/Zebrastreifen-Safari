@@ -1,4 +1,4 @@
-package test.java.ch.hsr.zebrastreifensafari.service.zebracrossing;
+package test.java.ch.hsr.zebrastreifensafari.service.Crossing;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  * @date : 21.10.2015
  */
 
-public class ZebracrossingDataServiceTest {
+public class CrossingDataServiceTest {
 
     @Before
     public void setUp() throws Exception {
@@ -32,7 +32,7 @@ public class ZebracrossingDataServiceTest {
     }
 
     @Test
-    public void testGetZebracrossings() throws Exception {
+    public void testGetCrossings() throws Exception {
 
     }
 
@@ -47,7 +47,7 @@ public class ZebracrossingDataServiceTest {
     }
 
     @Test
-    public void testGetOverviews() throws Exception {
+    public void testGetSpatialClaritys() throws Exception {
 
     }
 
@@ -57,12 +57,12 @@ public class ZebracrossingDataServiceTest {
     }
 
     @Test
-    public void testRemoveZebracrossing() throws Exception {
+    public void testRemoveCrossing() throws Exception {
 
     }
 
     @Test
-    public void testAddZebracrossing() throws Exception {
+    public void testAddCrossing() throws Exception {
 
     }
 
@@ -82,7 +82,7 @@ public class ZebracrossingDataServiceTest {
     }
 
     @Test
-    public void testUpdateZebracrossing() throws Exception {
+    public void testUpdateCrossing() throws Exception {
 
     }
 }
