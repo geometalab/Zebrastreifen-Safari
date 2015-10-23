@@ -133,14 +133,14 @@ function zebracrossingPoints() {
 }
 
 //Get the details about a specific zebracrossing
-function zebracrossingDetail($node) {
-    if (!is_numeric($node)) {
+function zebracrossingDetail($osm_node_id) {
+    if (!is_numeric($osm_node_id)) {
         return array("error" => 404, "reason" => 'Parameter "crosswalk" has an invalid value.');
     }
 
     $zebracrossingConnection = new DBZebracrossing();
     $gisConnection = new DBGis();
-    $query = $zebracrossingConnection->getZebracrossing($node);
+    $query = $zebracrossingConnection->getZebracrossing($osm_node_id);
     $resultset = pg_fetch_all($query);
 
     if (!$resultset) {
@@ -238,20 +238,20 @@ function zebracrossingDetail($node) {
     return $zebracrossing;
 }
 
-function getOsmData($node, $gisConnection) {
+function getOsmData($osm_node_id, $gisConnection) {
     //Get the sloped_curb state
     //Default value
     $sloped_curb = "no";
 
     //If there's a sloped_curb on one side
-    $sloped_curb_query = $gisConnection->getState("sloped_curb", "one", $node);
+    $sloped_curb_query = $gisConnection->getState("sloped_curb", "one", $osm_node_id);
     $resultset = pg_fetch_all($sloped_curb_query);
 
     if ($resultset) {
         $sloped_curb = "one";
     } else {
         //If there's a sloped_curb on both sides
-        $sloped_curb_query = $gisConnection->getState("sloped_curb", "both", $node);
+        $sloped_curb_query = $gisConnection->getState("sloped_curb", "both", $osm_node_id);
         $resultset = pg_fetch_all($sloped_curb_query);
 
         if ($resultset) {
@@ -259,7 +259,7 @@ function getOsmData($node, $gisConnection) {
         }
     }
 
-    $query = $gisConnection->getGisData($node);
+    $query = $gisConnection->getGisData($osm_node_id);
     $resultset = pg_fetch_all($query);
     return array(
         "traffic_signals" => $resultset[0]['traffic_signals'] == "f" ? false : true,

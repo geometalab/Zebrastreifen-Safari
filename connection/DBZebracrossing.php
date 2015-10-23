@@ -12,9 +12,9 @@ class DBZebracrossing extends DBConnection {
         parent::__construct(DBConfig::ZEBRACROSSING);
     }
 
-    public function getZebracrossing($node) {
+    public function getZebracrossing($osm_node_id) {
         return pg_query($this->connection, "select zebra.id, zebra.osm_node_id, zebra.status from crossing.crossing as zebra
-                                            where zebra.osm_node_id = $node;");
+                                            where zebra.osm_node_id = $osm_node_id;");
     }
 
     public function getAllZebracrossings() {
