@@ -17,7 +17,7 @@ class DBGis extends DBConnection {
 
     }
 
-    public function getGisData($node) {
+    public function getGisData($osm_node_id) {
         return pg_query($this->connection, "select
                                             tags @> hstore('crossing', 'traffic_signals') as traffic_signals,
                                             tags @> hstore('crossing', 'island') as island,
@@ -28,28 +28,28 @@ class DBGis extends DBConnection {
                                             tags @> hstore('traffic_signals:sound', 'yes') as traffic_signals_sound
                                             from osm_point
                                             where tags @> hstore('highway', 'crossing')
-                                            and osm_id = $node;");
+                                            and osm_id = $osm_node_id;");
     }
 
-    public function getCoordinates($node) {
+    public function getCoordinates($osm_node_id) {
         return pg_query($this->connection, "select ST_X(way) as x, ST_Y(way) as y
                                             from osm_point
                                             where tags @> hstore('highway', 'crossing')
-                                            and osm_id = $node;");
+                                            and osm_id = $osm_node_id;");
     }
 
-    public function getState($tag, $value, $node) {
+    public function getState($tag, $value, $osm_node_id) {
         return pg_query($this->connection, "select tags @> hstore('$tag', '$value')
                                             from osm_point
                                             where tags @> hstore('highway', 'crossing')
                                             and tags @> hstore('$tag', '$value')
-                                            and osm_id = $node;");
+                                            and osm_id = $osm_node_id;");
     }
 
-    public function getYesNoState($tag, $node) {
+    public function getYesNoState($tag, $osm_node_id) {
         return pg_query($this->connection, "select tags @> hstore('$tag', 'yes') as state
                                             from osm_point
                                             where tags @> hstore('highway', 'crossing')
-                                            and osm_id = $node;");
+                                            and osm_id = $osm_node_id;");
     }
 }
