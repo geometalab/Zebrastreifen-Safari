@@ -8,7 +8,7 @@ $(document).ready(function() {
             var dataSaved1 = data1;
             var chartjsData = [];
             for (var i = 0; i < dataSaved1.length; i++) {
-                chartjsData.push(dataSaved1[i].total);
+                chartjsData.push(dataSaved1[i].amount);
             }
 
             var chartjsLabel = [];
