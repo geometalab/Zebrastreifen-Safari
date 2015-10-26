@@ -13,10 +13,8 @@
     </head>
 
     <body>
-    <!--This wrapping container is used to get the width of the whole content-->
     <div id="container">
         <div class="nav-mobil">
-            <!--The Hamburger Button in the Header-->
             <header>
                 <div id="navigation">
                     <div></div>
@@ -28,7 +26,6 @@
 
             </header>
 
-            <!--The mobile navigation Markup hidden via css-->
             <nav>
                 <ul>
                     <li class="map"><a href="map.html">Karte</a></li>
@@ -39,8 +36,6 @@
                 </ul>
             </nav>
         </div>
-        <!--The Layer that will be layed over the content
-        so that the content is unclickable while menu is shown-->
         <div id="contentLayer"></div>
 
         <div class="nav-desktop">
@@ -72,7 +67,6 @@
                 </div>
             </header>
         </div>
-            <!--The content of the site-->
             <div id="content">
                 <div id="map"></div>
             </div>
@@ -86,18 +80,17 @@
     <!-- Own Js libs -->
     <script type="text/javascript" src="script/map.js"></script>
     <script type="text/javascript" src="script/mobilemenu.js"></script>
-<script type="text/javascript">
-    if($(document).width() >= 800){
-        var height_map = $(document).height() - $(".nav-desktop").height();
-        $("#map").height(height_map);
-        map.invalidateSize();
-    } else {
-        var height_map = $(document).height() - $(".nav-mobile").height();
-        $("#map").height(height_map);
-        $(".leaflet-control-zoom").css("margin-top", 68);
-        map.invalidateSize();
-
-    }
+    <script type="text/javascript">
+        if($(document).width() >= 800){
+            var height_map = $(document).height() - $(".nav-desktop").height();
+            $("#map").height(height_map);
+            map.invalidateSize();
+        } else {
+            var height_map = $(document).height() - $(".nav-mobile").height();
+            $("#map").height(height_map);
+            $(".leaflet-control-zoom").css("margin-top", 68);
+            map.invalidateSize();
+        }
 
 
 

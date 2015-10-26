@@ -2,7 +2,6 @@
 var southWest = L.latLng(45.7300, 5.8000),
     northEast = L.latLng(47.9000, 10.600),
     bounds = L.latLngBounds(southWest, northEast);
-
 var map = L.map('map',{
     maxBounds:bounds,
     invalidateSize: true

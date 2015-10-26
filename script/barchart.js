@@ -28,13 +28,19 @@ $(document).ready(function() {
                 ]
             };
 
+            if ($(document).width() <= 800){
+                var myBarChart = new Chart(ctx).Bar(data, {
+                    scaleLabel : "<%= Number(value) + ' Zeb*'%>",
+                    scaleBeginAtZero: true,
+                    responsive: true
+                });
+            } else {
+                var myBarChart = new Chart(ctx).Bar(data, {
+                    scaleLabel : "<%= Number(value) + ' Zeb*'%>",
+                    scaleBeginAtZero: true,
+                });
+            }
 
-
-            var myBarChart = new Chart(ctx).Bar(data, {
-                scaleLabel : "<%= Number(value) + ' Zeb*'%>",
-                scaleBeginAtZero: true,
-                responsive: true,
-            });
         }
 
     })

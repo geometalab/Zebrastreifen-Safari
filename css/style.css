@@ -141,7 +141,12 @@ p {
         flex: 3 0px;
         order: 2;
     }
-
+    #linecanvas {
+        width: 80%;
+    }
+    #barcanvas {
+        width: 80%;
+    }
     .aside-2 {
         width: 10%;
         flex: 1 auto;
@@ -168,6 +173,9 @@ Header is relative so z-index: 1 guarantees always displayed on top
     header h1{
         color: white;
         font-size: 1.2em;
+    }
+    header a{
+        text-decoration: none;
     }
 
     /*
