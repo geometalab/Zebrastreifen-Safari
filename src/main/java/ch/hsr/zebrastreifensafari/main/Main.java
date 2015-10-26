@@ -1,14 +1,14 @@
-package main.java.ch.hsr.zebrastreifensafari.main;
+package ch.hsr.zebrastreifensafari.main;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-import main.java.ch.hsr.zebrastreifensafari.model.Model;
-import main.java.ch.hsr.zebrastreifensafari.gui.view.View;
-import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import main.java.ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
+import ch.hsr.zebrastreifensafari.model.Model;
+import ch.hsr.zebrastreifensafari.gui.view.View;
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
 
 /**
  *

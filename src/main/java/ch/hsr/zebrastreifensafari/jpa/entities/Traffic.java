@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.jpa.entities;
+package ch.hsr.zebrastreifensafari.jpa.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -100,7 +100,7 @@ public class Traffic implements Serializable {
 
     @Override
     public String toString() {
-        return "main.java.ch.hsr.zebrastreifensafari.jpa.entities.Traffic[ id=" + id + " ]";
+        return "ch.hsr.zebrastreifensafari.jpa.entities.Traffic[ id=" + id + " ]";
     }
     
 }

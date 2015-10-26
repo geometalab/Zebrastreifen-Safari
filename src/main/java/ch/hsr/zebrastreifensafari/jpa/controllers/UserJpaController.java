@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.jpa.controllers;
+package ch.hsr.zebrastreifensafari.jpa.controllers;
 
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.Rating;
+import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import main.java.ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.User;
+import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
+import ch.hsr.zebrastreifensafari.jpa.entities.User;
 
 /**
  *

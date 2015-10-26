@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.gui.view;
+package ch.hsr.zebrastreifensafari.gui.view;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import main.java.ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
-import main.java.ch.hsr.zebrastreifensafari.gui.update.UpdateRatingGUI;
-import main.java.ch.hsr.zebrastreifensafari.gui.update.UpdateCrossingGUI;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
-import main.java.ch.hsr.zebrastreifensafari.gui.create.*;
-import main.java.ch.hsr.zebrastreifensafari.model.Model;
-import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
+import ch.hsr.zebrastreifensafari.gui.update.UpdateRatingGUI;
+import ch.hsr.zebrastreifensafari.gui.update.UpdateCrossingGUI;
+import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.zebrastreifensafari.gui.create.*;
+import ch.hsr.zebrastreifensafari.model.Model;
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 import java.awt.event.ActionEvent;
 import java.util.Observable;
@@ -106,7 +106,7 @@ public class View extends JFrame implements Observer {
         jTable1.setModel(getCurrentTableModel());
         jScrollPane1.setViewportView(jTable1);
 
-        updateDBButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/java/ch/hsr/zebrastreifensafari/gui/view/images/RefreshIcon.png"))); // NOI18N
+        //updateDBButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/java/ch/hsr/zebrastreifensafari/gui/view/images/RefreshIcon.png"))); // NOI18N
         updateDBButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reloadButtonActionPerformed(evt);

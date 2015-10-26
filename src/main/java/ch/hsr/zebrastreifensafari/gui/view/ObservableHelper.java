@@ -1,4 +1,4 @@
-package main.java.ch.hsr.zebrastreifensafari.gui.view;
+package ch.hsr.zebrastreifensafari.gui.view;
 
 import java.util.Observable;
 import java.util.Observer;

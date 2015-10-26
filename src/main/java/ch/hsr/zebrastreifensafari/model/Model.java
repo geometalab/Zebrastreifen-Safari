@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.model;
+package ch.hsr.zebrastreifensafari.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
-import main.java.ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 /**
  *
