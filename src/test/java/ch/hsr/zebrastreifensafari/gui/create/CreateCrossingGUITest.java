@@ -1,4 +1,4 @@
-package test.java.ch.hsr.zebrastreifensafari.gui.create;
+package ch.hsr.zebrastreifensafari.gui.create;
 
 import org.junit.After;
 import org.junit.Before;

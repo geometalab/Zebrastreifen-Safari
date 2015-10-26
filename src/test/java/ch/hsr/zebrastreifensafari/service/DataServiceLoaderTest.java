@@ -1,4 +1,4 @@
-package test.java.ch.hsr.zebrastreifensafari.service;
+package ch.hsr.zebrastreifensafari.service;
 
 import org.junit.After;
 import org.junit.Before;

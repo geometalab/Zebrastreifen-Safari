@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.jpa.entities;
+package ch.hsr.zebrastreifensafari.jpa.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -183,7 +183,7 @@ public class Rating implements Serializable {
 
     @Override
     public String toString() {
-        return "main.java.ch.hsr.zebrastreifensafari.jpa.entities.Rating[ id=" + id + " ]";
+        return "ch.hsr.zebrastreifensafari.jpa.entities.Rating[ id=" + id + " ]";
     }
     
 }

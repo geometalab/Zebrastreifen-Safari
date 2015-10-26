@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.java.ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.gui;
 
-import main.java.ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
+import ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
 import java.io.File;
 import java.util.Enumeration;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-import main.java.ch.hsr.zebrastreifensafari.gui.view.View;
-import main.java.ch.hsr.zebrastreifensafari.jpa.entities.*;
-import main.java.ch.hsr.zebrastreifensafari.model.Model;
+import ch.hsr.zebrastreifensafari.gui.view.View;
+import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.zebrastreifensafari.model.Model;
 
 /**
  *
