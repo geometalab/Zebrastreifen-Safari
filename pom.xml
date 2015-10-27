@@ -16,11 +16,13 @@
     </repositories>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jdk.version>1.8</jdk.version>
         <eclipslink.version>2.6.0</eclipslink.version>
         <persistence.version>2.1.0</persistence.version>
         <postgresql.version>9.4-1200-jdbc41</postgresql.version>
         <junit.version>4.11</junit.version>
+        <forms_rt.version>7.0.3</forms_rt.version>
     </properties>
 
     <dependencies>
@@ -45,6 +47,11 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>${forms_rt.version}</version>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -60,6 +67,7 @@
                         <configuration>
                             <source>${jdk.version}</source>
                             <target>${jdk.version}</target>
+                            <encoding>${project.build.sourceEncoding}</encoding>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -77,6 +85,7 @@
                         <configuration>
                             <source>${jdk.version}</source>
                             <target>${jdk.version}</target>
+                            <encoding>${project.build.sourceEncoding}</encoding>
                         </configuration>
                     </plugin>
                 </plugins>

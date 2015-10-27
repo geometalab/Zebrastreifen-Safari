@@ -18,12 +18,13 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
 
     public CreateCrossingGUI(Model model, View view) {
         super(model, view, "Create a new Crossing");
+        pack();
     }
 
     @Override
     protected void onSendClick() {
         try {
-            long osmNode = Long.parseLong(this.osmNode.getText());
+            long osmNode = Long.parseLong(osmNodeIdTextField.getText());
 
             if (model.getCrossing(osmNode) == null) {
                 DataServiceLoader.getCrossingData().addCrossing(new Crossing(null, osmNode, 1));
@@ -32,13 +33,13 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
 
             DataServiceLoader.getCrossingData().addRating(
                     new Rating(null,
-                            CommentsTA.getText(),
-                            model.getIllumination(getSelectedButtonInt(buttonGroup2)),
-                            model.getSpatialClarity(getSelectedButtonInt(buttonGroup1)),
-                            model.getTraffic(getSelectedButtonInt(buttonGroup3)),
-                            model.getUser((String) usersCB.getSelectedItem()),
+                            commentTextArea.getText(),
+                            model.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
+                            model.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
+                            model.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
+                            model.getUser((String) userComboBox.getSelectedItem()),
                             model.getCrossing(osmNode),
-                            imageTF.getText(),
+                            imageTextField.getText(),
                             new Date()
                     )
             );

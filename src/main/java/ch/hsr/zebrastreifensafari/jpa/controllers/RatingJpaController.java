@@ -206,7 +206,8 @@ public class RatingJpaController implements Serializable {
                 crossingId.getRatingList().remove(rating);
                 crossingId = em.merge(crossingId);
             }
-            Illumination illuminationId = rating.getIlluminationId();
+            //DO NOT USE THIS!!!
+            /*Illumination illuminationId = rating.getIlluminationId();
             if (illuminationId != null) {
                 illuminationId.getRatingList().remove(rating);
                 illuminationId = em.merge(illuminationId);
@@ -225,7 +226,7 @@ public class RatingJpaController implements Serializable {
             if (userId != null) {
                 userId.getRatingList().remove(rating);
                 userId = em.merge(userId);
-            }
+            }*/
             em.remove(rating);
             em.getTransaction().commit();
         } finally {
