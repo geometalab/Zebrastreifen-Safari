@@ -60,6 +60,7 @@ public abstract class CreateUpdateGUI extends JDialog {
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         this.model = model;
         observable = new ObservableHelper();
         observable.addObserver(view);
@@ -68,6 +69,10 @@ public abstract class CreateUpdateGUI extends JDialog {
             userComboBox.addItem(u.getName());
         }
 
+        initListeners();
+    }
+
+    private void initListeners() {
         sendButton.addActionListener(e -> {
             if (!checkValues()) {
                 return;
@@ -75,6 +80,7 @@ public abstract class CreateUpdateGUI extends JDialog {
 
             onSendClick();
         });
+
         cancelButton.addActionListener(e -> dispose());
     }
 
