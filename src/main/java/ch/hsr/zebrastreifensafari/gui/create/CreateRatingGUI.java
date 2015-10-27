@@ -20,22 +20,22 @@ public class CreateRatingGUI extends CreateUpdateGUI {
     public CreateRatingGUI(Model model, View view, long node) {
         super(model, view, "Create a new rating for the Crossing " + node);
         this.node = node;
-        jLabel1.setVisible(false);
-        jLabel7.setVisible(false);
-        osmNode.setVisible(false);
+        osmNodeIdLabel.setVisible(false);
+        osmNodeIdTextField.setVisible(false);
+        pack();
     }
 
     @Override
     protected void onSendClick() {
         DataServiceLoader.getCrossingData().addRating(
             new Rating(null,
-                CommentsTA.getText(),
-                model.getIllumination(getSelectedButtonInt(buttonGroup2)),
-                model.getSpatialClarity(getSelectedButtonInt(buttonGroup1)),
-                model.getTraffic(getSelectedButtonInt(buttonGroup3)),
-                model.getUser((String) usersCB.getSelectedItem()),
+                commentTextArea.getText(),
+                model.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
+                model.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
+                model.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
+                model.getUser((String) userComboBox.getSelectedItem()),
                 model.getCrossing(node),
-                imageTF.getText(),
+                imageTextField.getText(),
                 new Date()
             )
         );

@@ -34,7 +34,7 @@ public interface ICrossingDataService {
 
     void removeRating(int id);
 
-    void updateRating(Rating rating);
+    void updateRating(Rating rating) throws Exception;
 
-    void updateCrossing(Crossing Crossing);
+    void updateCrossing(Crossing Crossing) throws Exception;
 }
