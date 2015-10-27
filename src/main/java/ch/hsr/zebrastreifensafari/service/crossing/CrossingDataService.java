@@ -7,8 +7,6 @@ import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author : Mike Marti
@@ -85,20 +83,12 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void updateRating(Rating rating) {
-        try {
-            new RatingJpaController(emFactory).edit(rating);
-        } catch (Exception ex) {
-            Logger.getLogger(CrossingDataService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void updateRating(Rating rating) throws Exception{
+        new RatingJpaController(emFactory).edit(rating);
     }
 
     @Override
-    public void updateCrossing(Crossing Crossing) {
-        try {
-            new CrossingJpaController(emFactory).edit(Crossing);
-        } catch (Exception ex) {
-            Logger.getLogger(CrossingDataService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void updateCrossing(Crossing Crossing) throws Exception{
+        new CrossingJpaController(emFactory).edit(Crossing);
     }
 }
