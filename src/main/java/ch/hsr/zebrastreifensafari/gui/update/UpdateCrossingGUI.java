@@ -7,7 +7,6 @@ import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * @author : Mike Marti
@@ -25,42 +24,55 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
         super(model, view, "Update the crossing " + crossing.getOsmNodeId());
         this.crossing = crossing;
         setValues();
-        imageTF.setPreferredSize(new Dimension(150, imageTF.getHeight()));
-        jLabel2.setVisible(false);
-        jLabel3.setVisible(false);
-        jLabel4.setVisible(false);
-        jLabel5.setVisible(false);
-        jLabel6.setVisible(false);
-        usersCB.setVisible(false);
-        jRadioButton1.setVisible(false);
-        jRadioButton2.setVisible(false);
-        jRadioButton3.setVisible(false);
-        jRadioButton4.setVisible(false);
-        jRadioButton5.setVisible(false);
-        jRadioButton6.setVisible(false);
-        jRadioButton7.setVisible(false);
-        jRadioButton8.setVisible(false);
-        jRadioButton9.setVisible(false);
-        jScrollPane1.setVisible(false);
-        imageTF.setVisible(false);
+        userLabel.setVisible(false);
+        userComboBox.setVisible(false);
+        spatialClarityLabel.setVisible(false);
+        spatialClarityGoodRadioButton.setVisible(false);
+        spatialClarityOkRadioButton.setVisible(false);
+        spatialClarityBadRadioButton.setVisible(false);
+        illuminationLabel.setVisible(false);
+        illuminationGoodRadioButton.setVisible(false);
+        illuminationOkRadioButton.setVisible(false);
+        illuminationBadRadioButton.setVisible(false);
+        trafficLabel.setVisible(false);
+        trafficNoneRadioButton.setVisible(false);
+        trafficLittleRadioButton.setVisible(false);
+        trafficALotRadioButton.setVisible(false);
+        commentLabel.setVisible(false);
+        commentTextArea.setVisible(false);
+        imageLabel.setVisible(false);
+        imageTextField.setVisible(false);
+        pack();
     }
 
     @Override
     protected void onSendClick() {
+        long osmNodeIdBackup = crossing.getOsmNodeId();
+
         try{
-            crossing.setOsmNodeId(Long.parseLong(osmNode.getText()));
+            crossing.setOsmNodeId(Long.parseLong(osmNodeIdTextField.getText()));
             DataServiceLoader.getCrossingData().updateCrossing(crossing);
             observable.notifyObservers();
             this.dispose();
         } catch (NumberFormatException nfex) {
             JOptionPane.showMessageDialog(this, "The Node needs to be a number", "Error", JOptionPane.ERROR_MESSAGE);
+        }  catch (Exception e) {
+            crossing.setOsmNodeId(osmNodeIdBackup);
+            JOptionPane.showMessageDialog(this, "This Node is already used", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    @Override
+    protected boolean checkValues() {
+        if (osmNodeIdTextField.getText() == null) {
+            JOptionPane.showMessageDialog(this, "There is an Input missing", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
     private void setValues() {
-        osmNode.setText(Long.toString(crossing.getOsmNodeId()));
-        jRadioButton1.setSelected(true);
-        jRadioButton4.setSelected(true);
-        jRadioButton7.setSelected(true);
+        osmNodeIdTextField.setText(Long.toString(crossing.getOsmNodeId()));
     }
 }

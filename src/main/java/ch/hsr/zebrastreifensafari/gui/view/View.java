@@ -281,6 +281,7 @@ public class View extends JFrame implements Observer {
                 );
             }
         } else {
+            //model.getCrossings().stream().sorted((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).forEach(crossing -> zebraTM.addRow(new String[]{crossing.getId().toString(), Long.toString(crossing.getOsmNodeId()), Integer.toString(crossing.getStatus())}));
             for (Crossing z : model.getCrossings()) {
                 zebraTM.addRow(new String[]{z.getId().toString(), Long.toString(z.getOsmNodeId()), Integer.toString(z.getStatus())});
             }
