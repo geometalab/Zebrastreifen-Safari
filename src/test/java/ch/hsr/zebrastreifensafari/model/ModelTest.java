@@ -15,10 +15,10 @@ import static org.junit.Assert.*;
  */
 
 public class ModelTest {
-
+     
     @Before
     public void setUp() throws Exception {
-
+        
     }
 
     @After
@@ -43,7 +43,7 @@ public class ModelTest {
 
     @Test
     public void testGetUser() throws Exception {
-
+        
     }
 
     @Test
