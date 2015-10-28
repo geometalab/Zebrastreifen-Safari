@@ -148,7 +148,6 @@ public class View extends JFrame implements Observer {
             model.reloadUsers();
             addDataToTable();
         });
-    
 
 	    dataTable.getTableHeader().addMouseListener(new MouseAdapter() {
 	        @Override
@@ -166,8 +165,18 @@ public class View extends JFrame implements Observer {
 	            	dataTable.setAutoCreateRowSorter(true);
 	            }
 		        addDataToTable();
-	        }});
-        
+	        }
+        });
+
+        dataTable.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (model.getCrossings().isEmpty() || e.getClickCount() < 2) return;
+
+                changeView();
+            }
+        });
     }
     
     private void changeView() {
