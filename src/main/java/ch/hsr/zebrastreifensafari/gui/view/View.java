@@ -17,8 +17,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : Mike Marti
@@ -54,6 +55,7 @@ public class View extends JFrame implements Observer {
         initListeners();
         addDataToTable();
         pack();
+        setExtendedState(Frame.MAXIMIZED_BOTH);
     }
 
     private void initListeners() {
@@ -61,12 +63,20 @@ public class View extends JFrame implements Observer {
             try {
                 changeView();
             } catch (ArrayIndexOutOfBoundsException aioobe) {
+                model.setRatingMode(!model.isRatingMode());
                 JOptionPane.showMessageDialog(this, "There is no selected Crossing", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         searchButton.addActionListener(e -> {
-            // TODO: Implement logic
+            if (searchTextField.getText().isEmpty()) {
+                addDataToTable();
+                return;
+            }
+
+            addCrossingDataToTable(model.getCrossings().stream()
+                    .filter(crossing -> crossing.getId() == Integer.parseInt(searchTextField.getText()))
+                    .collect(Collectors.toList()));
         });
 
         addButton.addActionListener(e -> {
@@ -138,9 +148,13 @@ public class View extends JFrame implements Observer {
         if (model.isRatingMode()) {
             model.reloadRating(getCrossingFromTable());
             switchButton.setText("Zebrastreifen");
+            searchButton.setVisible(false);
+            searchTextField.setVisible(false);
         } else {
             model.reloadCrossing();
             switchButton.setText("Bewertungen");
+            searchButton.setVisible(true);
+            searchTextField.setVisible(true);
         }
 
         dataTable.setModel(getCurrentTableModel());
@@ -164,28 +178,37 @@ public class View extends JFrame implements Observer {
     }
 
     private void addDataToTable() {
-        zebraTM.setRowCount(0);
-        ratingTM.setRowCount(0);
-
         if (model.isRatingMode()) {
-            for (Rating r : model.getRatings()) {
-                ratingTM.addRow(
-                        new String[]{r.getId().toString(),
-                                r.getUserId().getName(),
-                                r.getTrafficId().getValue(),
-                                r.getSpatialClarityId().getValue(),
-                                r.getIlluminationId().getValue(),
-                                r.getComment() == null ? "" : r.getComment(),
-                                r.getImageWeblink(),
-                                r.getLastChanged().toString()
-                        }
-                );
-            }
+            addRatingDataToTable(model.getRatings());
         } else {
-            //model.getCrossings().stream().sorted((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).forEach(crossing -> zebraTM.addRow(new String[]{crossing.getId().toString(), Long.toString(crossing.getOsmNodeId()), Integer.toString(crossing.getStatus())}));
-            for (Crossing z : model.getCrossings()) {
-                zebraTM.addRow(new String[]{z.getId().toString(), Long.toString(z.getOsmNodeId()), Integer.toString(z.getStatus())});
-            }
+            addCrossingDataToTable(model.getCrossings());
+        }
+    }
+
+    private void addCrossingDataToTable(List<Crossing> list) {
+        zebraTM.setRowCount(0);
+        //model.getCrossings().stream().sorted((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).forEach(crossing -> zebraTM.addRow(new String[]{crossing.getId().toString(), Long.toString(crossing.getOsmNodeId()), Integer.toString(crossing.getStatus())}));
+        for (Crossing z : list) {
+            zebraTM.addRow(new String[]{z.getId().toString(), Long.toString(z.getOsmNodeId()), Integer.toString(z.getStatus())});
+        }
+
+        dataTable.changeSelection(0, 0, false, false);
+    }
+
+    private void addRatingDataToTable(List<Rating> list) {
+        ratingTM.setRowCount(0);
+        for (Rating r : list) {
+            ratingTM.addRow(
+                    new String[]{r.getId().toString(),
+                            r.getUserId().getName(),
+                            r.getTrafficId().getValue(),
+                            r.getSpatialClarityId().getValue(),
+                            r.getIlluminationId().getValue(),
+                            r.getComment() == null ? "" : r.getComment(),
+                            r.getImageWeblink(),
+                            r.getLastChanged().toString()
+                    }
+            );
         }
 
         dataTable.changeSelection(0, 0, false, false);
