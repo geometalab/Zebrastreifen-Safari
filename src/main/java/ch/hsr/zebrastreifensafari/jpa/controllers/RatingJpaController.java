@@ -42,51 +42,19 @@ public class RatingJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Crossing crossingId = rating.getCrossingId();
+
             if (crossingId != null) {
                 crossingId = em.getReference(crossingId.getClass(), crossingId.getId());
                 rating.setCrossingId(crossingId);
             }
-            Illumination illuminationId = rating.getIlluminationId();
-            if (illuminationId != null) {
-                illuminationId = em.getReference(illuminationId.getClass(), illuminationId.getId());
-                rating.setIlluminationId(illuminationId);
-            }
-            SpatialClarity spatialClarityId = rating.getSpatialClarityId();
-            if (spatialClarityId != null) {
-                spatialClarityId = em.getReference(spatialClarityId.getClass(), spatialClarityId.getId());
-                rating.setSpatialClarityId(spatialClarityId);
-            }
-            Traffic trafficId = rating.getTrafficId();
-            if (trafficId != null) {
-                trafficId = em.getReference(trafficId.getClass(), trafficId.getId());
-                rating.setTrafficId(trafficId);
-            }
-            User userId = rating.getUserId();
-            if (userId != null) {
-                userId = em.getReference(userId.getClass(), userId.getId());
-                rating.setUserId(userId);
-            }
+
             em.persist(rating);
+
             if (crossingId != null) {
                 crossingId.getRatingList().add(rating);
                 crossingId = em.merge(crossingId);
             }
-            if (illuminationId != null) {
-                illuminationId.getRatingList().add(rating);
-                illuminationId = em.merge(illuminationId);
-            }
-            if (spatialClarityId != null) {
-                spatialClarityId.getRatingList().add(rating);
-                spatialClarityId = em.merge(spatialClarityId);
-            }
-            if (trafficId != null) {
-                trafficId.getRatingList().add(rating);
-                trafficId = em.merge(trafficId);
-            }
-            if (userId != null) {
-                userId.getRatingList().add(rating);
-                userId = em.merge(userId);
-            }
+
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -206,27 +174,7 @@ public class RatingJpaController implements Serializable {
                 crossingId.getRatingList().remove(rating);
                 crossingId = em.merge(crossingId);
             }
-            //DO NOT USE THIS!!!
-            /*Illumination illuminationId = rating.getIlluminationId();
-            if (illuminationId != null) {
-                illuminationId.getRatingList().remove(rating);
-                illuminationId = em.merge(illuminationId);
-            }
-            SpatialClarity spatialClarityId = rating.getSpatialClarityId();
-            if (spatialClarityId != null) {
-                spatialClarityId.getRatingList().remove(rating);
-                spatialClarityId = em.merge(spatialClarityId);
-            }
-            Traffic trafficId = rating.getTrafficId();
-            if (trafficId != null) {
-                trafficId.getRatingList().remove(rating);
-                trafficId = em.merge(trafficId);
-            }
-            User userId = rating.getUserId();
-            if (userId != null) {
-                userId.getRatingList().remove(rating);
-                userId = em.merge(userId);
-            }*/
+
             em.remove(rating);
             em.getTransaction().commit();
         } finally {
