@@ -16,10 +16,10 @@
             <constraints border-constraint="Center"/>
             <properties/>
           </component>
-          <component id="7a0f4" class="javax.swing.JButton" binding="searchButton">
-            <constraints border-constraint="East"/>
+          <component id="c04c6" class="javax.swing.JLabel" binding="searchLabel">
+            <constraints border-constraint="West"/>
             <properties>
-              <text value="Suchen"/>
+              <text value="Suchen: "/>
             </properties>
           </component>
         </children>
