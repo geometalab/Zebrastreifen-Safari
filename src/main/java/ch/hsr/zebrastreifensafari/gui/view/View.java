@@ -14,9 +14,15 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,6 +57,8 @@ public class View extends JFrame implements Observer {
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+    	dataTable.setAutoCreateRowSorter(true);
+        
         this.model = model;
         initListeners();
         addDataToTable();
@@ -140,8 +148,28 @@ public class View extends JFrame implements Observer {
             model.reloadUsers();
             addDataToTable();
         });
-    }
+    
 
+	    dataTable.getTableHeader().addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	            int col = dataTable.columnAtPoint(e.getPoint());
+
+	        	dataTable.setAutoCreateRowSorter(true);
+	            if (col == 0) {
+		            model.sortById();
+	            }
+	            else if (col == 1) {
+	            	model.sortByNode();
+	            }
+	            else {
+	            	dataTable.setAutoCreateRowSorter(true);
+	            }
+		        addDataToTable();
+	        }});
+        
+    }
+    
     private void changeView() {
         model.setRatingMode(!model.isRatingMode());
 
@@ -233,6 +261,19 @@ public class View extends JFrame implements Observer {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+            
+    	    @Override
+            public Class<?> getColumnClass(int column) {
+            	if(column == 0) {
+            		return Integer.class;
+            	}
+            	else if(column == 1){
+            		return Long.class;
+            	}
+            	
+            	return super.getColumnClass(column);
+            }
+    	    
         };
 
         ratingTM = new DefaultTableModel(new String[]{"ID", "Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar", "Bild", "Letzte Änderung"}, 0) {
@@ -241,6 +282,15 @@ public class View extends JFrame implements Observer {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+            
+            public Class<?> getColumnClass(int column) {
+            	if(column == 0) {
+            		return Integer.class;
+            	}
+            	
+            	return super.getColumnClass(column);
+            }
+            
         };
 
         dataTable = new JTable(zebraTM);

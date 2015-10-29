@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.service.Crossing;
+package ch.hsr.zebrastreifensafari.service.crossing;
 
 import org.junit.After;
 import org.junit.Before;
