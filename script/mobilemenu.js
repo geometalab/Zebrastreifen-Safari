@@ -30,7 +30,6 @@ $(document).ready(function () {
             complete: function () {
                 $('#content').css('width', 'auto');
                 $('#contentLayer').css('display', 'none');
-                $('nav').css('opacity', 0);
                 $('#content').css('min-height', 'auto');
 
             }

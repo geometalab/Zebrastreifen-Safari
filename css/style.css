@@ -2,9 +2,7 @@ html {
     overflow-y: scroll;
 }
 
-/*
-Setup a basic body
-*/
+/*Setup a basic body*/
 body {
     margin: 0;
     padding: 0;
@@ -40,6 +38,7 @@ p {
     }
     .header-text {
         font-size: 65%;
+        margin-left: 5px;
     }
     .header a{
         text-decoration: none;
@@ -132,6 +131,12 @@ p {
         flex-flow: row wrap;
 
     }
+    .hsrlogo a{
+        background-color: transparent;
+    }
+    .hsrlogo a:hover{
+        background-color: transparent;
+    }
 
     .wrapper > * {
         padding: 1px;
@@ -155,9 +160,7 @@ p {
 
 }
 @media all and (max-width: 800px){
-    /*
-Header is relative so z-index: 1 guarantees always displayed on top
-*/
+    /*Header is relative so z-index: 1 guarantees always displayed on top*/
     header {
         justify-content: space-between;
         display: flex;
@@ -171,6 +174,7 @@ Header is relative so z-index: 1 guarantees always displayed on top
         box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
     }
     header h1{
+        margin-right: 5px;
         color: white;
         font-size: 1.2em;
     }
@@ -178,10 +182,7 @@ Header is relative so z-index: 1 guarantees always displayed on top
         text-decoration: none;
     }
 
-    /*
-    using background color is important to cover the menu
-    position absolute isset to cover the whole viewport
-    */
+    /*using background color is important to cover the menu position absolute isset to cover the whole viewport*/
     #content {
         background-color: #FFFFFF;
         padding: 52px 10px 10px 10px;
@@ -197,9 +198,7 @@ Header is relative so z-index: 1 guarantees always displayed on top
     .nav-mobil {
         display: block;
     }
-    /*
-the button with a little gradient effekt
-*/
+    /*the button with a little gradient effekt*/
     #navigation {
         border: 1px solid #3384B5;
         border-radius: 3px 3px 3px 3px;
@@ -219,9 +218,7 @@ the button with a little gradient effekt
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4569b2', endColorstr='#4062a5', GradientType=0);
     }
 
-    /*
-    The white stripes button
-    */
+    /*The white stripes button*/
     #navigation div {
         background-color: #fff;
         border: 1px solid #eee;
@@ -231,9 +228,8 @@ the button with a little gradient effekt
         width: 90%;
     }
 
-    /*
-    The navigation container in the background
-    */
+
+    /*The navigation container in the background*/
     nav {
         opacity: 0;
         left: 0px;
@@ -257,9 +253,7 @@ the button with a little gradient effekt
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3384B5', endColorstr='#2d2c2d', GradientType=0);
     }
 
-    /*
-    Style the navigation menu
-    */
+    /*Style the navigation menu*/
     nav ul {
         list-style: none;
         margin: 0;

@@ -1,5 +1,5 @@
 html {
-    overflow-y: scroll;
+    overflow: hidden;
 }
 
 /*
@@ -8,7 +8,6 @@ Setup a basic body
 body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
     font-family: Arial;
     font-size: 18px;
 
@@ -25,6 +24,7 @@ body {
         /*justify-content: space-around;*/
         justify-content: space-between;
     }
+
     .header-logo {
         display: flex;
         /*max-width: 13%;*/
@@ -39,6 +39,7 @@ body {
     }
     .header-text {
         font-size: 65%;
+        margin-left: 5px;
     }
     .header a{
         text-decoration: none;
@@ -121,6 +122,12 @@ body {
     .nav li ul li {
         display: block;
     }
+    .hsrlogo a{
+        background-color: transparent;
+    }
+    .hsrlogo a:hover{
+        background-color: transparent;
+    }
 
     #map {
         width: auto;
@@ -143,6 +150,7 @@ body {
         box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.4);
     }
     header h1{
+        margin-right: 5px;
         color: white;
         font-size: 1.2em;
 

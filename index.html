@@ -2,9 +2,11 @@
 <html>
 <head>
     <title>Zebrastreifensafari</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
 
     <link rel="stylesheet" type="text/css" media="all" href="css/style.css"/>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -51,7 +53,7 @@
             <div class="nav">
                 <ul>
                         <li class="map"><a href="map.html">Karte</a></li>
-                        <li class="dropmenu"><a href="#">&#9776;</a>
+                        <li class="dropmenu"><a href="#"><i class="fa fa-bars"></i></a>
                         <ul>
                             <li><a href="http://geometalab.tumblr.com/">Blog</a></li>
                             <li><a href="project.html" class="myButton">&Uuml;ber...</a></li>
@@ -74,20 +76,20 @@
             Was ist der Zweck der Zebrastreifen-Safari?
         </h3>
         <p>
-            Bei der Erfassung dieser Daten geht es nicht nur um die <b>Sicherheit von Fussgängern</b> sondern auch um die <b>Verbesserung der Navigation
-            von Fussgängern</b>. Davon profitieren auch Sehbehinderte und Rollstuhlfahrer, für die
-            Fussgängerstreifen eine besonders wichtige Information ist. Zudem wird im Herbstsemester am Geometa Lab der HSR ein Projekt zur
-            automatischen Erkennung (weltweit) von aus Satellitenbildern durchgeführt. Die bereits eingetragenen Fussgängerstreifen dienen dann zur
-            Qualitätskontrolle. Dieses Verfahren wird nicht alle Fussgängerstreifen erkennen - besonders nicht in Stadtgebieten - und wird die Daten
-            auch nicht direkt in OpenStreetMap hochladen. Dafür wird ein kleines Spiel (<a href="http://maproulette.org/">MapRoulette</a> - noch nicht gestartet)
-            eingesetzt - aber davon später.
+            Bei der Erfassung dieser Daten geht es nicht nur um die <b>Sicherheit von FussgÃ¤ngern</b> sondern auch um die <b>Verbesserung der Navigation
+            von FussgÃ¤ngern</b>. Davon profitieren auch Sehbehinderte und Rollstuhlfahrer, fÃ¼r die
+            FussgÃ¤ngerstreifen eine besonders wichtige Information ist. Zudem wird im Herbstsemester am Geometa Lab der HSR ein Projekt zur
+            automatischen Erkennung (weltweit) von aus Satellitenbildern durchgefÃ¼hrt. Die bereits eingetragenen FussgÃ¤ngerstreifen dienen dann zur
+            QualitÃ¤tskontrolle. Dieses Verfahren wird nicht alle FussgÃ¤ngerstreifen erkennen - besonders nicht in Stadtgebieten - und wird die Daten
+            auch nicht direkt in OpenStreetMap hochladen. DafÃ¼r wird ein kleines Spiel (<a href="http://maproulette.org/">MapRoulette</a> - noch nicht gestartet)
+            eingesetzt - aber davon spÃ¤ter.
         </p>
         <!-- Container for the Charts -->
         <div class="chart">
             <h3>Gesamtanzahl der eingetragenen Zebrastreifen</h3>
             <canvas id="linecanvas"></canvas>
             <p>*Zeb = Zebrastreifen</p>
-            <h3>Einträge der letzten 10 Wochen</h3>
+            <h3>EintrÃ¤ge der letzten 10 Wochen</h3>
             <canvas id="barcanvas"></canvas>
             <p>*Zeb = Zebrastreifen</p>
         </div>
