@@ -21,6 +21,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
@@ -38,7 +40,6 @@ import java.util.stream.Collectors;
 public class View extends JFrame implements Observer {
 
     private JPanel mainPanel;
-    private JButton searchButton;
     private JTextField searchTextField;
     private JButton addButton;
     private JTable dataTable;
@@ -46,6 +47,7 @@ public class View extends JFrame implements Observer {
     private JButton deleteButton;
     private JButton reloadButton;
     private JButton switchButton;
+    private JLabel searchLabel;
 
     private final Model model;
     private DefaultTableModel ratingTM;
@@ -55,7 +57,7 @@ public class View extends JFrame implements Observer {
         super("Zebrastreifen Administration Tool");
         $$$setupUI$$$();
         setContentPane(mainPanel);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     	dataTable.setAutoCreateRowSorter(true);
         
@@ -76,40 +78,35 @@ public class View extends JFrame implements Observer {
             }
         });
 
-        searchButton.addActionListener(e -> {
-            if (searchTextField.getText().isEmpty()) {
-                addDataToTable();
-                return;
-            }
+        searchTextField.addKeyListener(new KeyAdapter() {
 
-            addCrossingDataToTable(model.getCrossings().stream()
-                    .filter(crossing -> crossing.getId() == Integer.parseInt(searchTextField.getText()))
-                    .collect(Collectors.toList()));
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (searchTextField.getText().isEmpty()) {
+                    addDataToTable();
+                } else {
+                    addCrossingDataToTable(model.getCrossings().stream()
+                            .filter(crossing -> String.valueOf(crossing.getOsmNodeId()).startsWith(searchTextField.getText()))
+                            .collect(Collectors.toList()));
+                }
+            }
         });
 
         addButton.addActionListener(e -> {
-            CreateUpdateGUI createGUI;
-
             if (model.isRatingMode()) {
-                createGUI = new CreateRatingGUI(model, this, getRatingFromTable().getCrossingId().getOsmNodeId());
+                new CreateRatingGUI(model, this, getRatingFromTable().getCrossingId().getOsmNodeId()).setVisible(true);
             } else {
-                createGUI = new CreateCrossingGUI(model, this);
+                new CreateCrossingGUI(model, this).setVisible(true);
             }
-
-            createGUI.setVisible(true);
         });
 
         changeButton.addActionListener(e -> {
             try {
-                CreateUpdateGUI updateGUI;
-
                 if (model.isRatingMode()) {
-                    updateGUI = new UpdateRatingGUI(model, this, getRatingFromTable());
+                    new UpdateRatingGUI(model, this, getRatingFromTable()).setVisible(true);
                 } else {
-                    updateGUI = new UpdateCrossingGUI(model, this, getCrossingFromTable());
+                    new UpdateCrossingGUI(model, this, getCrossingFromTable()).setVisible(true);
                 }
-
-                updateGUI.setVisible(true);
             } catch (ArrayIndexOutOfBoundsException aioobe) {
                 JOptionPane.showMessageDialog(this, "There is no data selected to change", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -172,7 +169,7 @@ public class View extends JFrame implements Observer {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (model.getCrossings().isEmpty() || e.getClickCount() < 2) return;
+                if (model.isRatingMode() || e.getClickCount() < 2 || model.getCrossings().isEmpty()) return;
 
                 changeView();
             }
@@ -185,12 +182,12 @@ public class View extends JFrame implements Observer {
         if (model.isRatingMode()) {
             model.reloadRating(getCrossingFromTable());
             switchButton.setText("Zebrastreifen");
-            searchButton.setVisible(false);
+            searchLabel.setVisible(false);
             searchTextField.setVisible(false);
         } else {
             model.reloadCrossing();
             switchButton.setText("Bewertungen");
-            searchButton.setVisible(true);
+            searchLabel.setVisible(true);
             searchTextField.setVisible(true);
         }
 
@@ -321,9 +318,9 @@ public class View extends JFrame implements Observer {
         mainPanel.add(panel1, BorderLayout.NORTH);
         searchTextField = new JTextField();
         panel1.add(searchTextField, BorderLayout.CENTER);
-        searchButton = new JButton();
-        searchButton.setText("Suchen");
-        panel1.add(searchButton, BorderLayout.EAST);
+        searchLabel = new JLabel();
+        searchLabel.setText("Suchen: ");
+        panel1.add(searchLabel, BorderLayout.WEST);
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new FormLayout("fill:d:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
         mainPanel.add(panel2, BorderLayout.EAST);

@@ -3,7 +3,6 @@ package ch.hsr.zebrastreifensafari.gui;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.io.File;
 import java.util.Enumeration;
 
 import ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
@@ -51,7 +50,6 @@ public abstract class CreateUpdateGUI extends JDialog {
     protected ButtonGroup illuminationButtonGroup;
     protected ButtonGroup trafficButtonGroup;
 
-    protected File file;
     protected ObservableHelper observable;
     protected Model model;
 
@@ -127,9 +125,9 @@ public abstract class CreateUpdateGUI extends JDialog {
         spatialClarityButtonGroupe.add(spatialClarityGoodRadioButton);
         spatialClarityButtonGroupe.add(spatialClarityOkRadioButton);
         spatialClarityButtonGroupe.add(spatialClarityBadRadioButton);
-        illuminationButtonGroup.add(illuminationBadRadioButton);
-        illuminationButtonGroup.add(illuminationOkRadioButton);
         illuminationButtonGroup.add(illuminationGoodRadioButton);
+        illuminationButtonGroup.add(illuminationOkRadioButton);
+        illuminationButtonGroup.add(illuminationBadRadioButton);
         trafficButtonGroup.add(trafficNoneRadioButton);
         trafficButtonGroup.add(trafficLittleRadioButton);
         trafficButtonGroup.add(trafficALotRadioButton);
@@ -199,14 +197,14 @@ public abstract class CreateUpdateGUI extends JDialog {
         panel2.add(trafficLittleRadioButton, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         trafficALotRadioButton.setText("A Lot");
         panel2.add(trafficALotRadioButton, new GridConstraints(4, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        illuminationBadRadioButton.setText("Bad");
-        panel2.add(illuminationBadRadioButton, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        illuminationOkRadioButton.setText("Ok");
-        panel2.add(illuminationOkRadioButton, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        panel2.add(spacer1, new GridConstraints(6, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         illuminationGoodRadioButton.setText("Good");
         panel2.add(illuminationGoodRadioButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer1 = new Spacer();
-        panel2.add(spacer1, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        illuminationOkRadioButton.setText("Ok");
+        panel2.add(illuminationOkRadioButton, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        illuminationBadRadioButton.setText("Bad");
+        panel2.add(illuminationBadRadioButton, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
