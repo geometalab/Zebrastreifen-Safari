@@ -6,7 +6,12 @@
 package ch.hsr.zebrastreifensafari.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -151,4 +156,17 @@ public class Model {
     public void setRatingMode(boolean ratingMode) {
         this.ratingMode = ratingMode;
     }
+    
+    public void sortById() {
+    	crossings = crossings.stream().sorted((o1, o2) -> o1.getId().compareTo(o2.getId())).collect(Collectors.toList());
+    }
+    
+    public void sortByNode() {
+    	crossings = crossings.stream().sorted((o1, o2) -> {
+        	Long i = new Long(o1.getOsmNodeId());
+        	Long j = new Long(o2.getOsmNodeId());
+        	return i.compareTo(j);
+    	}).collect(Collectors.toList());
+    } 
+   
 }
