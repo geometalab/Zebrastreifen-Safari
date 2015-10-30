@@ -1,7 +1,7 @@
 package ch.hsr.zebrastreifensafari.gui.create;
 
 import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
-import ch.hsr.zebrastreifensafari.gui.view.View;
+import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
@@ -16,8 +16,8 @@ import java.util.Date;
  */
 public class CreateCrossingGUI extends CreateUpdateGUI {
 
-    public CreateCrossingGUI(Model model, View view) {
-        super(model, view, "Create a new Crossing");
+    public CreateCrossingGUI(Model model, MainGUI mainGUI) {
+        super(model, mainGUI, "Create a new Crossing");
         pack();
     }
 

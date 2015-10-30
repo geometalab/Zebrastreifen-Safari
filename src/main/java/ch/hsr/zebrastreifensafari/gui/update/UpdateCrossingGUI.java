@@ -1,7 +1,7 @@
 package ch.hsr.zebrastreifensafari.gui.update;
 
 import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
-import ch.hsr.zebrastreifensafari.gui.view.View;
+import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -20,8 +20,8 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
 
     private Crossing crossing;
 
-    public UpdateCrossingGUI(Model model, View view, Crossing crossing) {
-        super(model, view, "Update the crossing " + crossing.getOsmNodeId());
+    public UpdateCrossingGUI(Model model, MainGUI mainGUI, Crossing crossing) {
+        super(model, mainGUI, "Update the crossing " + crossing.getOsmNodeId());
         this.crossing = crossing;
         setValues();
         userLabel.setVisible(false);

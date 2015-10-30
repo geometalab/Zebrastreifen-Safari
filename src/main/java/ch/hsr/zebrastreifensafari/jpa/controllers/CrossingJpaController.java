@@ -147,14 +147,30 @@ public class CrossingJpaController implements Serializable {
 
     private List<Crossing> findCrossingEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
+
         try {
+            if (all) {
+                List<Crossing> resultList = new ArrayList<Crossing>();
+
+                for (Object[] objects : em.createNamedQuery("Crossing.findAll", Object[].class).getResultList()) {
+                    Crossing crossing = (Crossing) objects[0];
+                    crossing.setRatingAmount((long) objects[1]);
+                    resultList.add(crossing);
+                }
+
+                return resultList;
+            }
+
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(Crossing.class));
             Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
+            q.setMaxResults(maxResults);
+            q.setFirstResult(firstResult);
+
+            for (Crossing crossing : (List<Crossing>)q.getResultList()) {
+                crossing.setRatingAmount(em.createNamedQuery("Crossing.findRatingAmount", Long.class).setParameter("crossingId", crossing).getSingleResult());
             }
+
             return q.getResultList();
         } finally {
             em.close();

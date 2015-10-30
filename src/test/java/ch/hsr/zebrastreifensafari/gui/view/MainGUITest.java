@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  * @date : 21.10.2015
  */
 
-public class ViewTest {
+public class MainGUITest {
 
     @Before
     public void setUp() throws Exception {

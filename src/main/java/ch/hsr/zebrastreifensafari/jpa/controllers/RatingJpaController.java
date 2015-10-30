@@ -230,7 +230,7 @@ public class RatingJpaController implements Serializable {
         }
     }
 
-    public List<Rating> findRatingByCrossing(Crossing Crossing) {
-        return getEntityManager().createNamedQuery("Rating.findByCrossing", Rating.class).setParameter("crossingId", Crossing).getResultList();
+    public List<Rating> findRatingByCrossing(Crossing crossing) {
+        return getEntityManager().createNamedQuery("Rating.findByCrossing", Rating.class).setParameter("crossingId", crossing).getResultList();
     }
 }

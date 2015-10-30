@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ch.hsr.zebrastreifensafari.gui.view.View">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ch.hsr.zebrastreifensafari.gui.view.MainGUI">
   <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -7,23 +7,6 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="b7c03" layout-manager="BorderLayout" hgap="0" vgap="0">
-        <constraints border-constraint="North"/>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="43582" class="javax.swing.JTextField" binding="searchTextField">
-            <constraints border-constraint="Center"/>
-            <properties/>
-          </component>
-          <component id="c04c6" class="javax.swing.JLabel" binding="searchLabel">
-            <constraints border-constraint="West"/>
-            <properties>
-              <text value="Suchen: "/>
-            </properties>
-          </component>
-        </children>
-      </grid>
       <grid id="f2bba" layout-manager="FormLayout">
         <rowspec value="center:d:noGrow"/>
         <rowspec value="top:4dlu:noGrow"/>
@@ -103,23 +86,69 @@
           </vspacer>
         </children>
       </grid>
-      <scrollpane id="26343">
+      <tabbedpane id="49e05">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
-          <component id="b8e8b" class="javax.swing.JTable" binding="dataTable" custom-create="true">
-            <constraints/>
-            <properties>
-              <autoCreateRowSorter value="false"/>
-              <cellSelectionEnabled value="false"/>
-              <columnSelectionAllowed value="false"/>
-              <fillsViewportHeight value="false"/>
-              <rowSelectionAllowed value="true"/>
-            </properties>
-          </component>
+          <grid id="c58b8" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <tabbedpane title="Zebracrossings"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="bc8ca" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="North"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="43582" class="javax.swing.JTextField" binding="searchTextField">
+                    <constraints border-constraint="Center"/>
+                    <properties/>
+                  </component>
+                  <component id="c04c6" class="javax.swing.JLabel" binding="searchLabel">
+                    <constraints border-constraint="West"/>
+                    <properties>
+                      <text value="Suchen: "/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <scrollpane id="26343">
+                <constraints border-constraint="Center"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="b8e8b" class="javax.swing.JTable" binding="crossingDataTable" custom-create="true">
+                    <constraints/>
+                    <properties>
+                      <autoCreateRowSorter value="false"/>
+                      <cellSelectionEnabled value="false"/>
+                      <columnSelectionAllowed value="false"/>
+                      <fillsViewportHeight value="false"/>
+                      <rowSelectionAllowed value="true"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
+          <scrollpane id="3b082">
+            <constraints>
+              <tabbedpane title="Ratings"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="89fe5" class="javax.swing.JTable" binding="ratingDataTable" custom-create="true">
+                <constraints/>
+                <properties/>
+              </component>
+            </children>
+          </scrollpane>
         </children>
-      </scrollpane>
+      </tabbedpane>
     </children>
   </grid>
 </form>

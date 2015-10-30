@@ -1,6 +1,5 @@
 package ch.hsr.zebrastreifensafari.gui.view;
 
-import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
 import ch.hsr.zebrastreifensafari.gui.create.CreateCrossingGUI;
 import ch.hsr.zebrastreifensafari.gui.create.CreateRatingGUI;
 import ch.hsr.zebrastreifensafari.gui.update.UpdateCrossingGUI;
@@ -14,11 +13,8 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
-import javax.swing.event.RowSorterEvent;
-import javax.swing.event.RowSorterListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -37,30 +33,31 @@ import java.util.stream.Collectors;
  * @date : 27.10.2015
  */
 
-public class View extends JFrame implements Observer {
+public class MainGUI extends JFrame implements Observer {
 
     private JPanel mainPanel;
     private JTextField searchTextField;
     private JButton addButton;
-    private JTable dataTable;
+    private JTable crossingDataTable;
     private JButton changeButton;
     private JButton deleteButton;
     private JButton reloadButton;
     private JButton switchButton;
     private JLabel searchLabel;
+    private JTable ratingDataTable;
 
     private final Model model;
     private DefaultTableModel ratingTM;
     private DefaultTableModel zebraTM;
 
-    public View(Model model) throws HeadlessException {
+    public MainGUI(Model model) throws HeadlessException {
         super("Zebrastreifen Administration Tool");
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    	dataTable.setAutoCreateRowSorter(true);
-        
+        crossingDataTable.setAutoCreateRowSorter(true);
+
         this.model = model;
         initListeners();
         addDataToTable();
@@ -146,26 +143,24 @@ public class View extends JFrame implements Observer {
             addDataToTable();
         });
 
-	    dataTable.getTableHeader().addMouseListener(new MouseAdapter() {
-	        @Override
-	        public void mouseClicked(MouseEvent e) {
-	            int col = dataTable.columnAtPoint(e.getPoint());
+        crossingDataTable.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int col = crossingDataTable.columnAtPoint(e.getPoint());
 
-	        	dataTable.setAutoCreateRowSorter(true);
-	            if (col == 0) {
-		            model.sortById();
-	            }
-	            else if (col == 1) {
-	            	model.sortByNode();
-	            }
-	            else {
-	            	dataTable.setAutoCreateRowSorter(true);
-	            }
-		        addDataToTable();
-	        }
+                crossingDataTable.setAutoCreateRowSorter(true);
+                if (col == 0) {
+                    model.sortById();
+                } else if (col == 1) {
+                    model.sortByNode();
+                } else {
+                    crossingDataTable.setAutoCreateRowSorter(true);
+                }
+                addDataToTable();
+            }
         });
 
-        dataTable.addMouseListener(new MouseAdapter() {
+        crossingDataTable.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mousePressed(MouseEvent e) {
@@ -175,7 +170,7 @@ public class View extends JFrame implements Observer {
             }
         });
     }
-    
+
     private void changeView() {
         model.setRatingMode(!model.isRatingMode());
 
@@ -191,16 +186,16 @@ public class View extends JFrame implements Observer {
             searchTextField.setVisible(true);
         }
 
-        dataTable.setModel(getCurrentTableModel());
+        crossingDataTable.setModel(getCurrentTableModel());
         addDataToTable();
     }
 
     private Crossing getCrossingFromTable() {
-        return model.getCrossing(Integer.parseInt(dataTable.getValueAt(dataTable.getSelectedRow(), 0).toString()));
+        return model.getCrossing(Integer.parseInt(crossingDataTable.getValueAt(crossingDataTable.getSelectedRow(), 0).toString()));
     }
 
     private Rating getRatingFromTable() {
-        return model.getRating(Integer.parseInt(dataTable.getValueAt(dataTable.getSelectedRow(), 0).toString()));
+        return model.getRating(Integer.parseInt(crossingDataTable.getValueAt(crossingDataTable.getSelectedRow(), 0).toString()));
     }
 
     private TableModel getCurrentTableModel() {
@@ -223,10 +218,10 @@ public class View extends JFrame implements Observer {
         zebraTM.setRowCount(0);
         //model.getCrossings().stream().sorted((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).forEach(crossing -> zebraTM.addRow(new String[]{crossing.getId().toString(), Long.toString(crossing.getOsmNodeId()), Integer.toString(crossing.getStatus())}));
         for (Crossing z : list) {
-            zebraTM.addRow(new String[]{z.getId().toString(), Long.toString(z.getOsmNodeId()), Integer.toString(z.getStatus())});
+            zebraTM.addRow(new String[]{z.getId().toString(), Long.toString(z.getOsmNodeId()), Long.toString(z.getRatingAmount()), Integer.toString(z.getStatus())});
         }
 
-        dataTable.changeSelection(0, 0, false, false);
+        crossingDataTable.changeSelection(0, 0, false, false);
     }
 
     private void addRatingDataToTable(List<Rating> list) {
@@ -245,7 +240,7 @@ public class View extends JFrame implements Observer {
             );
         }
 
-        dataTable.changeSelection(0, 0, false, false);
+        crossingDataTable.changeSelection(0, 0, false, false);
     }
 
     @Override
@@ -261,25 +256,24 @@ public class View extends JFrame implements Observer {
 
     //<editor-fold desc="GUI Builder">
     private void createUIComponents() {
-        zebraTM = new DefaultTableModel(new String[]{"ID", "Osm Node", "Status"}, 0) {
+        zebraTM = new DefaultTableModel(new String[]{"ID", "OSM Node ID", "Anzahl Bewertungen", "Status"}, 0) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-            
-    	    @Override
+
+            @Override
             public Class<?> getColumnClass(int column) {
-            	if(column == 0) {
-            		return Integer.class;
-            	}
-            	else if(column == 1){
-            		return Long.class;
-            	}
-            	
-            	return super.getColumnClass(column);
+                if (column == 0 || column == 2 || column == 3) {
+                    return Integer.class;
+                } else if (column == 1) {
+                    return Long.class;
+                }
+
+                return super.getColumnClass(column);
             }
-    	    
+
         };
 
         ratingTM = new DefaultTableModel(new String[]{"ID", "Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar", "Bild", "Letzte Änderung"}, 0) {
@@ -288,18 +282,19 @@ public class View extends JFrame implements Observer {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-            
+
             public Class<?> getColumnClass(int column) {
-            	if(column == 0) {
-            		return Integer.class;
-            	}
-            	
-            	return super.getColumnClass(column);
+                if (column == 0) {
+                    return Integer.class;
+                }
+
+                return super.getColumnClass(column);
             }
-            
+
         };
 
-        dataTable = new JTable(zebraTM);
+        crossingDataTable = new JTable(zebraTM);
+        ratingDataTable = new JTable(ratingTM);
     }
 
     /**
@@ -314,45 +309,53 @@ public class View extends JFrame implements Observer {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0, 0));
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new BorderLayout(0, 0));
-        mainPanel.add(panel1, BorderLayout.NORTH);
-        searchTextField = new JTextField();
-        panel1.add(searchTextField, BorderLayout.CENTER);
-        searchLabel = new JLabel();
-        searchLabel.setText("Suchen: ");
-        panel1.add(searchLabel, BorderLayout.WEST);
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new FormLayout("fill:d:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
-        mainPanel.add(panel2, BorderLayout.EAST);
+        panel1.setLayout(new FormLayout("fill:d:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
+        mainPanel.add(panel1, BorderLayout.EAST);
         addButton = new JButton();
         addButton.setText("Hinzufügen");
         CellConstraints cc = new CellConstraints();
-        panel2.add(addButton, cc.xy(1, 1));
+        panel1.add(addButton, cc.xy(1, 1));
         changeButton = new JButton();
         changeButton.setText("Bearbeiten");
-        panel2.add(changeButton, cc.xy(1, 3));
+        panel1.add(changeButton, cc.xy(1, 3));
         deleteButton = new JButton();
         deleteButton.setText("Löschen");
-        panel2.add(deleteButton, cc.xy(1, 5));
+        panel1.add(deleteButton, cc.xy(1, 5));
         reloadButton = new JButton();
         reloadButton.setIcon(new ImageIcon(getClass().getResource("/RefreshIcon.png")));
         reloadButton.setText("");
-        panel2.add(reloadButton, cc.xy(1, 9));
+        panel1.add(reloadButton, cc.xy(1, 9));
         switchButton = new JButton();
         switchButton.setText("Bewertungen");
-        panel2.add(switchButton, cc.xy(1, 13));
+        panel1.add(switchButton, cc.xy(1, 13));
         final Spacer spacer1 = new Spacer();
-        panel2.add(spacer1, cc.xy(1, 11, CellConstraints.DEFAULT, CellConstraints.FILL));
+        panel1.add(spacer1, cc.xy(1, 11, CellConstraints.DEFAULT, CellConstraints.FILL));
         final Spacer spacer2 = new Spacer();
-        panel2.add(spacer2, cc.xy(1, 7, CellConstraints.DEFAULT, CellConstraints.FILL));
+        panel1.add(spacer2, cc.xy(1, 7, CellConstraints.DEFAULT, CellConstraints.FILL));
+        final JTabbedPane tabbedPane1 = new JTabbedPane();
+        mainPanel.add(tabbedPane1, BorderLayout.CENTER);
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new BorderLayout(0, 0));
+        tabbedPane1.addTab("Zebracrossings", panel2);
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new BorderLayout(0, 0));
+        panel2.add(panel3, BorderLayout.NORTH);
+        searchTextField = new JTextField();
+        panel3.add(searchTextField, BorderLayout.CENTER);
+        searchLabel = new JLabel();
+        searchLabel.setText("Suchen: ");
+        panel3.add(searchLabel, BorderLayout.WEST);
         final JScrollPane scrollPane1 = new JScrollPane();
-        mainPanel.add(scrollPane1, BorderLayout.CENTER);
-        dataTable.setAutoCreateRowSorter(false);
-        dataTable.setCellSelectionEnabled(false);
-        dataTable.setColumnSelectionAllowed(false);
-        dataTable.setFillsViewportHeight(false);
-        dataTable.setRowSelectionAllowed(true);
-        scrollPane1.setViewportView(dataTable);
+        panel2.add(scrollPane1, BorderLayout.CENTER);
+        crossingDataTable.setAutoCreateRowSorter(false);
+        crossingDataTable.setCellSelectionEnabled(false);
+        crossingDataTable.setColumnSelectionAllowed(false);
+        crossingDataTable.setFillsViewportHeight(false);
+        crossingDataTable.setRowSelectionAllowed(true);
+        scrollPane1.setViewportView(crossingDataTable);
+        final JScrollPane scrollPane2 = new JScrollPane();
+        tabbedPane1.addTab("Ratings", scrollPane2);
+        scrollPane2.setViewportView(ratingDataTable);
     }
 
     /**
