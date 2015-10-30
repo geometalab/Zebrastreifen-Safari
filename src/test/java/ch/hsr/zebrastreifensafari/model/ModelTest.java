@@ -1,5 +1,9 @@
 package ch.hsr.zebrastreifensafari.model;
 
+import ch.hsr.zebrastreifensafari.TestJDBC;
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
+import java.io.File;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,17 +17,27 @@ import static org.junit.Assert.*;
  * @time : 13:38
  * @date : 21.10.2015
  */
-
 public class ModelTest {
-     
+
+    TestJDBC db;
+    Model model;
+
     @Before
     public void setUp() throws Exception {
-        
+        db = new TestJDBC();
+        DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPUTest"));
+        model = new Model();
     }
 
     @After
     public void tearDown() throws Exception {
+        try {
 
+            File file = new File("crossing.db");
+            file.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -42,8 +56,8 @@ public class ModelTest {
     }
 
     @Test
-    public void testGetUser() throws Exception {
-        
+    public void testGetUserByValidName() throws Exception {
+        assertEquals("Alex Eugster", model.getUser("Alex Eugster").getName());
     }
 
     @Test
@@ -100,4 +114,5 @@ public class ModelTest {
     public void testSetRatingMode() throws Exception {
 
     }
+
 }

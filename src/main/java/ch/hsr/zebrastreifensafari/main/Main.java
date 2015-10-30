@@ -17,7 +17,7 @@ import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
 public class Main {
 
     public static void main(String[] args) {
-        DataServiceLoader.provideCrossingData(new CrossingDataService());
+        DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPU"));
         Model model = new Model();
         View view = new View(model);
         view.setVisible(true);

@@ -7,6 +7,8 @@ import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 /**
  * @author : Mike Marti
@@ -19,9 +21,13 @@ import java.util.List;
 public class CrossingDataService implements ICrossingDataService {
 
     private EntityManagerFactory emFactory;
+    private EntityManager em;
 
-    public CrossingDataService() {
-        emFactory = Persistence.createEntityManagerFactory("ZebraPU");
+    public CrossingDataService(String entityName) {
+        emFactory = Persistence.createEntityManagerFactory(entityName);
+        em = emFactory.createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        trans.begin();
     }
 
     @Override
