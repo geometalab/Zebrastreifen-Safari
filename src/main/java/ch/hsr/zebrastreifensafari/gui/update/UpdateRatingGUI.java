@@ -4,8 +4,8 @@ import java.util.Enumeration;
 import javax.swing.*;
 
 import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
+import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.gui.view.View;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
@@ -17,8 +17,8 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
 
     private Rating rating;
 
-    public UpdateRatingGUI(Model model, View view, Rating rating) {
-        super(model, view, "Update the rating from " + rating.getUserId().getName() + " for the Crossing " + rating.getCrossingId().getOsmNodeId());
+    public UpdateRatingGUI(Model model, MainGUI mainGUI, Rating rating) {
+        super(model, mainGUI, "Update the rating from " + rating.getUserId().getName() + " for the Crossing " + rating.getCrossingId().getOsmNodeId());
         this.rating = rating;
         setValues();
         osmNodeIdLabel.setVisible(false);

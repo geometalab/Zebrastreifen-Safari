@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.Enumeration;
 
 import ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
-import ch.hsr.zebrastreifensafari.gui.view.View;
+import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
 import ch.hsr.zebrastreifensafari.model.Model;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -53,15 +53,15 @@ public abstract class CreateUpdateGUI extends JDialog {
     protected ObservableHelper observable;
     protected Model model;
 
-    public CreateUpdateGUI(Model model, View view, String title) {
-        super(view, title, true);
+    public CreateUpdateGUI(Model model, MainGUI mainGUI, String title) {
+        super(mainGUI, title, true);
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         this.model = model;
         observable = new ObservableHelper();
-        observable.addObserver(view);
+        observable.addObserver(mainGUI);
 
         for (User u : model.getUsers()) {
             userComboBox.addItem(u.getName());

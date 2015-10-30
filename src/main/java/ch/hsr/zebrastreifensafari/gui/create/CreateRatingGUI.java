@@ -1,7 +1,7 @@
 package ch.hsr.zebrastreifensafari.gui.create;
 
 import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
-import ch.hsr.zebrastreifensafari.gui.view.View;
+import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.model.Model;
@@ -17,8 +17,8 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
     private long node;
 
-    public CreateRatingGUI(Model model, View view, long node) {
-        super(model, view, "Create a new rating for the Crossing " + node);
+    public CreateRatingGUI(Model model, MainGUI mainGUI, long node) {
+        super(model, mainGUI, "Create a new rating for the Crossing " + node);
         this.node = node;
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
