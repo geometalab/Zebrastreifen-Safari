@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author aeugster
  */
 @Entity
-@Table(name = "crossing.user")
+@Table(name = "crossinguser")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
