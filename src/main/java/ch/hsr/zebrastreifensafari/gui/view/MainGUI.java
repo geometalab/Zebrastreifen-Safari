@@ -18,14 +18,12 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
 import java.util.stream.Collectors;
 
 /**
@@ -65,38 +63,38 @@ public class MainGUI extends JFrame implements Observer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menuBar();
         crossingDataTable.setAutoCreateRowSorter(true);
-        
+
         this.model = model;
         initListeners();
         addDataToTable();
         pack();
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
-    
+
     private void menuBar() {
         JMenuBar bar = new JMenuBar();
         setJMenuBar(bar);
-        
+
         datei = new JMenu("Datei");
         bar.add(datei);
-        
+
 //        bar.add(new JSeparator(JSeparator.VERTICAL));
-        
+
         hilfe = new JMenu("Hilfe");
         bar.add(hilfe);
-        
+
         beendenItem = new JMenuItem("Beenden");
         datei.add(beendenItem);
-        
+
         hilfeItem = new JMenuItem("Hilfe");
         hilfe.add(hilfeItem);
 
-        JSeparator sep = new JSeparator(); 
+        JSeparator sep = new JSeparator();
         hilfe.add(sep);
-        
+
         ueberItem = new JMenuItem("Über");
         hilfe.add(ueberItem);
-            	
+
     }
 
     private void initListeners() {
@@ -188,6 +186,7 @@ public class MainGUI extends JFrame implements Observer {
         });
 
         crossingDataTable.getTableHeader().addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 int col = crossingDataTable.columnAtPoint(e.getPoint());
@@ -213,36 +212,28 @@ public class MainGUI extends JFrame implements Observer {
                 dataTabbedPane.setSelectedIndex(1);
             }
         });
-        
-        beendenItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                System.exit(0);
+
+        beendenItem.addActionListener(e -> System.exit(0));
+
+        hilfeItem.addActionListener(e -> {
+            Runtime rt = Runtime.getRuntime();
+
+            try {
+                rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         });
-        
-        hilfeItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-            	Runtime rt = Runtime.getRuntime();
-            	try {
-					rt.exec( "rundll32 url.dll,FileProtocolHandler " + url);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-            }
+
+        ueberItem.addActionListener(e -> {
+            JDialog ueberDialog = new JDialog();
+            ueberDialog.setTitle("Über");
+            ueberDialog.setSize(300, 200);
+            ueberDialog.setLocationRelativeTo(getParent());
+            ueberDialog.setModal(true);
+            ueberDialog.setVisible(true);
         });
-        
-        ueberItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-            	JDialog ueberDialog = new JDialog();
-            	ueberDialog.setTitle("Über");
-            	ueberDialog.setSize(300,200);
-            	ueberDialog.setLocationRelativeTo(getParent());
-            	ueberDialog.setModal(true);
-            	ueberDialog.setVisible(true);
-            }
-        });
-        
+
     }
 
     private void changeView() {
