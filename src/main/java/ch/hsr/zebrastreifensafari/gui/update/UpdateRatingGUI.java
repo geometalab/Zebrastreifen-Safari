@@ -17,8 +17,8 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
 
     private Rating rating;
 
-    public UpdateRatingGUI(Model model, MainGUI mainGUI, Rating rating) {
-        super(model, mainGUI, "Update the rating from " + rating.getUserId().getName() + " for the Crossing " + rating.getCrossingId().getOsmNodeId());
+    public UpdateRatingGUI(MainGUI mainGUI, Rating rating) {
+        super(mainGUI, "Update the rating from " + rating.getUserId().getName() + " for the Crossing " + rating.getCrossingId().getOsmNodeId());
         this.rating = rating;
         setValues();
         osmNodeIdLabel.setVisible(false);
@@ -36,14 +36,14 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
         String commentBackup = rating.getComment();
 
         try {
-            rating.setUserId(model.getUser((String) userComboBox.getSelectedItem()));
-            rating.setIlluminationId(model.getIllumination(getSelectedButtonInt(illuminationButtonGroup)));
-            rating.setSpatialClarityId(model.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)));
-            rating.setTrafficId(model.getTraffic(getSelectedButtonInt(trafficButtonGroup)));
+            rating.setUserId(mainGUI.getUser((String) userComboBox.getSelectedItem()));
+            rating.setIlluminationId(mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)));
+            rating.setSpatialClarityId(mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)));
+            rating.setTrafficId(mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)));
             rating.setImageWeblink(imageTextField.getText());
             rating.setComment(commentTextArea.getText());
             DataServiceLoader.getCrossingData().updateRating(rating);
-            observable.notifyObservers(rating.getCrossingId());
+            observable.notifyObservers();
             this.dispose();
         } catch (Exception e) {
             rating.setUserId(userBackup);

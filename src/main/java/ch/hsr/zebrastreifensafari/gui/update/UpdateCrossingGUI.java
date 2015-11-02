@@ -20,8 +20,8 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
 
     private Crossing crossing;
 
-    public UpdateCrossingGUI(Model model, MainGUI mainGUI, Crossing crossing) {
-        super(model, mainGUI, "Update the crossing " + crossing.getOsmNodeId());
+    public UpdateCrossingGUI(MainGUI mainGUI, Crossing crossing) {
+        super(mainGUI, "Update the crossing " + crossing.getOsmNodeId());
         this.crossing = crossing;
         setValues();
         userLabel.setVisible(false);

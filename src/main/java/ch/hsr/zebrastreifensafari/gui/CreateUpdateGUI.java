@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.Enumeration;
+import java.util.Observable;
+import java.util.Observer;
 
 import ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
 import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
@@ -51,19 +53,19 @@ public abstract class CreateUpdateGUI extends JDialog {
     protected ButtonGroup trafficButtonGroup;
 
     protected ObservableHelper observable;
-    protected Model model;
+    protected MainGUI mainGUI;
 
-    public CreateUpdateGUI(Model model, MainGUI mainGUI, String title) {
+    public CreateUpdateGUI(MainGUI mainGUI, String title) {
         super(mainGUI, title, true);
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        this.model = model;
         observable = new ObservableHelper();
         observable.addObserver(mainGUI);
+        this.mainGUI = mainGUI;
 
-        for (User u : model.getUsers()) {
+        for (User u : mainGUI.getUsers()) {
             userComboBox.addItem(u.getName());
         }
 
@@ -105,6 +107,10 @@ public abstract class CreateUpdateGUI extends JDialog {
         }
 
         return true;
+    }
+
+    public void addObserver(Observer observer) {
+        observable.addObserver(observer);
     }
 
     //<editor-fold desc="GUI Builder">

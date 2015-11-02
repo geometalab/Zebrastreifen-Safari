@@ -49,9 +49,10 @@ public class Crossing implements Serializable {
         this.id = id;
     }
 
-    public Crossing(Integer id, long osmNodeId, int status) {
+    public Crossing(Integer id, long osmNodeId, int ratingAmount, int status) {
         this.id = id;
         this.osmNodeId = osmNodeId;
+        this.ratingAmount = ratingAmount;
         this.status = status;
     }
 

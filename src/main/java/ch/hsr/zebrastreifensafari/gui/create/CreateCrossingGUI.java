@@ -16,8 +16,8 @@ import java.util.Date;
  */
 public class CreateCrossingGUI extends CreateUpdateGUI {
 
-    public CreateCrossingGUI(Model model, MainGUI mainGUI) {
-        super(model, mainGUI, "Create a new Crossing");
+    public CreateCrossingGUI(MainGUI mainGUI) {
+        super(mainGUI, "Create a new Crossing");
         pack();
     }
 
@@ -25,20 +25,22 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
     protected void onSendClick() {
         try {
             long osmNode = Long.parseLong(osmNodeIdTextField.getText());
+            Crossing crossing = mainGUI.getCrossing(osmNode);
 
-            if (model.getCrossing(osmNode) == null) {
-                DataServiceLoader.getCrossingData().addCrossing(new Crossing(null, osmNode, 1));
-                observable.notifyObservers(null);
+            if (crossing == null) {
+                crossing = new Crossing(null, osmNode, 1, 1);
+                DataServiceLoader.getCrossingData().addCrossing(crossing);
+                observable.notifyObservers(crossing);
             }
 
             DataServiceLoader.getCrossingData().addRating(
                     new Rating(null,
                             commentTextArea.getText(),
-                            model.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
-                            model.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
-                            model.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
-                            model.getUser((String) userComboBox.getSelectedItem()),
-                            model.getCrossing(osmNode),
+                            mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
+                            mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
+                            mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
+                            mainGUI.getUser((String) userComboBox.getSelectedItem()),
+                            crossing,
                             imageTextField.getText(),
                             new Date()
                     )
