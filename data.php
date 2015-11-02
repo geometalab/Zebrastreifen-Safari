@@ -25,20 +25,6 @@ function barchartStatistic() {
 
     unset($resultset[10]);
     $statisticConnection->closeConnection();
-    /* testoutput
-    echo "<table border='1'><th>Week</th><th>Amount</th>";
-    foreach ($resultset as $result) {
-        echo "<tr>";
-        echo "<td>";
-        echo $result['week'];
-        echo "</td>";
-        echo "<td>";
-        echo $result['amount'];
-        echo "</td>";
-        echo "</tr>";
-    }
-    echo "</table>";
-    /**/
     return $resultset;
 }
 
@@ -55,20 +41,6 @@ function linechartStatistic() {
     }
 
     $statisticConnection->closeConnection();
-    /* testoutput
-    echo "<table border='1'><th>Week</th><th>Amount</th>";
-    foreach ($resultset as $result) {
-        echo "<tr>";
-        echo "<td>";
-        echo $result['week'];
-        echo "</td>";
-        echo "<td>";
-        echo $result['amount'];
-        echo "</td>";
-        echo "</tr>";
-    }
-    echo "</table>";
-    /**/
     return $resultset;
 }
 
@@ -112,23 +84,6 @@ function zebracrossingPoints() {
 
     $zebracrossingConnection->closeConnection();
     $gisConnection->closeConnection();
-
-    /* testoutput
-    echo "<table border='1'><th>Node</th><th>X</th><th>Y</th><th>image</th><th>traffic_signals</th><th>island</th><th>unmarked</th><th>button_operated</th><th>slooped_curb</th><th>tactile_paving</th><th>traffic_signals_vibration</th><th>traffic_signals_sound</th><th>rating</th>";
-    foreach ($zebracrossings['features'] as $zebracrossing) {
-        echo "<tr>";
-        echo "<td>";
-        echo $zebracrossing['properties']['osm_node_id'];
-        echo "</td>";
-        echo "<td>";
-        echo $zebracrossing['geometry']['coordinates'][0];
-        echo "</td>";
-        echo "<td>";
-        echo $zebracrossing['geometry']['coordinates'][1];
-        echo "</tr>";
-    }
-    echo "</table>";
-    /**/
     return $zebracrossings;
 }
 
@@ -173,68 +128,6 @@ function zebracrossingDetail($osm_node_id) {
 
     $zebracrossingConnection->closeConnection();
     $gisConnection->closeConnection();
-
-    /* testoutput
-    echo "<table border='1'><th>Node</th><th>image</th><th>traffic_signals</th><th>island</th><th>unmarked</th><th>button_operated</th><th>slooped_curb</th><th>tactile_paving</th><th>traffic_signals_vibration</th><th>traffic_signals_sound</th><th>rating</th>";
-    echo "<tr>";
-    echo "<td>";
-    echo $zebracrossing['osm_node_id'];
-    echo "</td>";
-    echo "<td>";
-    echo $zebracrossing['image'];
-    echo "</td>";
-    echo "<td>";
-    echo $zebracrossing['osm']['traffic_signals'];
-    echo "</td>";
-    echo "<td>";
-    echo $zebracrossing['osm']['island'];
-    echo "</td>";
-    echo "<td>";
-    echo $zebracrossing['osm']['unmarked'];
-    echo "</td>";
-    echo "<td>";
-    echo $zebracrossing['osm']['button_operated'];
-    echo "</td>";
-    echo "<td>";
-    echo $zebracrossing['osm']['slooped_curb'];
-    echo "</td>";
-    echo "<td>";
-    echo $zebracrossing['osm']['tactile_paving'];
-    echo "</td>";
-    echo "<td>";
-    echo $zebracrossing['osm']['traffic_signals_vibration'];
-    echo "</td>";
-    echo "<td>";
-    echo $zebracrossing['osm']['traffic_signals_sound'];
-    echo "</td>";
-    echo "<td>";
-
-    echo "<table border='1'><th>comment</th><th>username</th><th>spatial_clarity</th><th>illumination</th><th>traffic</th>";
-    foreach ($zebracrossing['ratings'] as $rating) {
-        echo "<tr>";
-        echo "<td>";
-        echo $rating['comment'];
-        echo "</td>";
-        echo "<td>";
-        echo $rating['username'];
-        echo "</td>";
-        echo "<td>";
-        echo $rating['spatial_clarity'];
-        echo "</td>";
-        echo "<td>";
-        echo $rating['illumination'];
-        echo "</td>";
-        echo "<td>";
-        echo $rating['traffic'];
-        echo "</td>";
-        echo "</tr>";
-    }
-    echo "</table>";
-
-    echo "</td>";
-    echo "</tr>";
-    echo "</table>";
-    /**/
     return $zebracrossing;
 }
 
