@@ -17,8 +17,8 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
     private long node;
 
-    public CreateRatingGUI(Model model, MainGUI mainGUI, long node) {
-        super(model, mainGUI, "Create a new rating for the Crossing " + node);
+    public CreateRatingGUI(MainGUI mainGUI, long node) {
+        super(mainGUI, "Create a new rating for the Crossing " + node);
         this.node = node;
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
@@ -27,20 +27,19 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
     @Override
     protected void onSendClick() {
-        DataServiceLoader.getCrossingData().addRating(
-            new Rating(null,
+        Rating rating =new Rating(null,
                 commentTextArea.getText(),
-                model.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
-                model.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
-                model.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
-                model.getUser((String) userComboBox.getSelectedItem()),
-                model.getCrossing(node),
+                mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
+                mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
+                mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
+                mainGUI.getUser((String) userComboBox.getSelectedItem()),
+                mainGUI.getCrossing(node),
                 imageTextField.getText(),
                 new Date()
-            )
         );
 
-        observable.notifyObservers(model.getCrossing(node));
+        DataServiceLoader.getCrossingData().addRating(rating);
+        observable.notifyObservers(rating);
         this.dispose();
     }
 }

@@ -1,11 +1,11 @@
 package ch.hsr.zebrastreifensafari.gui.view;
 
+import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
 import ch.hsr.zebrastreifensafari.gui.create.CreateCrossingGUI;
 import ch.hsr.zebrastreifensafari.gui.create.CreateRatingGUI;
 import ch.hsr.zebrastreifensafari.gui.update.UpdateCrossingGUI;
 import ch.hsr.zebrastreifensafari.gui.update.UpdateRatingGUI;
-import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
-import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
+import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import com.intellij.uiDesigner.core.Spacer;
@@ -90,20 +90,30 @@ public class MainGUI extends JFrame implements Observer {
         });
 
         addButton.addActionListener(e -> {
+            CreateUpdateGUI createUpdateGUI;
+
             if (model.isRatingMode()) {
-                new CreateRatingGUI(model, this, getRatingFromTable().getCrossingId().getOsmNodeId()).setVisible(true);
+                createUpdateGUI = new CreateRatingGUI(this, getRatingFromTable().getCrossingId().getOsmNodeId());
             } else {
-                new CreateCrossingGUI(model, this).setVisible(true);
+                createUpdateGUI = new CreateCrossingGUI(this);
             }
+
+            //createUpdateGUI.addObserver(model);
+            createUpdateGUI.setVisible(true);
         });
 
         changeButton.addActionListener(e -> {
             try {
+                CreateUpdateGUI createUpdateGUI;
+
                 if (model.isRatingMode()) {
-                    new UpdateRatingGUI(model, this, getRatingFromTable()).setVisible(true);
+                    createUpdateGUI = new UpdateRatingGUI(this, getRatingFromTable());
                 } else {
-                    new UpdateCrossingGUI(model, this, getCrossingFromTable()).setVisible(true);
+                    createUpdateGUI = new UpdateCrossingGUI(this, getCrossingFromTable());
                 }
+
+                //createUpdateGUI.addObserver(model);
+                createUpdateGUI.setVisible(true);
             } catch (ArrayIndexOutOfBoundsException aioobe) {
                 JOptionPane.showMessageDialog(this, "There is no data selected to change", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -206,7 +216,7 @@ public class MainGUI extends JFrame implements Observer {
         return zebraTM;
     }
 
-    private void addDataToTable() {
+    public void addDataToTable() {
         if (model.isRatingMode()) {
             addRatingDataToTable(model.getRatings());
         } else {
@@ -246,13 +256,47 @@ public class MainGUI extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Crossing) {
-            model.reloadRating((Crossing) arg);
-        } else {
-            model.reloadCrossing();
+            model.getCrossings().add((Crossing) arg);
+        } else if (arg instanceof Rating) {
+            model.getRatings().add((Rating) arg);
         }
 
         addDataToTable();
     }
+
+    //<editor-fold desc="Model methods">
+    public User getUser(String name) {
+        return model.getUser(name);
+    }
+
+    public Crossing getCrossing(int id) {
+        return model.getCrossing(id);
+    }
+
+    public Crossing getCrossing(long node) {
+        return model.getCrossing(node);
+    }
+
+    public Rating getRating(int id) {
+        return model.getRating(id);
+    }
+
+    public Illumination getIllumination(int id) {
+        return model.getIllumination(id);
+    }
+
+    public SpatialClarity getSpatialClarity(int id) {
+        return model.getSpatialClarity(id);
+    }
+
+    public Traffic getTraffic(int id) {
+        return model.getTraffic(id);
+    }
+
+    public List<User> getUsers() {
+        return model.getUsers();
+    }
+    //</editor-fold>
 
     //<editor-fold desc="GUI Builder">
     private void createUIComponents() {

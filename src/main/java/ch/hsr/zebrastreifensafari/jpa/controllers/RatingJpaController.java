@@ -71,35 +71,14 @@ public class RatingJpaController implements Serializable {
             Rating persistentRating = em.find(Rating.class, rating.getId());
             Crossing crossingIdOld = persistentRating.getCrossingId();
             Crossing crossingIdNew = rating.getCrossingId();
-            Illumination illuminationIdOld = persistentRating.getIlluminationId();
-            Illumination illuminationIdNew = rating.getIlluminationId();
-            SpatialClarity spatialClarityIdOld = persistentRating.getSpatialClarityId();
-            SpatialClarity spatialClarityIdNew = rating.getSpatialClarityId();
-            Traffic trafficIdOld = persistentRating.getTrafficId();
-            Traffic trafficIdNew = rating.getTrafficId();
-            User userIdOld = persistentRating.getUserId();
-            User userIdNew = rating.getUserId();
+
             if (crossingIdNew != null) {
                 crossingIdNew = em.getReference(crossingIdNew.getClass(), crossingIdNew.getId());
                 rating.setCrossingId(crossingIdNew);
             }
-            if (illuminationIdNew != null) {
-                illuminationIdNew = em.getReference(illuminationIdNew.getClass(), illuminationIdNew.getId());
-                rating.setIlluminationId(illuminationIdNew);
-            }
-            if (spatialClarityIdNew != null) {
-                spatialClarityIdNew = em.getReference(spatialClarityIdNew.getClass(), spatialClarityIdNew.getId());
-                rating.setSpatialClarityId(spatialClarityIdNew);
-            }
-            if (trafficIdNew != null) {
-                trafficIdNew = em.getReference(trafficIdNew.getClass(), trafficIdNew.getId());
-                rating.setTrafficId(trafficIdNew);
-            }
-            if (userIdNew != null) {
-                userIdNew = em.getReference(userIdNew.getClass(), userIdNew.getId());
-                rating.setUserId(userIdNew);
-            }
+
             rating = em.merge(rating);
+
             if (crossingIdOld != null && !crossingIdOld.equals(crossingIdNew)) {
                 crossingIdOld.getRatingList().remove(rating);
                 crossingIdOld = em.merge(crossingIdOld);
@@ -108,38 +87,7 @@ public class RatingJpaController implements Serializable {
                 crossingIdNew.getRatingList().add(rating);
                 crossingIdNew = em.merge(crossingIdNew);
             }
-            if (illuminationIdOld != null && !illuminationIdOld.equals(illuminationIdNew)) {
-                illuminationIdOld.getRatingList().remove(rating);
-                illuminationIdOld = em.merge(illuminationIdOld);
-            }
-            if (illuminationIdNew != null && !illuminationIdNew.equals(illuminationIdOld)) {
-                illuminationIdNew.getRatingList().add(rating);
-                illuminationIdNew = em.merge(illuminationIdNew);
-            }
-            if (spatialClarityIdOld != null && !spatialClarityIdOld.equals(spatialClarityIdNew)) {
-                spatialClarityIdOld.getRatingList().remove(rating);
-                spatialClarityIdOld = em.merge(spatialClarityIdOld);
-            }
-            if (spatialClarityIdNew != null && !spatialClarityIdNew.equals(spatialClarityIdOld)) {
-                spatialClarityIdNew.getRatingList().add(rating);
-                spatialClarityIdNew = em.merge(spatialClarityIdNew);
-            }
-            if (trafficIdOld != null && !trafficIdOld.equals(trafficIdNew)) {
-                trafficIdOld.getRatingList().remove(rating);
-                trafficIdOld = em.merge(trafficIdOld);
-            }
-            if (trafficIdNew != null && !trafficIdNew.equals(trafficIdOld)) {
-                trafficIdNew.getRatingList().add(rating);
-                trafficIdNew = em.merge(trafficIdNew);
-            }
-            if (userIdOld != null && !userIdOld.equals(userIdNew)) {
-                userIdOld.getRatingList().remove(rating);
-                userIdOld = em.merge(userIdOld);
-            }
-            if (userIdNew != null && !userIdNew.equals(userIdOld)) {
-                userIdNew.getRatingList().add(rating);
-                userIdNew = em.merge(userIdNew);
-            }
+
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
