@@ -14,14 +14,14 @@ import javax.persistence.*;
  * @author aeugster
  */
 @Entity
-@Table(name = "crossing")
+@Table(name = "crossing.crossing")
 @NamedQueries({
     //@NamedQuery(name = "Crossing.findAll", query = "SELECT c FROM Crossing c"),
     @NamedQuery(name = "Crossing.findById", query = "SELECT c FROM Crossing c WHERE c.id = :id"),
     @NamedQuery(name = "Crossing.findByOsmNodeId", query = "SELECT c FROM Crossing c WHERE c.osmNodeId = :osmNodeId"),
     @NamedQuery(name = "Crossing.findByStatus", query = "SELECT c FROM Crossing c WHERE c.status = :status"),
-    @NamedQuery(name = "Crossing.findAll", query = "SELECT c, count(r.crossingId) FROM Crossing c LEFT OUTER JOIN c.ratingList r on r.crossingId = c GROUP BY c.id"),
-    @NamedQuery(name = "Crossing.findRatingAmount", query = "SELECT count(r.crossingId) FROM Crossing c LEFT OUTER JOIN c.ratingList r ON r.crossingId = :crossingId WHERE c = :crossingId")
+    @NamedQuery(name = "Crossing.findAll", query = "SELECT c, COUNT(r.crossingId) FROM Crossing c LEFT JOIN c.ratingList r ON r.crossingId = c GROUP BY c.id"),
+    //@NamedQuery(name = "Crossing.findRatingAmount", query = "SELECT count(r.crossingId) FROM Crossing c LEFT OUTER JOIN c.ratingList r ON r.crossingId = :crossingId WHERE c = :crossingId")
 })
 public class Crossing implements Serializable {
     private static final long serialVersionUID = 1L;
