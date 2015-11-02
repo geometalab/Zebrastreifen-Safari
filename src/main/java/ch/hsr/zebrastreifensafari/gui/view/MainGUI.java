@@ -42,9 +42,9 @@ public class MainGUI extends JFrame implements Observer {
     private JButton changeButton;
     private JButton deleteButton;
     private JButton reloadButton;
-    private JButton switchButton;
     private JLabel searchLabel;
     private JTable ratingDataTable;
+    private JTabbedPane dataTabbedPane;
 
     private final Model model;
     private DefaultTableModel ratingTM;
@@ -66,7 +66,7 @@ public class MainGUI extends JFrame implements Observer {
     }
 
     private void initListeners() {
-        switchButton.addActionListener(e -> {
+        dataTabbedPane.addChangeListener(e -> {
             try {
                 changeView();
             } catch (ArrayIndexOutOfBoundsException aioobe) {
@@ -176,7 +176,7 @@ public class MainGUI extends JFrame implements Observer {
             public void mousePressed(MouseEvent e) {
                 if (model.isRatingMode() || e.getClickCount() < 2 || model.getCrossings().isEmpty()) return;
 
-                changeView();
+                dataTabbedPane.setSelectedIndex(1);
             }
         });
     }
@@ -186,17 +186,13 @@ public class MainGUI extends JFrame implements Observer {
 
         if (model.isRatingMode()) {
             model.reloadRating(getCrossingFromTable());
-            switchButton.setText("Zebrastreifen");
             searchLabel.setVisible(false);
             searchTextField.setVisible(false);
         } else {
-            model.reloadCrossing();
-            switchButton.setText("Bewertungen");
             searchLabel.setVisible(true);
             searchTextField.setVisible(true);
         }
 
-        crossingDataTable.setModel(getCurrentTableModel());
         addDataToTable();
     }
 
@@ -205,15 +201,7 @@ public class MainGUI extends JFrame implements Observer {
     }
 
     private Rating getRatingFromTable() {
-        return model.getRating(Integer.parseInt(crossingDataTable.getValueAt(crossingDataTable.getSelectedRow(), 0).toString()));
-    }
-
-    private TableModel getCurrentTableModel() {
-        if (model.isRatingMode()) {
-            return ratingTM;
-        }
-
-        return zebraTM;
+        return model.getRating(Integer.parseInt(ratingDataTable.getValueAt(ratingDataTable.getSelectedRow(), 0).toString()));
     }
 
     public void addDataToTable() {
@@ -245,11 +233,11 @@ public class MainGUI extends JFrame implements Observer {
                             r.getComment() == null ? "" : r.getComment(),
                             r.getImageWeblink(),
                             r.getLastChanged().toString()
-                }
+                    }
             );
         }
 
-        crossingDataTable.changeSelection(0, 0, false, false);
+        ratingDataTable.changeSelection(0, 0, false, false);
     }
 
     @Override
@@ -356,7 +344,7 @@ public class MainGUI extends JFrame implements Observer {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0, 0));
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new FormLayout("fill:d:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
+        panel1.setLayout(new FormLayout("fill:d:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
         mainPanel.add(panel1, BorderLayout.EAST);
         addButton = new JButton();
         addButton.setText("Hinzufügen");
@@ -372,18 +360,13 @@ public class MainGUI extends JFrame implements Observer {
         reloadButton.setIcon(new ImageIcon(getClass().getResource("/RefreshIcon.png")));
         reloadButton.setText("");
         panel1.add(reloadButton, cc.xy(1, 9));
-        switchButton = new JButton();
-        switchButton.setText("Bewertungen");
-        panel1.add(switchButton, cc.xy(1, 13));
         final Spacer spacer1 = new Spacer();
-        panel1.add(spacer1, cc.xy(1, 11, CellConstraints.DEFAULT, CellConstraints.FILL));
-        final Spacer spacer2 = new Spacer();
-        panel1.add(spacer2, cc.xy(1, 7, CellConstraints.DEFAULT, CellConstraints.FILL));
-        final JTabbedPane tabbedPane1 = new JTabbedPane();
-        mainPanel.add(tabbedPane1, BorderLayout.CENTER);
+        panel1.add(spacer1, cc.xy(1, 7, CellConstraints.DEFAULT, CellConstraints.FILL));
+        dataTabbedPane = new JTabbedPane();
+        mainPanel.add(dataTabbedPane, BorderLayout.CENTER);
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new BorderLayout(0, 0));
-        tabbedPane1.addTab("Zebracrossings", panel2);
+        dataTabbedPane.addTab("Zebracrossings", panel2);
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new BorderLayout(0, 0));
         panel2.add(panel3, BorderLayout.NORTH);
@@ -401,7 +384,8 @@ public class MainGUI extends JFrame implements Observer {
         crossingDataTable.setRowSelectionAllowed(true);
         scrollPane1.setViewportView(crossingDataTable);
         final JScrollPane scrollPane2 = new JScrollPane();
-        tabbedPane1.addTab("Ratings", scrollPane2);
+        dataTabbedPane.addTab("Ratings", scrollPane2);
+        ratingDataTable.setRowSelectionAllowed(true);
         scrollPane2.setViewportView(ratingDataTable);
     }
 
