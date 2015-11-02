@@ -45,7 +45,7 @@ public class ModelTest {
     @Test
     public void testReloadCrossing() throws Exception {
         assertEquals(null, model.getCrossing(88));
-        DataServiceLoader.getCrossingData().addCrossing(new Crossing(null, 88, 1));
+        DataServiceLoader.getCrossingData().addCrossing(new Crossing(null, 88, 0, 1));
         model.reloadCrossing();
         assertEquals(88, model.getCrossing(88).getOsmNodeId());
         

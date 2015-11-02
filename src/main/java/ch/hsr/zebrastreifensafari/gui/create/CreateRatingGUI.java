@@ -27,7 +27,7 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
     @Override
     protected void onSendClick() {
-        Rating rating =new Rating(null,
+        Rating rating = new Rating(null,
                 commentTextArea.getText(),
                 mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
                 mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
@@ -35,10 +35,9 @@ public class CreateRatingGUI extends CreateUpdateGUI {
                 mainGUI.getUser((String) userComboBox.getSelectedItem()),
                 mainGUI.getCrossing(node),
                 imageTextField.getText(),
-                new Date()
+                null
         );
 
-        DataServiceLoader.getCrossingData().addRating(rating);
         observable.notifyObservers(rating);
         this.dispose();
     }
