@@ -14,7 +14,6 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -71,7 +70,7 @@ public class MainGUI extends JFrame implements Observer {
                 changeView();
             } catch (ArrayIndexOutOfBoundsException aioobe) {
                 model.setRatingMode(!model.isRatingMode());
-                JOptionPane.showMessageDialog(this, "There is no selected Crossing", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Es ist kein Zebrastreifen ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -115,7 +114,7 @@ public class MainGUI extends JFrame implements Observer {
                 //createUpdateGUI.addObserver(model);
                 createUpdateGUI.setVisible(true);
             } catch (ArrayIndexOutOfBoundsException aioobe) {
-                JOptionPane.showMessageDialog(this, "There is no data selected to change", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Es wurde keine Zeile zum überarbeiten ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -138,7 +137,7 @@ public class MainGUI extends JFrame implements Observer {
 
                 addDataToTable();
             } catch (ArrayIndexOutOfBoundsException aioobe) {
-                JOptionPane.showMessageDialog(this, "There is no data to delete", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Es wurde keine Zeile zum überarbeiten ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
