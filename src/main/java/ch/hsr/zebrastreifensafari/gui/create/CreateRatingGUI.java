@@ -18,7 +18,7 @@ public class CreateRatingGUI extends CreateUpdateGUI {
     private long node;
 
     public CreateRatingGUI(MainGUI mainGUI, long node) {
-        super(mainGUI, "Create a new rating for the Crossing " + node);
+        super(mainGUI, "Erstellen einer neuen Bewertung für den Zebrastreifen mit dem OSM Node " + node);
         this.node = node;
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
