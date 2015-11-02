@@ -18,7 +18,7 @@ public class CreateRatingGUI extends CreateUpdateGUI {
     private long node;
 
     public CreateRatingGUI(MainGUI mainGUI, long node) {
-        super(mainGUI, "Create a new rating for the Crossing " + node);
+        super(mainGUI, "Erstellen einer neuen Bewertung für den Zebrastreifen mit dem OSM Node " + node);
         this.node = node;
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
@@ -27,7 +27,7 @@ public class CreateRatingGUI extends CreateUpdateGUI {
 
     @Override
     protected void onSendClick() {
-        Rating rating =new Rating(null,
+        Rating rating = new Rating(null,
                 commentTextArea.getText(),
                 mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
                 mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
@@ -35,10 +35,9 @@ public class CreateRatingGUI extends CreateUpdateGUI {
                 mainGUI.getUser((String) userComboBox.getSelectedItem()),
                 mainGUI.getCrossing(node),
                 imageTextField.getText(),
-                new Date()
+                null
         );
 
-        DataServiceLoader.getCrossingData().addRating(rating);
         observable.notifyObservers(rating);
         this.dispose();
     }

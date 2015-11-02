@@ -17,7 +17,7 @@ import java.util.Date;
 public class CreateCrossingGUI extends CreateUpdateGUI {
 
     public CreateCrossingGUI(MainGUI mainGUI) {
-        super(mainGUI, "Create a new Crossing");
+        super(mainGUI, "Erstellen eines neuen Zebrastreifens");
         pack();
     }
 
@@ -29,7 +29,6 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
 
             if (crossing == null) {
                 crossing = new Crossing(null, osmNode, 1, 1);
-                DataServiceLoader.getCrossingData().addCrossing(crossing);
                 observable.notifyObservers(crossing);
             }
 
@@ -39,7 +38,7 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
                             mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
                             mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
                             mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
-                            mainGUI.getUser((String) userComboBox.getSelectedItem()),
+                            mainGUI.getUser(userComboBox.getSelectedItem().toString()),
                             crossing,
                             imageTextField.getText(),
                             new Date()
@@ -48,7 +47,7 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
 
             this.dispose();
         } catch (NumberFormatException nfex) {
-            JOptionPane.showMessageDialog(this, "The Node needs to be a number", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Der OSM Node muss eine Zahl sein", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
