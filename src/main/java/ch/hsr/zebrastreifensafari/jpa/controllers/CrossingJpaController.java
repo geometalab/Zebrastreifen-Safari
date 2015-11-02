@@ -159,6 +159,7 @@ public class CrossingJpaController implements Serializable {
                 }
 
                 return resultList;
+//                return em.createNamedQuery("Crossing.findAll").getResultList();
             }
 
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();

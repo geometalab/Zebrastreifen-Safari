@@ -24,7 +24,7 @@ import javax.persistence.Table;
  * @author aeugster
  */
 @Entity
-@Table(name = "spatial_clarity")
+@Table(name = "crossing.spatial_clarity")
 @NamedQueries({
     @NamedQuery(name = "SpatialClarity.findAll", query = "SELECT s FROM SpatialClarity s"),
     @NamedQuery(name = "SpatialClarity.findById", query = "SELECT s FROM SpatialClarity s WHERE s.id = :id"),

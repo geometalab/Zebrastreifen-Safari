@@ -1,9 +1,11 @@
 package ch.hsr.zebrastreifensafari.model;
 
 import ch.hsr.zebrastreifensafari.TestJDBC;
+import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
 import java.io.File;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +44,11 @@ public class ModelTest {
 
     @Test
     public void testReloadCrossing() throws Exception {
-
+        assertEquals(null, model.getCrossing(88));
+        DataServiceLoader.getCrossingData().addCrossing(new Crossing(null, 88, 1));
+        model.reloadCrossing();
+        assertEquals(88, model.getCrossing(88).getOsmNodeId());
+        
     }
 
     @Test
@@ -56,8 +62,18 @@ public class ModelTest {
     }
 
     @Test
-    public void testGetUserByValidName() throws Exception {
+    public void testGetUserByValidExistingName() throws Exception {
         assertEquals("Alex Eugster", model.getUser("Alex Eugster").getName());
+    }
+    
+    @Test
+    public void testGetUserByValidNonExistingName() throws Exception {
+        assertEquals(null, model.getUser("Max Meier"));
+    }
+    
+    @Test
+    public void testGetUserByInvalidName() throws Exception {
+        assertEquals(null, model.getUser(null));
     }
 
     @Test
