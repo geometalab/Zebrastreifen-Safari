@@ -1,8 +1,8 @@
 package ch.hsr.zebrastreifensafari;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 /*
@@ -18,15 +18,14 @@ public class TestJDBC {
     }
 
     public void connect() {
-        try {
-            Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/crossingTests", "postgres", "password");
-            System.out.println("Opened database successfully");
-        } catch (ClassNotFoundException | SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
+        EntityManager entityManager = Persistence.createEntityManagerFactory("ZebraPUTest").createEntityManager();
+        entityManager.getTransaction().begin();
+        c = entityManager.unwrap(Connection.class);
+        entityManager.getTransaction().commit();
 
+        if (c != null) {
+            System.out.println("Opened database successfully");
+        }
     }
 
     public void createTables() {

@@ -18,7 +18,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
     private Rating rating;
 
     public UpdateRatingGUI(MainGUI mainGUI, Rating rating) {
-        super(mainGUI, "Update the rating from " + rating.getUserId().getName() + " for the Crossing " + rating.getCrossingId().getOsmNodeId());
+        super(mainGUI, "Überarbeiten der Bewertung von " + rating.getUserId().getName() + " für den Zebrastreifen mit dem OSM Node " + rating.getCrossingId().getOsmNodeId());
         this.rating = rating;
         setValues();
         osmNodeIdLabel.setVisible(false);

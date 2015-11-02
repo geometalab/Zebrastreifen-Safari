@@ -3,7 +3,6 @@ package ch.hsr.zebrastreifensafari.gui.update;
 import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
 import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
-import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 import javax.swing.*;
@@ -21,7 +20,7 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
     private Crossing crossing;
 
     public UpdateCrossingGUI(MainGUI mainGUI, Crossing crossing) {
-        super(mainGUI, "Update the crossing " + crossing.getOsmNodeId());
+        super(mainGUI, "Überarbeiten des Zebrastreifens mit dem OSM Node " + crossing.getOsmNodeId());
         this.crossing = crossing;
         setValues();
         userLabel.setVisible(false);
@@ -34,14 +33,16 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
         illuminationGoodRadioButton.setVisible(false);
         illuminationOkRadioButton.setVisible(false);
         illuminationBadRadioButton.setVisible(false);
+        illuminationNoneRadioButton.setVisible(false);
         trafficLabel.setVisible(false);
-        trafficNoneRadioButton.setVisible(false);
+        trafficFewRadioButton.setVisible(false);
         trafficLittleRadioButton.setVisible(false);
         trafficALotRadioButton.setVisible(false);
         commentLabel.setVisible(false);
         commentTextArea.setVisible(false);
         imageLabel.setVisible(false);
         imageTextField.setVisible(false);
+        validateButton.setVisible(false);
         pack();
     }
 
@@ -55,17 +56,17 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
             observable.notifyObservers();
             this.dispose();
         } catch (NumberFormatException nfex) {
-            JOptionPane.showMessageDialog(this, "The Node needs to be a number", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Der OSM Node muss eine Zahl sein", "Error", JOptionPane.ERROR_MESSAGE);
         }  catch (Exception e) {
             crossing.setOsmNodeId(osmNodeIdBackup);
-            JOptionPane.showMessageDialog(this, "This Node is already used", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Dieser OSM Node ist bereits vorhanden", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     @Override
     protected boolean checkValues() {
         if (osmNodeIdTextField.getText() == null) {
-            JOptionPane.showMessageDialog(this, "There is an Input missing", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Es fehlt eine oder mehrere Eingaben", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
