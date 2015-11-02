@@ -13,6 +13,8 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -21,6 +23,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +49,11 @@ public class MainGUI extends JFrame implements Observer {
     private JButton switchButton;
     private JLabel searchLabel;
     private JTable ratingDataTable;
+    private JMenuBar bar;
+    private JMenu datei, hilfe;
+    private JMenuItem beendenItem, hilfeItem, ueberItem;
+    private JDialog hilfeDialog;
+    String url = "http://www.google.com";
 
     private final Model model;
     private DefaultTableModel ratingTM;
@@ -55,14 +64,40 @@ public class MainGUI extends JFrame implements Observer {
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        menuBar();
         crossingDataTable.setAutoCreateRowSorter(true);
-
+        
         this.model = model;
         initListeners();
         addDataToTable();
         pack();
         setExtendedState(Frame.MAXIMIZED_BOTH);
+    }
+    
+    private void menuBar() {
+        JMenuBar bar = new JMenuBar();
+        setJMenuBar(bar);
+        
+        datei = new JMenu("Datei");
+        bar.add(datei);
+        
+//        bar.add(new JSeparator(JSeparator.VERTICAL));
+        
+        hilfe = new JMenu("Hilfe");
+        bar.add(hilfe);
+        
+        beendenItem = new JMenuItem("Beenden");
+        datei.add(beendenItem);
+        
+        hilfeItem = new JMenuItem("Hilfe");
+        hilfe.add(hilfeItem);
+
+        JSeparator sep = new JSeparator(); 
+        hilfe.add(sep);
+        
+        ueberItem = new JMenuItem("Über");
+        hilfe.add(ueberItem);
+            	
     }
 
     private void initListeners() {
@@ -179,6 +214,36 @@ public class MainGUI extends JFrame implements Observer {
                 changeView();
             }
         });
+        
+        beendenItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        
+        hilfeItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+            	Runtime rt = Runtime.getRuntime();
+            	try {
+					rt.exec( "rundll32 url.dll,FileProtocolHandler " + url);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+        });
+        
+        ueberItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+            	JDialog ueberDialog = new JDialog();
+            	ueberDialog.setTitle("Über");
+            	ueberDialog.setSize(300,200);
+            	ueberDialog.setLocationRelativeTo(getParent());
+            	ueberDialog.setModal(true);
+            	ueberDialog.setVisible(true);
+            }
+        });
+        
     }
 
     private void changeView() {
