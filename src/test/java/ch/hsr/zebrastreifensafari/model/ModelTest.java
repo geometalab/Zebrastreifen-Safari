@@ -65,12 +65,12 @@ public class ModelTest {
 //    public void testGetUserByValidExistingName() throws Exception {
 //        assertEquals("Alex Eugster", model.getUser("Alex Eugster").getName());
 //    }
-//    
+//
 //    @Test
 //    public void testGetUserByValidNonExistingName() throws Exception {
 //        assertEquals(null, model.getUser("Max Meier"));
 //    }
-//    
+//
 //    @Test
 //    public void testGetUserByInvalidName() throws Exception {
 //        assertEquals(null, model.getUser(null));
