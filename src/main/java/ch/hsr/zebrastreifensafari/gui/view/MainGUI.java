@@ -51,7 +51,7 @@ public class MainGUI extends JFrame implements Observer {
     private DefaultTableModel zebraTM;
 
     public MainGUI(Model model) throws HeadlessException {
-        super("Zebrastreifen Administration Tool");
+        super("Zebrastreifen Administration Tool v1.0");
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -237,8 +237,7 @@ public class MainGUI extends JFrame implements Observer {
     private void addRatingDataToTable(List<Rating> list) {
         ratingTM.setRowCount(0);
         for (Rating r : list) {
-            ratingTM.addRow(
-                    new String[]{r.getId().toString(),
+            ratingTM.addRow(new String[]{r.getId().toString(),
                             r.getUserId().getName(),
                             r.getTrafficId().getValue(),
                             r.getSpatialClarityId().getValue(),
@@ -246,7 +245,7 @@ public class MainGUI extends JFrame implements Observer {
                             r.getComment() == null ? "" : r.getComment(),
                             r.getImageWeblink(),
                             r.getLastChanged().toString()
-                    }
+                }
             );
         }
 
@@ -256,9 +255,13 @@ public class MainGUI extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Crossing) {
-            model.getCrossings().add((Crossing) arg);
+            Crossing crossing = (Crossing) arg;
+            DataServiceLoader.getCrossingData().addCrossing(crossing);
+            model.getCrossings().add(crossing);
         } else if (arg instanceof Rating) {
-            model.getRatings().add((Rating) arg);
+            Rating rating = (Rating) arg;
+            DataServiceLoader.getCrossingData().addRating(rating);
+            model.getRatings().add(rating);
         }
 
         addDataToTable();

@@ -29,7 +29,6 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
 
             if (crossing == null) {
                 crossing = new Crossing(null, osmNode, 1, 1);
-                DataServiceLoader.getCrossingData().addCrossing(crossing);
                 observable.notifyObservers(crossing);
             }
 
@@ -39,7 +38,7 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
                             mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
                             mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
                             mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
-                            mainGUI.getUser((String) userComboBox.getSelectedItem()),
+                            mainGUI.getUser(userComboBox.getSelectedItem().toString()),
                             crossing,
                             imageTextField.getText(),
                             new Date()
