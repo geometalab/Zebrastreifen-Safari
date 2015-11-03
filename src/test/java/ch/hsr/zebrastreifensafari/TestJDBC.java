@@ -8,16 +8,18 @@ import java.sql.Statement;
 /*
  * @author aeugster
  */
-public class TestJDBC {
+public final class TestJDBC {
 
     private Connection c;
 
     public TestJDBC() {
         this.connect();
         this.createTables();
+        
     }
 
     public void connect() {
+        c = null;
         EntityManager entityManager = Persistence.createEntityManagerFactory("ZebraPUTest").createEntityManager();
         entityManager.getTransaction().begin();
         c = entityManager.unwrap(Connection.class);
@@ -184,7 +186,6 @@ public class TestJDBC {
             stmt.executeUpdate(createString);
             stmt.close();
 
-            //c.commit();
             c.close();
 
             System.out.println("Tables created successuflly");
@@ -196,6 +197,24 @@ public class TestJDBC {
 
     public Connection getConnection() {
         return c;
+    }
+
+    public void addUser(String name, String initials) {
+        connect();
+        try {
+            String createString = "insert into crossing.user (name, initials) values\n"
+                    + "	('" + name + "', '" + initials + "');\n";
+
+            Statement stmt = c.createStatement();
+            stmt.executeUpdate(createString);
+            stmt.close();
+            c.setAutoCommit(false);
+            c.commit();
+            c.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String args[]) {
