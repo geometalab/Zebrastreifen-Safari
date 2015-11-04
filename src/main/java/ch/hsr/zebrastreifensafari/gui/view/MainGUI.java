@@ -13,19 +13,13 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.net.URI;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.SynchronousQueue;
 import java.util.stream.Collectors;
 
 /**

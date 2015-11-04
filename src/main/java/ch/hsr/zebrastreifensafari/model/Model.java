@@ -153,7 +153,8 @@ public class Model {
     public void setRatingMode(boolean ratingMode) {
         this.ratingMode = ratingMode;
     }
-    
+
+    //<editor-fold desc="Sort methods">
     public void sortByNode() {
     	if (node) {
             crossings = crossings.stream().sorted((o1, o2) ->  Long.compare(o1.getOsmNodeId(), o2.getOsmNodeId())).collect(Collectors.toList());          
@@ -252,4 +253,5 @@ public class Model {
     		lastChanged = true;
     	}
     }
+    //</editor-fold>
 }
