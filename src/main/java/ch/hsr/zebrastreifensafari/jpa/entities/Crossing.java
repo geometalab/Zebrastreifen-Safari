@@ -92,6 +92,14 @@ public class Crossing implements Serializable {
         return ratingAmount;
     }
 
+    public void increaseRatingAmount() {
+        ratingAmount++;
+    }
+
+    public void decreaseRatingAmount() {
+        ratingAmount--;
+    }
+
     public void setRatingAmount(long ratingAmount) {
         this.ratingAmount = ratingAmount;
     }
