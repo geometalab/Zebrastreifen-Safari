@@ -16,6 +16,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -65,7 +67,7 @@ public class MainGUI extends JFrame implements Observer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menuBar();
         crossingDataTable.setAutoCreateRowSorter(true);
-        
+        ratingDataTable.setAutoCreateRowSorter(true);
         this.model = model;
         initListeners();
         addDataToTable();
@@ -197,8 +199,25 @@ public class MainGUI extends JFrame implements Observer {
                     model.sortById();
                 } else if (col == 1) {
                     model.sortByNode();
+                } else if (col == 2) {
+                    model.sortByNumberOfRatings();
                 } else {
                     crossingDataTable.setAutoCreateRowSorter(true);
+                }
+                addDataToTable();
+            }
+        });
+        
+        ratingDataTable.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int col = ratingDataTable.columnAtPoint(e.getPoint());
+                
+                ratingDataTable.setAutoCreateRowSorter(true);
+                if (col == 0) {
+                    model.sortByRatingId();
+                } else {
+                    ratingDataTable.setAutoCreateRowSorter(true);
                 }
                 addDataToTable();
             }
