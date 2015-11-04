@@ -35,7 +35,7 @@ public class CreateRatingGUI extends CreateUpdateGUI {
                 mainGUI.getUser((String) userComboBox.getSelectedItem()),
                 mainGUI.getCrossing(node),
                 imageTextField.getText(),
-                null
+                new Date()
         );
 
         observable.notifyObservers(rating);

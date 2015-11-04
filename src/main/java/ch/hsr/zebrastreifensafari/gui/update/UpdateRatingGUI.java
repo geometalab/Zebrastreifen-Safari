@@ -1,5 +1,6 @@
 package ch.hsr.zebrastreifensafari.gui.update;
 
+import java.util.Date;
 import java.util.Enumeration;
 import javax.swing.*;
 
@@ -23,6 +24,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
         setValues();
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
+        sendButton.setText("Ändern");
         pack();
     }
 
@@ -34,6 +36,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
         Traffic trafficBackup = rating.getTrafficId();
         String imageWeblinkBackup = rating.getImageWeblink();
         String commentBackup = rating.getComment();
+        Date lastChangedBackup = rating.getLastChanged();
 
         try {
             rating.setUserId(mainGUI.getUser((String) userComboBox.getSelectedItem()));
@@ -42,6 +45,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
             rating.setTrafficId(mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)));
             rating.setImageWeblink(imageTextField.getText());
             rating.setComment(commentTextArea.getText());
+            rating.setLastChanged(new Date());
             DataServiceLoader.getCrossingData().updateRating(rating);
             observable.notifyObservers();
             this.dispose();
@@ -52,6 +56,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
             rating.setTrafficId(trafficBackup);
             rating.setImageWeblink(imageWeblinkBackup);
             rating.setComment(commentBackup);
+            rating.setLastChanged(lastChangedBackup);
             JOptionPane.showMessageDialog(this, "This Photo is already used", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

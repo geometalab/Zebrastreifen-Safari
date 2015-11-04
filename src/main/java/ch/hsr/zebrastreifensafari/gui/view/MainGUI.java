@@ -47,8 +47,6 @@ public class MainGUI extends JFrame implements Observer {
     private JButton reloadButton;
     private JLabel searchLabel;
     private JTable ratingDataTable;
-    private JMenuBar bar;
-    private JMenu datei, hilfe;
     private JMenuItem beendenItem, hilfeItem, ueberItem;
     private JDialog hilfeDialog;
     String url = "http://www.google.com";
@@ -63,9 +61,6 @@ public class MainGUI extends JFrame implements Observer {
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        menuBar();
-        crossingDataTable.setAutoCreateRowSorter(true);
-        ratingDataTable.setAutoCreateRowSorter(true);
 
         this.model = model;
         initListeners();
@@ -74,38 +69,11 @@ public class MainGUI extends JFrame implements Observer {
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
 
-    private void menuBar() {
-        JMenuBar bar = new JMenuBar();
-        setJMenuBar(bar);
-
-        datei = new JMenu("Datei");
-        bar.add(datei);
-
-//        bar.add(new JSeparator(JSeparator.VERTICAL));
-
-        hilfe = new JMenu("Hilfe");
-        bar.add(hilfe);
-
-        beendenItem = new JMenuItem("Beenden");
-        datei.add(beendenItem);
-
-        hilfeItem = new JMenuItem("Hilfe");
-        hilfe.add(hilfeItem);
-
-        JSeparator sep = new JSeparator();
-        hilfe.add(sep);
-
-        ueberItem = new JMenuItem("Über");
-        hilfe.add(ueberItem);
-
-    }
-
     private void initListeners() {
         dataTabbedPane.addChangeListener(e -> {
             try {
                 changeView();
             } catch (ArrayIndexOutOfBoundsException aioobe) {
-                model.setRatingMode(!model.isRatingMode());
                 JOptionPane.showMessageDialog(this, "Es ist kein Zebrastreifen ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -194,31 +162,26 @@ public class MainGUI extends JFrame implements Observer {
             public void mouseClicked(MouseEvent e) {
                 int col = crossingDataTable.columnAtPoint(e.getPoint());
 
-                crossingDataTable.setAutoCreateRowSorter(true);
                 if (col == 0) {
-                    model.sortById();
-                } else if (col == 1) {
                     model.sortByNode();
-                } else if (col == 2) {
+                } else if (col == 1) {
                     model.sortByNumberOfRatings();
-                } else {
-                    crossingDataTable.setAutoCreateRowSorter(true);
                 }
+
                 addDataToTable();
             }
         });
-        
+
         ratingDataTable.getTableHeader().addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 int col = ratingDataTable.columnAtPoint(e.getPoint());
-                
-                ratingDataTable.setAutoCreateRowSorter(true);
+
                 if (col == 0) {
-                    model.sortByRatingId();
-                } else {
-                    ratingDataTable.setAutoCreateRowSorter(true);
+                    model.sortByUser();
                 }
+
                 addDataToTable();
             }
         });
@@ -272,11 +235,11 @@ public class MainGUI extends JFrame implements Observer {
     }
 
     private Crossing getCrossingFromTable() {
-        return model.getCrossing(Integer.parseInt(crossingDataTable.getValueAt(crossingDataTable.getSelectedRow(), 0).toString()));
+        return model.getCrossing(Integer.parseInt(zebraTM.getValueAt(crossingDataTable.getSelectedRow(), 3).toString()));
     }
 
     private Rating getRatingFromTable() {
-        return model.getRating(Integer.parseInt(ratingDataTable.getValueAt(ratingDataTable.getSelectedRow(), 0).toString()));
+        return model.getRating(Integer.parseInt(ratingTM.getValueAt(ratingDataTable.getSelectedRow(), 7).toString()));
     }
 
     public void addDataToTable() {
@@ -291,7 +254,7 @@ public class MainGUI extends JFrame implements Observer {
         zebraTM.setRowCount(0);
         //model.getCrossings().stream().sorted((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).forEach(crossing -> zebraTM.addRow(new String[]{crossing.getId().toString(), Long.toString(crossing.getOsmNodeId()), Integer.toString(crossing.getStatus())}));
         for (Crossing z : list) {
-            zebraTM.addRow(new String[]{z.getId().toString(), Long.toString(z.getOsmNodeId()), Long.toString(z.getRatingAmount()), Integer.toString(z.getStatus())});
+            zebraTM.addRow(new String[]{Long.toString(z.getOsmNodeId()), Long.toString(z.getRatingAmount()), Integer.toString(z.getStatus()), z.getId().toString()});
         }
 
         crossingDataTable.changeSelection(0, 0, false, false);
@@ -300,14 +263,15 @@ public class MainGUI extends JFrame implements Observer {
     private void addRatingDataToTable(List<Rating> list) {
         ratingTM.setRowCount(0);
         for (Rating r : list) {
-            ratingTM.addRow(new String[]{r.getId().toString(),
+            ratingTM.addRow(new String[]{
                             r.getUserId().getName(),
                             r.getTrafficId().getValue(),
                             r.getSpatialClarityId().getValue(),
                             r.getIlluminationId().getValue(),
                             r.getComment() == null ? "" : r.getComment(),
                             r.getImageWeblink(),
-                            r.getLastChanged().toString()
+                            r.getLastChanged().toString(),
+                            r.getId().toString()
                     }
             );
         }
@@ -366,7 +330,7 @@ public class MainGUI extends JFrame implements Observer {
 
     //<editor-fold desc="GUI Builder">
     private void createUIComponents() {
-        zebraTM = new DefaultTableModel(new String[]{"ID", "OSM Node ID", "Anzahl Bewertungen", "Status"}, 0) {
+        zebraTM = new DefaultTableModel(new String[]{"OSM Node ID", "Anzahl Bewertungen", "Status", "ID"}, 0) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -375,10 +339,10 @@ public class MainGUI extends JFrame implements Observer {
 
             @Override
             public Class<?> getColumnClass(int column) {
-                if (column == 0 || column == 2 || column == 3) {
-                    return Integer.class;
-                } else if (column == 1) {
+                if (column == 0) {
                     return Long.class;
+                } else if (column == 1 || column == 2) {
+                    return Integer.class;
                 }
 
                 return super.getColumnClass(column);
@@ -386,25 +350,34 @@ public class MainGUI extends JFrame implements Observer {
 
         };
 
-        ratingTM = new DefaultTableModel(new String[]{"ID", "Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar", "Bild", "Letzte Änderung"}, 0) {
+        ratingTM = new DefaultTableModel(new String[]{"Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar", "Bild", "Letzte Änderung", "ID"}, 0) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-
-            public Class<?> getColumnClass(int column) {
-                if (column == 0) {
-                    return Integer.class;
-                }
-
-                return super.getColumnClass(column);
-            }
-
         };
 
         crossingDataTable = new JTable(zebraTM);
         ratingDataTable = new JTable(ratingTM);
+        crossingDataTable.removeColumn(crossingDataTable.getColumnModel().getColumn(3));
+        ratingDataTable.removeColumn(ratingDataTable.getColumnModel().getColumn(7));
+
+        JMenuBar bar = new JMenuBar();
+        JMenu datei = new JMenu("Datei");
+        JMenu hilfe = new JMenu("Hilfe");
+        beendenItem = new JMenuItem("Beenden");
+        hilfeItem = new JMenuItem("Hilfe");
+        ueberItem = new JMenuItem("Über");
+
+        datei.add(beendenItem);
+        hilfe.add(hilfeItem);
+        hilfe.add(new JSeparator());
+        hilfe.add(ueberItem);
+        bar.add(datei);
+//        bar.add(new JSeparator(JSeparator.VERTICAL));
+        bar.add(hilfe);
+        setJMenuBar(bar);
     }
 
     /**
