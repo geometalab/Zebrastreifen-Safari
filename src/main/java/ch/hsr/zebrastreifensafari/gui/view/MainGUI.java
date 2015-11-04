@@ -160,14 +160,16 @@ public class MainGUI extends JFrame implements Observer {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                int col = crossingDataTable.columnAtPoint(e.getPoint());
+            	String col = crossingDataTable.getColumnName(crossingDataTable.columnAtPoint(e.getPoint()));
 
-                if (col == 0) {
-                    model.sortByNode();
-                } else if (col == 1) {
-                    model.sortByNumberOfRatings();
-                }
-
+                switch(col){ 
+                case "OSM Node ID": 
+                	model.sortByNode();
+                    break; 
+                case "Anzahl Bewertungen": 
+                	model.sortByNumberOfRatings();
+                    break;                 	  
+                } 
                 addDataToTable();
             }
         });
@@ -176,12 +178,30 @@ public class MainGUI extends JFrame implements Observer {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                int col = ratingDataTable.columnAtPoint(e.getPoint());
+                String col = ratingDataTable.getColumnName(ratingDataTable.columnAtPoint(e.getPoint()));
 
-                if (col == 0) {
-                    model.sortByUser();
-                }
-
+                switch(col){ 
+                case "Benutzer": 
+                	model.sortByUser();
+                    break; 
+                case "Verkehr": 
+                	model.sortByTraffic();
+                    break; 
+                case "Übersicht": 
+                	model.sortByClarity();
+                    break; 
+                case "Beleuchtung": 
+                	model.sortByIllumination(); 
+                    break; 
+                case "Kommentar": 
+                	model.sortByComment(); 
+                    break; 
+                case "Bild": 
+                	model.sortByImage(); 
+                    break; 
+                default: 
+                	model.sortByLastChanged();  
+                } 
                 addDataToTable();
             }
         });
