@@ -48,8 +48,7 @@ public class MainGUI extends JFrame implements Observer {
     private JLabel searchLabel;
     private JTable ratingDataTable;
     private JMenuItem beendenItem, hilfeItem, ueberItem;
-    private JDialog hilfeDialog;
-    String url = "http://www.google.com";
+    private String url = "http://www.google.com";
     private JTabbedPane dataTabbedPane;
 
     private final Model model;
@@ -128,6 +127,8 @@ public class MainGUI extends JFrame implements Observer {
                     Rating removeRating = getRatingFromTable();
                     DataServiceLoader.getCrossingData().removeRating(removeRating.getId());
                     model.reloadRating(removeRating.getCrossingId());
+                    model.getCrossing(removeRating.getCrossingId().getId()).decreaseRatingAmount();
+                    addCrossingDataToTable(model.getCrossings());
 
                     if (model.getRatings().isEmpty()) {
                         changeView();
@@ -309,6 +310,8 @@ public class MainGUI extends JFrame implements Observer {
             Rating rating = (Rating) arg;
             DataServiceLoader.getCrossingData().addRating(rating);
             model.getRatings().add(rating);
+            model.getCrossing(rating.getCrossingId().getId()).increaseRatingAmount();
+            addCrossingDataToTable(model.getCrossings());
         }
 
         addDataToTable();
