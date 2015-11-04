@@ -25,7 +25,7 @@ public class Model {
     private List<Illumination> illuminations;
     private List<SpatialClarity> spatialClaritys;
     private List<Traffic> traffics;
-    private boolean id = true, node = true, ratingAmount = true, ratingId;
+    private boolean node = true, ratingAmount = true;
 
     public Model() {
         ratingMode = false;
@@ -154,71 +154,29 @@ public class Model {
         this.ratingMode = ratingMode;
     }
     
-    public void sortById() {
-    	if (id) {
-    		crossings = crossings.stream().sorted((o1, o2) -> o1.getId().compareTo(o2.getId())).collect(Collectors.toList());
-    		id = false;
-    	}
-    	else {
-    		crossings = crossings.stream().sorted((o1, o2) -> o2.getId().compareTo(o1.getId())).collect(Collectors.toList());
-    		id = true;
-    	}
-    }
-    
     public void sortByNode() {
     	if (node) {
-    		crossings = crossings.stream().sorted((o1, o2) -> {
-            	Long i = new Long(o1.getOsmNodeId());
-            	Long j = new Long(o2.getOsmNodeId());
-            	return i.compareTo(j);
-        	}).collect(Collectors.toList());
+            crossings = crossings.stream().sorted((o1, o2) ->  Long.compare(o1.getOsmNodeId(), o2.getOsmNodeId())).collect(Collectors.toList());
     		node = false;
     	}
     	else {
-    		crossings = crossings.stream().sorted((o1, o2) -> {
-            	Long i = new Long(o1.getOsmNodeId());
-            	Long j = new Long(o2.getOsmNodeId());
-            	return j.compareTo(i);
-        	}).collect(Collectors.toList());
+            crossings = crossings.stream().sorted((o1, o2) ->  Long.compare(o2.getOsmNodeId(), o1.getOsmNodeId())).collect(Collectors.toList());
     		node = true;
     	}
     }
     
     public void sortByNumberOfRatings() {
     	if (ratingAmount) {
-    		crossings = crossings.stream().sorted((o1, o2) -> {
-            	Long i = new Long(o1.getRatingAmount());
-            	Long j = new Long(o2.getRatingAmount());
-            	return i.compareTo(j);
-        	}).collect(Collectors.toList());
+    		crossings = crossings.stream().sorted((o1, o2) ->  Long.compare(o1.getRatingAmount(), o2.getRatingAmount())).collect(Collectors.toList());
     		ratingAmount = false;
     	}
     	else {
-    		crossings = crossings.stream().sorted((o1, o2) -> {
-            	Long i = new Long(o1.getRatingAmount());
-            	Long j = new Long(o2.getRatingAmount());
-            	return j.compareTo(i);
-        	}).collect(Collectors.toList());
+            crossings = crossings.stream().sorted((o1, o2) ->  Long.compare(o2.getRatingAmount(), o1.getRatingAmount())).collect(Collectors.toList());
     		ratingAmount = true;
     	}
     }
-    
-    public void sortByRatingId() {
-    	if (ratingId) {
-    		ratings = ratings.stream().sorted((o1, o2) -> {
-            	Long i = new Long(o1.getId());
-            	Long j = new Long(o2.getId());
-            	return i.compareTo(j);
-        	}).collect(Collectors.toList());
-    		ratingId = false;
-    	}
-    	else {
-    		ratings = ratings.stream().sorted((o1, o2) -> {
-            	Long i = new Long(o1.getId());
-            	Long j = new Long(o2.getId());
-            	return j.compareTo(i);
-        	}).collect(Collectors.toList());
-    		ratingId = true;
-    	}
+
+    public void sortByUser() {
+        ratings = ratings.stream().sorted(((o1, o2) -> o1.getUserId().getName().compareTo(o2.getUserId().getName()))).collect(Collectors.toList());
     }
 }

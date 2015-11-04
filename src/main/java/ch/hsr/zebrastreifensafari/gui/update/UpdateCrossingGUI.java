@@ -43,6 +43,7 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
         imageLabel.setVisible(false);
         imageTextField.setVisible(false);
         validateButton.setVisible(false);
+        sendButton.setText("Ändern");
         pack();
     }
 
