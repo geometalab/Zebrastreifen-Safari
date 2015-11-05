@@ -54,7 +54,7 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
         try{
             crossing.setOsmNodeId(Long.parseLong(osmNodeIdTextField.getText()));
             DataServiceLoader.getCrossingData().updateCrossing(crossing);
-            observable.notifyObservers();
+            observable.notifyObservers(crossing);
             this.dispose();
         } catch (NumberFormatException nfex) {
             JOptionPane.showMessageDialog(this, "Der OSM Node muss eine Zahl sein", "Error", JOptionPane.ERROR_MESSAGE);

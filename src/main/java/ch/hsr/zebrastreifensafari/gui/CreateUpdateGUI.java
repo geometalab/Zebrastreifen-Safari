@@ -61,7 +61,7 @@ public abstract class CreateUpdateGUI extends JDialog {
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        observable = new ObservableHelper();
+        observable = new ObservableHelper(this);
         observable.addObserver(mainGUI);
         this.mainGUI = mainGUI;
 

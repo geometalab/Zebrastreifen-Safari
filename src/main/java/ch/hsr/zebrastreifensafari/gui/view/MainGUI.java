@@ -46,8 +46,8 @@ public class MainGUI extends JFrame implements Observer {
     private JTabbedPane dataTabbedPane;
 
     private final Model model;
-    private DefaultTableModel ratingTM;
-    private DefaultTableModel zebraTM;
+    private DefaultTableModel ratingTableModel;
+    private DefaultTableModel crossingTableModel;
 
     public MainGUI(Model model) throws HeadlessException {
         super("Zebrastreifen Administration Tool v1.0");
@@ -57,7 +57,7 @@ public class MainGUI extends JFrame implements Observer {
 
         this.model = model;
         initListeners();
-        addDataToTable();
+        addCrossingDataToTable(model.getCrossings());
         pack();
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
@@ -65,7 +65,17 @@ public class MainGUI extends JFrame implements Observer {
     private void initListeners() {
         dataTabbedPane.addChangeListener(e -> {
             try {
-                changeView();
+                model.setRatingMode(!model.isRatingMode());
+
+                if (model.isRatingMode()) {
+                    model.reloadRating(getCrossingFromTable());
+                    searchLabel.setVisible(false);
+                    searchTextField.setVisible(false);
+                    addRatingDataToTable(model.getRatings());
+                } else {
+                    searchLabel.setVisible(true);
+                    searchTextField.setVisible(true);
+                }
             } catch (ArrayIndexOutOfBoundsException aioobe) {
                 JOptionPane.showMessageDialog(this, "Es ist kein Zebrastreifen ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -76,7 +86,7 @@ public class MainGUI extends JFrame implements Observer {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (searchTextField.getText().isEmpty()) {
-                    addDataToTable();
+                    addCrossingDataToTable(model.getCrossings());
                 } else {
                     addCrossingDataToTable(model.getCrossings().stream()
                             .filter(crossing -> String.valueOf(crossing.getOsmNodeId()).startsWith(searchTextField.getText()))
@@ -94,7 +104,6 @@ public class MainGUI extends JFrame implements Observer {
                 createUpdateGUI = new CreateCrossingGUI(this);
             }
 
-            //createUpdateGUI.addObserver(model);
             createUpdateGUI.setVisible(true);
         });
 
@@ -108,7 +117,6 @@ public class MainGUI extends JFrame implements Observer {
                     createUpdateGUI = new UpdateCrossingGUI(this, getCrossingFromTable());
                 }
 
-                //createUpdateGUI.addObserver(model);
                 createUpdateGUI.setVisible(true);
             } catch (ArrayIndexOutOfBoundsException aioobe) {
                 JOptionPane.showMessageDialog(this, "Es wurde keine Zeile zum überarbeiten ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
@@ -117,55 +125,62 @@ public class MainGUI extends JFrame implements Observer {
 
         deleteButton.addActionListener(e -> {
             try {
+                int selectedRow;
+
                 if (model.isRatingMode()) {
+                    selectedRow = ratingDataTable.getSelectedRow();
                     Rating removeRating = getRatingFromTable();
-                    DataServiceLoader.getCrossingData().removeRating(removeRating.getId());
-                    model.reloadRating(removeRating.getCrossingId());
-                    model.getCrossing(removeRating.getCrossingId().getId()).decreaseRatingAmount();
-                    addCrossingDataToTable(model.getCrossings());
+                    DataServiceLoader.getCrossingData().removeRating(removeRating.getId(), model, ratingTableModel);
 
                     if (model.getRatings().isEmpty()) {
-                        changeView();
-                        DataServiceLoader.getCrossingData().removeCrossing(removeRating.getCrossingId().getId());
-                        model.reloadCrossing();
+                        selectedRow = crossingDataTable.getSelectedRow();
+                        dataTabbedPane.setSelectedIndex(0);
+                        DataServiceLoader.getCrossingData().removeCrossing(removeRating.getCrossingId().getId(), model, crossingTableModel);
+                        changeTableSelection(crossingDataTable, selectedRow);
+                    } else {
+                        changeTableSelection(ratingDataTable, selectedRow);
+                        Crossing crossingOfRating = model.getCrossing(removeRating.getCrossingId().getId());
+                        crossingOfRating.decreaseRatingAmount();
+                        crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("Anzahl Bewertungen").getModelIndex());
                     }
                 } else {
-                    DataServiceLoader.getCrossingData().removeCrossing(getCrossingFromTable().getId());
-                    model.reloadCrossing();
+                    selectedRow = crossingDataTable.getSelectedRow();
+                    DataServiceLoader.getCrossingData().removeCrossing(getCrossingFromTable().getId(), model, crossingTableModel);
+                    changeTableSelection(crossingDataTable, selectedRow);
                 }
-
-                addDataToTable();
             } catch (ArrayIndexOutOfBoundsException aioobe) {
-                JOptionPane.showMessageDialog(this, "Es wurde keine Zeile zum überarbeiten ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Es wurde keine Zeile zum löschen ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         reloadButton.addActionListener(e -> {
+            model.reloadUsers();
+
             if (model.isRatingMode()) {
                 model.reloadRating(getRatingFromTable().getCrossingId());
+                addCrossingDataToTable(model.getCrossings());
             } else {
                 model.reloadCrossing();
+                addRatingDataToTable(model.getRatings());
             }
-
-            model.reloadUsers();
-            addDataToTable();
         });
 
         crossingDataTable.getTableHeader().addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            	String col = crossingDataTable.getColumnName(crossingDataTable.columnAtPoint(e.getPoint()));
+                String col = crossingDataTable.getColumnName(crossingDataTable.columnAtPoint(e.getPoint()));
 
-                switch(col){ 
-                case "OSM Node ID": 
-                	model.sortByNode();
-                    break; 
-                case "Anzahl Bewertungen": 
-                	model.sortByNumberOfRatings();
-                    break;                 	  
-                } 
-                addDataToTable();
+                switch (col) {
+                    case "OSM Node ID":
+                        model.sortByNode();
+                        break;
+                    case "Anzahl Bewertungen":
+                        model.sortByNumberOfRatings();
+                        break;
+                }
+
+                addCrossingDataToTable(model.getCrossings());
             }
         });
 
@@ -175,29 +190,30 @@ public class MainGUI extends JFrame implements Observer {
             public void mouseClicked(MouseEvent e) {
                 String col = ratingDataTable.getColumnName(ratingDataTable.columnAtPoint(e.getPoint()));
 
-                switch(col){ 
-                case "Benutzer": 
-                	model.sortByUser();
-                    break; 
-                case "Verkehr": 
-                	model.sortByTraffic();
-                    break; 
-                case "Übersicht": 
-                	model.sortByClarity();
-                    break; 
-                case "Beleuchtung": 
-                	model.sortByIllumination(); 
-                    break; 
-                case "Kommentar": 
-                	model.sortByComment(); 
-                    break; 
-                case "Bild": 
-                	model.sortByImage(); 
-                    break; 
-                default: 
-                	model.sortByLastChanged();  
-                } 
-                addDataToTable();
+                switch (col) {
+                    case "Benutzer":
+                        model.sortByUser();
+                        break;
+                    case "Verkehr":
+                        model.sortByTraffic();
+                        break;
+                    case "Übersicht":
+                        model.sortByClarity();
+                        break;
+                    case "Beleuchtung":
+                        model.sortByIllumination();
+                        break;
+                    case "Kommentar":
+                        model.sortByComment();
+                        break;
+                    case "Bild":
+                        model.sortByImage();
+                        break;
+                    default:
+                        model.sortByLastChanged();
+                }
+
+                addRatingDataToTable(model.getRatings());
             }
         });
 
@@ -231,84 +247,90 @@ public class MainGUI extends JFrame implements Observer {
             ueberDialog.setModal(true);
             ueberDialog.setVisible(true);
         });
-
-    }
-
-    private void changeView() {
-        model.setRatingMode(!model.isRatingMode());
-
-        if (model.isRatingMode()) {
-            model.reloadRating(getCrossingFromTable());
-            searchLabel.setVisible(false);
-            searchTextField.setVisible(false);
-        } else {
-            searchLabel.setVisible(true);
-            searchTextField.setVisible(true);
-        }
-
-        addDataToTable();
     }
 
     private Crossing getCrossingFromTable() {
-        return model.getCrossing(Integer.parseInt(zebraTM.getValueAt(crossingDataTable.getSelectedRow(), 3).toString()));
+        return model.getCrossing(Integer.parseInt(crossingTableModel.getValueAt(crossingDataTable.getSelectedRow(), 3).toString()));
     }
 
     private Rating getRatingFromTable() {
-        return model.getRating(Integer.parseInt(ratingTM.getValueAt(ratingDataTable.getSelectedRow(), 7).toString()));
+        return model.getRating(Integer.parseInt(ratingTableModel.getValueAt(ratingDataTable.getSelectedRow(), 7).toString()));
     }
 
-    public void addDataToTable() {
-        if (model.isRatingMode()) {
-            addRatingDataToTable(model.getRatings());
-        } else {
-            addCrossingDataToTable(model.getCrossings());
-        }
+    private void changeTableSelection(JTable table, int index) {
+        table.changeSelection(index, 0, false, false);
     }
 
     private void addCrossingDataToTable(List<Crossing> list) {
-        zebraTM.setRowCount(0);
-        //model.getCrossings().stream().sorted((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).forEach(crossing -> zebraTM.addRow(new String[]{crossing.getId().toString(), Long.toString(crossing.getOsmNodeId()), Integer.toString(crossing.getStatus())}));
-        for (Crossing z : list) {
-            zebraTM.addRow(new String[]{Long.toString(z.getOsmNodeId()), Long.toString(z.getRatingAmount()), Integer.toString(z.getStatus()), z.getId().toString()});
+        crossingTableModel.setRowCount(0);
+
+        for (Crossing crossing : list) {
+            crossingTableModel.addRow(new Object[]{
+                    crossing.getOsmNodeId(),
+                    crossing.getRatingAmount(),
+                    crossing.getStatus(),
+                    crossing.getId()
+            });
         }
 
-        crossingDataTable.changeSelection(0, 0, false, false);
+        changeTableSelection(crossingDataTable, 0);
     }
 
     private void addRatingDataToTable(List<Rating> list) {
-        ratingTM.setRowCount(0);
-        for (Rating r : list) {
-            ratingTM.addRow(new String[]{
-                            r.getUserId().getName(),
-                            r.getTrafficId().getValue(),
-                            r.getSpatialClarityId().getValue(),
-                            r.getIlluminationId().getValue(),
-                            r.getComment() == null ? "" : r.getComment(),
-                            r.getImageWeblink(),
-                            r.getLastChanged().toString(),
-                            r.getId().toString()
-                    }
-            );
+        ratingTableModel.setRowCount(0);
+
+        for (Rating rating : list) {
+            ratingTableModel.addRow(new Object[]{
+                    rating.getUserId().getName(),
+                    rating.getTrafficId().getValue(),
+                    rating.getSpatialClarityId().getValue(),
+                    rating.getIlluminationId().getValue(),
+                    rating.getComment(),
+                    rating.getImageWeblink(),
+                    rating.getLastChanged().toString(),
+                    rating.getId()
+            });
         }
 
-        ratingDataTable.changeSelection(0, 0, false, false);
+        changeTableSelection(ratingDataTable, 0);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof Crossing) {
-            Crossing crossing = (Crossing) arg;
-            DataServiceLoader.getCrossingData().addCrossing(crossing);
-            model.getCrossings().add(crossing);
-        } else if (arg instanceof Rating) {
-            Rating rating = (Rating) arg;
-            DataServiceLoader.getCrossingData().addRating(rating);
-            model.getRatings().add(rating);
-            model.getCrossing(rating.getCrossingId().getId()).increaseRatingAmount();
-            addCrossingDataToTable(model.getCrossings());
-        }
+        if (o instanceof ObservableHelper) {
+            CreateUpdateGUI observable = ((ObservableHelper) o).getObservable();
 
-        addDataToTable();
+            if (observable instanceof CreateCrossingGUI) {
+                Crossing crossing = (Crossing) arg;
+
+                if (model.getCrossings().contains(crossing)) {
+                    crossing.increaseRatingAmount();
+                    changeTableSelection(crossingDataTable, model.getCrossings().indexOf(crossing));
+                    crossingTableModel.setValueAt(crossing.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("Anzahl Bewertungen").getModelIndex());
+                } else {
+                    DataServiceLoader.getCrossingData().addCrossing(crossing, model, crossingTableModel);
+                    changeTableSelection(crossingDataTable, crossingTableModel.getRowCount() - 1);
+                }
+            } else if (observable instanceof CreateRatingGUI) {
+                Rating rating = (Rating) arg;
+                DataServiceLoader.getCrossingData().addRating(rating, model, ratingTableModel);
+                changeTableSelection(ratingDataTable, ratingDataTable.getRowCount() - 1);
+                Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
+                crossingOfRating.increaseRatingAmount();
+                crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("Anzahl Bewertungen").getModelIndex());
+            } else if (observable instanceof UpdateCrossingGUI) {
+                crossingTableModel.setValueAt(((Crossing) arg).getOsmNodeId(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("OSM Node ID").getModelIndex());
+            } else if (observable instanceof UpdateRatingGUI) {
+                Rating rating = (Rating) arg;
+                ratingTableModel.setValueAt(rating.getUserId().getName(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn("Benutzer").getModelIndex());
+                ratingTableModel.setValueAt(rating.getTrafficId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn("Verkehr").getModelIndex());
+                ratingTableModel.setValueAt(rating.getSpatialClarityId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn("Übersicht").getModelIndex());
+                ratingTableModel.setValueAt(rating.getIlluminationId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn("Beleuchtung").getModelIndex());
+                ratingTableModel.setValueAt(rating.getComment(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn("Kommentar").getModelIndex());
+                ratingTableModel.setValueAt(rating.getImageWeblink(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn("Bild").getModelIndex());
+                ratingTableModel.setValueAt(rating.getLastChanged(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn("Letzte Änderung").getModelIndex());
+            }
+        }
     }
 
     //<editor-fold desc="Model methods">
@@ -347,7 +369,7 @@ public class MainGUI extends JFrame implements Observer {
 
     //<editor-fold desc="GUI Builder">
     private void createUIComponents() {
-        zebraTM = new DefaultTableModel(new String[]{"OSM Node ID", "Anzahl Bewertungen", "Status", "ID"}, 0) {
+        crossingTableModel = new DefaultTableModel(new String[]{"OSM Node ID", "Anzahl Bewertungen", "Status", "ID"}, 0) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -367,7 +389,7 @@ public class MainGUI extends JFrame implements Observer {
 
         };
 
-        ratingTM = new DefaultTableModel(new String[]{"Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar", "Bild", "Letzte Änderung", "ID"}, 0) {
+        ratingTableModel = new DefaultTableModel(new String[]{"Benutzer", "Verkehr", "Übersicht", "Beleuchtung", "Kommentar", "Bild", "Letzte Änderung", "ID"}, 0) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -375,8 +397,8 @@ public class MainGUI extends JFrame implements Observer {
             }
         };
 
-        crossingDataTable = new JTable(zebraTM);
-        ratingDataTable = new JTable(ratingTM);
+        crossingDataTable = new JTable(crossingTableModel);
+        ratingDataTable = new JTable(ratingTableModel);
         crossingDataTable.removeColumn(crossingDataTable.getColumnModel().getColumn(3));
         ratingDataTable.removeColumn(ratingDataTable.getColumnModel().getColumn(7));
 

@@ -46,7 +46,7 @@ public class ModelTest {
     @Test
     public void testReloadCrossing() throws Exception {
         assertEquals(null, model.getCrossing(88));
-        DataServiceLoader.getCrossingData().addCrossing(new Crossing(null, 88, 0, 1));
+        DataServiceLoader.getCrossingData().addCrossing(new Crossing(null, 88, 0, 1), model);
         model.reloadCrossing();
         assertEquals(88, model.getCrossing(88).getOsmNodeId());
 
@@ -57,7 +57,7 @@ public class ModelTest {
         assertEquals(null, model.getRating(89));
         Crossing c = new Crossing(null, 89, 1, 1);
         Rating r = new Rating(null, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), c, "", null);
-        DataServiceLoader.getCrossingData().addCrossing(c);
+        DataServiceLoader.getCrossingData().addCrossing(c, model);
         DataServiceLoader.getCrossingData().addRating(r);
         model.reloadCrossing();
         model.reloadRating(model.getCrossing(89));
