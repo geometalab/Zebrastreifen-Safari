@@ -19,14 +19,15 @@ $(document).ready(function() {
         success:function(response){
             var icon = new L.icon({
                 iconUrl:"libs/script/leaflet/images/crossing.png",
-                iconSize:[20,20]
+                iconSize:[40,40]
             });
             var crossing = L.geoJson(response, {
 
                 // add the points to the layer, but first reproject the coordinates to WGS 84
                 pointToLayer: function (feature, latlng) {
                     var newlatlng = unproject(latlng);
-                    return L.marker(newlatlng);
+                    return L.marker(newlatlng, {
+                        icon:icon});
                 }
 
             });
@@ -35,5 +36,5 @@ $(document).ready(function() {
     });
 });
 L.tileLayer('http://tile.osm.ch/osm-swiss-style/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy;<a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+    attribution: 'Map data &copy;<a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 }).addTo(map);

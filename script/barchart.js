@@ -30,13 +30,13 @@ $(document).ready(function() {
 
             if ($(document).width() <= 800){
                 var myBarChart = new Chart(ctx).Bar(data, {
-                    scaleLabel : "<%= Number(value) + ' Zeb*'%>",
+                    scaleLabel : "<%= Number(value) + ' Z*'%>",
                     scaleBeginAtZero: true,
                     responsive: true
                 });
             } else {
                 var myBarChart = new Chart(ctx).Bar(data, {
-                    scaleLabel : "<%= Number(value) + ' Zeb*'%>",
+                    scaleLabel : "<%= Number(value) + ' Z*'%>",
                     scaleBeginAtZero: true,
                 });
             }
