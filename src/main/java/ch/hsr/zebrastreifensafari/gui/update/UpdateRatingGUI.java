@@ -47,7 +47,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
             rating.setComment(commentTextArea.getText());
             rating.setLastChanged(new Date());
             DataServiceLoader.getCrossingData().updateRating(rating);
-            observable.notifyObservers();
+            observable.notifyObservers(rating);
             this.dispose();
         } catch (Exception e) {
             rating.setUserId(userBackup);

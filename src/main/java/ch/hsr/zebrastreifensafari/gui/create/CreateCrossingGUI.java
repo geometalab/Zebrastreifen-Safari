@@ -29,11 +29,12 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
 
             if (crossing == null) {
                 crossing = new Crossing(null, osmNode, 1, 1);
-                observable.notifyObservers(crossing);
             }
 
+            observable.notifyObservers(crossing);
             DataServiceLoader.getCrossingData().addRating(
-                    new Rating(null,
+                    new Rating(
+                            null,
                             commentTextArea.getText(),
                             mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
                             mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
