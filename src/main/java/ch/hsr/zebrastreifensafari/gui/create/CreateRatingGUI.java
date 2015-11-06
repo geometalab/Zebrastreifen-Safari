@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class CreateRatingGUI extends CreateUpdateGUI {
 
-    private long node;
+    private final long node;
 
     public CreateRatingGUI(MainGUI mainGUI, long node) {
         super(mainGUI, "Erstellen einer neuen Bewertung für den Zebrastreifen mit dem OSM Node " + node);

@@ -22,8 +22,8 @@ import static org.junit.Assert.*;
  */
 public class ModelTest {
 
-    TestJDBC db;
-    Model model;
+    private TestJDBC db;
+    private Model model;
 
     @Before
     public void setUp() throws Exception {

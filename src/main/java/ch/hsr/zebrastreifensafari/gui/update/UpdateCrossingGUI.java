@@ -17,7 +17,7 @@ import javax.swing.*;
 
 public class UpdateCrossingGUI extends CreateUpdateGUI {
 
-    private Crossing crossing;
+    private final Crossing crossing;
 
     public UpdateCrossingGUI(MainGUI mainGUI, Crossing crossing) {
         super(mainGUI, "Überarbeiten des Zebrastreifens mit dem OSM Node " + crossing.getOsmNodeId());

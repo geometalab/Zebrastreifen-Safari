@@ -16,7 +16,7 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  */
 public class UpdateRatingGUI extends CreateUpdateGUI {
 
-    private Rating rating;
+    private final Rating rating;
 
     public UpdateRatingGUI(MainGUI mainGUI, Rating rating) {
         super(mainGUI, "Überarbeiten der Bewertung von " + rating.getUserId().getName() + " für den Zebrastreifen mit dem OSM Node " + rating.getCrossingId().getOsmNodeId());
@@ -61,7 +61,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
         }
     }
 
-    public void setButtonGroupValue(ButtonGroup bg, int selectedButtonInt) {
+    private void setButtonGroupValue(ButtonGroup bg, int selectedButtonInt) {
         Enumeration<AbstractButton> buttons = bg.getElements();
 
         for (int counter = 1; buttons.hasMoreElements(); counter++) {

@@ -22,9 +22,9 @@ public class Model {
     private List<User> users;
     private List<Crossing> crossings;
     private List<Rating> ratings;
-    private List<Illumination> illuminations;
-    private List<SpatialClarity> spatialClaritys;
-    private List<Traffic> traffics;
+    private final List<Illumination> illuminations;
+    private final List<SpatialClarity> spatialClaritys;
+    private final List<Traffic> traffics;
     private boolean node = true, ratingAmount = true, user = true, traffic = true, clarity = true, illumination = true, comment = true, image = true, lastChanged = true;
 
     public Model() {

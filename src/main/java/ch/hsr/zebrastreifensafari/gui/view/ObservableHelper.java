@@ -11,7 +11,7 @@ import java.util.Observer;
  */
 public class ObservableHelper extends Observable {
 
-    private CreateUpdateGUI observable;
+    private final CreateUpdateGUI observable;
 
     public ObservableHelper(CreateUpdateGUI observable) {
         this.observable = observable;
