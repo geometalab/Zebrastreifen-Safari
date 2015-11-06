@@ -86,16 +86,6 @@ public class Illumination implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Illumination)) {
-            return false;
-        }
-        Illumination other = (Illumination) object;
-        return (this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id));
-    }
-
-    @Override
     public String toString() {
         return "ch.hsr.zebrastreifensafari.jpa.entities.Illumination[ id=" + id + " ]";
     }

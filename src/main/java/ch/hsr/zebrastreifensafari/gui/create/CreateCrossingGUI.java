@@ -41,7 +41,7 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
                             mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
                             mainGUI.getUser(userComboBox.getSelectedItem().toString()),
                             crossing,
-                            imageTextField.getText(),
+                            imageTextField.getText().isEmpty() ? null : imageTextField.getText(),
                             new Date()
                     )
             );
