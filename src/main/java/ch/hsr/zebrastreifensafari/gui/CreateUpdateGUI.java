@@ -48,6 +48,7 @@ public abstract class CreateUpdateGUI extends JDialog {
     protected JLabel imageLabel;
     protected JButton validateButton;
     protected JRadioButton illuminationNoneRadioButton;
+    protected JScrollPane commentScrollPane;
     protected ButtonGroup spatialClarityButtonGroupe;
     protected ButtonGroup illuminationButtonGroup;
     protected ButtonGroup trafficButtonGroup;
@@ -217,10 +218,10 @@ public abstract class CreateUpdateGUI extends JDialog {
         panel2.add(validateButton, new GridConstraints(8, 3, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         illuminationNoneRadioButton.setText("Keine");
         panel2.add(illuminationNoneRadioButton, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JScrollPane scrollPane1 = new JScrollPane();
-        panel2.add(scrollPane1, new GridConstraints(5, 1, 3, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        commentScrollPane = new JScrollPane();
+        panel2.add(commentScrollPane, new GridConstraints(5, 1, 3, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         commentTextArea = new JTextArea();
-        scrollPane1.setViewportView(commentTextArea);
+        commentScrollPane.setViewportView(commentTextArea);
     }
 
     /**
