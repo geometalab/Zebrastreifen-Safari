@@ -228,6 +228,8 @@ public class MainGUI extends JFrame implements Observer {
             }
         });
 
+        crossingDataTable.getSelectionModel().addListSelectionListener(e -> dataTabbedPane.setTitleAt(1, "Bewertungen von " + crossingTableModel.getValueAt(crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("OSM Node ID").getModelIndex())));
+
         crossingDataTable.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -465,29 +467,26 @@ public class MainGUI extends JFrame implements Observer {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0, 0));
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new FormLayout("fill:d:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
-        mainPanel.add(panel1, BorderLayout.EAST);
+        panel1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        mainPanel.add(panel1, BorderLayout.SOUTH);
         addButton = new JButton();
         addButton.setText("Hinzufügen");
-        CellConstraints cc = new CellConstraints();
-        panel1.add(addButton, cc.xy(1, 1));
+        panel1.add(addButton);
         updateButton = new JButton();
         updateButton.setText("Bearbeiten");
-        panel1.add(updateButton, cc.xy(1, 3));
+        panel1.add(updateButton);
         deleteButton = new JButton();
         deleteButton.setText("Löschen");
-        panel1.add(deleteButton, cc.xy(1, 5));
+        panel1.add(deleteButton);
         reloadButton = new JButton();
         reloadButton.setIcon(new ImageIcon(getClass().getResource("/RefreshIcon.png")));
         reloadButton.setText("");
-        panel1.add(reloadButton, cc.xy(1, 9));
-        final Spacer spacer1 = new Spacer();
-        panel1.add(spacer1, cc.xy(1, 7, CellConstraints.DEFAULT, CellConstraints.FILL));
+        panel1.add(reloadButton);
         dataTabbedPane = new JTabbedPane();
         mainPanel.add(dataTabbedPane, BorderLayout.CENTER);
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new BorderLayout(0, 0));
-        dataTabbedPane.addTab("Zebracrossings", panel2);
+        dataTabbedPane.addTab("Zebrastreifen", panel2);
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new BorderLayout(0, 0));
         panel2.add(panel3, BorderLayout.NORTH);
@@ -505,7 +504,7 @@ public class MainGUI extends JFrame implements Observer {
         crossingDataTable.setRowSelectionAllowed(true);
         scrollPane1.setViewportView(crossingDataTable);
         final JScrollPane scrollPane2 = new JScrollPane();
-        dataTabbedPane.addTab("Ratings", scrollPane2);
+        dataTabbedPane.addTab("", scrollPane2);
         ratingDataTable.setRowSelectionAllowed(true);
         scrollPane2.setViewportView(ratingDataTable);
     }

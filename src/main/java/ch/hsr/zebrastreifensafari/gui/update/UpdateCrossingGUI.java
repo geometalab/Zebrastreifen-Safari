@@ -39,7 +39,7 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
         trafficLittleRadioButton.setVisible(false);
         trafficALotRadioButton.setVisible(false);
         commentLabel.setVisible(false);
-        commentTextArea.setVisible(false);
+        commentScrollPane.setVisible(false);
         imageLabel.setVisible(false);
         imageTextField.setVisible(false);
         validateButton.setVisible(false);
