@@ -22,13 +22,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class CrossingDataService implements ICrossingDataService {
 
-    private EntityManagerFactory emFactory;
-    private EntityManager em;
+    private final EntityManagerFactory emFactory;
 
     public CrossingDataService(String entityName) {
         emFactory = Persistence.createEntityManagerFactory(entityName);
-        em = emFactory.createEntityManager();
-        EntityTransaction trans = em.getTransaction();
+        EntityTransaction trans = emFactory.createEntityManager().getTransaction();
         trans.begin();
     }
 

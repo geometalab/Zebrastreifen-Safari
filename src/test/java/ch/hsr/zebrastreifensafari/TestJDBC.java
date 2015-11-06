@@ -13,12 +13,11 @@ public final class TestJDBC {
     private Connection c;
 
     public TestJDBC() {
-        this.connect();
-        this.createTables();
-        
+        connect();
+        createTables();
     }
 
-    public void connect() {
+    private void connect() {
         c = null;
         EntityManager entityManager = Persistence.createEntityManagerFactory("ZebraPUTest").createEntityManager();
         entityManager.getTransaction().begin();
@@ -30,7 +29,7 @@ public final class TestJDBC {
         }
     }
 
-    public void createTables() {
+    private void createTables() {
         String createString = ""
                 + "-- drop --\n"
                 + "drop table if exists crossing.rating;\n"
@@ -218,7 +217,7 @@ public final class TestJDBC {
     }
 
     public static void main(String args[]) {
-        TestJDBC tj = new TestJDBC();
+        new TestJDBC();
     }
 
 }

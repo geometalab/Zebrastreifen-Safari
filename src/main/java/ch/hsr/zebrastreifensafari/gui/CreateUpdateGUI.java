@@ -23,9 +23,9 @@ import com.intellij.uiDesigner.core.Spacer;
 
 public abstract class CreateUpdateGUI extends JDialog {
 
-    protected JPanel mainPanel;
+    private JPanel mainPanel;
     protected JButton sendButton;
-    protected JButton cancelButton;
+    private JButton cancelButton;
     protected JTextField osmNodeIdTextField;
     protected JTextArea commentTextArea;
     protected JTextField imageTextField;
@@ -52,10 +52,10 @@ public abstract class CreateUpdateGUI extends JDialog {
     protected ButtonGroup illuminationButtonGroup;
     protected ButtonGroup trafficButtonGroup;
 
-    protected ObservableHelper observable;
-    protected MainGUI mainGUI;
+    protected final ObservableHelper observable;
+    protected final MainGUI mainGUI;
 
-    public CreateUpdateGUI(MainGUI mainGUI, String title) {
+    protected CreateUpdateGUI(MainGUI mainGUI, String title) {
         super(mainGUI, title, true);
         $$$setupUI$$$();
         setContentPane(mainPanel);

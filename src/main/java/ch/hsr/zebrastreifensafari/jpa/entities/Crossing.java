@@ -118,10 +118,7 @@ public class Crossing implements Serializable {
             return false;
         }
         Crossing other = (Crossing) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id));
     }
 
     @Override

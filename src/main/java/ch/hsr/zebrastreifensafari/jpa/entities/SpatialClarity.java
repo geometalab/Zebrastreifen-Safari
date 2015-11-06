@@ -92,10 +92,7 @@ public class SpatialClarity implements Serializable {
             return false;
         }
         SpatialClarity other = (SpatialClarity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return (this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id));
     }
 
     @Override

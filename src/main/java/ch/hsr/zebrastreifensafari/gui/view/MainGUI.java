@@ -53,7 +53,7 @@ public class MainGUI extends JFrame implements Observer {
         super("Zebrastreifen Administration Tool v1.0");
         $$$setupUI$$$();
         setContentPane(mainPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         this.model = model;
         initListeners();
@@ -99,7 +99,7 @@ public class MainGUI extends JFrame implements Observer {
             CreateUpdateGUI createUpdateGUI;
 
             if (model.isRatingMode()) {
-                createUpdateGUI = new CreateRatingGUI(this, getRatingFromTable().getCrossingId().getOsmNodeId());
+                createUpdateGUI = new CreateRatingGUI(this, getCrossingFromTable().getOsmNodeId());
             } else {
                 createUpdateGUI = new CreateCrossingGUI(this);
             }
@@ -157,11 +157,11 @@ public class MainGUI extends JFrame implements Observer {
             model.reloadUsers();
 
             if (model.isRatingMode()) {
-                model.reloadRating(getRatingFromTable().getCrossingId());
-                addCrossingDataToTable(model.getCrossings());
+                model.reloadRating(getCrossingFromTable());
+                addRatingDataToTable(model.getRatings());
             } else {
                 model.reloadCrossing();
-                addRatingDataToTable(model.getRatings());
+                addCrossingDataToTable(model.getCrossings());
             }
         });
 
@@ -250,11 +250,11 @@ public class MainGUI extends JFrame implements Observer {
     }
 
     private Crossing getCrossingFromTable() {
-        return model.getCrossing(Integer.parseInt(crossingTableModel.getValueAt(crossingDataTable.getSelectedRow(), 3).toString()));
+        return model.getCrossing((int) crossingTableModel.getValueAt(crossingDataTable.getSelectedRow(), 3));
     }
 
     private Rating getRatingFromTable() {
-        return model.getRating(Integer.parseInt(ratingTableModel.getValueAt(ratingDataTable.getSelectedRow(), 7).toString()));
+        return model.getRating((int) ratingTableModel.getValueAt(ratingDataTable.getSelectedRow(), 7));
     }
 
     private void changeTableSelection(JTable table, int index) {
@@ -305,11 +305,17 @@ public class MainGUI extends JFrame implements Observer {
 
                 if (model.getCrossings().contains(crossing)) {
                     crossing.increaseRatingAmount();
-                    changeTableSelection(crossingDataTable, model.getCrossings().indexOf(crossing));
-                    crossingTableModel.setValueAt(crossing.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("Anzahl Bewertungen").getModelIndex());
+
+                    if (searchTextField.getText().isEmpty()) {
+                        changeTableSelection(crossingDataTable, model.getCrossings().indexOf(crossing));
+                        crossingTableModel.setValueAt(crossing.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("Anzahl Bewertungen").getModelIndex());
+                    } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
+                        //todo search functionality
+                    }
                 } else {
                     DataServiceLoader.getCrossingData().addCrossing(crossing, model, crossingTableModel);
                     changeTableSelection(crossingDataTable, crossingTableModel.getRowCount() - 1);
+                    //todo search functionality
                 }
             } else if (observable instanceof CreateRatingGUI) {
                 Rating rating = (Rating) arg;
