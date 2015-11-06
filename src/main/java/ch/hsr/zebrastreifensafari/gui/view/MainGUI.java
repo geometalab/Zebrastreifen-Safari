@@ -181,6 +181,17 @@ public class MainGUI extends JFrame implements Observer {
                 }
 
                 addCrossingDataToTable(model.getCrossings());
+
+                if (!searchTextField.getText().isEmpty()) {
+                    try {
+                        Robot robot = new Robot();
+                        searchTextField.requestFocus();
+                        robot.keyPress(KeyEvent.VK_ENTER);
+                        robot.keyRelease(KeyEvent.VK_ENTER);
+                    } catch (AWTException awtex) {
+                        JOptionPane.showMessageDialog(null, "Ihr System unterstützt keine Ein- oder Ausgabegeräte", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         });
 
@@ -335,7 +346,14 @@ public class MainGUI extends JFrame implements Observer {
                 crossingOfRating.increaseRatingAmount();
                 crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("Anzahl Bewertungen").getModelIndex());
             } else if (observable instanceof UpdateCrossingGUI) {
-                crossingTableModel.setValueAt(((Crossing) arg).getOsmNodeId(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("OSM Node ID").getModelIndex());
+                Crossing crossing = (Crossing) arg;
+
+                if (searchTextField.getText().isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
+                    crossingTableModel.setValueAt(crossing.getOsmNodeId(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("OSM Node ID").getModelIndex());
+                } else {
+                    crossingTableModel.removeRow(crossingDataTable.getSelectedRow());
+                }
+
             } else if (observable instanceof UpdateRatingGUI) {
                 Rating rating = (Rating) arg;
                 ratingTableModel.setValueAt(rating.getUserId().getName(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn("Benutzer").getModelIndex());
