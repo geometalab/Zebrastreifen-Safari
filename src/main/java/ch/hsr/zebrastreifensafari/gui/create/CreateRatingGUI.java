@@ -34,7 +34,7 @@ public class CreateRatingGUI extends CreateUpdateGUI {
                 mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
                 mainGUI.getUser((String) userComboBox.getSelectedItem()),
                 mainGUI.getCrossing(node),
-                imageTextField.getText(),
+                imageTextField.getText().isEmpty() ? null : imageTextField.getText(),
                 new Date()
         );
 

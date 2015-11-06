@@ -36,7 +36,7 @@ public class MainGUI extends JFrame implements Observer {
     private JTextField searchTextField;
     private JButton addButton;
     private JTable crossingDataTable;
-    private JButton changeButton;
+    private JButton updateButton;
     private JButton deleteButton;
     private JButton reloadButton;
     private JLabel searchLabel;
@@ -107,7 +107,7 @@ public class MainGUI extends JFrame implements Observer {
             createUpdateGUI.setVisible(true);
         });
 
-        changeButton.addActionListener(e -> {
+        updateButton.addActionListener(e -> {
             try {
                 CreateUpdateGUI createUpdateGUI;
 
@@ -310,12 +310,22 @@ public class MainGUI extends JFrame implements Observer {
                         changeTableSelection(crossingDataTable, model.getCrossings().indexOf(crossing));
                         crossingTableModel.setValueAt(crossing.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("Anzahl Bewertungen").getModelIndex());
                     } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
-                        //todo search functionality
+                        for (int i = 0; i < crossingTableModel.getRowCount(); i++) {
+                            if ((long) crossingTableModel.getValueAt(i, crossingDataTable.getColumn("OSM Node ID").getModelIndex()) == crossing.getOsmNodeId()) {
+                                changeTableSelection(crossingDataTable, i);
+                                crossingTableModel.setValueAt(crossing.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("Anzahl Bewertungen").getModelIndex());
+                                break;
+                            }
+                        }
                     }
                 } else {
                     DataServiceLoader.getCrossingData().addCrossing(crossing, model, crossingTableModel);
-                    changeTableSelection(crossingDataTable, crossingTableModel.getRowCount() - 1);
-                    //todo search functionality
+
+                    if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText()) || searchTextField.getText().isEmpty()) {
+                        changeTableSelection(crossingDataTable, crossingTableModel.getRowCount() - 1);
+                    } else {
+                        crossingTableModel.removeRow(crossingTableModel.getRowCount() - 1);
+                    }
                 }
             } else if (observable instanceof CreateRatingGUI) {
                 Rating rating = (Rating) arg;
@@ -443,9 +453,9 @@ public class MainGUI extends JFrame implements Observer {
         addButton.setText("Hinzufügen");
         CellConstraints cc = new CellConstraints();
         panel1.add(addButton, cc.xy(1, 1));
-        changeButton = new JButton();
-        changeButton.setText("Bearbeiten");
-        panel1.add(changeButton, cc.xy(1, 3));
+        updateButton = new JButton();
+        updateButton.setText("Bearbeiten");
+        panel1.add(updateButton, cc.xy(1, 3));
         deleteButton = new JButton();
         deleteButton.setText("Löschen");
         panel1.add(deleteButton, cc.xy(1, 5));
