@@ -504,7 +504,7 @@ public class MainGUI extends JFrame implements Observer {
         crossingDataTable.setRowSelectionAllowed(true);
         scrollPane1.setViewportView(crossingDataTable);
         final JScrollPane scrollPane2 = new JScrollPane();
-        dataTabbedPane.addTab("", scrollPane2);
+        dataTabbedPane.addTab("Bewertungen", scrollPane2);
         ratingDataTable.setRowSelectionAllowed(true);
         scrollPane2.setViewportView(ratingDataTable);
     }
