@@ -228,7 +228,7 @@ public class MainGUI extends JFrame implements Observer {
             }
         });
 
-        crossingDataTable.getSelectionModel().addListSelectionListener(e -> dataTabbedPane.setTitleAt(1, "Bewertungen von " + crossingTableModel.getValueAt(crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("OSM Node ID").getModelIndex())));
+        //crossingDataTable.getSelectionModel().addListSelectionListener(e -> dataTabbedPane.setTitleAt(1, "Bewertungen von " + crossingTableModel.getValueAt(crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("OSM Node ID").getModelIndex())));
 
         crossingDataTable.addMouseListener(new MouseAdapter() {
 

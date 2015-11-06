@@ -80,7 +80,7 @@
                       <cellSelectionEnabled value="false"/>
                       <columnSelectionAllowed value="false"/>
                       <fillsViewportHeight value="false"/>
-                      <rowSelectionAllowed value="true"/>
+                      <rowSelectionAllowed value="false"/>
                     </properties>
                   </component>
                 </children>
@@ -89,7 +89,7 @@
           </grid>
           <scrollpane id="3b082">
             <constraints>
-              <tabbedpane title=""/>
+              <tabbedpane title="Bewertungen"/>
             </constraints>
             <properties/>
             <border type="none"/>
