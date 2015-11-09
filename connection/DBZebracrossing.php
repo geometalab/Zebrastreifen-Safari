@@ -36,14 +36,12 @@ class DBZebracrossing extends DBConnection {
     }
 
     public function getLineChartStatistic() {
-        //TODO: not the sum of the amount! ask for implementation to get the last available row of the week
         return pg_query($this->connection, "select date_trunc('week', enquiry_date) as week, max(amount) as amount from statistic.crossingstatistic
                                             group by week
                                             order by week asc;");
     }
 
     public function getBarChartStatistic() {
-        //TODO: not the sum of the amount! ask for implementation to get the last available row of the week
         return pg_query($this->connection, "select date_trunc('week', enquiry_date) as week, max(amount) as amount from statistic.crossingstatistic
                                             group by week
                                             order by week asc
