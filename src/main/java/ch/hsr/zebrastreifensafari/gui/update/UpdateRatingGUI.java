@@ -81,7 +81,5 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
         setButtonGroupValue(trafficButtonGroup, rating.getTrafficId().getId());
         commentTextArea.setText(rating.getComment());
         imageTextField.setText(rating.getImageWeblink());
-//        commentTextArea.setText(rating.getComment() == null ? "" : rating.getComment());
-//        imageTextField.setText(rating.getImageWeblink() == null ? "" : rating.getImageWeblink());
     }
 }
