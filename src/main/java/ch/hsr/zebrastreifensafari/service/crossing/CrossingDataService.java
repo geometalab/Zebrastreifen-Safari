@@ -3,12 +3,14 @@ package ch.hsr.zebrastreifensafari.service.crossing;
 import ch.hsr.zebrastreifensafari.jpa.controllers.*;
 import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.zebrastreifensafari.model.Model;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author : Mike Marti
@@ -20,13 +22,11 @@ import javax.persistence.EntityTransaction;
 
 public class CrossingDataService implements ICrossingDataService {
 
-    private EntityManagerFactory emFactory;
-    private EntityManager em;
+    private final EntityManagerFactory emFactory;
 
     public CrossingDataService(String entityName) {
         emFactory = Persistence.createEntityManagerFactory(entityName);
-        em = emFactory.createEntityManager();
-        EntityTransaction trans = em.getTransaction();
+        EntityTransaction trans = emFactory.createEntityManager().getTransaction();
         trans.begin();
     }
 
@@ -41,8 +41,8 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public List<Rating> getRatings(Crossing Crossing) {
-        return new RatingJpaController(emFactory).findRatingByCrossing(Crossing);
+    public List<Rating> getRatings(Crossing crossing) {
+        return new RatingJpaController(emFactory).findRatingByCrossing(crossing);
     }
 
     @Override
@@ -61,7 +61,50 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void removeCrossing(int id) {
+    public void addCrossing(Crossing crossing, Model model) {
+        new CrossingJpaController(emFactory).create(crossing);
+        model.getCrossings().add(crossing);
+    }
+
+    @Override
+    public void addCrossing(Crossing crossing, Model model, DefaultTableModel tableModel) {
+        addCrossing(crossing, model);
+        tableModel.addRow(new Object[] {
+                crossing.getOsmNodeId(),
+                crossing.getRatingAmount(),
+                crossing.getStatus(),
+                crossing.getId()
+        });
+    }
+
+    @Override
+    public void addRating(Rating rating) {
+        new RatingJpaController(emFactory).create(rating);
+    }
+
+    @Override
+    public void addRating(Rating rating, Model model) {
+        addRating(rating);
+        model.getRatings().add(rating);
+
+    }
+
+    @Override
+    public void addRating(Rating rating, Model model, DefaultTableModel tableModel) {
+        addRating(rating, model);
+        tableModel.addRow(new Object[] {
+                rating.getUserId().getName(),
+                rating.getTrafficId().getValue(),
+                rating.getSpatialClarityId().getValue(),
+                rating.getIlluminationId().getValue(),
+                rating.getComment(),
+                rating.getImageWeblink(),
+                rating.getLastChanged().toString(),
+                rating.getId()
+        });
+    }
+
+    private void removeCrossing(int id) {
         try {
             new CrossingJpaController(emFactory).destroy(id);
         } catch (NonexistentEntityException neex) {
@@ -70,13 +113,17 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void addCrossing(Crossing zebra) {
-        new CrossingJpaController(emFactory).create(zebra);
+    public void removeCrossing(int id, Model model) {
+        removeRating(id);
+        model.getCrossings().remove(model.getCrossing(id));
     }
 
     @Override
-    public void addRating(Rating rating) {
-        new RatingJpaController(emFactory).create(rating);
+    public void removeCrossing(int id, Model model, DefaultTableModel tableModel) {
+        removeCrossing(id);
+        Crossing removeCrossing = model.getCrossing(id);
+        tableModel.removeRow(model.getCrossings().indexOf(removeCrossing));
+        model.getCrossings().remove(removeCrossing);
     }
 
     @Override
@@ -89,12 +136,26 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
+    public void removeRating(int id, Model model) {
+        removeRating(id);
+        model.getRatings().remove(model.getRating(id));
+    }
+
+    @Override
+    public void removeRating(int id, Model model, DefaultTableModel tableModel) {
+        removeRating(id);
+        Rating removeRating = model.getRating(id);
+        tableModel.removeRow(model.getRatings().indexOf(removeRating));
+        model.getRatings().remove(model.getRating(id));
+    }
+
+    @Override
     public void updateRating(Rating rating) throws Exception{
         new RatingJpaController(emFactory).edit(rating);
     }
 
     @Override
-    public void updateCrossing(Crossing Crossing) throws Exception{
-        new CrossingJpaController(emFactory).edit(Crossing);
+    public void updateCrossing(Crossing crossing) throws Exception{
+        new CrossingJpaController(emFactory).edit(crossing);
     }
 }

@@ -22,8 +22,8 @@ import static org.junit.Assert.*;
  */
 public class ModelTest {
 
-    TestJDBC db;
-    Model model;
+    private TestJDBC db;
+    private Model model;
 
     @Before
     public void setUp() throws Exception {
@@ -48,23 +48,23 @@ public class ModelTest {
     public void testReloadCrossing() throws Exception {
         assertEquals(null, model.getCrossing((long)87));
         Crossing c = new Crossing(null, 87, 1, 1);
-        DataServiceLoader.getCrossingData().addCrossing(c);
         //Rating r = new Rating(null, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), c, null, new Date());
         //DataServiceLoader.getCrossingData().addRating(r);
+        DataServiceLoader.getCrossingData().addCrossing(c, model);
         model.reloadCrossing();
         assertEquals(87, model.getCrossing((long)87).getOsmNodeId());
 
     }
 
-//    @Test
-//    public void testReloadRating() throws Exception {
-//        assertEquals(null, model.getRating(16));
-//        Rating r = new Rating(0, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), model.getCrossing(1), "", new Date());
-//        DataServiceLoader.getCrossingData().addRating(r);
-//        model.reloadRating(model.getCrossing(1));
-//        assertEquals("test Comment", model.getRating(16).getComment());
-//
-//    }
+    @Test
+    public void testReloadRating() throws Exception {
+        assertEquals(null, model.getRating(16));
+        Rating r = new Rating(0, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), model.getCrossing(1), "", new Date());
+        DataServiceLoader.getCrossingData().addRating(r);
+        model.reloadRating(model.getCrossing(1));
+        assertEquals("test Comment", model.getRating(16).getComment());
+
+    }
 
 //    @Test
 //    public void testReloadUsers() throws Exception {
