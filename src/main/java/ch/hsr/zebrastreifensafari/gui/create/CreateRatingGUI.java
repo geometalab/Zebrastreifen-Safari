@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class CreateRatingGUI extends CreateUpdateGUI {
 
-    private long node;
+    private final long node;
 
     public CreateRatingGUI(MainGUI mainGUI, long node) {
         super(mainGUI, "Erstellen einer neuen Bewertung für den Zebrastreifen mit dem OSM Node " + node);
@@ -34,8 +34,8 @@ public class CreateRatingGUI extends CreateUpdateGUI {
                 mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
                 mainGUI.getUser((String) userComboBox.getSelectedItem()),
                 mainGUI.getCrossing(node),
-                imageTextField.getText(),
-                null
+                imageTextField.getText().isEmpty() ? null : imageTextField.getText(),
+                new Date()
         );
 
         observable.notifyObservers(rating);

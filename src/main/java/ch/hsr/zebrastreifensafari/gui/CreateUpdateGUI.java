@@ -23,9 +23,9 @@ import com.intellij.uiDesigner.core.Spacer;
 
 public abstract class CreateUpdateGUI extends JDialog {
 
-    protected JPanel mainPanel;
+    private JPanel mainPanel;
     protected JButton sendButton;
-    protected JButton cancelButton;
+    private JButton cancelButton;
     protected JTextField osmNodeIdTextField;
     protected JTextArea commentTextArea;
     protected JTextField imageTextField;
@@ -48,20 +48,21 @@ public abstract class CreateUpdateGUI extends JDialog {
     protected JLabel imageLabel;
     protected JButton validateButton;
     protected JRadioButton illuminationNoneRadioButton;
+    protected JScrollPane commentScrollPane;
     protected ButtonGroup spatialClarityButtonGroupe;
     protected ButtonGroup illuminationButtonGroup;
     protected ButtonGroup trafficButtonGroup;
 
-    protected ObservableHelper observable;
-    protected MainGUI mainGUI;
+    protected final ObservableHelper observable;
+    protected final MainGUI mainGUI;
 
-    public CreateUpdateGUI(MainGUI mainGUI, String title) {
+    protected CreateUpdateGUI(MainGUI mainGUI, String title) {
         super(mainGUI, title, true);
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        observable = new ObservableHelper();
+        observable = new ObservableHelper(this);
         observable.addObserver(mainGUI);
         this.mainGUI = mainGUI;
 
@@ -183,8 +184,6 @@ public abstract class CreateUpdateGUI extends JDialog {
         osmNodeIdTextField = new JTextField();
         panel2.add(osmNodeIdTextField, new GridConstraints(0, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         panel2.add(userComboBox, new GridConstraints(1, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        commentTextArea = new JTextArea();
-        panel2.add(commentTextArea, new GridConstraints(5, 1, 3, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         commentLabel = new JLabel();
         commentLabel.setText("Comment");
         panel2.add(commentLabel, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -219,6 +218,10 @@ public abstract class CreateUpdateGUI extends JDialog {
         panel2.add(validateButton, new GridConstraints(8, 3, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         illuminationNoneRadioButton.setText("Keine");
         panel2.add(illuminationNoneRadioButton, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        commentScrollPane = new JScrollPane();
+        panel2.add(commentScrollPane, new GridConstraints(5, 1, 3, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        commentTextArea = new JTextArea();
+        commentScrollPane.setViewportView(commentTextArea);
     }
 
     /**

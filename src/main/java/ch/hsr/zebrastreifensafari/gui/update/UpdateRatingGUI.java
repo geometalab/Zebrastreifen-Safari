@@ -1,5 +1,6 @@
 package ch.hsr.zebrastreifensafari.gui.update;
 
+import java.util.Date;
 import java.util.Enumeration;
 import javax.swing.*;
 
@@ -15,7 +16,7 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  */
 public class UpdateRatingGUI extends CreateUpdateGUI {
 
-    private Rating rating;
+    private final Rating rating;
 
     public UpdateRatingGUI(MainGUI mainGUI, Rating rating) {
         super(mainGUI, "Überarbeiten der Bewertung von " + rating.getUserId().getName() + " für den Zebrastreifen mit dem OSM Node " + rating.getCrossingId().getOsmNodeId());
@@ -23,6 +24,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
         setValues();
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
+        sendButton.setText("Ändern");
         pack();
     }
 
@@ -34,6 +36,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
         Traffic trafficBackup = rating.getTrafficId();
         String imageWeblinkBackup = rating.getImageWeblink();
         String commentBackup = rating.getComment();
+        Date lastChangedBackup = rating.getLastChanged();
 
         try {
             rating.setUserId(mainGUI.getUser((String) userComboBox.getSelectedItem()));
@@ -42,8 +45,9 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
             rating.setTrafficId(mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)));
             rating.setImageWeblink(imageTextField.getText());
             rating.setComment(commentTextArea.getText());
+            rating.setLastChanged(new Date());
             DataServiceLoader.getCrossingData().updateRating(rating);
-            observable.notifyObservers();
+            observable.notifyObservers(rating);
             this.dispose();
         } catch (Exception e) {
             rating.setUserId(userBackup);
@@ -52,11 +56,12 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
             rating.setTrafficId(trafficBackup);
             rating.setImageWeblink(imageWeblinkBackup);
             rating.setComment(commentBackup);
+            rating.setLastChanged(lastChangedBackup);
             JOptionPane.showMessageDialog(this, "This Photo is already used", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void setButtonGroupValue(ButtonGroup bg, int selectedButtonInt) {
+    private void setButtonGroupValue(ButtonGroup bg, int selectedButtonInt) {
         Enumeration<AbstractButton> buttons = bg.getElements();
 
         for (int counter = 1; buttons.hasMoreElements(); counter++) {
