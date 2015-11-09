@@ -159,7 +159,7 @@ function getOsmData($osm_node_id, $gisConnection) {
         "island" => $resultset[0]['island'] == "f" ? false : true,
         "unmarked" => $resultset[0]['unmarked'] == "f" ? false : true,
         "button_operated" => $resultset[0]['button_operated'] == "f" ? false : true,
-        "slooped_curb" => $sloped_curb,
+        "sloped_curb" => $sloped_curb,
         "tactile_paving" => $resultset[0]['tactile_paving'] == "f" ? false : true,
         "traffic_signals_vibration" => $resultset[0]['traffic_signals_vibration'] == "f" ? false : true,
         "traffic_signals_sound" => $resultset[0]['traffic_signals_sound'] == "f" ? false : true
