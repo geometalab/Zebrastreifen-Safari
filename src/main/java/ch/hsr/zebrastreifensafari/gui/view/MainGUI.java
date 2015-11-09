@@ -8,9 +8,6 @@ import ch.hsr.zebrastreifensafari.gui.update.UpdateRatingGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import com.intellij.uiDesigner.core.Spacer;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -228,7 +225,11 @@ public class MainGUI extends JFrame implements Observer {
             }
         });
 
-        //crossingDataTable.getSelectionModel().addListSelectionListener(e -> dataTabbedPane.setTitleAt(1, "Bewertungen von " + crossingTableModel.getValueAt(crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("OSM Node ID").getModelIndex())));
+        crossingDataTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!crossingDataTable.getSelectionModel().isSelectionEmpty() && crossingTableModel.getRowCount() > 0) {
+                dataTabbedPane.setTitleAt(1, "Bewertungen von " + crossingTableModel.getValueAt(crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("OSM Node ID").getModelIndex()));
+            }
+        });
 
         crossingDataTable.addMouseListener(new MouseAdapter() {
 
