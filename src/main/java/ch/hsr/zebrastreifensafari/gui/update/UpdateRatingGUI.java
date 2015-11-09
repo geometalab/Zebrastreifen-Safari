@@ -43,8 +43,8 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
             rating.setIlluminationId(mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)));
             rating.setSpatialClarityId(mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)));
             rating.setTrafficId(mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)));
-            rating.setImageWeblink(imageTextField.getText());
-            rating.setComment(commentTextArea.getText());
+            rating.setImageWeblink(imageTextField.getText().isEmpty() ? null : imageTextField.getText());
+            rating.setComment(commentTextArea.getText().isEmpty() ? null : commentTextArea.getText());
             rating.setLastChanged(new Date());
             DataServiceLoader.getCrossingData().updateRating(rating);
             observable.notifyObservers(rating);
@@ -79,7 +79,9 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
         setButtonGroupValue(spatialClarityButtonGroupe, rating.getSpatialClarityId().getId());
         setButtonGroupValue(illuminationButtonGroup, rating.getIlluminationId().getId());
         setButtonGroupValue(trafficButtonGroup, rating.getTrafficId().getId());
-        commentTextArea.setText(rating.getComment() == null ? "": rating.getComment());
-        imageTextField.setText(rating.getImageWeblink() == null ? "" : rating.getImageWeblink());
+        commentTextArea.setText(rating.getComment());
+        imageTextField.setText(rating.getImageWeblink());
+//        commentTextArea.setText(rating.getComment() == null ? "" : rating.getComment());
+//        imageTextField.setText(rating.getImageWeblink() == null ? "" : rating.getImageWeblink());
     }
 }

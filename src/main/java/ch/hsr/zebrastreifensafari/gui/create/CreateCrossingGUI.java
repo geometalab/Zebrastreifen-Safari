@@ -35,7 +35,7 @@ public class CreateCrossingGUI extends CreateUpdateGUI {
             DataServiceLoader.getCrossingData().addRating(
                     new Rating(
                             null,
-                            commentTextArea.getText(),
+                            commentTextArea.getText().isEmpty() ? null : commentTextArea.getText(),
                             mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
                             mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)),
                             mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
