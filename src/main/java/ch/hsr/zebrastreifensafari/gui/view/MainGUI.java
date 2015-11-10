@@ -121,32 +121,48 @@ public class MainGUI extends JFrame implements Observer {
         });
 
         deleteButton.addActionListener(e -> {
-            try {
-                int selectedRow;
+            if (JOptionPane.showConfirmDialog(this, "Sind Sie sicher, dass Sie diesen Eintrag löschen wollen?", "Warnung", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                try {
+                    int selectedRow;
 
-                if (model.isRatingMode()) {
-                    selectedRow = ratingDataTable.getSelectedRow();
-                    Rating removeRating = getRatingFromTable();
-                    DataServiceLoader.getCrossingData().removeRating(removeRating.getId(), model, ratingTableModel);
+                    if (model.isRatingMode()) {
+                        selectedRow = ratingDataTable.getSelectedRow();
+                        Rating removeRating = getRatingFromTable();
+                        DataServiceLoader.getCrossingData().removeRating(removeRating.getId(), model, ratingTableModel);
 
-                    if (model.getRatings().isEmpty()) {
-                        selectedRow = crossingDataTable.getSelectedRow();
-                        dataTabbedPane.setSelectedIndex(0);
-                        DataServiceLoader.getCrossingData().removeCrossing(removeRating.getCrossingId().getId(), model, crossingTableModel);
-                        changeTableSelection(crossingDataTable, selectedRow);
+                        if (model.getRatings().isEmpty()) {
+                            selectedRow = crossingDataTable.getSelectedRow();
+                            dataTabbedPane.setSelectedIndex(0);
+                            DataServiceLoader.getCrossingData().removeCrossing(removeRating.getCrossingId().getId(), model, crossingTableModel);
+
+                            if (crossingTableModel.getRowCount() == selectedRow) {
+                                selectedRow--;
+                            }
+
+                            changeTableSelection(crossingDataTable, selectedRow);
+                        } else {
+                            if (ratingTableModel.getRowCount() == selectedRow) {
+                                selectedRow--;
+                            }
+
+                            changeTableSelection(ratingDataTable, selectedRow);
+                            Crossing crossingOfRating = model.getCrossing(removeRating.getCrossingId().getId());
+                            crossingOfRating.decreaseRatingAmount();
+                            crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("Anzahl Bewertungen").getModelIndex());
+                        }
                     } else {
-                        changeTableSelection(ratingDataTable, selectedRow);
-                        Crossing crossingOfRating = model.getCrossing(removeRating.getCrossingId().getId());
-                        crossingOfRating.decreaseRatingAmount();
-                        crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn("Anzahl Bewertungen").getModelIndex());
+                        selectedRow = crossingDataTable.getSelectedRow();
+                        DataServiceLoader.getCrossingData().removeCrossing(getCrossingFromTable().getId(), model, crossingTableModel);
+
+                        if (crossingTableModel.getRowCount() == selectedRow) {
+                            selectedRow--;
+                        }
+                        
+                        changeTableSelection(crossingDataTable, selectedRow);
                     }
-                } else {
-                    selectedRow = crossingDataTable.getSelectedRow();
-                    DataServiceLoader.getCrossingData().removeCrossing(getCrossingFromTable().getId(), model, crossingTableModel);
-                    changeTableSelection(crossingDataTable, selectedRow);
+                } catch (ArrayIndexOutOfBoundsException aioobe) {
+                    JOptionPane.showMessageDialog(this, "Es wurde keine Zeile zum löschen ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (ArrayIndexOutOfBoundsException aioobe) {
-                JOptionPane.showMessageDialog(this, "Es wurde keine Zeile zum löschen ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
