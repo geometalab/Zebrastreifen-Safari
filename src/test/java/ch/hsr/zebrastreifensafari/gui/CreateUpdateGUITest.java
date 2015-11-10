@@ -1,5 +1,13 @@
 package ch.hsr.zebrastreifensafari.gui;
 
+import ch.hsr.zebrastreifensafari.TestJDBC;
+import ch.hsr.zebrastreifensafari.gui.create.CreateCrossingGUI;
+import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
+import ch.hsr.zebrastreifensafari.model.Model;
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import org.junit.After;
 import org.junit.Before;
 
@@ -12,26 +20,38 @@ import static org.junit.Assert.*;
  * @time : 13:33
  * @date : 21.10.2015
  */
-
 public class CreateUpdateGUITest {
+
+    private TestJDBC db;
+    private CreateUpdateGUI cug;
 
     @Before
     public void setUp() throws Exception {
+        db = new TestJDBC();
+        DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPUTest"));
+        cug = new CreateUpdateGUI(new MainGUI(new Model()), "test") {
 
+            @Override
+            protected void onSendClick() {
+            }
+        };
     }
 
     @After
     public void tearDown() throws Exception {
-
-    }
-
-    @org.junit.Test
-    public void testOnSendClick() throws Exception {
-
+        db.getConnection().close();
     }
 
     @org.junit.Test
     public void testGetSelectedButtonInt() throws Exception {
-
+        ButtonGroup bg = new ButtonGroup();
+        JButton b1 = new JButton("Button 1");
+        JButton b2 = new JButton("Button 2");
+        JButton b3 = new JButton("Button 3");
+        bg.add(b1);
+        bg.add(b2);
+        bg.add(b3);
+        b2.setSelected(true);
+        assertEquals(2, cug.getSelectedButtonInt(bg));
     }
 }

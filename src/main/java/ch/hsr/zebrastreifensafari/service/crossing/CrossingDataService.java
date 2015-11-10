@@ -104,7 +104,7 @@ public class CrossingDataService implements ICrossingDataService {
         });
     }
 
-    private void removeCrossing(int id) {
+    protected void removeCrossing(int id) {
         try {
             new CrossingJpaController(emFactory).destroy(id);
         } catch (NonexistentEntityException neex) {
