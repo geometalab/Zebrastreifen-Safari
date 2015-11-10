@@ -43,7 +43,7 @@ public class ModelTest {
 //            e.printStackTrace();
 //        }
     }
-
+//
     @Test
     public void testReloadCrossing() throws Exception {
         assertEquals(null, model.getCrossing((long)87));
@@ -55,16 +55,16 @@ public class ModelTest {
         assertEquals(87, model.getCrossing((long)87).getOsmNodeId());
 
     }
-
-    @Test
-    public void testReloadRating() throws Exception {
-        assertEquals(null, model.getRating(16));
-        Rating r = new Rating(0, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), model.getCrossing(1), "", new Date());
-        DataServiceLoader.getCrossingData().addRating(r);
-        model.reloadRating(model.getCrossing(1));
-        assertEquals("test Comment", model.getRating(16).getComment());
-
-    }
+//
+//    @Test
+//    public void testReloadRating() throws Exception {
+//        assertEquals(null, model.getRating(16));
+//        Rating r = new Rating(0, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), model.getCrossing(1), "", new Date());
+//        DataServiceLoader.getCrossingData().addRating(r);
+//        model.reloadRating(model.getCrossing(1));
+//        assertEquals("test Comment", model.getRating(16).getComment());
+//
+//    }
 
 //    @Test
 //    public void testReloadUsers() throws Exception {
@@ -87,61 +87,6 @@ public class ModelTest {
 //    @Test
 //    public void testGetUserByInvalidName() throws Exception {
 //        assertEquals(null, model.getUser(null));
-//    }
-//
-//    @Test
-//    public void testGetCrossing() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testGetCrossing1() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testGetRating() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testGetIllumination() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testGetSpatialClarity() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testGetTraffic() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testGetUsers() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testGetCrossings() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testGetRatings() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testIsRatingMode() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testSetRatingMode() throws Exception {
-//
 //    }
 
 }
