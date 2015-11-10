@@ -180,12 +180,10 @@ public final class TestJDBC {
                 + "	('2012-05-05', 3105),\n"
                 + "	('2015-08-06', 3746);";
         try {
-            c.setAutoCommit(true);
             Statement stmt = c.createStatement();
             stmt.executeUpdate(createString);
             stmt.close();
 
-            c.close();
 
             System.out.println("Tables created successuflly");
         } catch (Exception e) {
@@ -207,9 +205,8 @@ public final class TestJDBC {
             Statement stmt = c.createStatement();
             stmt.executeUpdate(createString);
             stmt.close();
-            c.setAutoCommit(false);
-            c.commit();
-            c.close();
+
+            
 
         } catch (Exception e) {
             e.printStackTrace();
