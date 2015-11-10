@@ -14,6 +14,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultEditorKit;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -41,7 +42,9 @@ public class MainGUI extends JFrame implements Observer {
     private JButton reloadButton;
     private JLabel searchLabel;
     private JTable ratingDataTable;
-    private JMenuItem beendenItem, hilfeItem, ueberItem;
+    private JMenuBar bar;
+    private JMenu dateiMenu, bearbeitenMenu, hilfeMenu;
+    private JMenuItem beendenItem, aktualisierenItem, cutItem, copyItem, pasteItem, hinzufuegenItem, bearbeitenItem, loeschenItem, hilfeItem, ueberItem ;
     private String url = "http://www.google.com";
     private JTabbedPane dataTabbedPane;
 
@@ -60,6 +63,7 @@ public class MainGUI extends JFrame implements Observer {
         addCrossingDataToTable(model.getCrossings());
         pack();
         setExtendedState(Frame.MAXIMIZED_BOTH);
+        searchTextField.requestFocusInWindow();
     }
 
     private void initListeners() {
@@ -75,6 +79,7 @@ public class MainGUI extends JFrame implements Observer {
                 } else {
                     searchLabel.setVisible(true);
                     searchTextField.setVisible(true);
+                    searchTextField.requestFocusInWindow();
                 }
             } catch (ArrayIndexOutOfBoundsException aioobe) {
                 JOptionPane.showMessageDialog(this, "Es ist kein Zebrastreifen ausgewählt", "Error", JOptionPane.ERROR_MESSAGE);
@@ -165,6 +170,35 @@ public class MainGUI extends JFrame implements Observer {
             }
         });
 
+        aktualisierenItem.addActionListener(e -> reloadButton.doClick());
+        
+        beendenItem.addActionListener(e -> System.exit(0));
+        
+        hinzufuegenItem.addActionListener(e -> addButton.doClick());
+        
+        bearbeitenItem.addActionListener(e -> updateButton.doClick());
+        
+        loeschenItem.addActionListener(e -> deleteButton.doClick());
+  
+        hilfeItem.addActionListener(e -> {
+            Runtime rt = Runtime.getRuntime();
+
+            try {
+                rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+        ueberItem.addActionListener(e -> {
+            JDialog ueberDialog = new JDialog();
+            ueberDialog.setTitle("Über");
+            ueberDialog.setSize(300, 200);
+            ueberDialog.setLocationRelativeTo(getParent());
+            ueberDialog.setModal(true);
+            ueberDialog.setVisible(true);
+        });
+        
         crossingDataTable.getTableHeader().addMouseListener(new MouseAdapter() {
 
             @Override
@@ -238,27 +272,6 @@ public class MainGUI extends JFrame implements Observer {
 
                 dataTabbedPane.setSelectedIndex(1);
             }
-        });
-
-        beendenItem.addActionListener(e -> System.exit(0));
-
-        hilfeItem.addActionListener(e -> {
-            Runtime rt = Runtime.getRuntime();
-
-            try {
-                rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        });
-
-        ueberItem.addActionListener(e -> {
-            JDialog ueberDialog = new JDialog();
-            ueberDialog.setTitle("Über");
-            ueberDialog.setSize(300, 200);
-            ueberDialog.setLocationRelativeTo(getParent());
-            ueberDialog.setModal(true);
-            ueberDialog.setVisible(true);
         });
     }
 
@@ -437,22 +450,59 @@ public class MainGUI extends JFrame implements Observer {
         ratingDataTable = new JTable(ratingTableModel);
         crossingDataTable.removeColumn(crossingDataTable.getColumnModel().getColumn(3));
         ratingDataTable.removeColumn(ratingDataTable.getColumnModel().getColumn(7));
-
-        JMenuBar bar = new JMenuBar();
-        JMenu datei = new JMenu("Datei");
-        JMenu hilfe = new JMenu("Hilfe");
+        
+        bar = new JMenuBar();
+        dateiMenu = new JMenu("Datei");
+        bearbeitenMenu = new JMenu("Bearbeiten");
+        hilfeMenu = new JMenu("Hilfe");
+        aktualisierenItem = new JMenuItem("Aktualisieren");
         beendenItem = new JMenuItem("Beenden");
+        cutItem = new JMenuItem(new DefaultEditorKit.CutAction());
+        cutItem.setText("Cut");
+        copyItem = new JMenuItem(new DefaultEditorKit.CopyAction());
+        copyItem.setText("Copy");
+        pasteItem = new JMenuItem(new DefaultEditorKit.PasteAction());
+        pasteItem.setText("Paste");
+        hinzufuegenItem= new JMenuItem("Hinzufügen");
+        bearbeitenItem = new JMenuItem("Bearbeiten");       
+        loeschenItem = new JMenuItem("Löschen");      
         hilfeItem = new JMenuItem("Hilfe");
         ueberItem = new JMenuItem("Über");
 
-        datei.add(beendenItem);
-        hilfe.add(hilfeItem);
-        hilfe.add(new JSeparator());
-        hilfe.add(ueberItem);
-        bar.add(datei);
+        KeyStroke keyStrokeToClose = KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_DOWN_MASK);
+        KeyStroke keyStrokeToRefresh = KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0);
+        KeyStroke keyStrokeToCut = KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK);
+        KeyStroke keyStrokeToCopy = KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK);
+        KeyStroke keyStrokeToPaste = KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK);
+        KeyStroke keyStrokeToAdd = KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK);
+        KeyStroke keyStrokeToUpdate = KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK);
+        KeyStroke keyStrokeToDelete = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK);
+        
+        beendenItem.setAccelerator(keyStrokeToClose);
+        aktualisierenItem.setAccelerator(keyStrokeToRefresh);
+        cutItem.setAccelerator(keyStrokeToCut);
+        copyItem.setAccelerator(keyStrokeToCopy);
+        pasteItem.setAccelerator(keyStrokeToPaste);
+        hinzufuegenItem.setAccelerator(keyStrokeToAdd);
+        bearbeitenItem.setAccelerator(keyStrokeToUpdate);
+        loeschenItem.setAccelerator(keyStrokeToDelete);
+
+        dateiMenu.add(aktualisierenItem);
+        dateiMenu.add(beendenItem);
+        bearbeitenMenu.add(cutItem);
+        bearbeitenMenu.add(copyItem);
+        bearbeitenMenu.add(pasteItem);
+        bearbeitenMenu.add(new JSeparator());
+        bearbeitenMenu.add(hinzufuegenItem);
+        bearbeitenMenu.add(bearbeitenItem);
+        bearbeitenMenu.add(loeschenItem);
+    	hilfeMenu.add(hilfeItem);
+        hilfeMenu.add(ueberItem);
+        bar.add(dateiMenu);
+        bar.add(bearbeitenMenu);
 //        bar.add(new JSeparator(JSeparator.VERTICAL));
-        bar.add(hilfe);
-        setJMenuBar(bar);
+        bar.add(hilfeMenu);
+        setJMenuBar(bar);        
     }
 
     /**
