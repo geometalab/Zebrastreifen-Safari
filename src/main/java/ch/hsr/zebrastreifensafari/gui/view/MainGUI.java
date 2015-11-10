@@ -134,8 +134,17 @@ public class MainGUI extends JFrame implements Observer {
                             selectedRow = crossingDataTable.getSelectedRow();
                             dataTabbedPane.setSelectedIndex(0);
                             DataServiceLoader.getCrossingData().removeCrossing(removeRating.getCrossingId().getId(), model, crossingTableModel);
+
+                            if (crossingTableModel.getRowCount() == selectedRow) {
+                                selectedRow--;
+                            }
+
                             changeTableSelection(crossingDataTable, selectedRow);
                         } else {
+                            if (ratingTableModel.getRowCount() == selectedRow) {
+                                selectedRow--;
+                            }
+
                             changeTableSelection(ratingDataTable, selectedRow);
                             Crossing crossingOfRating = model.getCrossing(removeRating.getCrossingId().getId());
                             crossingOfRating.decreaseRatingAmount();
@@ -144,6 +153,11 @@ public class MainGUI extends JFrame implements Observer {
                     } else {
                         selectedRow = crossingDataTable.getSelectedRow();
                         DataServiceLoader.getCrossingData().removeCrossing(getCrossingFromTable().getId(), model, crossingTableModel);
+
+                        if (crossingTableModel.getRowCount() == selectedRow) {
+                            selectedRow--;
+                        }
+                        
                         changeTableSelection(crossingDataTable, selectedRow);
                     }
                 } catch (ArrayIndexOutOfBoundsException aioobe) {
