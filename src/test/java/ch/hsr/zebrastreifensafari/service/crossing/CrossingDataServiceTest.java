@@ -50,7 +50,8 @@ public class CrossingDataServiceTest {
 
     @Test
     public void testGetRatings() throws Exception {
-        assertEquals(1, cds.getRatings(cds.getCrossings().get(2)).size());
+        Crossing crossing = new Model().getCrossing(2);
+        assertEquals(1, cds.getRatings(crossing).size());
     }
 
     @Test
@@ -84,17 +85,19 @@ public class CrossingDataServiceTest {
 
     @Test
     public void testAddRating() throws Exception {
-        assertEquals(1, cds.getRatings(cds.getCrossings().get(2)).size());
+        Crossing crossing = new Model().getCrossing(2);
+        assertEquals(1, cds.getRatings(crossing).size());
         cds.addRating(new Rating(null, "test Comment", cds.getIlluminations().get(1), cds.getSpatialClaritys().get(1),
-                cds.getTraffics().get(1), cds.getUsers().get(1), cds.getCrossings().get(2), "", new Date()));
-        assertEquals(2, cds.getRatings(cds.getCrossings().get(2)).size());
+                cds.getTraffics().get(1), cds.getUsers().get(1), crossing, "", new Date()));
+        assertEquals(2, cds.getRatings(crossing).size());
     }
 
     @Test
     public void testRemoveRating() throws Exception {
-        assertEquals(3, cds.getRatings(cds.getCrossings().get(7)).size());
-        cds.removeRating(7);
-        assertEquals(2, cds.getRatings(cds.getCrossings().get(7)).size());
+        Crossing crossing = new Model().getCrossing(6);
+        assertEquals(3, cds.getRatings(crossing).size());
+        cds.removeRating(cds.getRatings(crossing).get(0).getId());
+        assertEquals(2, cds.getRatings(crossing).size());
 
     }
 
