@@ -41,7 +41,7 @@ public class MainGUI extends JFrame implements Observer {
     private JTable ratingDataTable;
     private JMenuBar bar;
     private JMenu dateiMenu, bearbeitenMenu, hilfeMenu;
-    private JMenuItem beendenItem, aktualisierenItem, cutItem, copyItem, pasteItem, hinzufuegenItem, bearbeitenItem, loeschenItem, hilfeItem, ueberItem ;
+    private JMenuItem beendenItem, aktualisierenItem, cutItem, copyItem, pasteItem, hinzufuegenItem, bearbeitenItem, loeschenItem, hilfeItem, ueberItem;
     private String url = "http://www.google.com";
     private JTabbedPane dataTabbedPane;
 
@@ -162,7 +162,7 @@ public class MainGUI extends JFrame implements Observer {
                         if (crossingTableModel.getRowCount() == selectedRow) {
                             selectedRow--;
                         }
-                        
+
                         changeTableSelection(crossingDataTable, selectedRow);
                     }
                 } catch (ArrayIndexOutOfBoundsException aioobe) {
@@ -184,15 +184,15 @@ public class MainGUI extends JFrame implements Observer {
         });
 
         aktualisierenItem.addActionListener(e -> reloadButton.doClick());
-        
+
         beendenItem.addActionListener(e -> System.exit(0));
-        
+
         hinzufuegenItem.addActionListener(e -> addButton.doClick());
-        
+
         bearbeitenItem.addActionListener(e -> updateButton.doClick());
-        
+
         loeschenItem.addActionListener(e -> deleteButton.doClick());
-  
+
         hilfeItem.addActionListener(e -> {
             Runtime rt = Runtime.getRuntime();
 
@@ -211,7 +211,7 @@ public class MainGUI extends JFrame implements Observer {
             ueberDialog.setModal(true);
             ueberDialog.setVisible(true);
         });
-        
+
         crossingDataTable.getTableHeader().addMouseListener(new MouseAdapter() {
 
             @Override
@@ -467,7 +467,7 @@ public class MainGUI extends JFrame implements Observer {
         ratingDataTable = new JTable(ratingTableModel);
         crossingDataTable.removeColumn(crossingDataTable.getColumnModel().getColumn(3));
         ratingDataTable.removeColumn(ratingDataTable.getColumnModel().getColumn(7));
-        
+
         bar = new JMenuBar();
         dateiMenu = new JMenu("Datei");
         bearbeitenMenu = new JMenu("Bearbeiten");
@@ -480,9 +480,9 @@ public class MainGUI extends JFrame implements Observer {
         copyItem.setText("Copy");
         pasteItem = new JMenuItem(new DefaultEditorKit.PasteAction());
         pasteItem.setText("Paste");
-        hinzufuegenItem= new JMenuItem("Hinzufügen");
-        bearbeitenItem = new JMenuItem("Bearbeiten");       
-        loeschenItem = new JMenuItem("Löschen");      
+        hinzufuegenItem = new JMenuItem("Hinzufügen");
+        bearbeitenItem = new JMenuItem("Bearbeiten");
+        loeschenItem = new JMenuItem("Löschen");
         hilfeItem = new JMenuItem("Hilfe");
         ueberItem = new JMenuItem("Über");
 
@@ -494,7 +494,7 @@ public class MainGUI extends JFrame implements Observer {
         KeyStroke keyStrokeToAdd = KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK);
         KeyStroke keyStrokeToUpdate = KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK);
         KeyStroke keyStrokeToDelete = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK);
-        
+
         beendenItem.setAccelerator(keyStrokeToClose);
         aktualisierenItem.setAccelerator(keyStrokeToRefresh);
         cutItem.setAccelerator(keyStrokeToCut);
@@ -513,13 +513,13 @@ public class MainGUI extends JFrame implements Observer {
         bearbeitenMenu.add(hinzufuegenItem);
         bearbeitenMenu.add(bearbeitenItem);
         bearbeitenMenu.add(loeschenItem);
-    	hilfeMenu.add(hilfeItem);
+        hilfeMenu.add(hilfeItem);
         hilfeMenu.add(ueberItem);
         bar.add(dateiMenu);
         bar.add(bearbeitenMenu);
 //        bar.add(new JSeparator(JSeparator.VERTICAL));
         bar.add(hilfeMenu);
-        setJMenuBar(bar);        
+        setJMenuBar(bar);
     }
 
     /**
