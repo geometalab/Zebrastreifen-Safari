@@ -35,58 +35,51 @@ public class ModelTest {
     @After
     public void tearDown() throws Exception {
         db.getConnection().close();
-//        try {
-//
-//            File file = new File("crossing.db");
-//            file.delete();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
     }
 //
     @Test
     public void testReloadCrossing() throws Exception {
         assertEquals(null, model.getCrossing((long)87));
         Crossing c = new Crossing(null, 87, 1, 1);
-        //Rating r = new Rating(null, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), c, null, new Date());
-        //DataServiceLoader.getCrossingData().addRating(r);
+        
         DataServiceLoader.getCrossingData().addCrossing(c, model);
         model.reloadCrossing();
         assertEquals(87, model.getCrossing((long)87).getOsmNodeId());
 
     }
-//
-//    @Test
-//    public void testReloadRating() throws Exception {
-//        assertEquals(null, model.getRating(16));
-//        Rating r = new Rating(0, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), model.getCrossing(1), "", new Date());
-//        DataServiceLoader.getCrossingData().addRating(r);
-//        model.reloadRating(model.getCrossing(1));
-//        assertEquals("test Comment", model.getRating(16).getComment());
-//
-//    }
 
-//    @Test
-//    public void testReloadUsers() throws Exception {
-//        assertEquals(null, model.getUser("Bob Ford"));
-//        db.addUser("Bob Ford", "BF");
-//        model.reloadUsers();
-//        assertEquals("Bob Ford", model.getUser("Bob Ford").getName());
-//    }
-//
-//    @Test
-//    public void testGetUserByValidExistingName() throws Exception {
-//        assertEquals("Alex Eugster", model.getUser("Alex Eugster").getName());
-//    }
-//
-//    @Test
-//    public void testGetUserByValidNonExistingName() throws Exception {
-//        assertEquals(null, model.getUser("Max Meier"));
-//    }
-//
-//    @Test
-//    public void testGetUserByInvalidName() throws Exception {
-//        assertEquals(null, model.getUser(null));
-//    }
+    @Test
+    public void testReloadRating() throws Exception {
+        assertEquals(null, model.getRating(16));
+        Rating r = new Rating(0, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), model.getCrossing(1), "", new Date());
+        DataServiceLoader.getCrossingData().addRating(r);
+        model.reloadRating(model.getCrossing(1));
+        assertEquals("test Comment", model.getRating(16).getComment());
+
+    }
+
+    @Test
+    public void testReloadUsers() throws Exception {
+        assertEquals(null, model.getUser("Bob Ford"));
+        db.addUser("Bob Ford", "BF");
+        model.reloadUsers();
+        assertEquals("Bob Ford", model.getUser("Bob Ford").getName());
+    }
+
+    @Test
+    public void testGetUserByValidExistingName() throws Exception {
+        assertEquals("Alex Eugster", model.getUser("Alex Eugster").getName());
+    }
+
+    @Test
+    public void testGetUserByValidNonExistingName() throws Exception {
+        assertEquals(null, model.getUser("Max Meier"));
+    }
+
+    @Test
+    public void testGetUserByInvalidName() throws Exception {
+        assertEquals(null, model.getUser(null));
+    }
 
 }
