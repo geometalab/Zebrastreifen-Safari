@@ -38,6 +38,8 @@ public interface ICrossingDataService {
 
     void addRating(Rating rating, Model model, DefaultTableModel tableModel);
 
+    void removeCrossing(int id);
+
     void removeCrossing(int id, Model model);
 
     void removeCrossing(int id, Model model, DefaultTableModel tableModel);
@@ -48,7 +50,7 @@ public interface ICrossingDataService {
 
     void removeRating(int id, Model model, DefaultTableModel tableModel);
 
-    void updateRating(Rating rating) throws Exception;
+    void editRating(Rating rating) throws Exception;
 
-    void updateCrossing(Crossing crossing) throws Exception;
+    void editCrossing(Crossing crossing) throws Exception;
 }

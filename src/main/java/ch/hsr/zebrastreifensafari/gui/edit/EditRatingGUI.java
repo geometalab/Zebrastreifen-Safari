@@ -1,30 +1,30 @@
-package ch.hsr.zebrastreifensafari.gui.update;
+package ch.hsr.zebrastreifensafari.gui.edit;
 
 import java.util.Date;
 import java.util.Enumeration;
 import javax.swing.*;
 
-import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
+import ch.hsr.zebrastreifensafari.gui.CreateEditGUI;
 import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 /**
  *
  * @author aeugster
  */
-public class UpdateRatingGUI extends CreateUpdateGUI {
+public class EditRatingGUI extends CreateEditGUI {
 
     private final Rating rating;
 
-    public UpdateRatingGUI(MainGUI mainGUI, Rating rating) {
-        super(mainGUI, "Überarbeiten der Bewertung von " + rating.getUserId().getName() + " für den Zebrastreifen mit dem OSM Node " + rating.getCrossingId().getOsmNodeId());
+    public EditRatingGUI(MainGUI mainGUI, Rating rating) {
+        super(mainGUI, DataServiceLoader.getBundleString("editRatingGuiTitleOne") + rating.getUserId().getName() + DataServiceLoader.getBundleString("editRatingGuiTitleTwo") + rating.getCrossingId().getOsmNodeId());
         this.rating = rating;
         setValues();
+        setImage(imageTextField.getText());
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
-        sendButton.setText("Ändern");
+        sendButton.setText(DataServiceLoader.getBundleString("change"));
         pack();
     }
 
@@ -41,12 +41,12 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
         try {
             rating.setUserId(mainGUI.getUser((String) userComboBox.getSelectedItem()));
             rating.setIlluminationId(mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)));
-            rating.setSpatialClarityId(mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroupe)));
+            rating.setSpatialClarityId(mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroup)));
             rating.setTrafficId(mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)));
             rating.setImageWeblink(imageTextField.getText().isEmpty() ? null : imageTextField.getText());
             rating.setComment(commentTextArea.getText().isEmpty() ? null : commentTextArea.getText());
             rating.setLastChanged(new Date());
-            DataServiceLoader.getCrossingData().updateRating(rating);
+            DataServiceLoader.getCrossingData().editRating(rating);
             observable.notifyObservers(rating);
             this.dispose();
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
             rating.setImageWeblink(imageWeblinkBackup);
             rating.setComment(commentBackup);
             rating.setLastChanged(lastChangedBackup);
-            JOptionPane.showMessageDialog(this, "This Photo is already used", "Error", JOptionPane.ERROR_MESSAGE);
+            errorMessage(DataServiceLoader.getBundleString("duplicatedPhotoError"));
         }
     }
 
@@ -76,7 +76,7 @@ public class UpdateRatingGUI extends CreateUpdateGUI {
 
     private void setValues() {
         userComboBox.setSelectedItem(rating.getUserId().getName());
-        setButtonGroupValue(spatialClarityButtonGroupe, rating.getSpatialClarityId().getId());
+        setButtonGroupValue(spatialClarityButtonGroup, rating.getSpatialClarityId().getId());
         setButtonGroupValue(illuminationButtonGroup, rating.getIlluminationId().getId());
         setButtonGroupValue(trafficButtonGroup, rating.getTrafficId().getId());
         commentTextArea.setText(rating.getComment());

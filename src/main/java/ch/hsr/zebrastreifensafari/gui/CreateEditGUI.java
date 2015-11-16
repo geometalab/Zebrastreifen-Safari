@@ -1,14 +1,21 @@
 package ch.hsr.zebrastreifensafari.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Enumeration;
-import java.util.Observer;
+import java.util.ResourceBundle;
 
 import ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
 import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -21,7 +28,7 @@ import com.intellij.uiDesigner.core.Spacer;
  * @date : 26.10.2015
  */
 
-public abstract class CreateUpdateGUI extends JDialog {
+public abstract class CreateEditGUI extends JDialog {
 
     private JPanel mainPanel;
     protected JButton sendButton;
@@ -46,17 +53,17 @@ public abstract class CreateUpdateGUI extends JDialog {
     protected JLabel trafficLabel;
     protected JLabel commentLabel;
     protected JLabel imageLabel;
-    protected JButton validateButton;
     protected JRadioButton illuminationNoneRadioButton;
     protected JScrollPane commentScrollPane;
-    protected ButtonGroup spatialClarityButtonGroupe;
+    protected JLabel imageField;
+    protected ButtonGroup spatialClarityButtonGroup;
     protected ButtonGroup illuminationButtonGroup;
     protected ButtonGroup trafficButtonGroup;
 
     protected final ObservableHelper observable;
     protected final MainGUI mainGUI;
 
-    protected CreateUpdateGUI(MainGUI mainGUI, String title) {
+    protected CreateEditGUI(MainGUI mainGUI, String title) {
         super(mainGUI, title, true);
         $$$setupUI$$$();
         setContentPane(mainPanel);
@@ -83,6 +90,14 @@ public abstract class CreateUpdateGUI extends JDialog {
         });
 
         cancelButton.addActionListener(e -> dispose());
+
+        imageTextField.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                setImage(imageTextField.getText());
+            }
+        });
     }
 
     protected abstract void onSendClick();
@@ -102,22 +117,34 @@ public abstract class CreateUpdateGUI extends JDialog {
     }
 
     protected boolean checkValues() {
-        if (spatialClarityButtonGroupe.getSelection() == null || illuminationButtonGroup.getSelection() == null || trafficButtonGroup.getSelection() == null || osmNodeIdTextField.getText() == null) {
-            JOptionPane.showMessageDialog(this, "There is an Input missing", "Error", JOptionPane.ERROR_MESSAGE);
+        if (spatialClarityButtonGroup.getSelection() == null || illuminationButtonGroup.getSelection() == null || trafficButtonGroup.getSelection() == null || osmNodeIdTextField.getText() == null) {
+            errorMessage(DataServiceLoader.getBundleString("missingInputError"));
             return false;
         }
 
         return true;
     }
 
-    public void addObserver(Observer observer) {
-        observable.addObserver(observer);
+    protected void setImage(String mapillaryKey) {
+        try {
+            imageField.setIcon(new ImageIcon(ImageIO.read(new URL("https://d1cuyjsrcm0gby.cloudfront.net/" + mapillaryKey + "/thumb-320.jpg"))));
+            imageField.setText(null);
+        } catch (MalformedURLException mex) {
+            mex.printStackTrace();
+        } catch (IOException ioex) {
+            imageField.setIcon(null);
+            imageField.setText(DataServiceLoader.getBundleString("imageNotFound"));
+        }
+    }
+
+    protected void errorMessage(String message) {
+        JOptionPane.showMessageDialog(this, message, DataServiceLoader.getBundleString("error"), JOptionPane.ERROR_MESSAGE);
     }
 
     //<editor-fold desc="GUI Builder">
     private void createUIComponents() {
         userComboBox = new JComboBox<String>();
-        spatialClarityButtonGroupe = new ButtonGroup();
+        spatialClarityButtonGroup = new ButtonGroup();
         illuminationButtonGroup = new ButtonGroup();
         trafficButtonGroup = new ButtonGroup();
         spatialClarityGoodRadioButton = new JRadioButton();
@@ -130,9 +157,9 @@ public abstract class CreateUpdateGUI extends JDialog {
         trafficFewRadioButton = new JRadioButton();
         trafficLittleRadioButton = new JRadioButton();
         trafficALotRadioButton = new JRadioButton();
-        spatialClarityButtonGroupe.add(spatialClarityGoodRadioButton);
-        spatialClarityButtonGroupe.add(spatialClarityOkRadioButton);
-        spatialClarityButtonGroupe.add(spatialClarityBadRadioButton);
+        spatialClarityButtonGroup.add(spatialClarityGoodRadioButton);
+        spatialClarityButtonGroup.add(spatialClarityOkRadioButton);
+        spatialClarityButtonGroup.add(spatialClarityBadRadioButton);
         illuminationButtonGroup.add(illuminationGoodRadioButton);
         illuminationButtonGroup.add(illuminationOkRadioButton);
         illuminationButtonGroup.add(illuminationBadRadioButton);
@@ -158,70 +185,124 @@ public abstract class CreateUpdateGUI extends JDialog {
         panel1.setLayout(new BorderLayout(0, 0));
         mainPanel.add(panel1, BorderLayout.SOUTH);
         sendButton = new JButton();
-        sendButton.setText("Erstellen");
+        this.$$$loadButtonText$$$(sendButton, ResourceBundle.getBundle("Bundle").getString("create"));
         panel1.add(sendButton, BorderLayout.WEST);
         cancelButton = new JButton();
-        cancelButton.setText("Abbruch");
+        this.$$$loadButtonText$$$(cancelButton, ResourceBundle.getBundle("Bundle").getString("cancel"));
         panel1.add(cancelButton, BorderLayout.EAST);
         final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(9, 5, new Insets(0, 0, 0, 0), -1, -1));
+        panel2.setLayout(new GridLayoutManager(10, 5, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(panel2, BorderLayout.CENTER);
         osmNodeIdLabel = new JLabel();
-        osmNodeIdLabel.setText("OSM Node ID");
+        this.$$$loadLabelText$$$(osmNodeIdLabel, ResourceBundle.getBundle("Bundle").getString("osmNodeId"));
         panel2.add(osmNodeIdLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         userLabel = new JLabel();
-        userLabel.setText("User");
+        this.$$$loadLabelText$$$(userLabel, ResourceBundle.getBundle("Bundle").getString("user"));
         panel2.add(userLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         spatialClarityLabel = new JLabel();
-        spatialClarityLabel.setText("Spatial Clarity");
+        this.$$$loadLabelText$$$(spatialClarityLabel, ResourceBundle.getBundle("Bundle").getString("spacialClarity"));
         panel2.add(spatialClarityLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         illuminationLabel = new JLabel();
-        illuminationLabel.setText("Illumination");
+        this.$$$loadLabelText$$$(illuminationLabel, ResourceBundle.getBundle("Bundle").getString("illumination"));
         panel2.add(illuminationLabel, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         trafficLabel = new JLabel();
-        trafficLabel.setText("Traffic");
+        this.$$$loadLabelText$$$(trafficLabel, ResourceBundle.getBundle("Bundle").getString("traffic"));
         panel2.add(trafficLabel, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         osmNodeIdTextField = new JTextField();
         panel2.add(osmNodeIdTextField, new GridConstraints(0, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         panel2.add(userComboBox, new GridConstraints(1, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         commentLabel = new JLabel();
-        commentLabel.setText("Comment");
+        this.$$$loadLabelText$$$(commentLabel, ResourceBundle.getBundle("Bundle").getString("comment"));
         panel2.add(commentLabel, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         imageLabel = new JLabel();
-        imageLabel.setText("Image");
+        this.$$$loadLabelText$$$(imageLabel, ResourceBundle.getBundle("Bundle").getString("mapillaryKey"));
         panel2.add(imageLabel, new GridConstraints(8, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         imageTextField = new JTextField();
-        panel2.add(imageTextField, new GridConstraints(8, 1, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        spatialClarityGoodRadioButton.setText("Gut");
+        panel2.add(imageTextField, new GridConstraints(8, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        this.$$$loadButtonText$$$(spatialClarityGoodRadioButton, ResourceBundle.getBundle("Bundle").getString("good"));
         panel2.add(spatialClarityGoodRadioButton, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        spatialClarityOkRadioButton.setText("Mittel");
+        this.$$$loadButtonText$$$(spatialClarityOkRadioButton, ResourceBundle.getBundle("Bundle").getString("medium"));
         panel2.add(spatialClarityOkRadioButton, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        spatialClarityBadRadioButton.setText("Schlecht");
+        this.$$$loadButtonText$$$(spatialClarityBadRadioButton, ResourceBundle.getBundle("Bundle").getString("bad"));
         panel2.add(spatialClarityBadRadioButton, new GridConstraints(2, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         trafficFewRadioButton.setSelected(false);
-        trafficFewRadioButton.setText("Wenig");
+        this.$$$loadButtonText$$$(trafficFewRadioButton, ResourceBundle.getBundle("Bundle").getString("few"));
         panel2.add(trafficFewRadioButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        trafficLittleRadioButton.setText("Mittel");
+        this.$$$loadButtonText$$$(trafficLittleRadioButton, ResourceBundle.getBundle("Bundle").getString("medium"));
         panel2.add(trafficLittleRadioButton, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        trafficALotRadioButton.setText("Viel");
+        this.$$$loadButtonText$$$(trafficALotRadioButton, ResourceBundle.getBundle("Bundle").getString("aLot"));
         panel2.add(trafficALotRadioButton, new GridConstraints(4, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel2.add(spacer1, new GridConstraints(6, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        illuminationGoodRadioButton.setText("Gut");
+        this.$$$loadButtonText$$$(illuminationGoodRadioButton, ResourceBundle.getBundle("Bundle").getString("good"));
         panel2.add(illuminationGoodRadioButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        illuminationOkRadioButton.setText("Mittel");
+        this.$$$loadButtonText$$$(illuminationOkRadioButton, ResourceBundle.getBundle("Bundle").getString("medium"));
         panel2.add(illuminationOkRadioButton, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        illuminationBadRadioButton.setText("Schlecht");
+        this.$$$loadButtonText$$$(illuminationBadRadioButton, ResourceBundle.getBundle("Bundle").getString("bad"));
         panel2.add(illuminationBadRadioButton, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        validateButton = new JButton();
-        validateButton.setText("Prüfen");
-        panel2.add(validateButton, new GridConstraints(8, 3, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        illuminationNoneRadioButton.setText("Keine");
+        this.$$$loadButtonText$$$(illuminationNoneRadioButton, ResourceBundle.getBundle("Bundle").getString("none"));
         panel2.add(illuminationNoneRadioButton, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         commentScrollPane = new JScrollPane();
         panel2.add(commentScrollPane, new GridConstraints(5, 1, 3, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         commentTextArea = new JTextArea();
         commentScrollPane.setViewportView(commentTextArea);
+        imageField = new JLabel();
+        this.$$$loadLabelText$$$(imageField, ResourceBundle.getBundle("Bundle").getString("imageNotFound"));
+        panel2.add(imageField, new GridConstraints(9, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private void $$$loadLabelText$$$(JLabel component, String text) {
+        StringBuffer result = new StringBuffer();
+        boolean haveMnemonic = false;
+        char mnemonic = '\0';
+        int mnemonicIndex = -1;
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) == '&') {
+                i++;
+                if (i == text.length()) break;
+                if (!haveMnemonic && text.charAt(i) != '&') {
+                    haveMnemonic = true;
+                    mnemonic = text.charAt(i);
+                    mnemonicIndex = result.length();
+                }
+            }
+            result.append(text.charAt(i));
+        }
+        component.setText(result.toString());
+        if (haveMnemonic) {
+            component.setDisplayedMnemonic(mnemonic);
+            component.setDisplayedMnemonicIndex(mnemonicIndex);
+        }
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private void $$$loadButtonText$$$(AbstractButton component, String text) {
+        StringBuffer result = new StringBuffer();
+        boolean haveMnemonic = false;
+        char mnemonic = '\0';
+        int mnemonicIndex = -1;
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) == '&') {
+                i++;
+                if (i == text.length()) break;
+                if (!haveMnemonic && text.charAt(i) != '&') {
+                    haveMnemonic = true;
+                    mnemonic = text.charAt(i);
+                    mnemonicIndex = result.length();
+                }
+            }
+            result.append(text.charAt(i));
+        }
+        component.setText(result.toString());
+        if (haveMnemonic) {
+            component.setMnemonic(mnemonic);
+            component.setDisplayedMnemonicIndex(mnemonicIndex);
+        }
     }
 
     /**

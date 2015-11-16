@@ -1,9 +1,14 @@
 package ch.hsr.zebrastreifensafari;
 
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
+import ch.hsr.zebrastreifensafari.service.crossing.ICrossingDataService;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Locale;
 
 /*
  * @author aeugster
@@ -11,10 +16,14 @@ import java.sql.Statement;
 public final class TestJDBC {
 
     private Connection c;
+    private ICrossingDataService crossingDataService;
 
     public TestJDBC() {
         connect();
         createTables();
+        crossingDataService = new CrossingDataService("ZebraPUTest");
+        DataServiceLoader.provideCrossingData(crossingDataService);
+        DataServiceLoader.provideResourceBundle(new Locale("de", "DE", "German"));
     }
 
     private void connect() {
@@ -194,6 +203,10 @@ public final class TestJDBC {
 
     public Connection getConnection() {
         return c;
+    }
+
+    public ICrossingDataService getCrossingDataService() {
+        return crossingDataService;
     }
 
     public void addUser(String name, String initials) {

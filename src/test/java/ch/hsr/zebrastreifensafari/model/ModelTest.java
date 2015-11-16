@@ -28,7 +28,6 @@ public class ModelTest {
     @Before
     public void setUp() throws Exception {
         db = new TestJDBC();
-        DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPUTest"));
         model = new Model();
     }
 
