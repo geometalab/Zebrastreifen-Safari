@@ -1,6 +1,6 @@
-package ch.hsr.zebrastreifensafari.gui.update;
+package ch.hsr.zebrastreifensafari.gui.edit;
 
-import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
+import ch.hsr.zebrastreifensafari.gui.CreateEditGUI;
 import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -15,12 +15,12 @@ import javax.swing.*;
  * @date : 12.10.2015
  */
 
-public class UpdateCrossingGUI extends CreateUpdateGUI {
+public class EditCrossingGUI extends CreateEditGUI {
 
     private final Crossing crossing;
 
-    public UpdateCrossingGUI(MainGUI mainGUI, Crossing crossing) {
-        super(mainGUI, "Überarbeiten des Zebrastreifens mit dem OSM Node " + crossing.getOsmNodeId());
+    public EditCrossingGUI(MainGUI mainGUI, Crossing crossing) {
+        super(mainGUI, DataServiceLoader.getBundleString("editCrossingGuiTitle") + crossing.getOsmNodeId());
         this.crossing = crossing;
         setValues();
         userLabel.setVisible(false);
@@ -42,8 +42,8 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
         commentScrollPane.setVisible(false);
         imageLabel.setVisible(false);
         imageTextField.setVisible(false);
-        validateButton.setVisible(false);
-        sendButton.setText("Ändern");
+        imageField.setVisible(false);
+        sendButton.setText(DataServiceLoader.getBundleString("change"));
         pack();
     }
 
@@ -53,21 +53,21 @@ public class UpdateCrossingGUI extends CreateUpdateGUI {
 
         try{
             crossing.setOsmNodeId(Long.parseLong(osmNodeIdTextField.getText()));
-            DataServiceLoader.getCrossingData().updateCrossing(crossing);
+            DataServiceLoader.getCrossingData().editCrossing(crossing);
             observable.notifyObservers(crossing);
             this.dispose();
         } catch (NumberFormatException nfex) {
-            JOptionPane.showMessageDialog(this, "Der OSM Node muss eine Zahl sein", "Error", JOptionPane.ERROR_MESSAGE);
+            errorMessage(DataServiceLoader.getBundleString("osmNodeIdNumericError"));
         }  catch (Exception e) {
             crossing.setOsmNodeId(osmNodeIdBackup);
-            JOptionPane.showMessageDialog(this, "Dieser OSM Node ist bereits vorhanden", "Error", JOptionPane.ERROR_MESSAGE);
+            errorMessage(DataServiceLoader.getBundleString("duplicatedOsmNodeIdError"));
         }
     }
 
     @Override
     protected boolean checkValues() {
         if (osmNodeIdTextField.getText() == null) {
-            JOptionPane.showMessageDialog(this, "Es fehlt eine oder mehrere Eingaben", "Error", JOptionPane.ERROR_MESSAGE);
+            errorMessage(DataServiceLoader.getBundleString("missingInputError"));
             return false;
         }
 

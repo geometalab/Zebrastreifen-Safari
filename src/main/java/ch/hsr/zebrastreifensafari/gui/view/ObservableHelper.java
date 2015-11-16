@@ -1,6 +1,6 @@
 package ch.hsr.zebrastreifensafari.gui.view;
 
-import ch.hsr.zebrastreifensafari.gui.CreateUpdateGUI;
+import ch.hsr.zebrastreifensafari.gui.CreateEditGUI;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -11,9 +11,9 @@ import java.util.Observer;
  */
 public class ObservableHelper extends Observable {
 
-    private final CreateUpdateGUI observable;
+    private final CreateEditGUI observable;
 
-    public ObservableHelper(CreateUpdateGUI observable) {
+    public ObservableHelper(CreateEditGUI observable) {
         this.observable = observable;
     }
 
@@ -34,7 +34,7 @@ public class ObservableHelper extends Observable {
         super.notifyObservers(arg);
     }
 
-    public CreateUpdateGUI getObservable() {
+    public CreateEditGUI getObservable() {
         return observable;
     }
 }

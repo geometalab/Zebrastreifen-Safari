@@ -2,6 +2,9 @@ package ch.hsr.zebrastreifensafari.service;
 
 import ch.hsr.zebrastreifensafari.service.crossing.ICrossingDataService;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 /**
  * @author : Mike Marti
  * @version : 1.0
@@ -11,16 +14,25 @@ import ch.hsr.zebrastreifensafari.service.crossing.ICrossingDataService;
  */
 public class DataServiceLoader {
 
-    private static ICrossingDataService CrossingDataService;
+    private static ICrossingDataService crossingDataService;
+    private static ResourceBundle resourceBundle;
 
     private DataServiceLoader() {
     }
 
     public static ICrossingDataService getCrossingData() {
-        return CrossingDataService;
+        return crossingDataService;
     }
 
-    public static void provideCrossingData(ICrossingDataService CrossingDataService) {
-        DataServiceLoader.CrossingDataService = CrossingDataService;
+    public static void provideCrossingData(ICrossingDataService crossingDataService) {
+        DataServiceLoader.crossingDataService = crossingDataService;
+    }
+
+    public static void provideResourceBundle(Locale locale) {
+        resourceBundle = ResourceBundle.getBundle("Bundle", locale);
+    }
+
+    public static String getBundleString(String key) {
+        return resourceBundle.getString(key);
     }
 }

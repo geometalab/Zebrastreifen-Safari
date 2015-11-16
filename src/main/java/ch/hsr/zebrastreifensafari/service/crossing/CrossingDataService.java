@@ -104,7 +104,8 @@ public class CrossingDataService implements ICrossingDataService {
         });
     }
 
-    protected void removeCrossing(int id) {
+    @Override
+    public void removeCrossing(int id) {
         try {
             new CrossingJpaController(emFactory).destroy(id);
         } catch (NonexistentEntityException neex) {
@@ -150,12 +151,12 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void updateRating(Rating rating) throws Exception{
+    public void editRating(Rating rating) throws Exception{
         new RatingJpaController(emFactory).edit(rating);
     }
 
     @Override
-    public void updateCrossing(Crossing crossing) throws Exception{
+    public void editCrossing(Crossing crossing) throws Exception{
         new CrossingJpaController(emFactory).edit(crossing);
     }
 }

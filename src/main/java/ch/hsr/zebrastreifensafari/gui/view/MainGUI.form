@@ -15,26 +15,19 @@
           <component id="81f89" class="javax.swing.JButton" binding="addButton">
             <constraints/>
             <properties>
-              <text value="Hinzufügen"/>
+              <text resource-bundle="Bundle" key="add"/>
             </properties>
           </component>
-          <component id="489fa" class="javax.swing.JButton" binding="updateButton">
+          <component id="489fa" class="javax.swing.JButton" binding="editButton">
             <constraints/>
             <properties>
-              <text value="Bearbeiten"/>
+              <text resource-bundle="Bundle" key="edit"/>
             </properties>
           </component>
           <component id="fb771" class="javax.swing.JButton" binding="deleteButton">
             <constraints/>
             <properties>
-              <text value="Löschen"/>
-            </properties>
-          </component>
-          <component id="1cb68" class="javax.swing.JButton" binding="reloadButton">
-            <constraints/>
-            <properties>
-              <icon value="RefreshIcon.png"/>
-              <text value=""/>
+              <text resource-bundle="Bundle" key="delete"/>
             </properties>
           </component>
         </children>
@@ -46,7 +39,7 @@
         <children>
           <grid id="c58b8" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
-              <tabbedpane title="Zebrastreifen"/>
+              <tabbedpane title-resource-bundle="Bundle" title-key="defaultCrossingTabbedPaneTitle"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -63,7 +56,7 @@
                   <component id="c04c6" class="javax.swing.JLabel" binding="searchLabel">
                     <constraints border-constraint="West"/>
                     <properties>
-                      <text value="Suchen: "/>
+                      <text resource-bundle="Bundle" key="searchLabelText"/>
                     </properties>
                   </component>
                 </children>
@@ -89,7 +82,7 @@
           </grid>
           <scrollpane id="3b082">
             <constraints>
-              <tabbedpane title="Bewertungen"/>
+              <tabbedpane title-resource-bundle="Bundle" title-key="defaultRatingTabbedPaneTitle"/>
             </constraints>
             <properties/>
             <border type="none"/>

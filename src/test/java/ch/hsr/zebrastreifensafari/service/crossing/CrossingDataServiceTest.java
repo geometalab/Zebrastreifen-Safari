@@ -24,13 +24,10 @@ import static org.junit.Assert.*;
 public class CrossingDataServiceTest {
 
     private TestJDBC db;
-    private CrossingDataService cds;
 
     @Before
     public void setUp() throws Exception {
         db = new TestJDBC();
-        cds = new CrossingDataService("ZebraPUTest");
-        DataServiceLoader.provideCrossingData(cds);
     }
 
     @After
@@ -40,74 +37,74 @@ public class CrossingDataServiceTest {
 
     @Test
     public void testGetUsers() throws Exception {
-        assertEquals(4, cds.getUsers().size());
+        assertEquals(4, db.getCrossingDataService().getUsers().size());
     }
 
     @Test
     public void testGetCrossings() throws Exception {
-        assertEquals(11, cds.getCrossings().size());
+        assertEquals(11, db.getCrossingDataService().getCrossings().size());
     }
 
     @Test
     public void testGetRatings() throws Exception {
         Crossing crossing = new Model().getCrossing(2);
-        assertEquals(1, cds.getRatings(crossing).size());
+        assertEquals(1, db.getCrossingDataService().getRatings(crossing).size());
     }
 
     @Test
     public void testGetIlluminations() throws Exception {
-        assertEquals(4, cds.getIlluminations().size());
+        assertEquals(4, db.getCrossingDataService().getIlluminations().size());
     }
 
     @Test
     public void testGetSpatialClaritys() throws Exception {
-        assertEquals(3, cds.getSpatialClaritys().size());
+        assertEquals(3, db.getCrossingDataService().getSpatialClaritys().size());
     }
 
     @Test
     public void testGetTraffics() throws Exception {
-        assertEquals(3, cds.getTraffics().size());
+        assertEquals(3, db.getCrossingDataService().getTraffics().size());
     }
 
     @Test
     public void testRemoveCrossing() throws Exception {
-        assertEquals(11, cds.getCrossings().size());
-        cds.removeCrossing(6);
-        assertEquals(10, cds.getCrossings().size());
+        assertEquals(11, db.getCrossingDataService().getCrossings().size());
+        db.getCrossingDataService().removeCrossing(6);
+        assertEquals(10, db.getCrossingDataService().getCrossings().size());
     }
 
     @Test
     public void testAddCrossing() throws Exception {
-        assertEquals(11, cds.getCrossings().size());
-        cds.addCrossing(new Crossing(), new Model());
-        assertEquals(12, cds.getCrossings().size());
+        assertEquals(11, db.getCrossingDataService().getCrossings().size());
+        db.getCrossingDataService().addCrossing(new Crossing(), new Model());
+        assertEquals(12, db.getCrossingDataService().getCrossings().size());
     }
 
     @Test
     public void testAddRating() throws Exception {
         Crossing crossing = new Model().getCrossing(2);
-        assertEquals(1, cds.getRatings(crossing).size());
-        cds.addRating(new Rating(null, "test Comment", cds.getIlluminations().get(1), cds.getSpatialClaritys().get(1),
-                cds.getTraffics().get(1), cds.getUsers().get(1), crossing, "", new Date()));
-        assertEquals(2, cds.getRatings(crossing).size());
+        assertEquals(1, db.getCrossingDataService().getRatings(crossing).size());
+        db.getCrossingDataService().addRating(new Rating(null, "test Comment", db.getCrossingDataService().getIlluminations().get(1), db.getCrossingDataService().getSpatialClaritys().get(1),
+                db.getCrossingDataService().getTraffics().get(1), db.getCrossingDataService().getUsers().get(1), crossing, "", new Date()));
+        assertEquals(2, db.getCrossingDataService().getRatings(crossing).size());
     }
 
     @Test
     public void testRemoveRating() throws Exception {
         Crossing crossing = new Model().getCrossing(6);
-        assertEquals(3, cds.getRatings(crossing).size());
-        cds.removeRating(cds.getRatings(crossing).get(0).getId());
-        assertEquals(2, cds.getRatings(crossing).size());
+        assertEquals(3, db.getCrossingDataService().getRatings(crossing).size());
+        db.getCrossingDataService().removeRating(db.getCrossingDataService().getRatings(crossing).get(0).getId());
+        assertEquals(2, db.getCrossingDataService().getRatings(crossing).size());
 
     }
 
     @Test
-    public void testUpdateRating() throws Exception {
+    public void testEditRating() throws Exception {
 
     }
 
     @Test
-    public void testUpdateCrossing() throws Exception {
+    public void testEditCrossing() throws Exception {
 
     }
 }

@@ -1,7 +1,6 @@
 package ch.hsr.zebrastreifensafari.gui;
 
 import ch.hsr.zebrastreifensafari.TestJDBC;
-import ch.hsr.zebrastreifensafari.gui.create.CreateCrossingGUI;
 import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -20,16 +19,15 @@ import static org.junit.Assert.*;
  * @time : 13:33
  * @date : 21.10.2015
  */
-public class CreateUpdateGUITest {
+public class CreateEditGUITest {
 
     private TestJDBC db;
-    private CreateUpdateGUI cug;
+    private CreateEditGUI cug;
 
     @Before
     public void setUp() throws Exception {
         db = new TestJDBC();
-        DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPUTest"));
-        cug = new CreateUpdateGUI(new MainGUI(new Model()), "test") {
+        cug = new CreateEditGUI(new MainGUI(new Model()), "changeSelectionError") {
 
             @Override
             protected void onSendClick() {

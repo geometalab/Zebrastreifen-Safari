@@ -6,7 +6,6 @@
 package ch.hsr.zebrastreifensafari.model;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
@@ -222,6 +221,7 @@ public class Model {
     }
     
     public void sortByComment() {
+        //todo: schmeissen nullpointer
     	if (comment) {
     		ratings = ratings.stream().sorted(((o1, o2) -> o1.getComment().compareTo(o2.getComment()))).collect(Collectors.toList());
     		comment = false;
@@ -233,6 +233,7 @@ public class Model {
     }
     
     public void sortByImage() {
+        //todo: schmeissen nullpointer
     	if (image) {
     		ratings = ratings.stream().sorted(((o1, o2) -> o1.getImageWeblink().compareTo(o2.getImageWeblink()))).collect(Collectors.toList());
     		image = false;
