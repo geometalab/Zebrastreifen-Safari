@@ -56,11 +56,11 @@ class DBGis extends DBConnection {
     public function getCrossingAmount() {
         return pg_query($this->connection, "SELECT COUNT(*) AS amount
                                             FROM osm_point
-                                            WHERE tags @> hstore('highway', 'crossing')");
+                                            WHERE tags @> hstore('highway', 'crossing');");
     }
 
     public function getClusteredAmount($number) {
-        return pg_query($this->connection, "SELECT COUNT(*) FROM
+        return pg_query($this->connection, "SELECT COUNT(*) AS amount FROM
                                             (SELECT COUNT(way) FROM osm_point
                                             WHERE tags @> hstore('highway','crossing')
                                             GROUP BY ST_SnapToGrid(way, $number))

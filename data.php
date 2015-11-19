@@ -14,16 +14,27 @@ require_once('connection/DBGis.php');
 //Get the data for the barchart
 function barchartStatistic() {
     $statisticConnection = new DBZebracrossing();
-    $query = $statisticConnection->getBarChartStatistic();
+    $query = $statisticConnection->getWeekAmount();
+    $resultset = pg_fetch_all($query)[0]['week_amount'];
+
+    if ($resultset < 11) {
+        $offset = 0;
+    } else if ($resultset < 21) {
+        $offset = $resultset - ($resultset - 10);
+    } else {
+        $offset = $resultset - 11;
+    }
+
+    $query = $statisticConnection->getBarChartStatistic($offset);
     $resultset = pg_fetch_all($query);
 
     for ($i = 0; $i < count($resultset) - 1; $i++) {
         //Formate the date
-        $resultset[$i]['week'] = /*date('Y-m-d', strtotime($resultset[$i]['week'])).' - '.*/date('Y-m-d', strtotime("+7 day", strtotime($resultset[$i]['week'])));
+        $resultset[$i]['week'] = date('Y-m-d', strtotime("+7 day", strtotime($resultset[$i]['week'])));
         $resultset[$i]['amount'] = $resultset[$i + 1]['amount'] - $resultset[$i]['amount'];
     }
 
-    unset($resultset[10]);
+    unset($resultset[count($resultset) - 1]);
     $statisticConnection->closeConnection();
     return $resultset;
 }
@@ -36,7 +47,7 @@ function linechartStatistic() {
 
     for ($i = 0; $i < count($resultset); $i++) {
         //Formate the date
-        $resultset[$i]['week'] = /*date('Y-m-d', strtotime($resultset[$i]['week'])).' - '.*/date('Y-m-d', strtotime("+7 day", strtotime($resultset[$i]['week'])));
+        $resultset[$i]['week'] = date('Y-m-d', strtotime("+7 day", strtotime($resultset[$i]['week'])));
         $resultset[$i]['amount'] = intval($resultset[$i]['amount']);
     }
 
