@@ -17,13 +17,12 @@ public class CreateCrossingGUI extends CreateEditGUI {
 
     public CreateCrossingGUI(MainGUI mainGUI) {
         super(mainGUI, DataServiceLoader.getBundleString("createCrossingGuiTitle"));
-        pack();
     }
 
     @Override
     protected void onSendClick() {
         try {
-            //todo: überarbeiten, wenn ein bild wiederholt verwendet wird, wird trozdem ein crossing erstellt
+            //todo: überarbeiten, wenn ein bild wiederholt verwendet wird, wird trozdem ein crossing erstellt (momentane lösung funktioniert ist aber nicht schön)
             long osmNode = Long.parseLong(osmNodeIdTextField.getText());
             Crossing crossing = mainGUI.getCrossing(osmNode);
 
@@ -50,6 +49,7 @@ public class CreateCrossingGUI extends CreateEditGUI {
         } catch (NumberFormatException nfex) {
             errorMessage(DataServiceLoader.getBundleString("osmNodeIdNumericError"));
         } catch (Exception e) {
+            mainGUI.removeCrossing();
             errorMessage(DataServiceLoader.getBundleString("duplicatedPhotoError"));
         }
     }

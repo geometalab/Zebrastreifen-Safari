@@ -44,7 +44,7 @@ public class EditCrossingGUI extends CreateEditGUI {
         imageTextField.setVisible(false);
         imageField.setVisible(false);
         sendButton.setText(DataServiceLoader.getBundleString("change"));
-        pack();
+        setSize(getWidth(), 110);
     }
 
     @Override

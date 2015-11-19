@@ -25,7 +25,6 @@ public class EditRatingGUI extends CreateEditGUI {
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
         sendButton.setText(DataServiceLoader.getBundleString("change"));
-        pack();
     }
 
     @Override
