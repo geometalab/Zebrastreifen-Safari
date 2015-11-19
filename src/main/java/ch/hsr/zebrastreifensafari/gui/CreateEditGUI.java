@@ -78,6 +78,7 @@ public abstract class CreateEditGUI extends JDialog {
         }
 
         initListeners();
+        setPosition();
     }
 
     private void initListeners() {
@@ -98,6 +99,14 @@ public abstract class CreateEditGUI extends JDialog {
                 setImage(imageTextField.getText());
             }
         });
+    }
+
+    private void setPosition() {
+        int width = 650;
+        int height = 600;
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+
+        setBounds((int) ((dimension.getWidth() - width) / 2), (int) ((dimension.getHeight() - height) / 2), width, height);
     }
 
     protected abstract void onSendClick();

@@ -22,7 +22,6 @@ public class CreateRatingGUI extends CreateEditGUI {
         this.node = node;
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
-        pack();
     }
 
     @Override

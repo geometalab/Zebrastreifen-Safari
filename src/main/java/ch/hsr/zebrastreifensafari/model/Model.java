@@ -221,25 +221,55 @@ public class Model {
     }
     
     public void sortByComment() {
-        //todo: schmeissen nullpointer
     	if (comment) {
-    		ratings = ratings.stream().sorted(((o1, o2) -> o1.getComment().compareTo(o2.getComment()))).collect(Collectors.toList());
+    		ratings = ratings.stream().sorted(((o1, o2) -> {
+                if (o1.getComment() == null) {
+                    return 1;
+                } else if (o2.getComment() == null) {
+                    return -1;
+                } else {
+                    return o1.getComment().compareTo(o2.getComment());
+                }
+            })).collect(Collectors.toList());
     		comment = false;
     	}
     	else {
-    		ratings = ratings.stream().sorted(((o1, o2) -> o2.getComment().compareTo(o1.getComment()))).collect(Collectors.toList());
+    		ratings = ratings.stream().sorted(((o1, o2) -> {
+                if (o1.getComment() == null) {
+                    return -1;
+                } else if (o2.getComment() == null) {
+                    return 1;
+                } else {
+                    return o2.getComment().compareTo(o1.getComment());
+                }
+            })).collect(Collectors.toList());
     		comment = true;
     	}
     }
     
     public void sortByImage() {
-        //todo: schmeissen nullpointer
     	if (image) {
-    		ratings = ratings.stream().sorted(((o1, o2) -> o1.getImageWeblink().compareTo(o2.getImageWeblink()))).collect(Collectors.toList());
+    		ratings = ratings.stream().sorted(((o1, o2) -> {
+                if (o1.getImageWeblink() == null) {
+                    return 1;
+                } else if (o2.getImageWeblink() == null) {
+                    return -1;
+                } else {
+                    return o1.getImageWeblink().compareTo(o2.getImageWeblink());
+                }
+            })).collect(Collectors.toList());
     		image = false;
     	}
     	else {
-    		ratings = ratings.stream().sorted(((o1, o2) -> o2.getImageWeblink().compareTo(o1.getImageWeblink()))).collect(Collectors.toList());
+    		ratings = ratings.stream().sorted(((o1, o2) -> {
+                if (o1.getImageWeblink() == null) {
+                    return -1;
+                } else if (o2.getImageWeblink() == null) {
+                    return 1;
+                } else {
+                    return o2.getImageWeblink().compareTo(o1.getImageWeblink());
+                }
+            })).collect(Collectors.toList());
     		image = true;
     	}
     }
