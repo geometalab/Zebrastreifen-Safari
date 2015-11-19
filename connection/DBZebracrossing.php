@@ -41,11 +41,15 @@ class DBZebracrossing extends DBConnection {
                                             ORDER BY week ASC;");
     }
 
-    public function getBarChartStatistic() {
+    public function getWeekAmount() {
+        return pg_query($this->connection, "SELECT COUNT(DISTINCT date_trunc('week', enquiry_date)) AS week_amount FROM statistic.crossingstatistic;");
+    }
+
+    public function getBarChartStatistic($offset) {
         return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, MAX(amount) AS amount FROM statistic.crossingstatistic
                                             GROUP BY week
                                             ORDER BY week ASC
-                                            offset (SELECT COUNT(DISTINCT date_trunc('week', enquiry_date)) FROM statistic.crossingstatistic) - 11;");
+                                            OFFSET $offset;");
     }
 
     public function setCrossingAmount($amount) {
