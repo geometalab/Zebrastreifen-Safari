@@ -8,7 +8,8 @@ header('Access-Control-Allow-Origin: *');
  * Time: 15:23
  */
 
-require_once('data.php');
+require_once('statistic.php');
+require_once('crossing.php');
 
 if (!empty($_GET['type'])) {
     $type = pg_escape_string($_GET['type']);
