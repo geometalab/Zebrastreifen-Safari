@@ -17,7 +17,6 @@ $gisConnection = new DBGis();
 
 $query = $gisConnection->getCrossingAmount();
 $crossingAmount = pg_fetch_all($query)[0]['amount'];
-echo $crossingAmount;
 $zebracrossingConnection->setCrossingAmount($crossingAmount);
 
 $gisConnection->closeConnection();
