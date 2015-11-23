@@ -6,6 +6,7 @@ import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
+import javax.persistence.EntityNotFoundException;
 import javax.swing.*;
 import java.util.Date;
 
@@ -41,7 +42,10 @@ public class CreateRatingGUI extends CreateEditGUI {
 
             observable.notifyObservers(rating);
             this.dispose();
+        } catch (EntityNotFoundException enfex) {
+            //todo error message
         } catch (Exception e) {
+            e.printStackTrace();
             errorMessage(DataServiceLoader.getBundleString("duplicatedPhotoError"));
         }
     }

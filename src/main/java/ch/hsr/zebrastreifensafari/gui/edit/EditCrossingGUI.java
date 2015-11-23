@@ -2,6 +2,7 @@ package ch.hsr.zebrastreifensafari.gui.edit;
 
 import ch.hsr.zebrastreifensafari.gui.CreateEditGUI;
 import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
+import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
@@ -58,8 +59,12 @@ public class EditCrossingGUI extends CreateEditGUI {
             this.dispose();
         } catch (NumberFormatException nfex) {
             errorMessage(DataServiceLoader.getBundleString("osmNodeIdNumericError"));
-        }  catch (Exception e) {
+        } catch (NonexistentEntityException neeex) {
             crossing.setOsmNodeId(osmNodeIdBackup);
+            //todo der crossing existiert nicht mehr
+        } catch (Exception e) {
+            crossing.setOsmNodeId(osmNodeIdBackup);
+            e.printStackTrace();
             errorMessage(DataServiceLoader.getBundleString("duplicatedOsmNodeIdError"));
         }
     }

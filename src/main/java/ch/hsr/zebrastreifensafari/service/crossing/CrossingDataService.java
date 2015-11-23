@@ -105,22 +105,18 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void removeCrossing(int id) {
-        try {
-            new CrossingJpaController(emFactory).destroy(id);
-        } catch (NonexistentEntityException neex) {
-            neex.printStackTrace();
-        }
+    public void removeCrossing(int id) throws NonexistentEntityException {
+        new CrossingJpaController(emFactory).destroy(id);
     }
 
     @Override
-    public void removeCrossing(int id, Model model) {
+    public void removeCrossing(int id, Model model) throws NonexistentEntityException{
         removeRating(id);
         model.getCrossings().remove(model.getCrossing(id));
     }
 
     @Override
-    public void removeCrossing(int id, Model model, DefaultTableModel tableModel) {
+    public void removeCrossing(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException{
         removeCrossing(id);
         Crossing removeCrossing = model.getCrossing(id);
         tableModel.removeRow(model.getCrossings().indexOf(removeCrossing));
@@ -128,22 +124,18 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void removeRating(int id) {
-        try {
-            new RatingJpaController(emFactory).destroy(id);
-        } catch (NonexistentEntityException neex) {
-            neex.printStackTrace();
-        }
+    public void removeRating(int id) throws NonexistentEntityException{
+        new RatingJpaController(emFactory).destroy(id);
     }
 
     @Override
-    public void removeRating(int id, Model model) {
+    public void removeRating(int id, Model model) throws NonexistentEntityException{
         removeRating(id);
         model.getRatings().remove(model.getRating(id));
     }
 
     @Override
-    public void removeRating(int id, Model model, DefaultTableModel tableModel) {
+    public void removeRating(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException{
         removeRating(id);
         Rating removeRating = model.getRating(id);
         tableModel.removeRow(model.getRatings().indexOf(removeRating));
