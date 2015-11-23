@@ -41,13 +41,9 @@ public interface ICrossingDataService {
 
     void removeCrossing(int id) throws NonexistentEntityException;
 
-    void removeCrossing(int id, Model model) throws NonexistentEntityException;
-
     void removeCrossing(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException;
 
     void removeRating(int id) throws NonexistentEntityException;
-
-    void removeRating(int id, Model model) throws NonexistentEntityException;
 
     void removeRating(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException;
 

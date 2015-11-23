@@ -110,12 +110,6 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void removeCrossing(int id, Model model) throws NonexistentEntityException{
-        removeRating(id);
-        model.getCrossings().remove(model.getCrossing(id));
-    }
-
-    @Override
     public void removeCrossing(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException{
         removeCrossing(id);
         Crossing removeCrossing = model.getCrossing(id);
@@ -126,12 +120,6 @@ public class CrossingDataService implements ICrossingDataService {
     @Override
     public void removeRating(int id) throws NonexistentEntityException{
         new RatingJpaController(emFactory).destroy(id);
-    }
-
-    @Override
-    public void removeRating(int id, Model model) throws NonexistentEntityException{
-        removeRating(id);
-        model.getRatings().remove(model.getRating(id));
     }
 
     @Override
