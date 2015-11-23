@@ -57,8 +57,7 @@ public class EditRatingGUI extends CreateEditGUI {
             rating.setImageWeblink(imageWeblinkBackup);
             rating.setComment(commentBackup);
             rating.setLastChanged(lastChangedBackup);
-            neeex.printStackTrace();
-            //todo das Rating oder der Zebrastreifen existiert nicht mehr
+            errorMessage(DataServiceLoader.getBundleString("ratingCrossingExistError"));
         } catch (Exception e) {
             rating.setUserId(userBackup);
             rating.setIlluminationId(illuminationBackup);
@@ -67,7 +66,6 @@ public class EditRatingGUI extends CreateEditGUI {
             rating.setImageWeblink(imageWeblinkBackup);
             rating.setComment(commentBackup);
             rating.setLastChanged(lastChangedBackup);
-            e.printStackTrace();
             errorMessage(DataServiceLoader.getBundleString("duplicatedPhotoError"));
         }
     }

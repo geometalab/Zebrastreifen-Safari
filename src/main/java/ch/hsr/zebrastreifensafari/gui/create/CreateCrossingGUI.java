@@ -50,7 +50,6 @@ public class CreateCrossingGUI extends CreateEditGUI {
             errorMessage(DataServiceLoader.getBundleString("osmNodeIdNumericError"));
         } catch (Exception e) {
             mainGUI.removeCrossing();
-            e.printStackTrace();
             errorMessage(DataServiceLoader.getBundleString("duplicatedPhotoError"));
         }
     }

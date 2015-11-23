@@ -61,10 +61,9 @@ public class EditCrossingGUI extends CreateEditGUI {
             errorMessage(DataServiceLoader.getBundleString("osmNodeIdNumericError"));
         } catch (NonexistentEntityException neeex) {
             crossing.setOsmNodeId(osmNodeIdBackup);
-            //todo der crossing existiert nicht mehr
+            errorMessage(DataServiceLoader.getBundleString("crossingExistError"));
         } catch (Exception e) {
             crossing.setOsmNodeId(osmNodeIdBackup);
-            e.printStackTrace();
             errorMessage(DataServiceLoader.getBundleString("duplicatedOsmNodeIdError"));
         }
     }
