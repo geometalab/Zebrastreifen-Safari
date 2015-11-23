@@ -43,9 +43,8 @@ public class CreateRatingGUI extends CreateEditGUI {
             observable.notifyObservers(rating);
             this.dispose();
         } catch (EntityNotFoundException enfex) {
-            //todo error message
+            errorMessage(DataServiceLoader.getBundleString("crossingExistError"));
         } catch (Exception e) {
-            e.printStackTrace();
             errorMessage(DataServiceLoader.getBundleString("duplicatedPhotoError"));
         }
     }

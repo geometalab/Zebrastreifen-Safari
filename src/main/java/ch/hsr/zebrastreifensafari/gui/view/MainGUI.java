@@ -206,8 +206,8 @@ public class MainGUI extends JFrame implements Observer {
 
         try {
             rt.exec("rundll32 helpURL.dll,FileProtocolHandler " + helpURL);
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException ioex) {
+            ioex.printStackTrace();
         }
     }
 
@@ -375,7 +375,7 @@ public class MainGUI extends JFrame implements Observer {
 
             changeTableSelection(crossingDataTable, selectedRow);
         } catch (NonexistentEntityException neeex) {
-            //todo crossing no longer exists
+            errorMessage(DataServiceLoader.getBundleString("crossingExistError"));
         }
     }
 
@@ -402,7 +402,7 @@ public class MainGUI extends JFrame implements Observer {
                 );
             }
         } catch (NonexistentEntityException neeex) {
-            //todo rating or crossing no longer exists
+            errorMessage(DataServiceLoader.getBundleString("ratingCrossingExistError"));
         }
     }
 

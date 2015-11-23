@@ -138,8 +138,6 @@ public abstract class CreateEditGUI extends JDialog {
         try {
             imageField.setIcon(new ImageIcon(ImageIO.read(new URL("https://d1cuyjsrcm0gby.cloudfront.net/" + mapillaryKey + "/thumb-320.jpg"))));
             imageField.setText(null);
-        } catch (MalformedURLException mex) {
-            mex.printStackTrace();
         } catch (IOException ioex) {
             imageField.setIcon(null);
             imageField.setText(DataServiceLoader.getBundleString("imageNotFound"));
