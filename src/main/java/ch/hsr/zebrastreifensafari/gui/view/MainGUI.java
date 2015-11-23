@@ -5,6 +5,7 @@ import ch.hsr.zebrastreifensafari.gui.create.CreateCrossingGUI;
 import ch.hsr.zebrastreifensafari.gui.create.CreateRatingGUI;
 import ch.hsr.zebrastreifensafari.gui.edit.EditCrossingGUI;
 import ch.hsr.zebrastreifensafari.gui.edit.EditRatingGUI;
+import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -98,9 +99,7 @@ public class MainGUI extends JFrame implements Observer {
     //<editor-fold desc="Actions">
     private void onTabbedPaneChange() {
         try {
-            model.setRatingMode(!model.isRatingMode());
-
-            if (model.isRatingMode()) {
+            if (isRatingMode()) {
                 model.reloadRating(getCrossingFromTable());
                 searchLabel.setVisible(false);
                 searchTextField.setVisible(false);
@@ -111,6 +110,7 @@ public class MainGUI extends JFrame implements Observer {
                 searchTextField.requestFocusInWindow();
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
+            dataTabbedPane.setSelectedIndex(0);
             errorMessage(DataServiceLoader.getBundleString("changeSelectionError"));
         }
     }
@@ -137,7 +137,7 @@ public class MainGUI extends JFrame implements Observer {
     private void onAddClick() {
         CreateEditGUI createEditGUI;
 
-        if (model.isRatingMode()) {
+        if (isRatingMode()) {
             createEditGUI = new CreateRatingGUI(this, getCrossingFromTable().getOsmNodeId());
         } else {
             createEditGUI = new CreateCrossingGUI(this);
@@ -150,7 +150,7 @@ public class MainGUI extends JFrame implements Observer {
         try {
             CreateEditGUI createEditGUI;
 
-            if (model.isRatingMode()) {
+            if (isRatingMode()) {
                 createEditGUI = new EditRatingGUI(this, getRatingFromTable());
             } else {
                 createEditGUI = new EditCrossingGUI(this, getCrossingFromTable());
@@ -165,7 +165,7 @@ public class MainGUI extends JFrame implements Observer {
     private void onDeleteClick() {
         if (warningMessage(DataServiceLoader.getBundleString("deleteWarning"), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             try {
-                if (model.isRatingMode()) {
+                if (isRatingMode()) {
                     removeRating();
                 } else {
                     removeCrossing();
@@ -178,13 +178,12 @@ public class MainGUI extends JFrame implements Observer {
 
     private void onRefreshClick() {
         model.reloadUsers();
+        model.reloadCrossing();
+        addCrossingDataToTable(model.getCrossings());
 
-        if (model.isRatingMode()) {
+        if (isRatingMode()) {
             model.reloadRating(getCrossingFromTable());
             addRatingDataToTable(model.getRatings());
-        } else {
-            model.reloadCrossing();
-            addCrossingDataToTable(model.getCrossings());
         }
     }
 
@@ -248,7 +247,7 @@ public class MainGUI extends JFrame implements Observer {
     }
 
     private void onCrossingDoubleClick(MouseEvent event) {
-        if (!model.isRatingMode() && event.getClickCount() >= 2 && !model.getCrossings().isEmpty()) {
+        if (!isRatingMode() && event.getClickCount() >= 2 && !model.getCrossings().isEmpty()) {
             dataTabbedPane.setSelectedIndex(1);
         }
     }
@@ -287,6 +286,10 @@ public class MainGUI extends JFrame implements Observer {
         }
 
         changeTableSelection(crossingDataTable, 0);
+    }
+
+    private boolean isRatingMode() {
+        return dataTabbedPane.getSelectedIndex() == 1;
     }
 
     private void addRatingDataToTable(List<Rating> list) {
@@ -362,36 +365,44 @@ public class MainGUI extends JFrame implements Observer {
     }
 
     public void removeCrossing() {
-        int selectedRow = crossingDataTable.getSelectedRow();
-        DataServiceLoader.getCrossingData().removeCrossing(getCrossingFromTable().getId(), model, crossingTableModel);
+        try {
+            int selectedRow = crossingDataTable.getSelectedRow();
+            DataServiceLoader.getCrossingData().removeCrossing(getCrossingFromTable().getId(), model, crossingTableModel);
 
-        if (crossingTableModel.getRowCount() == selectedRow) {
-            selectedRow--;
-        }
-
-        changeTableSelection(crossingDataTable, selectedRow);
-    }
-
-    private void removeRating() {
-        int selectedRow = ratingDataTable.getSelectedRow();
-        Rating removeRating = getRatingFromTable();
-        DataServiceLoader.getCrossingData().removeRating(removeRating.getId(), model, ratingTableModel);
-
-        if (model.getRatings().isEmpty()) {
-            removeCrossing();
-            dataTabbedPane.setSelectedIndex(0);
-        } else {
-            if (ratingTableModel.getRowCount() == selectedRow) {
+            if (crossingTableModel.getRowCount() == selectedRow) {
                 selectedRow--;
             }
 
-            changeTableSelection(ratingDataTable, selectedRow);
-            Crossing crossingOfRating = model.getCrossing(removeRating.getCrossingId().getId());
-            crossingOfRating.decreaseRatingAmount();
-            crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(),
-                    crossingDataTable.getSelectedRow(),
-                    crossingDataTable.getColumn(DataServiceLoader.getBundleString("ratingAmount")).getModelIndex()
-            );
+            changeTableSelection(crossingDataTable, selectedRow);
+        } catch (NonexistentEntityException neeex) {
+            //todo crossing no longer exists
+        }
+    }
+
+    private void removeRating() {
+        try {
+            int selectedRow = ratingDataTable.getSelectedRow();
+            Rating removeRating = getRatingFromTable();
+            DataServiceLoader.getCrossingData().removeRating(removeRating.getId(), model, ratingTableModel);
+
+            if (model.getRatings().isEmpty()) {
+                removeCrossing();
+                dataTabbedPane.setSelectedIndex(0);
+            } else {
+                if (ratingTableModel.getRowCount() == selectedRow) {
+                    selectedRow--;
+                }
+
+                changeTableSelection(ratingDataTable, selectedRow);
+                Crossing crossingOfRating = model.getCrossing(removeRating.getCrossingId().getId());
+                crossingOfRating.decreaseRatingAmount();
+                crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(),
+                        crossingDataTable.getSelectedRow(),
+                        crossingDataTable.getColumn(DataServiceLoader.getBundleString("ratingAmount")).getModelIndex()
+                );
+            }
+        } catch (NonexistentEntityException neeex) {
+            //todo rating or crossing no longer exists
         }
     }
 

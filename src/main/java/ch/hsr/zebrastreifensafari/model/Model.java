@@ -17,7 +17,6 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
  */
 public class Model {
 
-    private boolean ratingMode;
     private List<User> users;
     private List<Crossing> crossings;
     private List<Rating> ratings;
@@ -27,7 +26,6 @@ public class Model {
     private boolean node = true, ratingAmount = true, user = true, traffic = true, clarity = true, illumination = true, comment = true, image = true, lastChanged = true;
 
     public Model() {
-        ratingMode = false;
         ratings = new ArrayList<Rating>();
         illuminations = DataServiceLoader.getCrossingData().getIlluminations();
         spatialClaritys = DataServiceLoader.getCrossingData().getSpatialClaritys();
@@ -137,20 +135,6 @@ public class Model {
      */
     public List<Rating> getRatings() {
         return ratings;
-    }
-
-    /**
-     * @return the ratingMode
-     */
-    public boolean isRatingMode() {
-        return ratingMode;
-    }
-
-    /**
-     * @param ratingMode the zebraB to set
-     */
-    public void setRatingMode(boolean ratingMode) {
-        this.ratingMode = ratingMode;
     }
 
     //<editor-fold desc="Sort methods">

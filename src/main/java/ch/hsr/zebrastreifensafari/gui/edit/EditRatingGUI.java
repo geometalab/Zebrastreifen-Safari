@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import ch.hsr.zebrastreifensafari.gui.CreateEditGUI;
 import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
+import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
@@ -48,6 +49,16 @@ public class EditRatingGUI extends CreateEditGUI {
             DataServiceLoader.getCrossingData().editRating(rating);
             observable.notifyObservers(rating);
             this.dispose();
+        } catch (NonexistentEntityException neeex) {
+            rating.setUserId(userBackup);
+            rating.setIlluminationId(illuminationBackup);
+            rating.setSpatialClarityId(spatialClarityBackup);
+            rating.setTrafficId(trafficBackup);
+            rating.setImageWeblink(imageWeblinkBackup);
+            rating.setComment(commentBackup);
+            rating.setLastChanged(lastChangedBackup);
+            neeex.printStackTrace();
+            //todo das Rating oder der Zebrastreifen existiert nicht mehr
         } catch (Exception e) {
             rating.setUserId(userBackup);
             rating.setIlluminationId(illuminationBackup);
@@ -56,6 +67,7 @@ public class EditRatingGUI extends CreateEditGUI {
             rating.setImageWeblink(imageWeblinkBackup);
             rating.setComment(commentBackup);
             rating.setLastChanged(lastChangedBackup);
+            e.printStackTrace();
             errorMessage(DataServiceLoader.getBundleString("duplicatedPhotoError"));
         }
     }

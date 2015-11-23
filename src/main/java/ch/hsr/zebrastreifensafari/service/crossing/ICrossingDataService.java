@@ -1,5 +1,6 @@
 package ch.hsr.zebrastreifensafari.service.crossing;
 
+import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 
@@ -38,17 +39,17 @@ public interface ICrossingDataService {
 
     void addRating(Rating rating, Model model, DefaultTableModel tableModel);
 
-    void removeCrossing(int id);
+    void removeCrossing(int id) throws NonexistentEntityException;
 
-    void removeCrossing(int id, Model model);
+    void removeCrossing(int id, Model model) throws NonexistentEntityException;
 
-    void removeCrossing(int id, Model model, DefaultTableModel tableModel);
+    void removeCrossing(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException;
 
-    void removeRating(int id);
+    void removeRating(int id) throws NonexistentEntityException;
 
-    void removeRating(int id, Model model);
+    void removeRating(int id, Model model) throws NonexistentEntityException;
 
-    void removeRating(int id, Model model, DefaultTableModel tableModel);
+    void removeRating(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException;
 
     void editRating(Rating rating) throws Exception;
 
