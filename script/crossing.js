@@ -46,10 +46,10 @@ $(document).ready(function() {
                     document.getElementById("button_operated").textContent = "Kein Knopf vorhanden";
                 }
 
-                if(json.osm.slooped_curb){
-                    document.getElementById("slooped_curb").textContent = "Geeignet";
+                if(json.osm.sloped_curb){
+                    document.getElementById("sloped_curb").textContent = "Geeignet";
                 } else {
-                    document.getElementById("slooped_curb").textContent = "Nicht geeignet";
+                    document.getElementById("sloped_curb").textContent = "Nicht geeignet";
                 }
 
                 if(json.osm.tactile_paving){

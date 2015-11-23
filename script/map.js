@@ -11,6 +11,11 @@ function unproject(latlng){
     var point = new L.Point(latlng.lng,latlng.lat);
     return L.Projection.SphericalMercator.unproject(point.divideBy(6378137));
 }
+
+map.on('moveend', function() {
+    var zoom = L.map.getZoom();
+    var bound = L.map.getBounds();
+});
 $(document).ready(function() {
     $.ajax({
         url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crosswalks',
@@ -23,11 +28,13 @@ $(document).ready(function() {
             });
             var crossing = L.geoJson(response, {
 
-                // add the points to the layer, but first reproject the coordinates to WGS 84
+                // add the points to the layer
                 pointToLayer: function (feature, latlng) {
                     var newlatlng = unproject(latlng);
+                    console.log(latlng);
                     return L.marker(newlatlng, {
-                        icon:icon});
+                        icon:icon
+                    });
                 }
 
             });

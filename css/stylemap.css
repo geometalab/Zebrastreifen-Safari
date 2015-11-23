@@ -19,6 +19,8 @@ body {
     overflow: hidden;
     width: 150px; height: 150px;
     text-align: right;
+    pointer-events: none;
+
 }
 .ribbon span {
     font-size: 10px;

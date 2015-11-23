@@ -22,6 +22,7 @@ p {
     overflow: hidden;
     width: 150px; height: 150px;
     text-align: right;
+    pointer-events: none;
 }
 .ribbon span {
     font-size: 10px;
@@ -202,6 +203,9 @@ p {
         flex: 1 auto;
         order: 3;
     }
+    .t_mobile {
+        display: none;
+    }
 
 }
 @media all and (max-width: 800px){
@@ -332,9 +336,7 @@ p {
         z-index: 5;
     }
 }
-@media
-only screen and (max-width: 800px),
-(min-device-width: 768px) and (max-device-width: 1024px) {
+@media only screen and (max-width: 800px) {
 
     table, thead, tbody, th, td, tr {
         display: block;
