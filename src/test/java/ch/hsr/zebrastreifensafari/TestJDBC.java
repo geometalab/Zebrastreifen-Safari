@@ -1,6 +1,7 @@
 package ch.hsr.zebrastreifensafari;
 
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
 import ch.hsr.zebrastreifensafari.service.crossing.ICrossingDataService;
 
@@ -23,7 +24,7 @@ public final class TestJDBC {
         createTables();
         crossingDataService = new CrossingDataService("ZebraPUTest");
         DataServiceLoader.provideCrossingData(crossingDataService);
-        DataServiceLoader.provideResourceBundle(new Locale("de", "DE", "German"));
+        Properties.provideResourceBundle(new Locale("de", "DE", "German"));
     }
 
     private void connect() {

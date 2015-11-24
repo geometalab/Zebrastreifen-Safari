@@ -5,6 +5,7 @@ import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.persistence.EntityNotFoundException;
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class CreateRatingGUI extends CreateEditGUI {
     private final long node;
 
     public CreateRatingGUI(MainGUI mainGUI, long node) {
-        super(mainGUI, DataServiceLoader.getBundleString("createRatingGuiTitle") + node);
+        super(mainGUI, Properties.get("createRatingGuiTitle") + node);
         this.node = node;
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
@@ -43,9 +44,9 @@ public class CreateRatingGUI extends CreateEditGUI {
             observable.notifyObservers(rating);
             this.dispose();
         } catch (EntityNotFoundException enfex) {
-            errorMessage(DataServiceLoader.getBundleString("crossingExistError"));
+            errorMessage(Properties.get("crossingExistError"));
         } catch (Exception e) {
-            errorMessage(DataServiceLoader.getBundleString("duplicatedPhotoError"));
+            errorMessage(Properties.get("duplicatedPhotoError"));
         }
     }
 }

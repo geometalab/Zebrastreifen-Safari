@@ -5,6 +5,7 @@ import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.swing.*;
 import java.util.Date;
@@ -16,7 +17,7 @@ import java.util.Date;
 public class CreateCrossingGUI extends CreateEditGUI {
 
     public CreateCrossingGUI(MainGUI mainGUI) {
-        super(mainGUI, DataServiceLoader.getBundleString("createCrossingGuiTitle"));
+        super(mainGUI, Properties.get("createCrossingGuiTitle"));
     }
 
     @Override
@@ -47,10 +48,10 @@ public class CreateCrossingGUI extends CreateEditGUI {
 
             this.dispose();
         } catch (NumberFormatException nfex) {
-            errorMessage(DataServiceLoader.getBundleString("osmNodeIdNumericError"));
+            errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (Exception e) {
             mainGUI.removeCrossing();
-            errorMessage(DataServiceLoader.getBundleString("duplicatedPhotoError"));
+            errorMessage(Properties.get("duplicatedPhotoError"));
         }
     }
 }

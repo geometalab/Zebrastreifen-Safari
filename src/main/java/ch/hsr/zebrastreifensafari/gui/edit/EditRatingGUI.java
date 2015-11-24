@@ -9,6 +9,7 @@ import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.Properties;
 
 /**
  *
@@ -19,13 +20,13 @@ public class EditRatingGUI extends CreateEditGUI {
     private final Rating rating;
 
     public EditRatingGUI(MainGUI mainGUI, Rating rating) {
-        super(mainGUI, DataServiceLoader.getBundleString("editRatingGuiTitleOne") + rating.getUserId().getName() + DataServiceLoader.getBundleString("editRatingGuiTitleTwo") + rating.getCrossingId().getOsmNodeId());
+        super(mainGUI, Properties.get("editRatingGuiTitleOne") + rating.getUserId().getName() + Properties.get("editRatingGuiTitleTwo") + rating.getCrossingId().getOsmNodeId());
         this.rating = rating;
         setValues();
         setImage(imageTextField.getText());
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
-        sendButton.setText(DataServiceLoader.getBundleString("change"));
+        sendButton.setText(Properties.get("change"));
     }
 
     @Override
@@ -57,7 +58,7 @@ public class EditRatingGUI extends CreateEditGUI {
             rating.setImageWeblink(imageWeblinkBackup);
             rating.setComment(commentBackup);
             rating.setLastChanged(lastChangedBackup);
-            errorMessage(DataServiceLoader.getBundleString("ratingCrossingExistError"));
+            errorMessage(Properties.get("ratingCrossingExistError"));
         } catch (Exception e) {
             rating.setUserId(userBackup);
             rating.setIlluminationId(illuminationBackup);
@@ -66,7 +67,7 @@ public class EditRatingGUI extends CreateEditGUI {
             rating.setImageWeblink(imageWeblinkBackup);
             rating.setComment(commentBackup);
             rating.setLastChanged(lastChangedBackup);
-            errorMessage(DataServiceLoader.getBundleString("duplicatedPhotoError"));
+            errorMessage(Properties.get("duplicatedPhotoError"));
         }
     }
 
