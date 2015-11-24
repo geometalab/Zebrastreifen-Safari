@@ -1,10 +1,8 @@
-package ch.hsr.zebrastreifensafari.gui.edit;
+package ch.hsr.zebrastreifensafari.gui.modify.edit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * @author : Mike Marti

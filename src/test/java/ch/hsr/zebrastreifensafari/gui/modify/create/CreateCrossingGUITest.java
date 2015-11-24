@@ -1,10 +1,8 @@
-package ch.hsr.zebrastreifensafari.gui.view;
+package ch.hsr.zebrastreifensafari.gui.modify.create;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * @author : Mike Marti
@@ -14,7 +12,7 @@ import static org.junit.Assert.*;
  * @date : 21.10.2015
  */
 
-public class ObservableHelperTest {
+public class CreateCrossingGUITest {
 
     @Before
     public void setUp() throws Exception {
@@ -27,17 +25,7 @@ public class ObservableHelperTest {
     }
 
     @Test
-    public void testAddObserver() throws Exception {
-
-    }
-
-    @Test
-    public void testNotifyObservers() throws Exception {
-
-    }
-
-    @Test
-    public void testNotifyObservers1() throws Exception {
+    public void testOnSendClick() throws Exception {
 
     }
 }

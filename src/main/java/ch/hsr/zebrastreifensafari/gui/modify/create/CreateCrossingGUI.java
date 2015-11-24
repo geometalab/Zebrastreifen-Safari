@@ -1,20 +1,19 @@
-package ch.hsr.zebrastreifensafari.gui.create;
+package ch.hsr.zebrastreifensafari.gui.modify.create;
 
-import ch.hsr.zebrastreifensafari.gui.CreateEditGUI;
-import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
+import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
 
-import javax.swing.*;
 import java.util.Date;
 
 /**
  *
  * @author aeugster
  */
-public class CreateCrossingGUI extends CreateEditGUI {
+public class CreateCrossingGUI extends ModifyGUI {
 
     public CreateCrossingGUI(MainGUI mainGUI) {
         super(mainGUI, Properties.get("createCrossingGuiTitle"));

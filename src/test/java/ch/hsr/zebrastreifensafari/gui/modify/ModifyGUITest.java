@@ -1,10 +1,9 @@
-package ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.gui.modify;
 
 import ch.hsr.zebrastreifensafari.TestJDBC;
-import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
+import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
 import ch.hsr.zebrastreifensafari.model.Model;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import org.junit.After;
@@ -19,15 +18,15 @@ import static org.junit.Assert.*;
  * @time : 13:33
  * @date : 21.10.2015
  */
-public class CreateEditGUITest {
+public class ModifyGUITest {
 
     private TestJDBC db;
-    private CreateEditGUI cug;
+    private ModifyGUI cug;
 
     @Before
     public void setUp() throws Exception {
         db = new TestJDBC();
-        cug = new CreateEditGUI(new MainGUI(new Model()), "changeSelectionError") {
+        cug = new ModifyGUI(new MainGUI(new Model()), "changeSelectionError") {
 
             @Override
             protected void onSendClick() {
