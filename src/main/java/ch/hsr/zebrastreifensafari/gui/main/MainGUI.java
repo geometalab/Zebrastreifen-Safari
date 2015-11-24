@@ -1,14 +1,16 @@
-package ch.hsr.zebrastreifensafari.gui.view;
+package ch.hsr.zebrastreifensafari.gui.main;
 
-import ch.hsr.zebrastreifensafari.gui.CreateEditGUI;
-import ch.hsr.zebrastreifensafari.gui.create.CreateCrossingGUI;
-import ch.hsr.zebrastreifensafari.gui.create.CreateRatingGUI;
-import ch.hsr.zebrastreifensafari.gui.edit.EditCrossingGUI;
-import ch.hsr.zebrastreifensafari.gui.edit.EditRatingGUI;
+import ch.hsr.zebrastreifensafari.gui.about.AboutGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.create.CreateCrossingGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.create.CreateRatingGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.edit.EditCrossingGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.edit.EditRatingGUI;
 import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.ObservableHelper;
 import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.swing.*;
@@ -47,7 +49,7 @@ public class MainGUI extends JFrame implements Observer {
     private DefaultTableModel crossingTableModel;
 
     public MainGUI(Model model) throws HeadlessException {
-        super(Properties.get("mainGuiTitle"));
+        super(Properties.get("mainGuiTitle") + Properties.get("versionNumber"));
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -138,28 +140,28 @@ public class MainGUI extends JFrame implements Observer {
     }
 
     private void onAddClick() {
-        CreateEditGUI createEditGUI;
+        ModifyGUI modifyGUI;
 
         if (isRatingMode()) {
-            createEditGUI = new CreateRatingGUI(this, getCrossingFromTable().getOsmNodeId());
+            modifyGUI = new CreateRatingGUI(this, getCrossingFromTable().getOsmNodeId());
         } else {
-            createEditGUI = new CreateCrossingGUI(this);
+            modifyGUI = new CreateCrossingGUI(this);
         }
 
-        createEditGUI.setVisible(true);
+        modifyGUI.setVisible(true);
     }
 
     private void onEditClick() {
         try {
-            CreateEditGUI createEditGUI;
+            ModifyGUI modifyGUI;
 
             if (isRatingMode()) {
-                createEditGUI = new EditRatingGUI(this, getRatingFromTable());
+                modifyGUI = new EditRatingGUI(this, getRatingFromTable());
             } else {
-                createEditGUI = new EditCrossingGUI(this, getCrossingFromTable());
+                modifyGUI = new EditCrossingGUI(this, getCrossingFromTable());
             }
 
-            createEditGUI.setVisible(true);
+            modifyGUI.setVisible(true);
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             errorMessage(Properties.get("editSelectionError"));
         }
@@ -181,12 +183,13 @@ public class MainGUI extends JFrame implements Observer {
 
     private void onRefreshClick() {
         model.reloadUsers();
-        model.reloadCrossing();
-        addCrossingDataToTable(model.getCrossings());
 
         if (isRatingMode()) {
             model.reloadRating(getCrossingFromTable());
             addRatingDataToTable(model.getRatings());
+        } else {
+            model.reloadCrossing();
+            addCrossingDataToTable(model.getCrossings());
         }
     }
 
@@ -195,12 +198,7 @@ public class MainGUI extends JFrame implements Observer {
     }
 
     private void onAboutClick() {
-        JDialog aboutDialog = new JDialog();
-        aboutDialog.setTitle("Über");
-        aboutDialog.setSize(300, 200);
-        aboutDialog.setLocationRelativeTo(getParent());
-        aboutDialog.setModal(true);
-        aboutDialog.setVisible(true);
+        new AboutGUI(this).setVisible(true);
     }
 
     private void onHelpClick() {
@@ -412,7 +410,7 @@ public class MainGUI extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof ObservableHelper) {
-            CreateEditGUI observable = ((ObservableHelper) o).getObservable();
+            ModifyGUI observable = ((ObservableHelper) o).getObservable();
 
             if (observable instanceof CreateCrossingGUI) {
                 createCrossing((Crossing) arg);

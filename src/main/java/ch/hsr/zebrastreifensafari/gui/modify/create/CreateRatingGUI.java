@@ -1,21 +1,19 @@
-package ch.hsr.zebrastreifensafari.gui.create;
+package ch.hsr.zebrastreifensafari.gui.modify.create;
 
-import ch.hsr.zebrastreifensafari.gui.CreateEditGUI;
-import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
+import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.persistence.EntityNotFoundException;
-import javax.swing.*;
 import java.util.Date;
 
 /**
  *
  * @author aeugster
  */
-public class CreateRatingGUI extends CreateEditGUI {
+public class CreateRatingGUI extends ModifyGUI {
 
     private final long node;
 

@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.gui.modify;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -7,15 +7,13 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
-import ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
-import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
+import ch.hsr.zebrastreifensafari.service.ObservableHelper;
+import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -29,7 +27,7 @@ import com.intellij.uiDesigner.core.Spacer;
  * @date : 26.10.2015
  */
 
-public abstract class CreateEditGUI extends JDialog {
+public abstract class ModifyGUI extends JDialog {
 
     private JPanel mainPanel;
     protected JButton sendButton;
@@ -64,10 +62,11 @@ public abstract class CreateEditGUI extends JDialog {
     protected final ObservableHelper observable;
     protected final MainGUI mainGUI;
 
-    protected CreateEditGUI(MainGUI mainGUI, String title) {
+    protected ModifyGUI(MainGUI mainGUI, String title) {
         super(mainGUI, title, true);
         $$$setupUI$$$();
         setContentPane(mainPanel);
+        getRootPane().setDefaultButton(sendButton);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         observable = new ObservableHelper(this);

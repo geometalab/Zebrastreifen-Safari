@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui.view;
+package ch.hsr.zebrastreifensafari.service;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,11 +10,11 @@ import static org.junit.Assert.*;
  * @author : Mike Marti
  * @version : 1.0
  * @project : Zebrastreifen-Safari
- * @time : 13:38
+ * @time : 13:37
  * @date : 21.10.2015
  */
 
-public class MainGUITest {
+public class ObservableHelperTest {
 
     @Before
     public void setUp() throws Exception {
@@ -27,7 +27,17 @@ public class MainGUITest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    public void testAddObserver() throws Exception {
+
+    }
+
+    @Test
+    public void testNotifyObservers() throws Exception {
+
+    }
+
+    @Test
+    public void testNotifyObservers1() throws Exception {
 
     }
 }

@@ -1,13 +1,11 @@
-package ch.hsr.zebrastreifensafari.gui.edit;
+package ch.hsr.zebrastreifensafari.gui.modify.edit;
 
-import ch.hsr.zebrastreifensafari.gui.CreateEditGUI;
-import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
+import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
-
-import javax.swing.*;
 
 /**
  * @author : Mike Marti
@@ -17,7 +15,7 @@ import javax.swing.*;
  * @date : 12.10.2015
  */
 
-public class EditCrossingGUI extends CreateEditGUI {
+public class EditCrossingGUI extends ModifyGUI {
 
     private final Crossing crossing;
 

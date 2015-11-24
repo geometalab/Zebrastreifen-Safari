@@ -1,11 +1,11 @@
-package ch.hsr.zebrastreifensafari.gui.edit;
+package ch.hsr.zebrastreifensafari.gui.modify.edit;
 
 import java.util.Date;
 import java.util.Enumeration;
 import javax.swing.*;
 
-import ch.hsr.zebrastreifensafari.gui.CreateEditGUI;
-import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
+import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -15,7 +15,7 @@ import ch.hsr.zebrastreifensafari.service.Properties;
  *
  * @author aeugster
  */
-public class EditRatingGUI extends CreateEditGUI {
+public class EditRatingGUI extends ModifyGUI {
 
     private final Rating rating;
 
