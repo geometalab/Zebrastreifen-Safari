@@ -21,7 +21,7 @@ public class Main {
 
     public static void main(String[] args) {
         DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPU"));
-        Properties.provideResourceBundle(new Locale("de", "DE", "German"));
+        Properties.setLanguage(Locale.GERMAN);
         Model model = new Model();
         MainGUI mainGUI = new MainGUI(model);
         mainGUI.setVisible(true);

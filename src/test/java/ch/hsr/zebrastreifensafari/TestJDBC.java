@@ -24,7 +24,7 @@ public final class TestJDBC {
         createTables();
         crossingDataService = new CrossingDataService("ZebraPUTest");
         DataServiceLoader.provideCrossingData(crossingDataService);
-        Properties.provideResourceBundle(new Locale("de", "DE", "German"));
+        Properties.setLanguage(Locale.GERMAN);
     }
 
     private void connect() {
