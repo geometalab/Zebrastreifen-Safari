@@ -1,5 +1,6 @@
 package ch.hsr.zebrastreifensafari.service;
 
+import javax.swing.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -18,8 +19,9 @@ public class Properties {
     private Properties() {
     }
 
-    public static void provideResourceBundle(Locale locale) {
+    public static void setLanguage(Locale locale) {
         resourceBundle = ResourceBundle.getBundle("Bundle", locale);
+        JOptionPane.setDefaultLocale(locale);
     }
 
     public static String get(String key) {

@@ -7,31 +7,6 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="f2bba" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-        <constraints border-constraint="South"/>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="81f89" class="javax.swing.JButton" binding="addButton">
-            <constraints/>
-            <properties>
-              <text resource-bundle="Bundle" key="add"/>
-            </properties>
-          </component>
-          <component id="489fa" class="javax.swing.JButton" binding="editButton">
-            <constraints/>
-            <properties>
-              <text resource-bundle="Bundle" key="edit"/>
-            </properties>
-          </component>
-          <component id="fb771" class="javax.swing.JButton" binding="deleteButton">
-            <constraints/>
-            <properties>
-              <text resource-bundle="Bundle" key="delete"/>
-            </properties>
-          </component>
-        </children>
-      </grid>
       <tabbedpane id="49e05" binding="dataTabbedPane">
         <constraints border-constraint="Center"/>
         <properties/>
@@ -97,6 +72,31 @@
           </scrollpane>
         </children>
       </tabbedpane>
+      <grid id="f2bba" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="2">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="81f89" class="javax.swing.JButton" binding="addButton">
+            <constraints/>
+            <properties>
+              <text resource-bundle="Bundle" key="add"/>
+            </properties>
+          </component>
+          <component id="489fa" class="javax.swing.JButton" binding="editButton">
+            <constraints/>
+            <properties>
+              <text resource-bundle="Bundle" key="edit"/>
+            </properties>
+          </component>
+          <component id="fb771" class="javax.swing.JButton" binding="deleteButton">
+            <constraints/>
+            <properties>
+              <text resource-bundle="Bundle" key="delete"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>
