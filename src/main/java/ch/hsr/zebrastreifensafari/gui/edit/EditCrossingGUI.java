@@ -5,6 +5,7 @@ import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.swing.*;
 
@@ -21,7 +22,7 @@ public class EditCrossingGUI extends CreateEditGUI {
     private final Crossing crossing;
 
     public EditCrossingGUI(MainGUI mainGUI, Crossing crossing) {
-        super(mainGUI, DataServiceLoader.getBundleString("editCrossingGuiTitle") + crossing.getOsmNodeId());
+        super(mainGUI, Properties.get("editCrossingGuiTitle") + crossing.getOsmNodeId());
         this.crossing = crossing;
         setValues();
         userLabel.setVisible(false);
@@ -44,7 +45,7 @@ public class EditCrossingGUI extends CreateEditGUI {
         imageLabel.setVisible(false);
         imageTextField.setVisible(false);
         imageField.setVisible(false);
-        sendButton.setText(DataServiceLoader.getBundleString("change"));
+        sendButton.setText(Properties.get("change"));
         setSize(getWidth(), 110);
     }
 
@@ -58,20 +59,20 @@ public class EditCrossingGUI extends CreateEditGUI {
             observable.notifyObservers(crossing);
             this.dispose();
         } catch (NumberFormatException nfex) {
-            errorMessage(DataServiceLoader.getBundleString("osmNodeIdNumericError"));
+            errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (NonexistentEntityException neeex) {
             crossing.setOsmNodeId(osmNodeIdBackup);
-            errorMessage(DataServiceLoader.getBundleString("crossingExistError"));
+            errorMessage(Properties.get("crossingExistError"));
         } catch (Exception e) {
             crossing.setOsmNodeId(osmNodeIdBackup);
-            errorMessage(DataServiceLoader.getBundleString("duplicatedOsmNodeIdError"));
+            errorMessage(Properties.get("duplicatedOsmNodeIdError"));
         }
     }
 
     @Override
     protected boolean checkValues() {
         if (osmNodeIdTextField.getText() == null) {
-            errorMessage(DataServiceLoader.getBundleString("missingInputError"));
+            errorMessage(Properties.get("missingInputError"));
             return false;
         }
 

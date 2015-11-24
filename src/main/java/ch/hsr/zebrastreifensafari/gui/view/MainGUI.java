@@ -9,6 +9,7 @@ import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityEx
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,8 +18,10 @@ import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 /**
@@ -44,7 +47,7 @@ public class MainGUI extends JFrame implements Observer {
     private DefaultTableModel crossingTableModel;
 
     public MainGUI(Model model) throws HeadlessException {
-        super(DataServiceLoader.getBundleString("mainGuiTitle"));
+        super(Properties.get("mainGuiTitle"));
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -111,15 +114,15 @@ public class MainGUI extends JFrame implements Observer {
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             dataTabbedPane.setSelectedIndex(0);
-            errorMessage(DataServiceLoader.getBundleString("changeSelectionError"));
+            errorMessage(Properties.get("changeSelectionError"));
         }
     }
 
     private void onCrossingSelection() {
         if (!crossingDataTable.getSelectionModel().isSelectionEmpty() && crossingTableModel.getRowCount() > 0) {
-            dataTabbedPane.setTitleAt(1, DataServiceLoader.getBundleString("specificRatingTabbedPaneTitle") + crossingTableModel.getValueAt(
+            dataTabbedPane.setTitleAt(1, Properties.get("specificRatingTabbedPaneTitle") + crossingTableModel.getValueAt(
                     crossingDataTable.getSelectedRow(),
-                    crossingDataTable.getColumn(DataServiceLoader.getBundleString("osmNodeId")).getModelIndex()
+                    crossingDataTable.getColumn(Properties.get("osmNodeId")).getModelIndex()
             ));
         }
     }
@@ -158,12 +161,12 @@ public class MainGUI extends JFrame implements Observer {
 
             createEditGUI.setVisible(true);
         } catch (ArrayIndexOutOfBoundsException aioobe) {
-            errorMessage(DataServiceLoader.getBundleString("editSelectionError"));
+            errorMessage(Properties.get("editSelectionError"));
         }
     }
 
     private void onDeleteClick() {
-        if (warningMessage(DataServiceLoader.getBundleString("deleteWarning"), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        if (warningMessage(Properties.get("deleteWarning"), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             try {
                 if (isRatingMode()) {
                     removeRating();
@@ -171,7 +174,7 @@ public class MainGUI extends JFrame implements Observer {
                     removeCrossing();
                 }
             } catch (ArrayIndexOutOfBoundsException aioobe) {
-                errorMessage(DataServiceLoader.getBundleString("deleteSelectionError"));
+                errorMessage(Properties.get("deleteSelectionError"));
             }
         }
     }
@@ -214,9 +217,9 @@ public class MainGUI extends JFrame implements Observer {
     private void onCrossingSort(MouseEvent event) {
         String col = crossingDataTable.getColumnName(crossingDataTable.columnAtPoint(event.getPoint()));
 
-        if (col.equals(DataServiceLoader.getBundleString("osmNodeId"))) {
+        if (col.equals(Properties.get("osmNodeId"))) {
             model.sortByNode();
-        } else if (col.equals(DataServiceLoader.getBundleString("ratingAmount"))) {
+        } else if (col.equals(Properties.get("ratingAmount"))) {
             model.sortByNumberOfRatings();
         }
 
@@ -227,17 +230,17 @@ public class MainGUI extends JFrame implements Observer {
     private void onRatingSort(MouseEvent event) {
         String col = ratingDataTable.getColumnName(ratingDataTable.columnAtPoint(event.getPoint()));
 
-        if (col.equals(DataServiceLoader.getBundleString("user"))) {
+        if (col.equals(Properties.get("user"))) {
             model.sortByUser();
-        } else if (col.equals(DataServiceLoader.getBundleString("traffic"))) {
+        } else if (col.equals(Properties.get("traffic"))) {
             model.sortByTraffic();
-        } else if (col.equals(DataServiceLoader.getBundleString("spacialClarity"))) {
+        } else if (col.equals(Properties.get("spacialClarity"))) {
             model.sortByClarity();
-        } else if (col.equals(DataServiceLoader.getBundleString("illumination"))) {
+        } else if (col.equals(Properties.get("illumination"))) {
             model.sortByIllumination();
-        } else if (col.equals(DataServiceLoader.getBundleString("comment"))) {
+        } else if (col.equals(Properties.get("comment"))) {
             model.sortByComment();
-        } else if (col.equals(DataServiceLoader.getBundleString("image"))) {
+        } else if (col.equals(Properties.get("image"))) {
             model.sortByImage();
         } else {
             model.sortByLastChanged();
@@ -266,11 +269,11 @@ public class MainGUI extends JFrame implements Observer {
     }
 
     private void errorMessage(String message) {
-        JOptionPane.showMessageDialog(this, message, DataServiceLoader.getBundleString("error"), JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, message, Properties.get("error"), JOptionPane.ERROR_MESSAGE);
     }
 
     private int warningMessage(String message, int option) {
-        return JOptionPane.showConfirmDialog(this, message, DataServiceLoader.getBundleString("warning"), option);
+        return JOptionPane.showConfirmDialog(this, message, Properties.get("warning"), option);
     }
 
     private void addCrossingDataToTable(List<Crossing> list) {
@@ -317,12 +320,12 @@ public class MainGUI extends JFrame implements Observer {
 
             if (searchTextField.getText().isEmpty()) {
                 changeTableSelection(crossingDataTable, model.getCrossings().indexOf(crossing));
-                crossingTableModel.setValueAt(crossing.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(DataServiceLoader.getBundleString("ratingAmount")).getModelIndex());
+                crossingTableModel.setValueAt(crossing.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(Properties.get("ratingAmount")).getModelIndex());
             } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
                 for (int i = 0; i < crossingTableModel.getRowCount(); i++) {
-                    if ((long) crossingTableModel.getValueAt(i, crossingDataTable.getColumn(DataServiceLoader.getBundleString("osmNodeId")).getModelIndex()) == crossing.getOsmNodeId()) {
+                    if ((long) crossingTableModel.getValueAt(i, crossingDataTable.getColumn(Properties.get("osmNodeId")).getModelIndex()) == crossing.getOsmNodeId()) {
                         changeTableSelection(crossingDataTable, i);
-                        crossingTableModel.setValueAt(crossing.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(DataServiceLoader.getBundleString("ratingAmount")).getModelIndex());
+                        crossingTableModel.setValueAt(crossing.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(Properties.get("ratingAmount")).getModelIndex());
                         break;
                     }
                 }
@@ -343,25 +346,25 @@ public class MainGUI extends JFrame implements Observer {
         changeTableSelection(ratingDataTable, ratingDataTable.getRowCount() - 1);
         Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
         crossingOfRating.increaseRatingAmount();
-        crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(DataServiceLoader.getBundleString("ratingAmount")).getModelIndex());
+        crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(Properties.get("ratingAmount")).getModelIndex());
     }
 
     private void editCrossing(Crossing crossing) {
         if (searchTextField.getText().isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
-            crossingTableModel.setValueAt(crossing.getOsmNodeId(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(DataServiceLoader.getBundleString("osmNodeId")).getModelIndex());
+            crossingTableModel.setValueAt(crossing.getOsmNodeId(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(Properties.get("osmNodeId")).getModelIndex());
         } else {
             crossingTableModel.removeRow(crossingDataTable.getSelectedRow());
         }
     }
 
     private void editRating(Rating rating) {
-        ratingTableModel.setValueAt(rating.getUserId().getName(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(DataServiceLoader.getBundleString("user")).getModelIndex());
-        ratingTableModel.setValueAt(rating.getTrafficId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(DataServiceLoader.getBundleString("traffic")).getModelIndex());
-        ratingTableModel.setValueAt(rating.getSpatialClarityId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(DataServiceLoader.getBundleString("spacialClarity")).getModelIndex());
-        ratingTableModel.setValueAt(rating.getIlluminationId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(DataServiceLoader.getBundleString("illumination")).getModelIndex());
-        ratingTableModel.setValueAt(rating.getComment(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(DataServiceLoader.getBundleString("comment")).getModelIndex());
-        ratingTableModel.setValueAt(rating.getImageWeblink(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(DataServiceLoader.getBundleString("image")).getModelIndex());
-        ratingTableModel.setValueAt(rating.getLastChanged(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(DataServiceLoader.getBundleString("lastChange")).getModelIndex());
+        ratingTableModel.setValueAt(rating.getUserId().getName(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("user")).getModelIndex());
+        ratingTableModel.setValueAt(rating.getTrafficId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("traffic")).getModelIndex());
+        ratingTableModel.setValueAt(rating.getSpatialClarityId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("spacialClarity")).getModelIndex());
+        ratingTableModel.setValueAt(rating.getIlluminationId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("illumination")).getModelIndex());
+        ratingTableModel.setValueAt(rating.getComment(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("comment")).getModelIndex());
+        ratingTableModel.setValueAt(rating.getImageWeblink(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("image")).getModelIndex());
+        ratingTableModel.setValueAt(rating.getLastChanged(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("lastChange")).getModelIndex());
     }
 
     public void removeCrossing() {
@@ -375,7 +378,7 @@ public class MainGUI extends JFrame implements Observer {
 
             changeTableSelection(crossingDataTable, selectedRow);
         } catch (NonexistentEntityException neeex) {
-            errorMessage(DataServiceLoader.getBundleString("crossingExistError"));
+            errorMessage(Properties.get("crossingExistError"));
         }
     }
 
@@ -398,11 +401,11 @@ public class MainGUI extends JFrame implements Observer {
                 crossingOfRating.decreaseRatingAmount();
                 crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(),
                         crossingDataTable.getSelectedRow(),
-                        crossingDataTable.getColumn(DataServiceLoader.getBundleString("ratingAmount")).getModelIndex()
+                        crossingDataTable.getColumn(Properties.get("ratingAmount")).getModelIndex()
                 );
             }
         } catch (NonexistentEntityException neeex) {
-            errorMessage(DataServiceLoader.getBundleString("ratingCrossingExistError"));
+            errorMessage(Properties.get("ratingCrossingExistError"));
         }
     }
 
@@ -452,10 +455,10 @@ public class MainGUI extends JFrame implements Observer {
     //<editor-fold desc="GUI Builder">
     private void createUIComponents() {
         crossingTableModel = new DefaultTableModel(new String[]{
-                DataServiceLoader.getBundleString("osmNodeId"),
-                DataServiceLoader.getBundleString("ratingAmount"),
-                DataServiceLoader.getBundleString("status"),
-                DataServiceLoader.getBundleString("id")
+                Properties.get("osmNodeId"),
+                Properties.get("ratingAmount"),
+                Properties.get("status"),
+                Properties.get("id")
         }, 0) {
 
             @Override
@@ -477,14 +480,14 @@ public class MainGUI extends JFrame implements Observer {
         };
 
         ratingTableModel = new DefaultTableModel(new String[]{
-                DataServiceLoader.getBundleString("user"),
-                DataServiceLoader.getBundleString("traffic"),
-                DataServiceLoader.getBundleString("spacialClarity"),
-                DataServiceLoader.getBundleString("illumination"),
-                DataServiceLoader.getBundleString("comment"),
-                DataServiceLoader.getBundleString("image"),
-                DataServiceLoader.getBundleString("lastChange"),
-                DataServiceLoader.getBundleString("id")
+                Properties.get("user"),
+                Properties.get("traffic"),
+                Properties.get("spacialClarity"),
+                Properties.get("illumination"),
+                Properties.get("comment"),
+                Properties.get("image"),
+                Properties.get("lastChange"),
+                Properties.get("id")
         }, 0) {
 
             @Override
@@ -499,22 +502,22 @@ public class MainGUI extends JFrame implements Observer {
         ratingDataTable.removeColumn(ratingDataTable.getColumnModel().getColumn(7));
 
         JMenuBar bar = new JMenuBar();
-        JMenu fileMenu = new JMenu(DataServiceLoader.getBundleString("file"));
-        JMenu editMenu = new JMenu(DataServiceLoader.getBundleString("edit"));
-        JMenu helpMenu = new JMenu(DataServiceLoader.getBundleString("help"));
-        refreshMenuItem = new JMenuItem(DataServiceLoader.getBundleString("refresh"));
-        exitMenuItem = new JMenuItem(DataServiceLoader.getBundleString("exit"));
+        JMenu fileMenu = new JMenu(Properties.get("file"));
+        JMenu editMenu = new JMenu(Properties.get("edit"));
+        JMenu helpMenu = new JMenu(Properties.get("help"));
+        refreshMenuItem = new JMenuItem(Properties.get("refresh"));
+        exitMenuItem = new JMenuItem(Properties.get("exit"));
         JMenuItem cutMenuItem = new JMenuItem(new DefaultEditorKit.CutAction());
-        cutMenuItem.setText(DataServiceLoader.getBundleString("cut"));
+        cutMenuItem.setText(Properties.get("cut"));
         JMenuItem copyMenuItem = new JMenuItem(new DefaultEditorKit.CopyAction());
-        copyMenuItem.setText(DataServiceLoader.getBundleString("copy"));
+        copyMenuItem.setText(Properties.get("copy"));
         JMenuItem pasteMenuItem = new JMenuItem(new DefaultEditorKit.PasteAction());
-        pasteMenuItem.setText(DataServiceLoader.getBundleString("paste"));
-        addMenuItem = new JMenuItem(DataServiceLoader.getBundleString("add"));
-        editMenuItem = new JMenuItem(DataServiceLoader.getBundleString("edit"));
-        deleteMenuItem = new JMenuItem(DataServiceLoader.getBundleString("delete"));
-        helpMenuItem = new JMenuItem(DataServiceLoader.getBundleString("help"));
-        aboutMenuItem = new JMenuItem(DataServiceLoader.getBundleString("about"));
+        pasteMenuItem.setText(Properties.get("paste"));
+        addMenuItem = new JMenuItem(Properties.get("add"));
+        editMenuItem = new JMenuItem(Properties.get("edit"));
+        deleteMenuItem = new JMenuItem(Properties.get("delete"));
+        helpMenuItem = new JMenuItem(Properties.get("help"));
+        aboutMenuItem = new JMenuItem(Properties.get("about"));
 
         KeyStroke keyStrokeToClose = KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_DOWN_MASK);
         KeyStroke keyStrokeToRefresh = KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0);

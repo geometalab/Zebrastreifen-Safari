@@ -16,6 +16,7 @@ import ch.hsr.zebrastreifensafari.gui.view.ObservableHelper;
 import ch.hsr.zebrastreifensafari.gui.view.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -127,7 +128,7 @@ public abstract class CreateEditGUI extends JDialog {
 
     protected boolean checkValues() {
         if (spatialClarityButtonGroup.getSelection() == null || illuminationButtonGroup.getSelection() == null || trafficButtonGroup.getSelection() == null || osmNodeIdTextField.getText() == null) {
-            errorMessage(DataServiceLoader.getBundleString("missingInputError"));
+            errorMessage(Properties.get("missingInputError"));
             return false;
         }
 
@@ -140,12 +141,12 @@ public abstract class CreateEditGUI extends JDialog {
             imageField.setText(null);
         } catch (IOException ioex) {
             imageField.setIcon(null);
-            imageField.setText(DataServiceLoader.getBundleString("imageNotFound"));
+            imageField.setText(Properties.get("imageNotFound"));
         }
     }
 
     protected void errorMessage(String message) {
-        JOptionPane.showMessageDialog(this, message, DataServiceLoader.getBundleString("error"), JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, message, Properties.get("error"), JOptionPane.ERROR_MESSAGE);
     }
 
     //<editor-fold desc="GUI Builder">
