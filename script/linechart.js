@@ -32,13 +32,13 @@ $(document).ready(function() {
             if($(document).width() <= 800){
                 var myLineChart = new Chart(ctx).Line(data, {
                     scaleLabel : "<%= Number(value) + ' Z*'%>",
-                    scaleBeginAtZero: true,
+                    //scaleBeginAtZero: true,
                     responsive: true
                 });
             } else {
                 var myLineChart = new Chart(ctx).Line(data, {
                     scaleLabel : "<%= Number(value) + ' Z*'%>",
-                    scaleBeginAtZero: true
+                   // scaleBeginAtZero: true
                 });
             }
 

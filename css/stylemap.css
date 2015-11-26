@@ -41,19 +41,19 @@ body {
     content: "";
     position: absolute; left: 0px; top: 100%;
     z-index: -1;
-    border-left: 3px solid #C7C714;
+    border-left: 3px solid transparent;
     border-right: 3px solid transparent;
     border-bottom: 3px solid transparent;
-    border-top: 3px solid #C7C714;
+    border-top: 3px solid transparent;
 }
 .ribbon span::after {
     content: "";
     position: absolute; right: 0px; top: 100%;
     z-index: -1;
     border-left: 3px solid transparent;
-    border-right: 3px solid #C7C714;
+    border-right: 3px solid transparent;
     border-bottom: 3px solid transparent;
-    border-top: 3px solid #C7C714;
+    border-top: 3px solid transparent;
 }
 
 @media screen and (min-width: 800px) {
