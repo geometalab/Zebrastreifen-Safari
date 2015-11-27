@@ -8,16 +8,10 @@
  */
 
 require_once('connection/DBConfig.php');
-require_once('connection/DBConnection.php');
-require_once('connection/DBZebracrossing.php');
-require_once('connection/DBGis.php');
+require_once('connection/DBCrossing.php');
 
-$zebracrossingConnection = new DBZebracrossing();
-$gisConnection = new DBGis();
-
-$query = $gisConnection->getCrossingAmount();
+$crossingConnection = new DBCrossing();
+$query = $crossingConnection->getCrossingAmount();
 $crossingAmount = pg_fetch_all($query)[0]['amount'];
-$zebracrossingConnection->setCrossingAmount($crossingAmount);
-
-$gisConnection->closeConnection();
-$zebracrossingConnection->closeConnection();
+$crossingConnection->setCrossingAmount($crossingAmount);
+$crossingConnection->closeConnection();
