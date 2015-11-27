@@ -7,7 +7,8 @@ header('Access-Control-Allow-Origin: *');
  * Date: 28.09.2015
  * Time: 15:23
  */
-
+require_once('connection/DBConfig.php');
+require_once('connection/DBCrossing.php');
 require_once('statistic.php');
 require_once('crossing.php');
 
@@ -19,12 +20,12 @@ if (!empty($_GET['type'])) {
     } else if ($type == 'barchart') {
         echo json_encode(barchartStatistic());
     } else if ($type == 'crosswalks') {
-        echo json_encode(zebracrossingPoints());
+        echo json_encode(crossingPoints());
     } else {
         echo json_encode(array("error" => 404, "reason" => 'Parameter "type" has an invalid value.'));
     }
 } else if (!empty($_GET['crosswalk'])) {
-    echo json_encode(zebracrossingDetail(pg_escape_string($_GET['crosswalk'])));
+    echo json_encode(crossingDetail(pg_escape_string($_GET['crosswalk'])));
 } else {
     echo json_encode(array("error" => 404, "reason" => 'Missing required parameter.'));
 }
