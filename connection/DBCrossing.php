@@ -72,9 +72,7 @@ class DBCrossing {
     }
 
     public function getLineChartStatistic() {
-        return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, MAX(amount) AS amount FROM statistic.crossingstatistic
-                                            GROUP BY week
-                                            ORDER BY week ASC;");
+        return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, MAX(amount) AS amount FROM statistic.crossingstatistic GROUP BY week ORDER BY week ASC;");
     }
 
     public function getWeekAmount() {
@@ -82,25 +80,23 @@ class DBCrossing {
     }
 
     public function getBarChartStatistic($offset) {
-        return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, MAX(amount) AS amount FROM statistic.crossingstatistic
-                                            GROUP BY week
-                                            ORDER BY week ASC
-                                            OFFSET $offset;");
+        return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, MAX(amount) AS amount FROM statistic.crossingstatistic GROUP BY week ORDER BY week ASC OFFSET $offset;");
     }
 
     public function getClusteredAmount($number) {
-        return pg_query($this->connection, "SELECT COUNT(*) AS amount FROM
-                                            (SELECT COUNT(wkb_geometry) FROM crossing.osm_crossings
-                                            GROUP BY ST_SnapToGrid(wkb_geometry, $number))
-                                            AS tmp;");
+        return pg_query($this->connection, "SELECT COUNT(*) AS amount FROM (SELECT COUNT(wkb_geometry) FROM crossing.osm_crossings GROUP BY ST_SnapToGrid(wkb_geometry, $number)) AS tmp;");
     }
 
     public function getCrossingAmount() {
-        return pg_query($this->connection, "SELECT COUNT(*) AS amount
-                                            FROM crossing.osm_crossings;");
+        return pg_query($this->connection, "SELECT COUNT(*) AS amount FROM crossing.osm_crossings;");
     }
 
     public function setCrossingAmount($amount) {
         pg_query($this->connection, "INSERT INTO statistic.crossingstatistic (amount) VALUES ($amount);");
+    }
+
+    public function updateCrossingStatus() {
+        pg_query($this->connection, "UPDATE crossing.crossing SET status = 0 WHERE status != 0 AND osm_node_id NOT IN (SELECT osm_id FROM crossing.osm_crossings);");
+        pg_query($this->connection, "UPDATE crossing.crossing SET status = 1 WHERE status != 1 AND osm_node_id IN (SELECT osm_id FROM crossing.osm_crossings);");
     }
 }
