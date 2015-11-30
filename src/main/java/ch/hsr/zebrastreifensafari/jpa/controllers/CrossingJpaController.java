@@ -6,10 +6,7 @@
 package ch.hsr.zebrastreifensafari.jpa.controllers;
 
 import java.io.Serializable;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +19,10 @@ import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
  *
  * @author aeugster
  */
-public class CrossingJpaController implements Serializable {
+public class CrossingJpaController extends EntityController implements Serializable {
 
     public CrossingJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        super(emf);
     }
 
     public void create(Crossing crossing) {
@@ -41,22 +33,7 @@ public class CrossingJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Rating> attachedRatingList = new ArrayList<Rating>();
-            for (Rating ratingListRatingToAttach : crossing.getRatingList()) {
-                ratingListRatingToAttach = em.getReference(ratingListRatingToAttach.getClass(), ratingListRatingToAttach.getId());
-                attachedRatingList.add(ratingListRatingToAttach);
-            }
-            crossing.setRatingList(attachedRatingList);
             em.persist(crossing);
-            for (Rating ratingListRating : crossing.getRatingList()) {
-                Crossing oldCrossingIdOfRatingListRating = ratingListRating.getCrossingId();
-                ratingListRating.setCrossingId(crossing);
-                ratingListRating = em.merge(ratingListRating);
-                if (oldCrossingIdOfRatingListRating != null) {
-                    oldCrossingIdOfRatingListRating.getRatingList().remove(ratingListRating);
-                    oldCrossingIdOfRatingListRating = em.merge(oldCrossingIdOfRatingListRating);
-                }
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -65,39 +42,12 @@ public class CrossingJpaController implements Serializable {
         }
     }
 
-    public void edit(Crossing crossing) throws NonexistentEntityException, Exception {
+    public void edit(Crossing crossing) throws Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Crossing persistentCrossing = em.find(Crossing.class, crossing.getId());
-            List<Rating> ratingListOld = persistentCrossing.getRatingList();
-            List<Rating> ratingListNew = crossing.getRatingList();
-            List<Rating> attachedRatingListNew = new ArrayList<Rating>();
-            for (Rating ratingListNewRatingToAttach : ratingListNew) {
-                ratingListNewRatingToAttach = em.getReference(ratingListNewRatingToAttach.getClass(), ratingListNewRatingToAttach.getId());
-                attachedRatingListNew.add(ratingListNewRatingToAttach);
-            }
-            ratingListNew = attachedRatingListNew;
-            crossing.setRatingList(ratingListNew);
             crossing = em.merge(crossing);
-            for (Rating ratingListOldRating : ratingListOld) {
-                if (!ratingListNew.contains(ratingListOldRating)) {
-                    ratingListOldRating.setCrossingId(null);
-                    ratingListOldRating = em.merge(ratingListOldRating);
-                }
-            }
-            for (Rating ratingListNewRating : ratingListNew) {
-                if (!ratingListOld.contains(ratingListNewRating)) {
-                    Crossing oldCrossingIdOfRatingListNewRating = ratingListNewRating.getCrossingId();
-                    ratingListNewRating.setCrossingId(crossing);
-                    ratingListNewRating = em.merge(ratingListNewRating);
-                    if (oldCrossingIdOfRatingListNewRating != null && !oldCrossingIdOfRatingListNewRating.equals(crossing)) {
-                        oldCrossingIdOfRatingListNewRating.getRatingList().remove(ratingListNewRating);
-                        oldCrossingIdOfRatingListNewRating = em.merge(oldCrossingIdOfRatingListNewRating);
-                    }
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -137,45 +87,21 @@ public class CrossingJpaController implements Serializable {
         }
     }
 
-    public List<Crossing> findCrossingEntities() {
-        return findCrossingEntities(true, -1, -1);
-    }
-
-    public List<Crossing> findCrossingEntities(int maxResults, int firstResult) {
-        return findCrossingEntities(false, maxResults, firstResult);
-    }
-
-    private List<Crossing> findCrossingEntities(boolean all, int maxResults, int firstResult) {
+    public List<Crossing> findEntities() {
         EntityManager em = getEntityManager();
+        List<Crossing> resultList = new ArrayList<Crossing>();
 
         try {
-            if (all) {
-                List<Crossing> resultList = new ArrayList<Crossing>();
-
-                for (Object[] objects : em.createNamedQuery("Crossing.findAll", Object[].class).getResultList()) {
-                    Crossing crossing = (Crossing) objects[0];
-                    crossing.setRatingAmount((long) objects[1]);
-                    resultList.add(crossing);
-                }
-
-                return resultList;
-//                return em.createNamedQuery("Crossing.findAll").getResultList();
+            for (Object[] objects : em.createNamedQuery("Crossing.findAll", Object[].class).getResultList()) {
+                Crossing crossing = (Crossing) objects[0];
+                crossing.setRatingAmount((long) objects[1]);
+                resultList.add(crossing);
             }
-
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Crossing.class));
-            Query q = em.createQuery(cq);
-            q.setMaxResults(maxResults);
-            q.setFirstResult(firstResult);
-
-            for (Crossing crossing : (List<Crossing>)q.getResultList()) {
-                crossing.setRatingAmount(em.createNamedQuery("Crossing.findRatingAmount", Long.class).setParameter("crossingId", crossing).getSingleResult());
-            }
-
-            return q.getResultList();
         } finally {
             em.close();
         }
+
+        return resultList;
     }
 
     public Crossing findCrossing(Integer id) {
@@ -186,18 +112,4 @@ public class CrossingJpaController implements Serializable {
             em.close();
         }
     }
-
-    public int getCrossingCount() {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Crossing> rt = cq.from(Crossing.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
-        } finally {
-            em.close();
-        }
-    }
-    
 }

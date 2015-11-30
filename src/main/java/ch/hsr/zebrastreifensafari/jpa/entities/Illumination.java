@@ -28,7 +28,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Illumination.findAll", query = "SELECT i FROM Illumination i"),
     @NamedQuery(name = "Illumination.findById", query = "SELECT i FROM Illumination i WHERE i.id = :id"),
-    @NamedQuery(name = "Illumination.findByValue", query = "SELECT i FROM Illumination i WHERE i.value = :value")})
+    @NamedQuery(name = "Illumination.findByValue", query = "SELECT i FROM Illumination i WHERE i.value = :value")
+})
 public class Illumination implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

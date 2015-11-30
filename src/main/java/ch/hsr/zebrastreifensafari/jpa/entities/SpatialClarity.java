@@ -28,7 +28,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "SpatialClarity.findAll", query = "SELECT s FROM SpatialClarity s"),
     @NamedQuery(name = "SpatialClarity.findById", query = "SELECT s FROM SpatialClarity s WHERE s.id = :id"),
-    @NamedQuery(name = "SpatialClarity.findByValue", query = "SELECT s FROM SpatialClarity s WHERE s.value = :value")})
+    @NamedQuery(name = "SpatialClarity.findByValue", query = "SELECT s FROM SpatialClarity s WHERE s.value = :value")
+})
 public class SpatialClarity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

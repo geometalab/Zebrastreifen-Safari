@@ -9,31 +9,19 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
-import ch.hsr.zebrastreifensafari.jpa.entities.Illumination;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
-import ch.hsr.zebrastreifensafari.jpa.entities.SpatialClarity;
-import ch.hsr.zebrastreifensafari.jpa.entities.Traffic;
-import ch.hsr.zebrastreifensafari.jpa.entities.User;
 
 /**
  *
  * @author aeugster
  */
-public class RatingJpaController implements Serializable {
+public class RatingJpaController extends EntityController implements Serializable {
 
     public RatingJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        super(emf);
     }
 
     public void create(Rating rating) {
@@ -132,28 +120,8 @@ public class RatingJpaController implements Serializable {
         }
     }
 
-    public List<Rating> findRatingEntities() {
-        return findRatingEntities(true, -1, -1);
-    }
-
-    public List<Rating> findRatingEntities(int maxResults, int firstResult) {
-        return findRatingEntities(false, maxResults, firstResult);
-    }
-
-    private List<Rating> findRatingEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Rating.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
+    public List<Rating> findEntities(Crossing crossing) {
+        return getEntityManager().createNamedQuery("Rating.findByCrossing", Rating.class).setParameter("crossingId", crossing).getResultList();
     }
 
     public Rating findRating(Integer id) {
@@ -163,22 +131,5 @@ public class RatingJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }
-
-    public int getRatingCount() {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Rating> rt = cq.from(Rating.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
-        } finally {
-            em.close();
-        }
-    }
-
-    public List<Rating> findRatingByCrossing(Crossing crossing) {
-        return getEntityManager().createNamedQuery("Rating.findByCrossing", Rating.class).setParameter("crossingId", crossing).getResultList();
     }
 }

@@ -29,7 +29,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
     @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
-    @NamedQuery(name = "User.findByInitials", query = "SELECT u FROM User u WHERE u.initials = :initials")})
+    @NamedQuery(name = "User.findByInitials", query = "SELECT u FROM User u WHERE u.initials = :initials")
+})
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
