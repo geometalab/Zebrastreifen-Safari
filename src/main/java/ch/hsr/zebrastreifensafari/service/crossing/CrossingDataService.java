@@ -8,7 +8,6 @@ import ch.hsr.zebrastreifensafari.model.Model;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,32 +31,32 @@ public class CrossingDataService implements ICrossingDataService {
 
     @Override
     public List<User> getUsers() {
-        return new UserJpaController(emFactory).findUserEntities();
+        return new UserJpaController(emFactory).findEntities();
     }
 
     @Override
     public List<Crossing> getCrossings() {
-        return new CrossingJpaController(emFactory).findCrossingEntities();
+        return new CrossingJpaController(emFactory).findEntities();
     }
 
     @Override
     public List<Rating> getRatings(Crossing crossing) {
-        return new RatingJpaController(emFactory).findRatingByCrossing(crossing);
+        return new RatingJpaController(emFactory).findEntities(crossing);
     }
 
     @Override
     public List<Illumination> getIlluminations() {
-        return new IlluminationJpaController(emFactory).findIlluminationEntities();
+        return new IlluminationJpaController(emFactory).findEntities();
     }
 
     @Override
     public List<SpatialClarity> getSpatialClaritys() {
-        return new SpatialClarityJpaController(emFactory).findSpatialClarityEntities();
+        return new SpatialClarityJpaController(emFactory).findEntities();
     }
 
     @Override
     public List<Traffic> getTraffics() {
-        return new TrafficJpaController(emFactory).findTrafficEntities();
+        return new TrafficJpaController(emFactory).findEntities();
     }
 
     @Override

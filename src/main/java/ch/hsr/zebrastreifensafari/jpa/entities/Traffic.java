@@ -28,7 +28,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Traffic.findAll", query = "SELECT t FROM Traffic t"),
     @NamedQuery(name = "Traffic.findById", query = "SELECT t FROM Traffic t WHERE t.id = :id"),
-    @NamedQuery(name = "Traffic.findByValue", query = "SELECT t FROM Traffic t WHERE t.value = :value")})
+    @NamedQuery(name = "Traffic.findByValue", query = "SELECT t FROM Traffic t WHERE t.value = :value")
+})
 public class Traffic implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

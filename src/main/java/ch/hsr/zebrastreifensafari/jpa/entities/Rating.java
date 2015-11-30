@@ -34,7 +34,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Rating.findByImageWeblink", query = "SELECT r FROM Rating r WHERE r.imageWeblink = :imageWeblink"),
     @NamedQuery(name = "Rating.findByComment", query = "SELECT r FROM Rating r WHERE r.comment = :comment"),
     @NamedQuery(name = "Rating.findByLastChanged", query = "SELECT r FROM Rating r WHERE r.lastChanged = :lastChanged"),
-    @NamedQuery(name = "Rating.findByCrossing", query = "SELECT r FROM Rating r WHERE r.crossingId = :crossingId")})
+    @NamedQuery(name = "Rating.findByCrossing", query = "SELECT r FROM Rating r WHERE r.crossingId = :crossingId")
+})
 public class Rating implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
