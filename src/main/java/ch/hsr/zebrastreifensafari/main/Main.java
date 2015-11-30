@@ -5,12 +5,14 @@ package ch.hsr.zebrastreifensafari.main;
  * and open the template in the editor.
  */
 
+import ch.hsr.zebrastreifensafari.gui.connection.ConnectionErrorGUI;
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
 
+import javax.persistence.PersistenceException;
 import java.util.Locale;
 
 /**
@@ -19,11 +21,20 @@ import java.util.Locale;
  */
 public class Main {
 
+    public Main() {
+        try {
+            Properties.setLanguage(Locale.GERMAN);
+            System.out.println(Properties.get("connectionErrorMessage"));
+            DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPU"));
+            Model model = new Model();
+            MainGUI mainGUI = new MainGUI(model);
+            mainGUI.setVisible(true);
+        } catch (PersistenceException pex) {
+            new ConnectionErrorGUI().setVisible(true);
+        }
+    }
+
     public static void main(String[] args) {
-        DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPU"));
-        Properties.setLanguage(Locale.GERMAN);
-        Model model = new Model();
-        MainGUI mainGUI = new MainGUI(model);
-        mainGUI.setVisible(true);
+        new Main();
     }
 }
