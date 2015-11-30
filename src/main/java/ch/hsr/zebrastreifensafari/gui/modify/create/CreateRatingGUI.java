@@ -7,6 +7,7 @@ import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.RollbackException;
 import java.util.Date;
 
 /**
@@ -25,7 +26,7 @@ public class CreateRatingGUI extends ModifyGUI {
     }
 
     @Override
-    protected void onSendClick() {
+    protected void onSendClick() throws Exception {
         try {
             Rating rating = new Rating(
                     null,
@@ -39,11 +40,11 @@ public class CreateRatingGUI extends ModifyGUI {
                     new Date()
             );
 
-            observable.notifyObservers(rating);
+            mainGUI.createRating(rating);
             this.dispose();
         } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("crossingExistError"));
-        } catch (Exception e) {
+        } catch (RollbackException rex) {
             errorMessage(Properties.get("duplicatedPhotoError"));
         }
     }

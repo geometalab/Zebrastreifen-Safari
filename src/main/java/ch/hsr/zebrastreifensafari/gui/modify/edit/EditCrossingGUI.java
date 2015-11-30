@@ -7,6 +7,8 @@ import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
 
+import javax.persistence.RollbackException;
+
 /**
  * @author : Mike Marti
  * @version : 1.0
@@ -48,20 +50,20 @@ public class EditCrossingGUI extends ModifyGUI {
     }
 
     @Override
-    protected void onSendClick() {
+    protected void onSendClick() throws Exception{
         long osmNodeIdBackup = crossing.getOsmNodeId();
 
         try{
             crossing.setOsmNodeId(Long.parseLong(osmNodeIdTextField.getText()));
             DataServiceLoader.getCrossingData().editCrossing(crossing);
-            observable.notifyObservers(crossing);
+            mainGUI.editCrossing(crossing);
             this.dispose();
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (NonexistentEntityException neeex) {
             crossing.setOsmNodeId(osmNodeIdBackup);
             errorMessage(Properties.get("crossingExistError"));
-        } catch (Exception e) {
+        } catch (RollbackException rex) {
             crossing.setOsmNodeId(osmNodeIdBackup);
             errorMessage(Properties.get("duplicatedOsmNodeIdError"));
         }

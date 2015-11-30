@@ -11,13 +11,13 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
-import ch.hsr.zebrastreifensafari.service.ObservableHelper;
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import org.eclipse.persistence.exceptions.DatabaseException;
 
 /**
  * @author : Mike Marti
@@ -59,7 +59,6 @@ public abstract class ModifyGUI extends JDialog {
     protected ButtonGroup illuminationButtonGroup;
     protected ButtonGroup trafficButtonGroup;
 
-    protected final ObservableHelper observable;
     protected final MainGUI mainGUI;
 
     protected ModifyGUI(MainGUI mainGUI, String title) {
@@ -69,8 +68,6 @@ public abstract class ModifyGUI extends JDialog {
         getRootPane().setDefaultButton(sendButton);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        observable = new ObservableHelper(this);
-        observable.addObserver(mainGUI);
         this.mainGUI = mainGUI;
 
         for (User u : mainGUI.getUsers()) {
@@ -81,19 +78,23 @@ public abstract class ModifyGUI extends JDialog {
         setPosition();
     }
 
+    protected abstract void onSendClick() throws Exception;
+
     private void initListeners() {
         sendButton.addActionListener(e -> {
-            if (!checkValues()) {
-                return;
+            if (checkValues()) {
+                try {
+                    onSendClick();
+                } catch (DatabaseException dbex) {
+                    errorMessage(Properties.get("connectionError"));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    errorMessage(Properties.get("unexpectedError"));
+                }
             }
-
-            onSendClick();
         });
-
         cancelButton.addActionListener(e -> dispose());
-
         imageTextField.addKeyListener(new KeyAdapter() {
-
             @Override
             public void keyReleased(KeyEvent e) {
                 setImage(imageTextField.getText());
@@ -108,8 +109,6 @@ public abstract class ModifyGUI extends JDialog {
 
         setBounds((int) ((dimension.getWidth() - width) / 2), (int) ((dimension.getHeight() - height) / 2), width, height);
     }
-
-    protected abstract void onSendClick();
 
     protected int getSelectedButtonInt(ButtonGroup bg) {
         Enumeration<AbstractButton> buttons = bg.getElements();

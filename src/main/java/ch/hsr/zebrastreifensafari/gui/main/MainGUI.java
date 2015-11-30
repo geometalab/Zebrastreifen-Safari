@@ -10,7 +10,6 @@ import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityEx
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import ch.hsr.zebrastreifensafari.service.ObservableHelper;
 import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.swing.*;
@@ -21,8 +20,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -34,7 +31,7 @@ import java.util.stream.Collectors;
  * @date : 27.10.2015
  */
 
-public class MainGUI extends JFrame implements Observer {
+public class MainGUI extends JFrame {
 
     private JPanel mainPanel;
     private JTextField searchTextField;
@@ -314,7 +311,7 @@ public class MainGUI extends JFrame implements Observer {
         changeTableSelection(ratingDataTable, 0);
     }
 
-    private void createCrossing(Crossing crossing) {
+    public void createCrossing(Crossing crossing) {
         if (model.getCrossings().contains(crossing)) {
             crossing.increaseRatingAmount();
 
@@ -341,7 +338,7 @@ public class MainGUI extends JFrame implements Observer {
         }
     }
 
-    private void createRating(Rating rating) {
+    public void createRating(Rating rating) {
         DataServiceLoader.getCrossingData().addRating(rating, model, ratingTableModel);
         changeTableSelection(ratingDataTable, ratingDataTable.getRowCount() - 1);
         Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
@@ -349,15 +346,16 @@ public class MainGUI extends JFrame implements Observer {
         crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(Properties.get("ratingAmount")).getModelIndex());
     }
 
-    private void editCrossing(Crossing crossing) {
+    public void editCrossing(Crossing crossing) {
         if (searchTextField.getText().isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
             crossingTableModel.setValueAt(crossing.getOsmNodeId(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(Properties.get("osmNodeId")).getModelIndex());
+            onCrossingSelection();
         } else {
             crossingTableModel.removeRow(crossingDataTable.getSelectedRow());
         }
     }
 
-    private void editRating(Rating rating) {
+    public void editRating(Rating rating) {
         ratingTableModel.setValueAt(rating.getUserId().getName(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("user")).getModelIndex());
         ratingTableModel.setValueAt(rating.getTrafficId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("traffic")).getModelIndex());
         ratingTableModel.setValueAt(rating.getSpatialClarityId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("spacialClarity")).getModelIndex());
@@ -382,7 +380,7 @@ public class MainGUI extends JFrame implements Observer {
         }
     }
 
-    private void removeRating() {
+    public void removeRating() {
         try {
             int selectedRow = ratingDataTable.getSelectedRow();
             Rating removeRating = getRatingFromTable();
@@ -406,23 +404,6 @@ public class MainGUI extends JFrame implements Observer {
             }
         } catch (NonexistentEntityException neeex) {
             errorMessage(Properties.get("ratingCrossingExistError"));
-        }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof ObservableHelper) {
-            ModifyGUI observable = ((ObservableHelper) o).getObservable();
-
-            if (observable instanceof CreateCrossingGUI) {
-                createCrossing((Crossing) arg);
-            } else if (observable instanceof CreateRatingGUI) {
-                createRating((Rating) arg);
-            } else if (observable instanceof EditCrossingGUI) {
-                editCrossing((Crossing) arg);
-            } else if (observable instanceof EditRatingGUI) {
-                editRating((Rating) arg);
-            }
         }
     }
 

@@ -2,6 +2,7 @@ package ch.hsr.zebrastreifensafari.gui.modify.edit;
 
 import java.util.Date;
 import java.util.Enumeration;
+import javax.persistence.RollbackException;
 import javax.swing.*;
 
 import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
@@ -30,7 +31,7 @@ public class EditRatingGUI extends ModifyGUI {
     }
 
     @Override
-    protected void onSendClick() {
+    protected void onSendClick() throws Exception {
         User userBackup = rating.getUserId();
         Illumination illuminationBackup = rating.getIlluminationId();
         SpatialClarity spatialClarityBackup = rating.getSpatialClarityId();
@@ -48,7 +49,7 @@ public class EditRatingGUI extends ModifyGUI {
             rating.setComment(commentTextArea.getText().isEmpty() ? null : commentTextArea.getText());
             rating.setLastChanged(new Date());
             DataServiceLoader.getCrossingData().editRating(rating);
-            observable.notifyObservers(rating);
+            mainGUI.editRating(rating);
             this.dispose();
         } catch (NonexistentEntityException neeex) {
             rating.setUserId(userBackup);
@@ -59,7 +60,7 @@ public class EditRatingGUI extends ModifyGUI {
             rating.setComment(commentBackup);
             rating.setLastChanged(lastChangedBackup);
             errorMessage(Properties.get("ratingCrossingExistError"));
-        } catch (Exception e) {
+        } catch (RollbackException rex) {
             rating.setUserId(userBackup);
             rating.setIlluminationId(illuminationBackup);
             rating.setSpatialClarityId(spatialClarityBackup);
