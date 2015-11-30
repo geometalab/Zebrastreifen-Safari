@@ -13,8 +13,8 @@ function unproject(latlng){
 }
 
 map.on('moveend', function() {
-    var zoom = L.map.getZoom();
-    var bound = L.map.getBounds();
+    var zoom = map.getZoom();
+    var bound = map.getBounds();
 });
 $(document).ready(function() {
     $.ajax({
@@ -28,10 +28,15 @@ $(document).ready(function() {
             });
             var crossing = L.geoJson(response, {
 
+                onEachFeature: function(features, layer){
+
+                    layer.bindPopup(features.properties.osm_node_id.toString() + '<br />' +
+                    '<a href="crossing.html?crosswalk=' + features.properties.osm_node_id + '">Mehr Anzeigen...</a>');
+                },
                 // add the points to the layer
                 pointToLayer: function (feature, latlng) {
                     var newlatlng = unproject(latlng);
-                    console.log(latlng);
+                    //console.log(latlng);
                     return L.marker(newlatlng, {
                         icon:icon
                     });
