@@ -23,7 +23,7 @@ public class Model {
     private final List<Illumination> illuminations;
     private final List<SpatialClarity> spatialClaritys;
     private final List<Traffic> traffics;
-    private boolean node = true, ratingAmount = true, user = true, traffic = true, clarity = true, illumination = true, comment = true, image = true, lastChanged = true;
+    private boolean node = true, ratingAmount = true, status = true, user = true, traffic = true, clarity = true, illumination = true, comment = true, image = true, lastChanged = true;
 
     public Model() {
         ratings = new ArrayList<Rating>();
@@ -155,6 +155,16 @@ public class Model {
         } else {
             crossings = crossings.stream().sorted((o1, o2) -> Long.compare(o2.getRatingAmount(), o1.getRatingAmount())).collect(Collectors.toList());
             ratingAmount = true;
+        }
+    }
+
+    public void sortByStatus() {
+        if (status) {
+            crossings = crossings.stream().sorted((o1, o2) -> Integer.compare(o1.getStatus(), o2.getStatus())).collect(Collectors.toList());
+            status = false;
+        } else {
+            crossings = crossings.stream().sorted((o1, o2) -> Integer.compare(o2.getStatus(), o1.getStatus())).collect(Collectors.toList());
+            status = true;
         }
     }
 

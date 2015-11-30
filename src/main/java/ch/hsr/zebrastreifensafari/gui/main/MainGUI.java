@@ -219,6 +219,8 @@ public class MainGUI extends JFrame implements Observer {
             model.sortByNode();
         } else if (col.equals(Properties.get("ratingAmount"))) {
             model.sortByNumberOfRatings();
+        } else if (col.equals(Properties.get("status"))) {
+            model.sortByStatus();
         }
 
         addCrossingDataToTable(model.getCrossings());
@@ -240,7 +242,7 @@ public class MainGUI extends JFrame implements Observer {
             model.sortByComment();
         } else if (col.equals(Properties.get("image"))) {
             model.sortByImage();
-        } else {
+        } else if (col.equals(Properties.get("lastChange"))) {
             model.sortByLastChanged();
         }
 
