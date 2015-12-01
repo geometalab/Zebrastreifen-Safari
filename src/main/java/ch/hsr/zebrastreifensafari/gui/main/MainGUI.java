@@ -23,6 +23,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -208,13 +210,20 @@ public class MainGUI extends JFrame {
     }
 
     private void onHelpClick() {
-        String helpURL = "http://www.google.com";
-        Runtime rt = Runtime.getRuntime();
+        String url = "http://www.google.com";
 
-        try {
-            rt.exec("rundll32 helpURL.dll,FileProtocolHandler " + helpURL);
-        } catch (IOException ioex) {
-            ioex.printStackTrace();
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().browse(new URI(url));
+            } catch (IOException | URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            try {
+                Runtime.getRuntime().exec("xdg-open " + url);
+            } catch (IOException ioex) {
+                ioex.printStackTrace();
+            }
         }
     }
 
