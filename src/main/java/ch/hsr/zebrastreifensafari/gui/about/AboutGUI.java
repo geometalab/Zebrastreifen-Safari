@@ -6,12 +6,18 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ResourceBundle;
 
 public class AboutGUI extends JDialog {
 
     private JPanel mainPanel;
     private JButton closeButton;
+    private JLabel geometalabLink;
 
     public AboutGUI(JFrame parent) {
         super(parent, Properties.get("aboutGuiTitle"), true);
@@ -19,7 +25,31 @@ public class AboutGUI extends JDialog {
         getRootPane().setDefaultButton(closeButton);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
+        initListeners();
+    }
+
+    private void initListeners() {
         closeButton.addActionListener(e -> dispose());
+        geometalabLink.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String url = "http://www.ifs.hsr.ch/index.php?id=12520";
+
+                if (Desktop.isDesktopSupported()) {
+                    try {
+                        Desktop.getDesktop().browse(new URI(url));
+                    } catch (IOException | URISyntaxException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    try {
+                        Runtime.getRuntime().exec("xdg-open " + url);
+                    } catch (IOException ioex) {
+                        ioex.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     {
@@ -40,7 +70,7 @@ public class AboutGUI extends JDialog {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0, 0));
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(panel1, BorderLayout.CENTER);
         final JLabel label1 = new JLabel();
         this.$$$loadLabelText$$$(label1, ResourceBundle.getBundle("Bundle").getString("version"));
@@ -50,7 +80,7 @@ public class AboutGUI extends JDialog {
         panel1.add(label2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
         this.$$$loadLabelText$$$(label3, ResourceBundle.getBundle("Bundle").getString("developer"));
-        panel1.add(label3, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(label3, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
         this.$$$loadLabelText$$$(label4, ResourceBundle.getBundle("Bundle").getString("projectTitle"));
         panel1.add(label4, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -59,7 +89,13 @@ public class AboutGUI extends JDialog {
         panel1.add(label5, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label6 = new JLabel();
         this.$$$loadLabelText$$$(label6, ResourceBundle.getBundle("Bundle").getString("developerNames"));
-        panel1.add(label6, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(label6, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label7 = new JLabel();
+        this.$$$loadLabelText$$$(label7, ResourceBundle.getBundle("Bundle").getString("geometalab"));
+        panel1.add(label7, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        geometalabLink = new JLabel();
+        this.$$$loadLabelText$$$(geometalabLink, ResourceBundle.getBundle("Bundle").getString("geometalabLink"));
+        panel1.add(geometalabLink, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new BorderLayout(0, 0));
         mainPanel.add(panel2, BorderLayout.SOUTH);
