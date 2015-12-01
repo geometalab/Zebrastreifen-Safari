@@ -13,7 +13,7 @@ function barchartStatistic() {
     $resultset = pg_fetch_all($query);
 
     for ($i = 0; $i < count($resultset) - 1; $i++) {
-        $resultset[$i]['week'] = date('Y-m-d', strtotime("+7 day", strtotime($resultset[$i]['week'])));
+        $resultset[$i]['week'] = date('d.m.Y', strtotime($resultset[$i + 1]['week']))." - ".date('d.m.Y', strtotime("+6 day", strtotime($resultset[$i + 1]['week'])));
         $resultset[$i]['amount'] = $resultset[$i + 1]['amount'] - $resultset[$i]['amount'];
     }
 
@@ -29,7 +29,7 @@ function linechartStatistic() {
     $resultset = pg_fetch_all($query);
 
     for ($i = 0; $i < count($resultset); $i++) {
-        $resultset[$i]['week'] = date('Y-m-d', strtotime("+7 day", strtotime($resultset[$i]['week'])));
+        $resultset[$i]['week'] = date('d.m.Y', strtotime("+6 day", strtotime($resultset[$i]['week'])));
         $resultset[$i]['amount'] = intval($resultset[$i]['amount']);
     }
 
