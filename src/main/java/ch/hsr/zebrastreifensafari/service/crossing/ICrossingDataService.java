@@ -1,9 +1,9 @@
 package ch.hsr.zebrastreifensafari.service.crossing;
 
-import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 
+import javax.persistence.EntityNotFoundException;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
@@ -25,29 +25,29 @@ public interface ICrossingDataService {
 
     List<Illumination> getIlluminations();
 
-    List<SpatialClarity> getSpatialClaritys();
+    List<SpatialClarity> getSpatialClarities();
 
     List<Traffic> getTraffics();
 
-    void addCrossing(Crossing crossing, Model model);
+    void createCrossing(Crossing crossing, Model model) throws EntityNotFoundException;
 
-    void addCrossing(Crossing crossing, Model model, DefaultTableModel tableModel);
+    void createCrossing(Crossing crossing, Model model, DefaultTableModel tableModel) throws EntityNotFoundException;
 
-    void addRating(Rating rating);
+    void createRating(Rating rating) throws EntityNotFoundException;
 
-    void addRating(Rating rating, Model model);
+    void createRating(Rating rating, Model model) throws EntityNotFoundException;
 
-    void addRating(Rating rating, Model model, DefaultTableModel tableModel);
+    void createRating(Rating rating, Model model, DefaultTableModel tableModel) throws EntityNotFoundException;
 
-    void removeCrossing(int id) throws NonexistentEntityException;
+    void editRating(Rating rating) throws EntityNotFoundException;
 
-    void removeCrossing(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException;
+    void editCrossing(Crossing crossing) throws EntityNotFoundException;
 
-    void removeRating(int id) throws NonexistentEntityException;
+    void removeCrossing(int id) throws EntityNotFoundException;
 
-    void removeRating(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException;
+    void removeCrossing(int id, Model model, DefaultTableModel tableModel) throws EntityNotFoundException;
 
-    void editRating(Rating rating) throws Exception;
+    void removeRating(int id) throws EntityNotFoundException;
 
-    void editCrossing(Crossing crossing) throws Exception;
+    void removeRating(int id, Model model, DefaultTableModel tableModel) throws EntityNotFoundException;
 }

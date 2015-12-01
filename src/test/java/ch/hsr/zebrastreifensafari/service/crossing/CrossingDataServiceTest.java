@@ -4,10 +4,9 @@ import ch.hsr.zebrastreifensafari.TestJDBC;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.model.Model;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,7 +57,7 @@ public class CrossingDataServiceTest {
 
     @Test
     public void testGetSpatialClaritys() throws Exception {
-        assertEquals(3, db.getCrossingDataService().getSpatialClaritys().size());
+        assertEquals(3, db.getCrossingDataService().getSpatialClarities().size());
     }
 
     @Test
@@ -76,7 +75,7 @@ public class CrossingDataServiceTest {
     @Test
     public void testAddCrossing() throws Exception {
         assertEquals(11, db.getCrossingDataService().getCrossings().size());
-        db.getCrossingDataService().addCrossing(new Crossing(), new Model());
+        db.getCrossingDataService().createCrossing(new Crossing(), new Model());
         assertEquals(12, db.getCrossingDataService().getCrossings().size());
     }
 
@@ -84,7 +83,7 @@ public class CrossingDataServiceTest {
     public void testAddRating() throws Exception {
         Crossing crossing = new Model().getCrossing(2);
         assertEquals(1, db.getCrossingDataService().getRatings(crossing).size());
-        db.getCrossingDataService().addRating(new Rating(null, "test Comment", db.getCrossingDataService().getIlluminations().get(1), db.getCrossingDataService().getSpatialClaritys().get(1),
+        db.getCrossingDataService().createRating(new Rating(null, "test Comment", db.getCrossingDataService().getIlluminations().get(1), db.getCrossingDataService().getSpatialClarities().get(1),
                 db.getCrossingDataService().getTraffics().get(1), db.getCrossingDataService().getUsers().get(1), crossing, "", new Date()));
         assertEquals(2, db.getCrossingDataService().getRatings(crossing).size());
     }

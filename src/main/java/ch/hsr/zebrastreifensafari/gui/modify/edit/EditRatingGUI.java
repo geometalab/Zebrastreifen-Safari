@@ -2,14 +2,13 @@ package ch.hsr.zebrastreifensafari.gui.modify.edit;
 
 import java.util.Date;
 import java.util.Enumeration;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.RollbackException;
 import javax.swing.*;
 
 import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
-import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
@@ -25,9 +24,7 @@ public class EditRatingGUI extends ModifyGUI {
         super(mainGUI, Properties.get("editRatingGuiTitleOne") + rating.getUserId().getName() + Properties.get("editRatingGuiTitleTwo") + rating.getCrossingId().getOsmNodeId());
         this.rating = rating;
         setValues();
-        setImage(imageTextField.getText());
-        osmNodeIdLabel.setVisible(false);
-        osmNodeIdTextField.setVisible(false);
+        setInvisible();
         sendButton.setText(Properties.get("change"));
     }
 
@@ -49,44 +46,19 @@ public class EditRatingGUI extends ModifyGUI {
             rating.setImageWeblink(imageTextField.getText().isEmpty() ? null : imageTextField.getText());
             rating.setComment(commentTextArea.getText().isEmpty() ? null : commentTextArea.getText());
             rating.setLastChanged(new Date());
-            DataServiceLoader.getCrossingData().editRating(rating);
             mainGUI.editRating(rating);
             this.dispose();
-        } catch (NonexistentEntityException neeex) {
-            rating.setUserId(userBackup);
-            rating.setIlluminationId(illuminationBackup);
-            rating.setSpatialClarityId(spatialClarityBackup);
-            rating.setTrafficId(trafficBackup);
-            rating.setImageWeblink(imageWeblinkBackup);
-            rating.setComment(commentBackup);
-            rating.setLastChanged(lastChangedBackup);
+        } catch (EntityNotFoundException enfex) {
+            rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             errorMessage(Properties.get("ratingCrossingExistError"));
         } catch (RollbackException rex) {
-            rating.setUserId(userBackup);
-            rating.setIlluminationId(illuminationBackup);
-            rating.setSpatialClarityId(spatialClarityBackup);
-            rating.setTrafficId(trafficBackup);
-            rating.setImageWeblink(imageWeblinkBackup);
-            rating.setComment(commentBackup);
-            rating.setLastChanged(lastChangedBackup);
+            rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             errorMessage(Properties.get("duplicatedPhotoError"));
         } catch (DatabaseException dbex) {
-            rating.setUserId(userBackup);
-            rating.setIlluminationId(illuminationBackup);
-            rating.setSpatialClarityId(spatialClarityBackup);
-            rating.setTrafficId(trafficBackup);
-            rating.setImageWeblink(imageWeblinkBackup);
-            rating.setComment(commentBackup);
-            rating.setLastChanged(lastChangedBackup);
+            rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             errorMessage(Properties.get("connectionError"));
         } catch (Exception ex) {
-            rating.setUserId(userBackup);
-            rating.setIlluminationId(illuminationBackup);
-            rating.setSpatialClarityId(spatialClarityBackup);
-            rating.setTrafficId(trafficBackup);
-            rating.setImageWeblink(imageWeblinkBackup);
-            rating.setComment(commentBackup);
-            rating.setLastChanged(lastChangedBackup);
+            rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             ex.printStackTrace();
             errorMessage(Properties.get("unexpectedError"));
         }
@@ -112,5 +84,21 @@ public class EditRatingGUI extends ModifyGUI {
         setButtonGroupValue(trafficButtonGroup, rating.getTrafficId().getId());
         commentTextArea.setText(rating.getComment());
         imageTextField.setText(rating.getImageWeblink());
+        setImage(imageTextField.getText());
+    }
+
+    private void rollback(User user, Illumination illumination, SpatialClarity spatialClarity, Traffic traffic, String imageWeblink, String comment, Date lastChanged) {
+        rating.setUserId(user);
+        rating.setIlluminationId(illumination);
+        rating.setSpatialClarityId(spatialClarity);
+        rating.setTrafficId(traffic);
+        rating.setImageWeblink(imageWeblink);
+        rating.setComment(comment);
+        rating.setLastChanged(lastChanged);
+    }
+
+    private void setInvisible() {
+        osmNodeIdLabel.setVisible(false);
+        osmNodeIdTextField.setVisible(false);
     }
 }

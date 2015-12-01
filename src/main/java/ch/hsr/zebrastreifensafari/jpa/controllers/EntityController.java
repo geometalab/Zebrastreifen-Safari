@@ -13,13 +13,13 @@ import javax.persistence.EntityManagerFactory;
 
 public abstract class EntityController {
 
-    private EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
-    public EntityController(EntityManagerFactory emf) {
+    protected EntityController(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-    public EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 }
