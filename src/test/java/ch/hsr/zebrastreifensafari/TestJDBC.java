@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Locale;
 
-/*
+/**
  * @author aeugster
  */
 public final class TestJDBC {
@@ -25,6 +25,10 @@ public final class TestJDBC {
         crossingDataService = new CrossingDataService("ZebraPUTest");
         DataServiceLoader.provideCrossingData(crossingDataService);
         Properties.setLanguage(Locale.GERMAN);
+    }
+
+    public static void main(String args[]) {
+        new TestJDBC();
     }
 
     private void connect() {
@@ -220,15 +224,10 @@ public final class TestJDBC {
             stmt.executeUpdate(createString);
             stmt.close();
 
-            
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String args[]) {
-        new TestJDBC();
     }
 
 }

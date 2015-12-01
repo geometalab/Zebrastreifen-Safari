@@ -6,10 +6,10 @@ import ch.hsr.zebrastreifensafari.model.Model;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.Persistence;
-import java.util.List;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 /**
  * @author : Mike Marti
@@ -68,7 +68,7 @@ public class CrossingDataService implements ICrossingDataService {
     @Override
     public void createCrossing(Crossing crossing, Model model, DefaultTableModel tableModel) {
         createCrossing(crossing, model);
-        tableModel.addRow(new Object[] {
+        tableModel.addRow(new Object[]{
                 crossing.getOsmNodeId(),
                 crossing.getRatingAmount(),
                 crossing.getStatus(),
@@ -91,7 +91,7 @@ public class CrossingDataService implements ICrossingDataService {
     @Override
     public void createRating(Rating rating, Model model, DefaultTableModel tableModel) throws EntityNotFoundException {
         createRating(rating, model);
-        tableModel.addRow(new Object[] {
+        tableModel.addRow(new Object[]{
                 rating.getUserId().getName(),
                 rating.getTrafficId().getValue(),
                 rating.getSpatialClarityId().getValue(),

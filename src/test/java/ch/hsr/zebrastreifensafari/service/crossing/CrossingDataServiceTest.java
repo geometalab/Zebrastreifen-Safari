@@ -4,14 +4,13 @@ import ch.hsr.zebrastreifensafari.TestJDBC;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.model.Model;
-
-import java.util.Date;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author : Mike Marti

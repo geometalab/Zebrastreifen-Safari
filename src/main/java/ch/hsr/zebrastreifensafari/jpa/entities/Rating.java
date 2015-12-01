@@ -5,36 +5,22 @@
  */
 package ch.hsr.zebrastreifensafari.jpa.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
- *
  * @author aeugster
  */
 @Entity
 @Table(name = "crossing.rating")
 @NamedQueries({
-    @NamedQuery(name = "Rating.findAll", query = "SELECT r FROM Rating r"),
-    @NamedQuery(name = "Rating.findById", query = "SELECT r FROM Rating r WHERE r.id = :id"),
-    @NamedQuery(name = "Rating.findByImageWeblink", query = "SELECT r FROM Rating r WHERE r.imageWeblink = :imageWeblink"),
-    @NamedQuery(name = "Rating.findByComment", query = "SELECT r FROM Rating r WHERE r.comment = :comment"),
-    @NamedQuery(name = "Rating.findByLastChanged", query = "SELECT r FROM Rating r WHERE r.lastChanged = :lastChanged"),
-    @NamedQuery(name = "Rating.findByCrossing", query = "SELECT r FROM Rating r WHERE r.crossingId = :crossingId")
+        @NamedQuery(name = "Rating.findAll", query = "SELECT r FROM Rating r"),
+        @NamedQuery(name = "Rating.findById", query = "SELECT r FROM Rating r WHERE r.id = :id"),
+        @NamedQuery(name = "Rating.findByImageWeblink", query = "SELECT r FROM Rating r WHERE r.imageWeblink = :imageWeblink"),
+        @NamedQuery(name = "Rating.findByComment", query = "SELECT r FROM Rating r WHERE r.comment = :comment"),
+        @NamedQuery(name = "Rating.findByLastChanged", query = "SELECT r FROM Rating r WHERE r.lastChanged = :lastChanged"),
+        @NamedQuery(name = "Rating.findByCrossing", query = "SELECT r FROM Rating r WHERE r.crossingId = :crossingId")
 })
 public class Rating implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -173,5 +159,5 @@ public class Rating implements Serializable {
     public String toString() {
         return "ch.hsr.zebrastreifensafari.jpa.entities.Rating[ id=" + id + " ]";
     }
-    
+
 }

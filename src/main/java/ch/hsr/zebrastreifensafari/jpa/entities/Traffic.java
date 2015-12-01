@@ -5,30 +5,19 @@
  */
 package ch.hsr.zebrastreifensafari.jpa.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
- *
  * @author aeugster
  */
 @Entity
 @Table(name = "crossing.traffic")
 @NamedQueries({
-    @NamedQuery(name = "Traffic.findAll", query = "SELECT t FROM Traffic t"),
-    @NamedQuery(name = "Traffic.findById", query = "SELECT t FROM Traffic t WHERE t.id = :id"),
-    @NamedQuery(name = "Traffic.findByValue", query = "SELECT t FROM Traffic t WHERE t.value = :value")
+        @NamedQuery(name = "Traffic.findAll", query = "SELECT t FROM Traffic t"),
+        @NamedQuery(name = "Traffic.findById", query = "SELECT t FROM Traffic t WHERE t.id = :id"),
+        @NamedQuery(name = "Traffic.findByValue", query = "SELECT t FROM Traffic t WHERE t.value = :value")
 })
 public class Traffic implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -90,5 +79,5 @@ public class Traffic implements Serializable {
     public String toString() {
         return "ch.hsr.zebrastreifensafari.jpa.entities.Traffic[ id=" + id + " ]";
     }
-    
+
 }

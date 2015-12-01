@@ -5,12 +5,11 @@
  */
 package ch.hsr.zebrastreifensafari.jpa.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
 
 /**
- *
  * @author aeugster
  */
 @Entity
@@ -91,16 +90,16 @@ public class Crossing implements Serializable {
         return ratingAmount;
     }
 
+    public void setRatingAmount(long ratingAmount) {
+        this.ratingAmount = ratingAmount;
+    }
+
     public void increaseRatingAmount() {
         ratingAmount++;
     }
 
     public void decreaseRatingAmount() {
         ratingAmount--;
-    }
-
-    public void setRatingAmount(long ratingAmount) {
-        this.ratingAmount = ratingAmount;
     }
 
     @Override

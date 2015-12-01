@@ -5,30 +5,19 @@
  */
 package ch.hsr.zebrastreifensafari.jpa.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
- *
  * @author aeugster
  */
 @Entity
 @Table(name = "crossing.illumination")
 @NamedQueries({
-    @NamedQuery(name = "Illumination.findAll", query = "SELECT i FROM Illumination i"),
-    @NamedQuery(name = "Illumination.findById", query = "SELECT i FROM Illumination i WHERE i.id = :id"),
-    @NamedQuery(name = "Illumination.findByValue", query = "SELECT i FROM Illumination i WHERE i.value = :value")
+        @NamedQuery(name = "Illumination.findAll", query = "SELECT i FROM Illumination i"),
+        @NamedQuery(name = "Illumination.findById", query = "SELECT i FROM Illumination i WHERE i.id = :id"),
+        @NamedQuery(name = "Illumination.findByValue", query = "SELECT i FROM Illumination i WHERE i.value = :value")
 })
 public class Illumination implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -90,5 +79,5 @@ public class Illumination implements Serializable {
     public String toString() {
         return "ch.hsr.zebrastreifensafari.jpa.entities.Illumination[ id=" + id + " ]";
     }
-    
+
 }

@@ -5,31 +5,20 @@
  */
 package ch.hsr.zebrastreifensafari.jpa.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
- *
  * @author aeugster
  */
 @Entity
 @Table(name = "crossing.user")
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
-    @NamedQuery(name = "User.findByInitials", query = "SELECT u FROM User u WHERE u.initials = :initials")
+        @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+        @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+        @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
+        @NamedQuery(name = "User.findByInitials", query = "SELECT u FROM User u WHERE u.initials = :initials")
 })
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -103,5 +92,5 @@ public class User implements Serializable {
     public String toString() {
         return "ch.hsr.zebrastreifensafari.jpa.entities.User[ id=" + id + " ]";
     }
-    
+
 }

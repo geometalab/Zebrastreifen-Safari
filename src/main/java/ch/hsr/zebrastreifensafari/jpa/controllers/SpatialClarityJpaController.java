@@ -5,14 +5,13 @@
  */
 package ch.hsr.zebrastreifensafari.jpa.controllers;
 
-import java.io.Serializable;
-
-import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import ch.hsr.zebrastreifensafari.jpa.entities.SpatialClarity;
 
+import javax.persistence.EntityManagerFactory;
+import java.io.Serializable;
+import java.util.List;
+
 /**
- *
  * @author aeugster
  */
 public class SpatialClarityJpaController extends EntityController implements Serializable {

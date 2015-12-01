@@ -5,24 +5,24 @@
  */
 package ch.hsr.zebrastreifensafari.model;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
- *
  * @author aeugster
  */
 public class Model {
 
-    private List<User> users;
-    private List<Crossing> crossings;
-    private List<Rating> ratings;
     private final List<Illumination> illuminations;
     private final List<SpatialClarity> spatialClaritys;
     private final List<Traffic> traffics;
+    private List<User> users;
+    private List<Crossing> crossings;
+    private List<Rating> ratings;
     private boolean node = true, ratingAmount = true, status = true, user = true, traffic = true, clarity = true, illumination = true, comment = true, image = true, lastChanged = true;
 
     public Model() {
