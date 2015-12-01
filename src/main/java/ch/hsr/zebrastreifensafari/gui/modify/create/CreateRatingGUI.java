@@ -5,6 +5,7 @@ import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.service.Properties;
+import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.RollbackException;
@@ -26,7 +27,7 @@ public class CreateRatingGUI extends ModifyGUI {
     }
 
     @Override
-    protected void onSendClick() throws Exception {
+    protected void onSendClick() {
         try {
             Rating rating = new Rating(
                     null,
@@ -46,6 +47,11 @@ public class CreateRatingGUI extends ModifyGUI {
             errorMessage(Properties.get("crossingExistError"));
         } catch (RollbackException rex) {
             errorMessage(Properties.get("duplicatedPhotoError"));
+        } catch (DatabaseException dbex) {
+            errorMessage(Properties.get("connectionError"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            errorMessage(Properties.get("unexpectedError"));
         }
     }
 }

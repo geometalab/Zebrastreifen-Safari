@@ -24,7 +24,7 @@ public class CreateCrossingGUI extends ModifyGUI {
     }
 
     @Override
-    protected void onSendClick() throws Exception{
+    protected void onSendClick() {
         try {
             //todo: überarbeiten, wenn ein bild wiederholt verwendet wird, wird trozdem ein crossing erstellt (momentane lösung funktioniert ist aber nicht schön)
             long osmNode = Long.parseLong(osmNodeIdTextField.getText());
@@ -60,7 +60,13 @@ public class CreateCrossingGUI extends ModifyGUI {
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (RollbackException rex) {
+            //todo: exceptionhandling
             rex.printStackTrace();
+        } catch (DatabaseException dbex) {
+            errorMessage(Properties.get("connectionError"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            errorMessage(Properties.get("unexpectedError"));
         }
     }
 }

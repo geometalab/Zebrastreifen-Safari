@@ -11,6 +11,7 @@ import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityEx
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
+import org.eclipse.persistence.exceptions.DatabaseException;
 
 /**
  *
@@ -31,7 +32,7 @@ public class EditRatingGUI extends ModifyGUI {
     }
 
     @Override
-    protected void onSendClick() throws Exception {
+    protected void onSendClick() {
         User userBackup = rating.getUserId();
         Illumination illuminationBackup = rating.getIlluminationId();
         SpatialClarity spatialClarityBackup = rating.getSpatialClarityId();
@@ -69,6 +70,25 @@ public class EditRatingGUI extends ModifyGUI {
             rating.setComment(commentBackup);
             rating.setLastChanged(lastChangedBackup);
             errorMessage(Properties.get("duplicatedPhotoError"));
+        } catch (DatabaseException dbex) {
+            rating.setUserId(userBackup);
+            rating.setIlluminationId(illuminationBackup);
+            rating.setSpatialClarityId(spatialClarityBackup);
+            rating.setTrafficId(trafficBackup);
+            rating.setImageWeblink(imageWeblinkBackup);
+            rating.setComment(commentBackup);
+            rating.setLastChanged(lastChangedBackup);
+            errorMessage(Properties.get("connectionError"));
+        } catch (Exception ex) {
+            rating.setUserId(userBackup);
+            rating.setIlluminationId(illuminationBackup);
+            rating.setSpatialClarityId(spatialClarityBackup);
+            rating.setTrafficId(trafficBackup);
+            rating.setImageWeblink(imageWeblinkBackup);
+            rating.setComment(commentBackup);
+            rating.setLastChanged(lastChangedBackup);
+            ex.printStackTrace();
+            errorMessage(Properties.get("unexpectedError"));
         }
     }
 
