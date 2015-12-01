@@ -3,10 +3,9 @@ package ch.hsr.zebrastreifensafari.model;
 import ch.hsr.zebrastreifensafari.TestJDBC;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
-import java.io.File;
+
 import java.util.Date;
-import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +41,7 @@ public class ModelTest {
         assertEquals(null, model.getCrossing((long)87));
         Crossing c = new Crossing(null, 87, 1, 1);
         
-        DataServiceLoader.getCrossingData().addCrossing(c, model);
+        DataServiceLoader.getCrossingData().createCrossing(c, model);
         model.reloadCrossing();
         assertEquals(87, model.getCrossing((long)87).getOsmNodeId());
 
@@ -52,7 +51,7 @@ public class ModelTest {
     public void testReloadRating() throws Exception {
         assertEquals(null, model.getRating(16));
         Rating r = new Rating(0, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), model.getCrossing(1), "", new Date());
-        DataServiceLoader.getCrossingData().addRating(r);
+        DataServiceLoader.getCrossingData().createRating(r);
         model.reloadRating(model.getCrossing(1));
         assertEquals("test Comment", model.getRating(16).getComment());
 

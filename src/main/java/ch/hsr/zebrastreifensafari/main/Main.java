@@ -21,7 +21,7 @@ import java.util.Locale;
  */
 public class Main {
 
-    public Main() {
+    private Main() {
         try {
             Properties.setLanguage(Locale.GERMAN);
             DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPU"));

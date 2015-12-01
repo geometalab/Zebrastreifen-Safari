@@ -1,11 +1,11 @@
 package ch.hsr.zebrastreifensafari.service.crossing;
 
 import ch.hsr.zebrastreifensafari.jpa.controllers.*;
-import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import java.util.List;
 import javax.persistence.EntityTransaction;
@@ -50,7 +50,7 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public List<SpatialClarity> getSpatialClaritys() {
+    public List<SpatialClarity> getSpatialClarities() {
         return new SpatialClarityJpaController(emFactory).findEntities();
     }
 
@@ -60,14 +60,14 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void addCrossing(Crossing crossing, Model model) {
+    public void createCrossing(Crossing crossing, Model model) {
         new CrossingJpaController(emFactory).create(crossing);
         model.getCrossings().add(crossing);
     }
 
     @Override
-    public void addCrossing(Crossing crossing, Model model, DefaultTableModel tableModel) {
-        addCrossing(crossing, model);
+    public void createCrossing(Crossing crossing, Model model, DefaultTableModel tableModel) {
+        createCrossing(crossing, model);
         tableModel.addRow(new Object[] {
                 crossing.getOsmNodeId(),
                 crossing.getRatingAmount(),
@@ -77,20 +77,20 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void addRating(Rating rating) {
+    public void createRating(Rating rating) throws EntityNotFoundException {
         new RatingJpaController(emFactory).create(rating);
     }
 
     @Override
-    public void addRating(Rating rating, Model model) {
-        addRating(rating);
+    public void createRating(Rating rating, Model model) throws EntityNotFoundException {
+        createRating(rating);
         model.getRatings().add(rating);
 
     }
 
     @Override
-    public void addRating(Rating rating, Model model, DefaultTableModel tableModel) {
-        addRating(rating, model);
+    public void createRating(Rating rating, Model model, DefaultTableModel tableModel) throws EntityNotFoundException {
+        createRating(rating, model);
         tableModel.addRow(new Object[] {
                 rating.getUserId().getName(),
                 rating.getTrafficId().getValue(),
@@ -104,12 +104,22 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void removeCrossing(int id) throws NonexistentEntityException {
+    public void editRating(Rating rating) throws EntityNotFoundException {
+        new RatingJpaController(emFactory).edit(rating);
+    }
+
+    @Override
+    public void editCrossing(Crossing crossing) throws EntityNotFoundException {
+        new CrossingJpaController(emFactory).edit(crossing);
+    }
+
+    @Override
+    public void removeCrossing(int id) throws EntityNotFoundException {
         new CrossingJpaController(emFactory).destroy(id);
     }
 
     @Override
-    public void removeCrossing(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException{
+    public void removeCrossing(int id, Model model, DefaultTableModel tableModel) throws EntityNotFoundException {
         removeCrossing(id);
         Crossing removeCrossing = model.getCrossing(id);
         tableModel.removeRow(model.getCrossings().indexOf(removeCrossing));
@@ -117,25 +127,15 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void removeRating(int id) throws NonexistentEntityException{
+    public void removeRating(int id) throws EntityNotFoundException {
         new RatingJpaController(emFactory).destroy(id);
     }
 
     @Override
-    public void removeRating(int id, Model model, DefaultTableModel tableModel) throws NonexistentEntityException{
+    public void removeRating(int id, Model model, DefaultTableModel tableModel) throws EntityNotFoundException {
         removeRating(id);
         Rating removeRating = model.getRating(id);
         tableModel.removeRow(model.getRatings().indexOf(removeRating));
         model.getRatings().remove(model.getRating(id));
-    }
-
-    @Override
-    public void editRating(Rating rating) throws Exception{
-        new RatingJpaController(emFactory).edit(rating);
-    }
-
-    @Override
-    public void editCrossing(Crossing crossing) throws Exception{
-        new CrossingJpaController(emFactory).edit(crossing);
     }
 }

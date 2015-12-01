@@ -6,12 +6,15 @@ import ch.hsr.zebrastreifensafari.gui.modify.create.CreateCrossingGUI;
 import ch.hsr.zebrastreifensafari.gui.modify.create.CreateRatingGUI;
 import ch.hsr.zebrastreifensafari.gui.modify.edit.EditCrossingGUI;
 import ch.hsr.zebrastreifensafari.gui.modify.edit.EditRatingGUI;
-import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityException;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
+import org.eclipse.persistence.exceptions.DatabaseException;
 
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceException;
+import javax.persistence.RollbackException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultEditorKit;
@@ -113,7 +116,12 @@ public class MainGUI extends JFrame {
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             dataTabbedPane.setSelectedIndex(0);
+            onTabbedPaneChange();
             errorMessage(Properties.get("changeSelectionError"));
+        } catch (PersistenceException pex) {
+            dataTabbedPane.setSelectedIndex(0);
+            onTabbedPaneChange();
+            errorMessage(Properties.get("connectionError"));
         }
     }
 
@@ -174,6 +182,8 @@ public class MainGUI extends JFrame {
                 }
             } catch (ArrayIndexOutOfBoundsException aioobe) {
                 errorMessage(Properties.get("deleteSelectionError"));
+            } catch (DatabaseException dbex) {
+                errorMessage(Properties.get("connectionError"));
             }
         }
     }
@@ -298,9 +308,9 @@ public class MainGUI extends JFrame {
         for (Rating rating : list) {
             ratingTableModel.addRow(new Object[]{
                     rating.getUserId().getName(),
-                    rating.getTrafficId().getValue(),
                     rating.getSpatialClarityId().getValue(),
                     rating.getIlluminationId().getValue(),
+                    rating.getTrafficId().getValue(),
                     rating.getComment(),
                     rating.getImageWeblink(),
                     rating.getLastChanged().toString(),
@@ -328,7 +338,7 @@ public class MainGUI extends JFrame {
                 }
             }
         } else {
-            DataServiceLoader.getCrossingData().addCrossing(crossing, model, crossingTableModel);
+            DataServiceLoader.getCrossingData().createCrossing(crossing, model, crossingTableModel);
 
             if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText()) || searchTextField.getText().isEmpty()) {
                 changeTableSelection(crossingDataTable, crossingTableModel.getRowCount() - 1);
@@ -338,15 +348,17 @@ public class MainGUI extends JFrame {
         }
     }
 
-    public void createRating(Rating rating) {
-        DataServiceLoader.getCrossingData().addRating(rating, model, ratingTableModel);
+    public void createRating(Rating rating) throws EntityNotFoundException {
+        DataServiceLoader.getCrossingData().createRating(rating, model, ratingTableModel);
         changeTableSelection(ratingDataTable, ratingDataTable.getRowCount() - 1);
         Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
         crossingOfRating.increaseRatingAmount();
         crossingTableModel.setValueAt(crossingOfRating.getRatingAmount(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(Properties.get("ratingAmount")).getModelIndex());
     }
 
-    public void editCrossing(Crossing crossing) {
+    public void editCrossing(Crossing crossing) throws EntityNotFoundException {
+        DataServiceLoader.getCrossingData().editCrossing(crossing);
+
         if (searchTextField.getText().isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
             crossingTableModel.setValueAt(crossing.getOsmNodeId(), crossingDataTable.getSelectedRow(), crossingDataTable.getColumn(Properties.get("osmNodeId")).getModelIndex());
             onCrossingSelection();
@@ -355,7 +367,8 @@ public class MainGUI extends JFrame {
         }
     }
 
-    public void editRating(Rating rating) {
+    public void editRating(Rating rating) throws EntityNotFoundException {
+        DataServiceLoader.getCrossingData().editRating(rating);
         ratingTableModel.setValueAt(rating.getUserId().getName(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("user")).getModelIndex());
         ratingTableModel.setValueAt(rating.getTrafficId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("traffic")).getModelIndex());
         ratingTableModel.setValueAt(rating.getSpatialClarityId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("spacialClarity")).getModelIndex());
@@ -375,7 +388,7 @@ public class MainGUI extends JFrame {
             }
 
             changeTableSelection(crossingDataTable, selectedRow);
-        } catch (NonexistentEntityException neeex) {
+        } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("crossingExistError"));
         }
     }
@@ -402,7 +415,7 @@ public class MainGUI extends JFrame {
                         crossingDataTable.getColumn(Properties.get("ratingAmount")).getModelIndex()
                 );
             }
-        } catch (NonexistentEntityException neeex) {
+        } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("ratingCrossingExistError"));
         }
     }
@@ -462,9 +475,9 @@ public class MainGUI extends JFrame {
 
         ratingTableModel = new DefaultTableModel(new String[]{
                 Properties.get("user"),
-                Properties.get("traffic"),
                 Properties.get("spacialClarity"),
                 Properties.get("illumination"),
+                Properties.get("traffic"),
                 Properties.get("comment"),
                 Properties.get("image"),
                 Properties.get("lastChange"),
