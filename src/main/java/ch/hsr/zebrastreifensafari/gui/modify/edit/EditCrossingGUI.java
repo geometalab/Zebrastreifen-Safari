@@ -6,6 +6,7 @@ import ch.hsr.zebrastreifensafari.jpa.controllers.exceptions.NonexistentEntityEx
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
+import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.RollbackException;
 
@@ -50,7 +51,7 @@ public class EditCrossingGUI extends ModifyGUI {
     }
 
     @Override
-    protected void onSendClick() throws Exception{
+    protected void onSendClick() {
         long osmNodeIdBackup = crossing.getOsmNodeId();
 
         try{
@@ -66,6 +67,13 @@ public class EditCrossingGUI extends ModifyGUI {
         } catch (RollbackException rex) {
             crossing.setOsmNodeId(osmNodeIdBackup);
             errorMessage(Properties.get("duplicatedOsmNodeIdError"));
+        } catch (DatabaseException dbex) {
+            crossing.setOsmNodeId(osmNodeIdBackup);
+            errorMessage(Properties.get("connectionError"));
+        } catch (Exception ex) {
+            crossing.setOsmNodeId(osmNodeIdBackup);
+            ex.printStackTrace();
+            errorMessage(Properties.get("unexpectedError"));
         }
     }
 

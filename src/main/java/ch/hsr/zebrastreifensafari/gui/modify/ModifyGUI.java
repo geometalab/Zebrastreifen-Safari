@@ -78,19 +78,12 @@ public abstract class ModifyGUI extends JDialog {
         setPosition();
     }
 
-    protected abstract void onSendClick() throws Exception;
+    protected abstract void onSendClick();
 
     private void initListeners() {
         sendButton.addActionListener(e -> {
             if (checkValues()) {
-                try {
-                    onSendClick();
-                } catch (DatabaseException dbex) {
-                    errorMessage(Properties.get("connectionError"));
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    errorMessage(Properties.get("unexpectedError"));
-                }
+                onSendClick();
             }
         });
         cancelButton.addActionListener(e -> dispose());
