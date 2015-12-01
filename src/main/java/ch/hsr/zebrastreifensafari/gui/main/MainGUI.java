@@ -14,13 +14,14 @@ import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
-import javax.persistence.RollbackException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultEditorKit;
-
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 
 public class MainGUI extends JFrame {
 
+    private final Model model;
     private JPanel mainPanel;
     private JTextField searchTextField;
     private JButton addButton, editButton, deleteButton;
@@ -43,10 +45,7 @@ public class MainGUI extends JFrame {
     private JLabel searchLabel;
     private JMenuItem exitMenuItem, refreshMenuItem, addMenuItem, editMenuItem, deleteMenuItem, helpMenuItem, aboutMenuItem;
     private JTabbedPane dataTabbedPane;
-
-    private final Model model;
-    private DefaultTableModel ratingTableModel;
-    private DefaultTableModel crossingTableModel;
+    private DefaultTableModel crossingTableModel, ratingTableModel;
 
     public MainGUI(Model model) throws HeadlessException {
         super(Properties.get("mainGuiTitle") + Properties.get("versionNumber"));

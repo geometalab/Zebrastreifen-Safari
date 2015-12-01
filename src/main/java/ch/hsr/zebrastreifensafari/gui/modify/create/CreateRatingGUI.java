@@ -1,8 +1,7 @@
 package ch.hsr.zebrastreifensafari.gui.modify.create;
 
-import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
-
+import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import org.eclipse.persistence.exceptions.DatabaseException;
@@ -12,7 +11,6 @@ import javax.persistence.RollbackException;
 import java.util.Date;
 
 /**
- *
  * @author aeugster
  */
 public class CreateRatingGUI extends ModifyGUI {
@@ -42,7 +40,7 @@ public class CreateRatingGUI extends ModifyGUI {
             );
 
             mainGUI.createRating(rating);
-            this.dispose();
+            dispose();
         } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("crossingExistError"));
         } catch (RollbackException rex) {

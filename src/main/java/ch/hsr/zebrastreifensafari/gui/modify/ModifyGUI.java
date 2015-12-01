@@ -1,5 +1,12 @@
 package ch.hsr.zebrastreifensafari.gui.modify;
 
+import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
+import ch.hsr.zebrastreifensafari.jpa.entities.User;
+import ch.hsr.zebrastreifensafari.service.Properties;
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -11,14 +18,6 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
-import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
-import ch.hsr.zebrastreifensafari.jpa.entities.User;
-import ch.hsr.zebrastreifensafari.service.Properties;
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
-import org.eclipse.persistence.exceptions.DatabaseException;
-
 /**
  * @author : Mike Marti
  * @version : 1.0
@@ -29,37 +28,17 @@ import org.eclipse.persistence.exceptions.DatabaseException;
 
 public abstract class ModifyGUI extends JDialog {
 
-    private JPanel mainPanel;
-    protected JButton sendButton;
-    private JButton cancelButton;
-    protected JTextField osmNodeIdTextField;
-    protected JTextArea commentTextArea;
-    protected JTextField imageTextField;
-    protected JRadioButton spatialClarityGoodRadioButton;
-    protected JRadioButton spatialClarityOkRadioButton;
-    protected JRadioButton spatialClarityBadRadioButton;
-    protected JRadioButton trafficFewRadioButton;
-    protected JRadioButton trafficLittleRadioButton;
-    protected JRadioButton trafficALotRadioButton;
-    protected JRadioButton illuminationGoodRadioButton;
-    protected JRadioButton illuminationBadRadioButton;
-    protected JRadioButton illuminationOkRadioButton;
-    protected JComboBox<String> userComboBox;
-    protected JLabel osmNodeIdLabel;
-    protected JLabel userLabel;
-    protected JLabel spatialClarityLabel;
-    protected JLabel illuminationLabel;
-    protected JLabel trafficLabel;
-    protected JLabel commentLabel;
-    protected JLabel imageLabel;
-    protected JRadioButton illuminationNoneRadioButton;
-    protected JScrollPane commentScrollPane;
-    protected JLabel imageField;
-    protected ButtonGroup spatialClarityButtonGroup;
-    protected ButtonGroup illuminationButtonGroup;
-    protected ButtonGroup trafficButtonGroup;
-
     protected final MainGUI mainGUI;
+    protected JButton sendButton;
+    protected JTextField osmNodeIdTextField, imageTextField;
+    protected JTextArea commentTextArea;
+    protected JRadioButton spatialClarityGoodRadioButton, spatialClarityOkRadioButton, spatialClarityBadRadioButton, trafficFewRadioButton, trafficLittleRadioButton, trafficALotRadioButton, illuminationGoodRadioButton, illuminationOkRadioButton, illuminationBadRadioButton, illuminationNoneRadioButton;
+    protected JComboBox<String> userComboBox;
+    protected JLabel osmNodeIdLabel, userLabel, spatialClarityLabel, illuminationLabel, trafficLabel, commentLabel, imageLabel, imageField;
+    protected JScrollPane commentScrollPane;
+    protected ButtonGroup spatialClarityButtonGroup, illuminationButtonGroup, trafficButtonGroup;
+    private JPanel mainPanel;
+    private JButton cancelButton;
 
     protected ModifyGUI(MainGUI mainGUI, String title) {
         super(mainGUI, title, true);

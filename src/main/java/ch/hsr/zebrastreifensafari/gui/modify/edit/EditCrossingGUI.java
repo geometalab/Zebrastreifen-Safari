@@ -1,7 +1,7 @@
 package ch.hsr.zebrastreifensafari.gui.modify.edit;
 
-import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import org.eclipse.persistence.exceptions.DatabaseException;
@@ -34,10 +34,10 @@ public class EditCrossingGUI extends ModifyGUI {
     protected void onSendClick() {
         long osmNodeIdBackup = crossing.getOsmNodeId();
 
-        try{
+        try {
             crossing.setOsmNodeId(Long.parseLong(osmNodeIdTextField.getText()));
             mainGUI.editCrossing(crossing);
-            this.dispose();
+            dispose();
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (EntityNotFoundException enfex) {

@@ -5,15 +5,16 @@
  */
 package ch.hsr.zebrastreifensafari.jpa.controllers;
 
-import java.io.Serializable;
-
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.*;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- *
  * @author aeugster
  */
 public class CrossingJpaController extends EntityController implements Serializable {

@@ -5,13 +5,13 @@
  */
 package ch.hsr.zebrastreifensafari.jpa.controllers;
 
-import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import ch.hsr.zebrastreifensafari.jpa.entities.Illumination;
 
+import javax.persistence.EntityManagerFactory;
+import java.io.Serializable;
+import java.util.List;
+
 /**
- *
  * @author aeugster
  */
 public class IlluminationJpaController extends EntityController implements Serializable {

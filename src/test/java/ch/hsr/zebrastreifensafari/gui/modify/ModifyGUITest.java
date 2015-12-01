@@ -3,13 +3,12 @@ package ch.hsr.zebrastreifensafari.gui.modify;
 import ch.hsr.zebrastreifensafari.TestJDBC;
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
 import ch.hsr.zebrastreifensafari.model.Model;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import org.junit.After;
 import org.junit.Before;
 
-import static org.junit.Assert.*;
+import javax.swing.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author : Mike Marti

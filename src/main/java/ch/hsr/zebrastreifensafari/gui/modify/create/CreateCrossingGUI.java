@@ -6,13 +6,11 @@ import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
-import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.RollbackException;
 import java.util.Date;
 
 /**
- *
  * @author aeugster
  */
 public class CreateCrossingGUI extends ModifyGUI {
@@ -27,7 +25,7 @@ public class CreateCrossingGUI extends ModifyGUI {
             //todo: überarbeiten, wenn ein bild wiederholt verwendet wird, wird trozdem ein crossing erstellt (momentane lösung funktioniert ist aber nicht schön)
             Crossing crossing = createCrossing();
             createRating(crossing);
-            this.dispose();
+            dispose();
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (RollbackException rex) {

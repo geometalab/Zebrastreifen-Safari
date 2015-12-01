@@ -1,16 +1,16 @@
 package ch.hsr.zebrastreifensafari.model;
 
 import ch.hsr.zebrastreifensafari.TestJDBC;
-import ch.hsr.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
+import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-
-import java.util.Date;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author : Mike Marti
@@ -35,15 +35,16 @@ public class ModelTest {
         db.getConnection().close();
 
     }
-//
+
+    //
     @Test
     public void testReloadCrossing() throws Exception {
-        assertEquals(null, model.getCrossing((long)87));
+        assertEquals(null, model.getCrossing((long) 87));
         Crossing c = new Crossing(null, 87, 1, 1);
-        
+
         DataServiceLoader.getCrossingData().createCrossing(c, model);
         model.reloadCrossing();
-        assertEquals(87, model.getCrossing((long)87).getOsmNodeId());
+        assertEquals(87, model.getCrossing((long) 87).getOsmNodeId());
 
     }
 

@@ -16,7 +16,6 @@ import javax.swing.*;
 import java.util.Locale;
 
 /**
- *
  * @author aeugster
  */
 public class Main {

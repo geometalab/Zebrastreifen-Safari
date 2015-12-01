@@ -1,19 +1,18 @@
 package ch.hsr.zebrastreifensafari.gui.modify.edit;
 
-import java.util.Date;
-import java.util.Enumeration;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.RollbackException;
-import javax.swing.*;
-
-import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.RollbackException;
+import javax.swing.*;
+import java.util.Date;
+import java.util.Enumeration;
+
 /**
- *
  * @author aeugster
  */
 public class EditRatingGUI extends ModifyGUI {
@@ -47,7 +46,7 @@ public class EditRatingGUI extends ModifyGUI {
             rating.setComment(commentTextArea.getText().isEmpty() ? null : commentTextArea.getText());
             rating.setLastChanged(new Date());
             mainGUI.editRating(rating);
-            this.dispose();
+            dispose();
         } catch (EntityNotFoundException enfex) {
             rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             errorMessage(Properties.get("ratingCrossingExistError"));
