@@ -6,10 +6,11 @@
  * Time: 11:54
  */
 
-function crossingPoints() {
+function crossingPoints($zoom, $bounds) {
     $crossingConnection = new DBCrossing();
     $query = $crossingConnection->getAllCrossings();
-    
+    $bounds = split(",", $bounds);
+
     $crossings = array(
         "type" => "FeatureCollection"
     );
@@ -29,13 +30,13 @@ function crossingPoints() {
     return $crossings;
 }
 
-function crossingDetail($osm_node_id) {
-    if (!is_numeric($osm_node_id)) {
+function crossingDetail($osmNodeId) {
+    if (!is_numeric($osmNodeId)) {
         return array("error" => 404, "reason" => 'Parameter "crosswalk" has an invalid value.');
     }
 
     $crossingConnection = new DBCrossing();
-    $query = $crossingConnection->getCrossing($osm_node_id);
+    $query = $crossingConnection->getCrossing($osmNodeId);
     $resultset = pg_fetch_all($query)[0];
 
     if (!$resultset) {
