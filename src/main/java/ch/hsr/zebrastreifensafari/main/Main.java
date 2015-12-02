@@ -30,7 +30,7 @@ public class Main {
         } catch (PersistenceException pex) {
             Object[] choices = {Properties.get("retry"), Properties.get("close")};
 
-            if (JOptionPane.showOptionDialog(null, Properties.get("connectionError"), Properties.get("connectionErrorTitle"), JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, choices, choices[0]) == 0) {
+            if (JOptionPane.showOptionDialog(null, Properties.get("connectionError"), Properties.get("mainGuiTitle") + Properties.get("versionNumber") + Properties.get("connectionErrorTitle"), JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, choices, choices[0]) == 0) {
                 new Main();
             }
         }

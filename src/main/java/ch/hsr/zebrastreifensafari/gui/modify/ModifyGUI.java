@@ -107,7 +107,7 @@ public abstract class ModifyGUI extends JDialog {
 
     protected void setImage(String mapillaryKey) {
         try {
-            imageField.setIcon(new ImageIcon(ImageIO.read(new URL("https://d1cuyjsrcm0gby.cloudfront.net/" + mapillaryKey + "/thumb-320.jpg"))));
+            imageField.setIcon(new ImageIcon(ImageIO.read(new URL(Properties.get("mapillaryLink") + mapillaryKey + Properties.get("mapillaryImageSize")))));
             imageField.setText(null);
         } catch (IOException ioex) {
             imageField.setIcon(null);
