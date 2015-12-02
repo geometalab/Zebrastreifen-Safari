@@ -190,14 +190,18 @@ public class MainGUI extends JFrame {
     }
 
     private void onRefreshClick() {
-        model.reloadUsers();
+        try {
+            model.reloadUsers();
 
-        if (isRatingMode()) {
-            model.reloadRating(getCrossingFromTable());
-            addRatingDataToTable(model.getRatings());
-        } else {
-            model.reloadCrossing();
-            addCrossingDataToTable(model.getCrossings());
+            if (isRatingMode()) {
+                model.reloadRating(getCrossingFromTable());
+                addRatingDataToTable(model.getRatings());
+            } else {
+                model.reloadCrossing();
+                addCrossingDataToTable(model.getCrossings());
+            }
+        } catch (PersistenceException pex) {
+            errorMessage(Properties.get("connectionError"));
         }
     }
 
@@ -210,7 +214,7 @@ public class MainGUI extends JFrame {
     }
 
     private void onHelpClick() {
-        String url = "http://www.google.com";
+        String url = Properties.get("helpLink");
 
         if (Desktop.isDesktopSupported()) {
             try {

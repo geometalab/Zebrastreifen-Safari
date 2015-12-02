@@ -33,7 +33,7 @@ public class AboutGUI extends JDialog {
         geometalabLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String url = "http://www.ifs.hsr.ch/index.php?id=12520";
+                String url = Properties.get("geometalabLink");
 
                 if (Desktop.isDesktopSupported()) {
                     try {
@@ -94,7 +94,7 @@ public class AboutGUI extends JDialog {
         this.$$$loadLabelText$$$(label7, ResourceBundle.getBundle("Bundle").getString("geometalab"));
         panel1.add(label7, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         geometalabLink = new JLabel();
-        this.$$$loadLabelText$$$(geometalabLink, ResourceBundle.getBundle("Bundle").getString("geometalabLink"));
+        this.$$$loadLabelText$$$(geometalabLink, ResourceBundle.getBundle("Bundle").getString("geometalabLinkLabel"));
         panel1.add(geometalabLink, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new BorderLayout(0, 0));
