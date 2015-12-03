@@ -20,12 +20,12 @@ if (!empty($_GET['chart'])) {
     } else if ($type == 'barchart') {
         echo json_encode(barchartStatistic());
     } else {
-        echo json_encode(array("error" => 404, "reason" => 'Parameter "type" has an invalid value.'));
+        echo json_encode(array("error" => 404, "reason" => 'Parameter "chart" has an invalid value.'));
     }
 } else if (!empty($_GET['crosswalk'])) {
     echo json_encode(crossingDetail(pg_escape_string($_GET['crosswalk'])));
 } else if (!empty($_GET['crosswalks'])) {
-    echo json_encode(crossingPoints(pg_escape_string($_GET['zoom']), pg_escape_string($_GET['bounds'])));
+    echo json_encode(crossingPoints(pg_escape_string($_GET['zoom']), pg_escape_string($_GET['bounds']), pg_escape_string($_GET['maxamount'])));
 } else {
     echo json_encode(array("error" => 404, "reason" => 'Missing required parameter.'));
 }
