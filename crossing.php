@@ -6,9 +6,10 @@
  * Time: 11:54
  */
 
-function crossingPoints($zoom, $bounds) {
+require_once('test/test.php');
+function crossingPoints($zoom, $bounds, $maxCrossingAmount) {
     $crossingConnection = new DBCrossing();
-    $query = $crossingConnection->getAllCrossings();
+    $query = $crossingConnection->getAllCrossings(getSnap($maxCrossingAmount, $crossingConnection));
     $bounds = split(",", $bounds);
 
     $crossings = array(
@@ -51,17 +52,29 @@ function crossingDetail($osmNodeId) {
 }
 
 function getOsmDetails($row) {
+//    return array(
+//        "osm_node_id" => doubleval($row['osm_node_id']),
+//        "status" => intval($row['status']),
+//        "traffic_signals" => boolval($row['traffic_signals']),
+//        "island" => boolval($row['island']),
+//        "unmarked" => boolval($row['unmarked']),
+//        "button_operated" => boolval($row['button_operated']),
+//        "sloped_curb" => $row['sloped_curb'],
+//        "tactile_paving" => boolval($row['tactile_paving']),
+//        "traffic_signals_vibration" => boolval($row['traffic_signals_vibration']),
+//        "traffic_signals_sound" => boolval($row['traffic_signals_sound'])
+//    );
     return array(
-        "osm_node_id" => doubleval($row['osm_node_id']),
-        "status" => intval($row['status']),
-        "traffic_signals" => boolval($row['traffic_signals']),
-        "island" => boolval($row['island']),
-        "unmarked" => boolval($row['unmarked']),
-        "button_operated" => boolval($row['button_operated']),
+        "osm_node_id" => $row['osm_node_id'],
+        "status" => $row['status'],
+        "traffic_signals" => $row['traffic_signals'],
+        "island" => $row['island'],
+        "unmarked" => $row['unmarked'],
+        "button_operated" => $row['button_operated'],
         "sloped_curb" => $row['sloped_curb'],
-        "tactile_paving" => boolval($row['tactile_paving']),
-        "traffic_signals_vibration" => boolval($row['traffic_signals_vibration']),
-        "traffic_signals_sound" => boolval($row['traffic_signals_sound'])
+        "tactile_paving" => $row['tactile_paving'],
+        "traffic_signals_vibration" => $row['traffic_signals_vibration'],
+        "traffic_signals_sound" => $row['traffic_signals_sound']
     );
 }
 

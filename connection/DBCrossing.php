@@ -38,24 +38,56 @@ class DBCrossing {
                                             WHERE crossing.osm_node_id = $osm_node_id;");
     }
 
-    public function getAllCrossings() {
+//    public function getAllCrossings() {
+//        return pg_query($this->connection, "SELECT
+//                                            crossing.osm_node_id,
+//                                            crossing.status,
+//                                            osm.traffic_signals,
+//                                            osm.island,
+//                                            osm.unmarked,
+//                                            osm.button_operated,
+//                                            osm.sloped_curb,
+//                                            osm.tactile_paving,
+//                                            osm.traffic_signals_vibration,
+//                                            osm.traffic_signals_sound,
+//                                            ST_X(osm.wkb_geometry) AS x,
+//                                            ST_Y(osm.wkb_geometry) AS y
+//                                            FROM crossing.crossing AS crossing
+//                                            INNER JOIN crossing.osm_crossings AS osm
+//                                            ON crossing.osm_node_id = osm.osm_id
+//                                            ORDER BY id;");
+//    }
+    public function getAllCrossings($snap) {
         return pg_query($this->connection, "SELECT
-                                            crossing.osm_node_id,
-                                            crossing.status,
-                                            osm.traffic_signals,
-                                            osm.island,
-                                            osm.unmarked,
-                                            osm.button_operated,
-                                            osm.sloped_curb,
-                                            osm.tactile_paving,
-                                            osm.traffic_signals_vibration,
-                                            osm.traffic_signals_sound,
-                                            ST_X(osm.wkb_geometry) AS x,
-                                            ST_Y(osm.wkb_geometry) AS y
+                                            --CASE WHEN array_length(array_agg(crossing.osm_node_id), 1) > 1 THEN
+                                                array_agg(crossing.osm_node_id) AS osm_node_id,
+                                                array_agg(crossing.status) AS status,
+                                                array_agg(osm.traffic_signals) AS traffic_signals,
+                                                array_agg(osm.island) AS island,
+                                                array_agg(osm.unmarked) AS unmarked,
+                                                array_agg(osm.button_operated) AS button_operated,
+                                                array_agg(osm.sloped_curb) AS sloped_curb,
+                                                array_agg(osm.tactile_paving) AS tactile_paving,
+                                                array_agg(osm.traffic_signals_vibration) AS traffic_signals_vibration,
+                                                array_agg(osm.traffic_signals_sound) AS traffic_signals_sound,
+                                            /*ELSE
+                                                crossing.osm_node_id,
+                                                crossing.status,
+                                                osm.traffic_signals,
+                                                osm.island,
+                                                osm.unmarked,
+                                                osm.button_operated,
+                                                osm.sloped_curb,
+                                                osm.tactile_paving,
+                                                osm.traffic_signals_vibration,
+                                                osm.traffic_signals_sound,
+                                            END*/
+                                            ST_X(ST_Centroid(ST_Collect(osm.wkb_geometry))) AS x,
+                                            ST_Y(ST_Centroid(ST_Collect(osm.wkb_geometry))) AS y
                                             FROM crossing.crossing AS crossing
                                             INNER JOIN crossing.osm_crossings AS osm
                                             ON crossing.osm_node_id = osm.osm_id
-                                            ORDER BY id;");
+                                            GROUP BY ST_SnapToGrid(osm.wkb_geometry, $snap);");
     }
 
     public function getRating($crossingId) {
@@ -84,7 +116,10 @@ class DBCrossing {
     }
 
     public function getClusteredAmount($number) {
-        return pg_query($this->connection, "SELECT COUNT(*) AS amount FROM (SELECT COUNT(wkb_geometry) FROM crossing.osm_crossings GROUP BY ST_SnapToGrid(wkb_geometry, $number)) AS tmp;");
+        return pg_query($this->connection, "SELECT COUNT(*) AS amount FROM (SELECT COUNT(osm.wkb_geometry) FROM crossing.crossing AS crossing
+                                            INNER JOIN crossing.osm_crossings AS osm
+                                            ON crossing.osm_node_id = osm.osm_id
+                                            GROUP BY ST_SnapToGrid(osm.wkb_geometry, $number)) AS tmp;");
     }
 
     public function getCrossingAmount() {

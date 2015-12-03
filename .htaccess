@@ -3,8 +3,8 @@ Options +FollowSymlinks
 RewriteEngine on
 
 #Request routing
-RewriteRule api/v1/crosswalk/(.*)$ webservice.php?crosswalk=$1 [NC,QSA,L]
-RewriteRule api/v1/crosswalks/(.*)$ webservice.php?crosswalks=all&$1 [NC,QSA,L]
-RewriteRule api/v1/(.*)$ webservice.php?chart=$1 [NC,QSA,L]
+RewriteRule api/v1/crosswalk/(.*)$ webservice.php?crosswalk=$1 [NC,QSA,L,PT]
+RewriteRule api/v1/crosswalks/(.*)$ webservice.php?crosswalks=all&$1 [NC,QSA,L,PT]
+RewriteRule api/v1/(.*)$ webservice.php?chart=$1 [NC,QSA,L,PT]
 
 AddDefaultCharset utf-8
