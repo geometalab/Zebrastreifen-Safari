@@ -23,7 +23,7 @@ function crossingPoints($zoom, $bounds, $maxCrossingAmount) {
                 "type" => "Point",
                 "coordinates" => [doubleval($row['x']), doubleval($row['y'])]
             ),
-            "properties" => getOsmDetails($row)
+            "properties" => getOsmDetailsClustered($row)
         );
     }
 
@@ -52,30 +52,48 @@ function crossingDetail($osmNodeId) {
 }
 
 function getOsmDetails($row) {
-//    return array(
-//        "osm_node_id" => doubleval($row['osm_node_id']),
-//        "status" => intval($row['status']),
-//        "traffic_signals" => boolval($row['traffic_signals']),
-//        "island" => boolval($row['island']),
-//        "unmarked" => boolval($row['unmarked']),
-//        "button_operated" => boolval($row['button_operated']),
-//        "sloped_curb" => $row['sloped_curb'],
-//        "tactile_paving" => boolval($row['tactile_paving']),
-//        "traffic_signals_vibration" => boolval($row['traffic_signals_vibration']),
-//        "traffic_signals_sound" => boolval($row['traffic_signals_sound'])
-//    );
     return array(
-        "osm_node_id" => $row['osm_node_id'],
-        "status" => $row['status'],
-        "traffic_signals" => $row['traffic_signals'],
-        "island" => $row['island'],
-        "unmarked" => $row['unmarked'],
-        "button_operated" => $row['button_operated'],
+        "osm_node_id" => doubleval($row['osm_node_id']),
+        "status" => intval($row['status']),
+        "traffic_signals" => myBoolval($row['traffic_signals']),
+        "island" => myBoolval($row['island']),
+        "unmarked" => myBoolval($row['unmarked']),
+        "button_operated" => myBoolval($row['button_operated']),
         "sloped_curb" => $row['sloped_curb'],
-        "tactile_paving" => $row['tactile_paving'],
-        "traffic_signals_vibration" => $row['traffic_signals_vibration'],
-        "traffic_signals_sound" => $row['traffic_signals_sound']
+        "tactile_paving" => myBoolval($row['tactile_paving']),
+        "traffic_signals_vibration" => myBoolval($row['traffic_signals_vibration']),
+        "traffic_signals_sound" => myBoolval($row['traffic_signals_sound'])
     );
+}
+
+function getOsmDetailsClustered($row) {
+    $row['osm_node_id'] = str_replace('{', '', str_replace('}', '', $row['osm_node_id']));
+    $row['status'] = str_replace('{', '', str_replace('}', '', $row['status']));
+    $row['traffic_signals'] = str_replace('{', '', str_replace('}', '', $row['traffic_signals']));
+    $row['island'] = str_replace('{', '', str_replace('}', '', $row['island']));
+    $row['unmarked'] = str_replace('{', '', str_replace('}', '', $row['unmarked']));   
+    $row['button_operated'] = str_replace('{', '', str_replace('}', '', $row['button_operated']));
+    $row['sloped_curb'] = str_replace('{', '', str_replace('}', '', $row['sloped_curb']));
+    $row['tactile_paving'] = str_replace('{', '', str_replace('}', '', $row['tactile_paving']));
+    $row['traffic_signals_vibration'] = str_replace('{', '', str_replace('}', '', $row['traffic_signals_vibration']));
+    $row['traffic_signals_sound'] = str_replace('{', '', str_replace('}', '', $row['traffic_signals_sound']));
+
+    if (strpos($row['osm_node_id'], ',') !== false) {
+        return array(
+            "osm_node_id" => array_map('doubleval', explode(',', $row['osm_node_id'])),
+            "status" => array_map('intval', explode(',', $row['status'])),
+            "traffic_signals" => array_map('myBoolval', explode(',', $row['traffic_signals'])),
+            "island" => array_map('myBoolval', explode(',', $row['island'])),
+            "unmarked" => array_map('myBoolval', explode(',', $row['unmarked'])),
+            "button_operated" => array_map('myBoolval', explode(',', $row['button_operated'])),
+            "sloped_curb" => explode(',', $row['sloped_curb']),
+            "tactile_paving" => array_map('myBoolval', explode(',', $row['tactile_paving'])),
+            "traffic_signals_vibration" => array_map('myBoolval', explode(',', $row['traffic_signals_vibration'])),
+            "traffic_signals_sound" => array_map('myBoolval', explode(',', $row['traffic_signals_sound']))
+        );
+    }
+
+    return getOsmDetails($row);
 }
 
 function getRatings($crossingId, $crossingConnection) {
@@ -93,5 +111,13 @@ function getRatings($crossingId, $crossingConnection) {
     }
 
     return $ratings;
+}
+
+function myBoolval($var) {
+    if ($var == "f") {
+        return false;
+    }
+
+    return boolval($var);
 }
 ?>
