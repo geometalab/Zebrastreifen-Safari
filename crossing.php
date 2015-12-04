@@ -6,7 +6,6 @@
  * Time: 11:54
  */
 
-require_once('test/test.php');
 function crossingPoints($zoom, $bounds, $maxCrossingAmount) {
     $crossingConnection = new DBCrossing();
     $query = $crossingConnection->getAllCrossings(getSnap($maxCrossingAmount, $crossingConnection));
@@ -119,5 +118,50 @@ function myBoolval($var) {
     }
 
     return boolval($var);
+}
+
+function getSnap($maxAmount, $crossingConnection) {
+    $numbers = range(0, 5000000, 1000);
+    $position = halve(count($numbers));
+    $maxHeight = count($numbers);
+    $minHeight = 0;
+
+    while (true) {
+        $oldMinHeight = $minHeight;
+        $oldMaxHeight = $maxHeight;
+        $query = $crossingConnection->getClusteredAmount($numbers[$position]);
+        $queryAmount = pg_fetch_all($query)[0]['amount'];
+
+        if ($queryAmount > $maxAmount) {
+            $minHeight = $position;
+
+            if ($maxHeight == $oldMaxHeight && $minHeight == $oldMinHeight) {
+                break;
+            }
+
+            $position += halve($maxHeight - $position);
+
+        } else if ($queryAmount < $maxAmount) {
+            $maxHeight = $position;
+
+            if ($maxHeight == $oldMaxHeight && $minHeight == $oldMinHeight) {
+                break;
+            }
+
+            $position = halve($position - $minHeight);
+        } else {
+            break;
+        }
+    }
+
+    return $numbers[$position];
+}
+
+function halve($number) {
+    if ($number % 2 == 0) {
+        return intval($number / 2);
+    } else {
+        return intval($number / 2 + 0.5);
+    }
 }
 ?>
