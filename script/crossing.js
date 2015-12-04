@@ -14,57 +14,54 @@ $(document).ready(function() {
                 $("#reason").hide();
 
                 /*changes the value of the table*/
-                document.getElementById("node").textContent = json.node;
-                document.getElementById("image").src= json.image;
-                if(json.osm.traffic_signals){
+                document.getElementById("node").textContent = json.osm_node_id;
+                if(json.traffic_signals){
                     document.getElementById("traffic_signal").textContent = "Lichtsignal vorhanden";
                 } else {
                     document.getElementById("traffic_signal").textContent = "Kein Lichtsignal";
                 }
 
-                if(json.osm.island){
+                if(json.island){
                     document.getElementById("island").textContent = "Insel vorhanden";
                 } else {
                     document.getElementById("island").textContent = "Keine Insel";
                 }
 
-                if(json.osm.island){
-                    document.getElementById("island").textContent = "Insel vorhanden";
-                } else {
-                    document.getElementById("island").textContent = "Keine Insel";
-                }
 
-                if(!json.osm.unmarked){
+
+                if(!json.unmarked){
                     document.getElementById("unmarked").textContent = "Markierung vorhanden";
                 } else {
                     document.getElementById("unmarked").textContent = "Keine Bodenmarkierung";
                 }
 
-                if(json.osm.button_operated){
+                if(json.button_operated){
                     document.getElementById("button_operated").textContent = "Knopf vorhanden";
                 } else {
                     document.getElementById("button_operated").textContent = "Kein Knopf vorhanden";
                 }
 
-                if(json.osm.sloped_curb){
-                    document.getElementById("sloped_curb").textContent = "Geeignet";
+                if(json.sloped_curb.localeCompare("no") == 0){
+                    document.getElementById("sloped_curb").textContent = "Nicht vorhanden";
+                } else if(json.sloped_curb.localeCompare("one") == 0)  {
+                    document.getElementById("sloped_curb").textContent = "Auf einer Seite";
                 } else {
-                    document.getElementById("sloped_curb").textContent = "Nicht geeignet";
+                    document.getElementById("sloped_curb").textContent = "Auf beiden Seiten";
                 }
 
-                if(json.osm.tactile_paving){
+                if(json.tactile_paving){
                     document.getElementById("tactile_paving").textContent = "Vorhanden";
                 } else {
                     document.getElementById("tactile_paving").textContent = "Nicht Vorhanden";
                 }
 
-                if(json.osm.traffic_signals_vibration){
+                if(json.traffic_signals_vibration){
                     document.getElementById("traffic_signals_vibration").textContent = "Vorhanden";
                 } else {
                     document.getElementById("traffic_signals_vibration").textContent = "Nicht Vorhanden";
                 }
 
-                if(json.osm.traffic_signals_sound){
+                if(json.traffic_signals_sound){
                     document.getElementById("traffic_signals_sound").textContent = "Vorhanden";
                 } else {
                     document.getElementById("traffic_signals_sound").textContent = "Nicht Vorhanden";
@@ -84,11 +81,17 @@ $(document).ready(function() {
                     row.append($('<th class="t_mobile"></th>').text("Benutzer: "));
                     row.append($('<td></td>').text(json.ratings[i].username));
                     row.append($('<th class="t_mobile"></th>').text( "Übersicht: "));
-                    row.append($('<td></td>').text(json.ratings[i].overview));
+                    row.append($('<td></td>').text(json.ratings[i].spatial_clarity));
                     row.append($('<th class="t_mobile"></th>').text("Beleuchtung: "));
                     row.append($('<td></td>').text(json.ratings[i].illumination));
                     row.append($('<th class="t_mobile"></th>').text("Verkehr: "));
                     row.append($('<td></td>').text(json.ratings[i].traffic));
+                    row.append($('<th class="t_mobile"></th>').text("Bild: "));
+                    if(json.ratings[i].image_weblink == null){
+                        row.append($('<td></td>').text("Kein Bild vorhanden"));
+                    } else {
+                        row.append($('<td></td>').prepend('<img id="theImg" src="https://d1cuyjsrcm0gby.cloudfront.net/'+ json.ratings[i].image_weblink +'/thumb-320.jpg" />'));
+                    }
                     table.append(row);
                 }
             }

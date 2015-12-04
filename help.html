@@ -1,10 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title>Zebrastreifensafari</title>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <link rel="stylesheet" type="text/css" media="all" href="css/style.css"/>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
+
 <body>
 
+
+<div id="container">
+    <div class="box">
+        <div class="ribbon"><span>Under Construction</span></div>
+    </div>
+    <div class="nav-mobil">
+
+        <header>
+            <div id="navigation">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <a href="index.html">
+                <h1>Zebrastreifen-Safari</h1>
+            </a>
+
+        </header>
+
+
+        <nav>
+            <ul>
+                <li class="map"><a href="map.html">Karte</a></li>
+                <li><a href="http://geometalab.tumblr.com/">Blog</a></li>
+                <li><a href="project.html" class="myButton">&Uuml;ber...</a></li>
+                <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Kontakt">Kontakt</a></li>
+                <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Terms_of_Use">Terms of Use</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="contentLayer"></div>
+
+    <div class="nav-desktop">
+
+        <header class="header">
+            <div class="header-text">
+                <a href="index.html">
+                    <h1>Zebrastreifen-Safari</h1>
+                </a>
+
+            </div>
+            <div class="nav">
+                <ul>
+                    <li class="map"><a href="map">Karte</a></li>
+                    <li class="dropmenu"><a href="#"><i class="fa fa-bars"></i></a>
+                        <ul>
+                            <li><a href="http://geometalab.tumblr.com/">Blog</a></li>
+                            <li><a href="project.html" class="myButton">&Uuml;ber...</a></li>
+                            <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Kontakt">Kontakt</a></li>
+                            <li><a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Terms_of_Use">Terms of Use</a></li>
+                        </ul>
+                    </li>
+                    <li class="hsrlogo">
+                        <a href="http://i.hsr.ch">
+                            <img src="img/hsrlogo.jpg" alt="HSR-Logo"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+    </div>
+    <div class="wrapper">
+        <div id="content">
+
+            <table id="table" width="100%">
+                <td><img src="img/ZAT-main.JPG"></td>
+                <tr>
+                    <td>Bedienung:</td>
+                    <td>Hinzufügen:</td>
+                    <td>Einen neuen Zebrastreifen hinzufügen</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Bearbeiten:</td>
+                    <td>Den OSM Node ID bearbeiten</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Löschen:</td>
+                    <td>Entfernen eines Zebrastreifen inklusive Bewertungen</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Suchen:</td>
+                    <td>Nach einer bestimmten OMS Node ID suchen</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Sortieren:</td>
+                    <td>1. klick auf eine Spaltenüberschrift soriert aufsteigend</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>2. klick auf eine Spaltenüberschrift soriert absteigend</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Bewertung anzeigen:</td>
+                    <td>Doppelklick auf den Eintrag machen</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Den Zebrastreifen auswählen und das Tab wechseln</td>
+                </tr>
+                <td><img src="img/ZAT-rating.JPG"></td>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Den Zebrastreifen auswählen und das Tab wechseln</td>
+                </tr>
+                <tr>
+                    <td>Bedienung:</td>
+                    <td>Hinzufügen:</td>
+                    <td>Eine neue Bewertung hinzufügen</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Bearbeiten:</td>
+                    <td>Die Bewertung bearbeiten</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Löschen:</td>
+                    <td>Entfernen einer Bewertungen</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Sortieren:</td>
+                    <td>1. klick auf eine Spaltenüberschrift soriert aufsteigend</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>2. klick auf eine Spaltenüberschrift soriert absteigend</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Erstellen einer Bewertung/neuer Zebrastreifen:</td>
+                    <td>Osm Node ID</td>
+                    <td>Den OSM Node eintragen - kann man auf osm.org suchen</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Übersicht</td>
+                    <td>Wie übersichtlich sind die strassen verhältnisse</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Beleuchtung</td>
+                    <td>Wie gut beleuchtet ist die Strasse</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Verkehr</td>
+                    <td>Wie befahren ist die Strasse</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Kommentar</td>
+                    <td>Sonstige Bemerkung zur Sicherheit des Zebrastreifen</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Mapillary Schlüssel</td>
+                    <td>Schlüssel von einem mapillary bild - Nicht den ganzen Link</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
+<script src="libs/script/jquery-1.11.3.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<script src="script/mobilemenu.js"></script>
 </html>

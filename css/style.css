@@ -345,7 +345,9 @@ p {
     tr{
         border: 1px solid;
     }
-
+    table {
+        padding-top: 20px;
+    }
     .t_mobile {
         display: flex;
     }

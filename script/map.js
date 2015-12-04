@@ -1,4 +1,6 @@
-
+var zoom;
+var bound;
+var maxamount;
 var southWest = L.latLng(45.7300, 5.8000),
     northEast = L.latLng(47.9000, 10.600),
     bounds = L.latLngBounds(southWest, northEast);
@@ -13,12 +15,12 @@ function unproject(latlng){
 }
 
 map.on('moveend', function() {
-    var zoom = map.getZoom();
-    var bound = map.getBounds();
+    zoom = map.getZoom();
+    bound = map.getBounds().toBBoxString();
 });
 $(document).ready(function() {
     $.ajax({
-        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crosswalks',
+        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crosswalks/zoom=' + zoom + '&bounds=' + bound + '&maxamount=3',
         dataType:'json',
         method: 'get',
         success:function(response){
@@ -29,9 +31,13 @@ $(document).ready(function() {
             var crossing = L.geoJson(response, {
 
                 onEachFeature: function(features, layer){
+                    if (features.properties.osm_node_id.constructor === Array){
+                        layer.bindPopup("Zoom zu klein um Details anzuzeigen ");
+                    } else {
+                        layer.bindPopup(features.properties.osm_node_id.toString() + '<br />' +
+                            '<a href="crossing.html?crosswalk=' + features.properties.osm_node_id + '">Mehr Anzeigen...</a>');
+                    }
 
-                    layer.bindPopup(features.properties.osm_node_id.toString() + '<br />' +
-                    '<a href="crossing.html?crosswalk=' + features.properties.osm_node_id + '">Mehr Anzeigen...</a>');
                 },
                 // add the points to the layer
                 pointToLayer: function (feature, latlng) {
