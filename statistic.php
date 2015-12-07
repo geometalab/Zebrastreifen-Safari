@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: mmarti
@@ -6,7 +7,9 @@
  * Time: 08:19
  */
 
-//Get the data for the barchart
+require_once('connection/DBConfig.php');
+require_once('connection/DBCrossing.php');
+
 function barchartStatistic() {
     $statisticConnection = new DBCrossing();
     $query = $statisticConnection->getBarChartStatistic(getOffset($statisticConnection));
@@ -22,7 +25,6 @@ function barchartStatistic() {
     return $resultset;
 }
 
-//Get the data for the linechart
 function linechartStatistic() {
     $statisticConnection = new DBCrossing();
     $query = $statisticConnection->getLineChartStatistic();

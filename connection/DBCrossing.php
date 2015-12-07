@@ -38,7 +38,7 @@ class DBCrossing {
                                             WHERE crossing.osm_node_id = $osm_node_id;");
     }
 
-    public function getAllCrossings($snap) {
+    public function getAllCrossings($snap, $bounds) {
         return pg_query($this->connection, "SELECT
                                             array_agg(crossing.osm_node_id) AS osm_node_id,
                                             array_agg(crossing.status) AS status,
@@ -55,6 +55,7 @@ class DBCrossing {
                                             FROM crossing.crossing AS crossing
                                             INNER JOIN crossing.osm_crossings AS osm
                                             ON crossing.osm_node_id = osm.osm_id
+                                            WHERE ST_Contains(ST_GeomFromText('POLYGON(($bounds[0] $bounds[1],$bounds[0] $bounds[3],$bounds[2] $bounds[3],$bounds[2] $bounds[1],$bounds[0] $bounds[1]))', 3785), osm.wkb_geometry)
                                             GROUP BY ST_SnapToGrid(osm.wkb_geometry, $snap);");
     }
 
