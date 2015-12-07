@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: mmarti
@@ -6,10 +7,28 @@
  * Time: 11:54
  */
 
-function crossingPoints($zoom, $bounds, $maxCrossingAmount) {
+require_once('connection/DBConfig.php');
+require_once('connection/DBCrossing.php');
+
+function crossingPoints($bounds, $maxCrossingAmount) {
+    $bounds = explode(",", $bounds);
+
+    for ($i = 0; $i < 4; $i++) {
+        if (!is_numeric($bounds[$i])) {
+            return array("error" => 404, "reason" => 'Parameter "bounds" has an invalid value');
+        }
+    }
+
+    if (count($bounds) != 4) {
+        return array("error" => 404, "reason" => 'Parameter "bounds" has an invalid amount of parameters');
+    }
+
+    if (!is_numeric($maxCrossingAmount)) {
+        return array("error" => 404, "reason" => 'Parameter "maxamount" has an invalid value');
+    }
+
     $crossingConnection = new DBCrossing();
-    $query = $crossingConnection->getAllCrossings(getSnap($maxCrossingAmount, $crossingConnection));
-    $bounds = split(",", $bounds);
+    $query = $crossingConnection->getAllCrossings(getSnap($maxCrossingAmount, $crossingConnection), $bounds);
 
     $crossings = array(
         "type" => "FeatureCollection"
@@ -44,7 +63,7 @@ function crossingDetail($osmNodeId) {
     }
 
     $crossing = getOsmDetails($resultset);
-    $crossing['ratings'] = getRatings($resultset['id'], $crossingConnection);
+    $crossing['ratings'] = getRatings($crossingConnection->getRating($resultset['id']));
 
     $crossingConnection->closeConnection();
     return $crossing;
@@ -95,9 +114,7 @@ function getOsmDetailsClustered($row) {
     return getOsmDetails($row);
 }
 
-function getRatings($crossingId, $crossingConnection) {
-    $query = $crossingConnection->getRating($crossingId);
-
+function getRatings($query) {
     while ($row = pg_fetch_array($query, null, PGSQL_ASSOC)) {
         $ratings[] = array(
             "spatial_clarity" => $row['sc_value'],
@@ -120,8 +137,12 @@ function myBoolval($var) {
     return boolval($var);
 }
 
+//$crossingConnection = new DBCrossing();
+//echo getSnap(1, $crossingConnection);
+//$crossingConnection->closeConnection();
+
 function getSnap($maxAmount, $crossingConnection) {
-    $numbers = range(0, 5000000, 1000);
+    $numbers = range(-1000, 733000, 1000);
     $position = halve(count($numbers));
     $maxHeight = count($numbers);
     $minHeight = 0;
