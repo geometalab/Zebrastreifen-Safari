@@ -8,6 +8,8 @@
         <!-- Import Css libs -->
         <link rel="stylesheet" href="libs/script/leaflet/leaflet.css" />
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="libs/script/geosearcher/l.geosearch.css">
+
 
         <!-- Import own stylesheet-->
         <link rel="stylesheet" href="css/stylemap.css">
@@ -82,11 +84,13 @@
     <script type="text/javascript" src="libs/script/leaflet/leaflet.js"></script>
     <script type="text/javascript" src="libs/script/jquery-1.11.3.js"></script>
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="libs/script/leaflet/leaflet-hash.js"></script>
+    <script type="text/javascript" src="libs/script/geosearcher/l.control.geosearch.js"></script>
+    <script type="text/javascript" src="libs/script/geosearcher/l.geosearch.provider.openstreetmap.js"></script>
     <!-- Own Js libs -->
     <script type="text/javascript" src="script/map.js"></script>
     <script type="text/javascript" src="script/mobilemenu.js"></script>
     <script type="text/javascript">
-        $(window).resize(function(){location.reload();});
         if($(document).width() >= 800){
             var height_map = $(document).height() - $(".nav-desktop").height();
             $("#map").height(height_map);
@@ -94,7 +98,7 @@
         } else {
             var height_map = $(document).height() - $(".nav-mobile").height();
             $("#map").height(height_map);
-            $(".leaflet-control-zoom").css("margin-top", 68);
+            $(".leaflet-control").css("margin-top", 68);
             map.invalidateSize();
         }
 
