@@ -15,26 +15,29 @@ function crossingPoints($bounds, $maxCrossingAmount) {
 
     for ($i = 0; $i < 4; $i++) {
         if (!is_numeric($bounds[$i])) {
-            return array("error" => 404, "reason" => 'Parameter "bounds" has an invalid value');
+            return http_response_code(404);
+//            return array("error" => 404, "reason" => 'Parameter "bounds" has an invalid value');
         }
     }
 
     if (count($bounds) != 4) {
-        return array("error" => 404, "reason" => 'Parameter "bounds" has an invalid amount of parameters');
+        return http_response_code(404);
+//        return array("error" => 404, "reason" => 'Parameter "bounds" has an invalid amount of parameters');
     }
 
     if (!is_numeric($maxCrossingAmount)) {
-        return array("error" => 404, "reason" => 'Parameter "maxamount" has an invalid value');
+        return http_response_code(404);
+//        return array("error" => 404, "reason" => 'Parameter "maxamount" has an invalid value');
     }
 
     $crossingConnection = new DBCrossing();
-    $query = $crossingConnection->getAllCrossings(getSnap($maxCrossingAmount, $crossingConnection), $bounds);
+    $query = $crossingConnection->getAllCrossings(getSnap($maxCrossingAmount, $bounds, $crossingConnection), $bounds);
 
     $crossings = array(
         "type" => "FeatureCollection"
     );
 
-    while ($row = pg_fetch_array($query, null, PGSQL_ASSOC)) {
+    while ($row = pg_fetch_array($query)) {
         $crossings['features'][] = array(
             "type" => "Feature",
             "geometry" => array(
@@ -51,7 +54,8 @@ function crossingPoints($bounds, $maxCrossingAmount) {
 
 function crossingDetail($osmNodeId) {
     if (!is_numeric($osmNodeId)) {
-        return array("error" => 404, "reason" => 'Parameter "crosswalk" has an invalid value.');
+        return http_response_code(404);
+//        return array("error" => 404, "reason" => 'Parameter "crosswalk" has an invalid value.');
     }
 
     $crossingConnection = new DBCrossing();
@@ -59,7 +63,8 @@ function crossingDetail($osmNodeId) {
     $resultset = pg_fetch_all($query)[0];
 
     if (!$resultset) {
-        return array("error" => 404, "reason" => 'Parameter "crosswalk" has an invalid value.');
+        return http_response_code(404);
+//        return array("error" => 404, "reason" => 'Parameter "crosswalk" has an invalid value.');
     }
 
     $crossing = getOsmDetails($resultset);
@@ -85,32 +90,20 @@ function getOsmDetails($row) {
 }
 
 function getOsmDetailsClustered($row) {
+    if ($row['amount'] != "1") {
+        return array("amount" => intval($row['amount']));
+    }
+
     $row['osm_node_id'] = str_replace('{', '', str_replace('}', '', $row['osm_node_id']));
     $row['status'] = str_replace('{', '', str_replace('}', '', $row['status']));
     $row['traffic_signals'] = str_replace('{', '', str_replace('}', '', $row['traffic_signals']));
     $row['island'] = str_replace('{', '', str_replace('}', '', $row['island']));
-    $row['unmarked'] = str_replace('{', '', str_replace('}', '', $row['unmarked']));   
+    $row['unmarked'] = str_replace('{', '', str_replace('}', '', $row['unmarked']));
     $row['button_operated'] = str_replace('{', '', str_replace('}', '', $row['button_operated']));
     $row['sloped_curb'] = str_replace('{', '', str_replace('}', '', $row['sloped_curb']));
     $row['tactile_paving'] = str_replace('{', '', str_replace('}', '', $row['tactile_paving']));
     $row['traffic_signals_vibration'] = str_replace('{', '', str_replace('}', '', $row['traffic_signals_vibration']));
     $row['traffic_signals_sound'] = str_replace('{', '', str_replace('}', '', $row['traffic_signals_sound']));
-
-    if (strpos($row['osm_node_id'], ',') !== false) {
-        return array(
-            "osm_node_id" => array_map('doubleval', explode(',', $row['osm_node_id'])),
-            "status" => array_map('intval', explode(',', $row['status'])),
-            "traffic_signals" => array_map('myBoolval', explode(',', $row['traffic_signals'])),
-            "island" => array_map('myBoolval', explode(',', $row['island'])),
-            "unmarked" => array_map('myBoolval', explode(',', $row['unmarked'])),
-            "button_operated" => array_map('myBoolval', explode(',', $row['button_operated'])),
-            "sloped_curb" => explode(',', $row['sloped_curb']),
-            "tactile_paving" => array_map('myBoolval', explode(',', $row['tactile_paving'])),
-            "traffic_signals_vibration" => array_map('myBoolval', explode(',', $row['traffic_signals_vibration'])),
-            "traffic_signals_sound" => array_map('myBoolval', explode(',', $row['traffic_signals_sound']))
-        );
-    }
-
     return getOsmDetails($row);
 }
 
@@ -138,10 +131,10 @@ function myBoolval($var) {
 }
 
 //$crossingConnection = new DBCrossing();
-//echo getSnap(1, $crossingConnection);
+//echo getSnap(11, array(978116.8778227222,5978804.028866864,984642.6891125691,5980027.021319423), $crossingConnection);
 //$crossingConnection->closeConnection();
 
-function getSnap($maxAmount, $crossingConnection) {
+function getSnap($maxAmount, $bounds, $crossingConnection) {
     $numbers = range(-1000, 733000, 1000);
     $position = halve(count($numbers));
     $maxHeight = count($numbers);
@@ -150,7 +143,7 @@ function getSnap($maxAmount, $crossingConnection) {
     while (true) {
         $oldMinHeight = $minHeight;
         $oldMaxHeight = $maxHeight;
-        $query = $crossingConnection->getClusteredAmount($numbers[$position]);
+        $query = $crossingConnection->getClusteredAmount($numbers[$position], $bounds);
         $queryAmount = pg_fetch_all($query)[0]['amount'];
 
         if ($queryAmount > $maxAmount) {
