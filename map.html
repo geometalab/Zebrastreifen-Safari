@@ -3,8 +3,20 @@
     <head>
 
         <meta charset="UTF-8">
+        <meta name="keywords" content="Ausbildung,Weiterbildung,Bildung,Hochschule,
+        Fachhochschule,Forschung,Entwicklung,Bauingenieurwesen,Innovation,
+        Erneuerbare Energien und Umwelttechnik,Raumplanung,Landschaftsarchitektur,
+        Elektrotechnik,Informatik,Wirtschaftsingenieurwesen,Raumplanung,HSR,Technik,Rapperswil,Zürichsee" />
         <!-- Stops unwanted scaling -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="title" content="Zebrastreifen-Safari" />
+        <meta name="revisit-after" content="7 days" />
+
+        <link rel="apple-touch-startup-image" href="img/favicon.ico" />
+        <link rel="apple-touch-icon" href="img/favicon.ico" />
+
+
+        <link rel="icon" type="image/ico" href="img/favicon.ico"/>
         <!-- Import Css libs -->
         <link rel="stylesheet" href="libs/script/leaflet/leaflet.css" />
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -98,7 +110,7 @@
         } else {
             var height_map = $(document).height() - $(".nav-mobile").height();
             $("#map").height(height_map);
-            $(".leaflet-control").css("margin-top", 68);
+            $(".leaflet-control-geosearch").css("margin-top", 68);
             map.invalidateSize();
         }
 

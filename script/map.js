@@ -6,7 +6,13 @@ var southWest = L.latLng(45.7300, 5.8000),
     northEast = L.latLng(47.9000, 10.600),
     bounds = L.latLngBounds(southWest, northEast);
 var osm = L.tileLayer('http://tile.osm.ch/osm-swiss-style/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy;<a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+    attribution: 'v0.1 | Project data © <a href="http://opendatacommons.org/licenses/odbl/1.0/"> ODbL </a>' +
+        '| Map © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' +
+    ' | <a href="http://www.openstreetmap.org/fixthemap">Improve this map</a>'
+});
+var mapbox = L.tileLayer("http://api.tiles.mapbox.com/v4/sfkeller.k0onh2me/{z}/{x}/{y}.png" +
+    "?access_token=pk.eyJ1Ijoic2ZrZWxsZXIiLCJhIjoia3h4T3pScyJ9.MDLSUwpRpPqaV7SVfGcZDw", {
+    attribution: "https://www.mapbox.com/about/maps/"
 });
 var map = L.map('map',{
     maxBounds:bounds,
@@ -74,10 +80,33 @@ map.on('moveend', function() {
         }
     });
 });
+var customControl =  L.Control.extend({
 
+    options: {
+        position: 'topleft'
+    },
+
+        onAdd: function (map) {
+            // createMap control element with standard leaflet control styling
+            var container = L.DomUtil.create('div', 'leaflet-control leaflet-bar fitbounds'),
+                link = L.DomUtil.create('a', 'controlicon', container);
+            link.href = '#';
+            link.title = 'Zur gesamten Schweiz zoomen';
+            link.innerHTML = '<img src="img/swissMap.png" width="25px" height="25px">';
+
+            // use leaflets fitBounds method to fit view to the createBounds
+            L.DomEvent.on(link, 'click', L.DomEvent.stop).on(link, 'click', function () {
+                map.fitBounds(bounds);
+            });
+
+            return container;
+        }
+
+});
 
 var baseMaps = {
-    "OSM": osm
+    "OSM": osm,
+    "Mapbox": mapbox
 };
 var overlayMaps = {
     "Zebrastreifen": crossing
@@ -89,4 +118,9 @@ var geosearch = new L.Control.GeoSearch({
     notFoundMessage: 'No result found...'
 }).addTo(map);
 L.control.zoom().addTo(map);
-L.control.layers(baseMaps, overlayMaps).addTo(map);
+map.addControl(new customControl());
+if($(document).width() >= 800) {
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
+} else {
+    L.control.layers(baseMaps, overlayMaps, {position: 'topleft'}).addTo(map);
+}
