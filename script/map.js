@@ -14,12 +14,31 @@ var mapbox = L.tileLayer("http://api.tiles.mapbox.com/v4/sfkeller.k0onh2me/{z}/{
     "?access_token=pk.eyJ1Ijoic2ZrZWxsZXIiLCJhIjoia3h4T3pScyJ9.MDLSUwpRpPqaV7SVfGcZDw", {
     attribution: "https://www.mapbox.com/about/maps/"
 });
+var searchPoints = L.geoJson(null, {
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(feature.properties.name);
+    }
+});
+function showSearchPoints (geojson) {
+    searchPoints.clearLayers();
+    searchPoints.addData(geojson);
+}
+var API_URL = '//photon.komoot.de/api/?';
 var map = L.map('map',{
     maxBounds:bounds,
     invalidateSize: true,
     minZoom: 7,
     layers: [osm, crossing],
-    zoomControl: false
+    zoomControl: false,
+    photonControl: true,
+    photonControlOptions:
+    {resultsHandler: showSearchPoints,
+        placeholder: 'Suche...',
+        position: 'topleft',
+        url: API_URL,
+        limit: 10,
+        lang: "de"
+    }
 }).setView([46.8259, 8.2000], 9);
 var hash = new L.hash(map);
 
@@ -111,12 +130,12 @@ var baseMaps = {
 var overlayMaps = {
     "Zebrastreifen": crossing
 };
-var geosearch = new L.Control.GeoSearch({
-    position:"topleft",
-    provider: new L.GeoSearch.Provider.OpenStreetMap({countrycodes: 'ch'}),
-    searchLabel: 'Address',
-    notFoundMessage: 'No result found...'
-}).addTo(map);
+//var geosearch = new L.Control.GeoSearch({
+//    position:"topleft",
+//    provider: new L.GeoSearch.Provider.OpenStreetMap({countrycodes: 'ch'}),
+//    searchLabel: 'Address',
+//    notFoundMessage: 'No result found...'
+//}).addTo(map);
 L.control.zoom().addTo(map);
 map.addControl(new customControl());
 if($(document).width() >= 800) {
