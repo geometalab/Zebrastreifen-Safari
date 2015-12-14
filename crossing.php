@@ -85,7 +85,8 @@ function getOsmDetails($row) {
         "sloped_curb" => $row['sloped_curb'],
         "tactile_paving" => myBoolval($row['tactile_paving']),
         "traffic_signals_vibration" => myBoolval($row['traffic_signals_vibration']),
-        "traffic_signals_sound" => myBoolval($row['traffic_signals_sound'])
+        "traffic_signals_sound" => myBoolval($row['traffic_signals_sound']),
+        "rated" => intval($row['status']) == 0 ? false : true
     );
 }
 
@@ -135,7 +136,7 @@ function myBoolval($var) {
 //$crossingConnection->closeConnection();
 
 function getSnap($maxAmount, $bounds, $crossingConnection) {
-    $numbers = range(-1000, 733000, 1000);
+    $numbers = range(-1000, 1000000, 1000);
     $position = halve(count($numbers));
     $maxHeight = count($numbers);
     $minHeight = 0;
