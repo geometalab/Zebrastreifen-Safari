@@ -1,5 +1,6 @@
 var bound;
 var maxamount;
+var zoom;
 var crossing = new L.layerGroup();
 var earthradius = 6378137;
 var southWest = L.latLng(45.7300, 5.8000),
@@ -23,6 +24,7 @@ function showSearchPoints (geojson) {
     searchPoints.clearLayers();
     searchPoints.addData(geojson);
 }
+
 var API_URL = '//photon.komoot.de/api/?';
 var map = L.map('map',{
     maxBounds:bounds,
@@ -62,26 +64,50 @@ map.on('moveend', function() {
         maxy = mercator_max.y * earthradius;
 
     bound = [minx, miny, maxx, maxy].toString();
+    zoom = map.getZoom();
+    if(zoom == 18){
+        maxamount = 100;
+    } else {
+        maxamount = 20;
+    }
 });
 map.on('moveend', function() {
     $.ajax({
-        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crosswalks/&bounds=' + bound + '&maxamount=3',
+        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crosswalks/&bounds=' + bound + '&maxamount=' + maxamount,
         dataType:'json',
         method: 'get',
         success:function(response){
             var icon = new L.icon({
                 iconUrl:"libs/script/leaflet/images/crossing.png",
-                iconSize:[40,40]
+                iconSize:[20,20]
             });
             crossing.clearLayers();
             var tmpCrossing = L.geoJson(response, {
 
                 onEachFeature: function(features, layer){
                     if (features.properties.hasOwnProperty('amount')){
-                        layer.bindPopup("Zoom zu klein um Details anzuzeigen - Anzahl: " + features.properties.amount);
+                        layer.on('mouseover', function() {
+                            var hoverPopup = L.popup().setContent('Anzahl: ' + features.properties.amount);
+                            layer.bindPopup(hoverPopup, {offset: new L.Point(0, -5)}).togglePopup();
+                        });
+                        layer.on('mouseout', function(){
+                           layer.closePopup();
+                        });
+                        layer.on('click', function(){
+                            var boundsMarker = layer.getLatLng();
+                            var zoom = map.getZoom();
+                            map.setView(boundsMarker, zoom + 2);
+                        });
+                    } else if(features.properties.rated){
+                        layer.bindPopup('Nr. ' + features.properties.osm_node_id.toString() + '<br />' +
+                            '<a href="crossing.html?crosswalk=' + features.properties.osm_node_id + '">Detailes</a> | ' +
+                            '<a href="https://www.openstreetmap.org/node/' + features.properties.osm_node_id + '">OSM</a>',
+                            {offset: new L.Point(0, -5)});
                     } else {
-                        layer.bindPopup(features.properties.osm_node_id.toString() + '<br />' +
-                            '<a href="crossing.html?crosswalk=' + features.properties.osm_node_id + '">Mehr Anzeigen...</a>');
+                        layer.bindPopup('Nr. ' + features.properties.osm_node_id.toString() + '<br />' +
+                            'Nicht bewertet | ' +
+                            '<a href="https://www.openstreetmap.org/node/' + features.properties.osm_node_id + '">OSM</a>',
+                            {offset: new L.Point(0, -5)});
                     }
 
                 },
@@ -124,18 +150,12 @@ var customControl =  L.Control.extend({
 });
 
 var baseMaps = {
-    "OSM": osm,
-    "Mapbox": mapbox
+    "OSM Standard": osm,
+    "MapBox Satellite": mapbox
 };
 var overlayMaps = {
-    "Zebrastreifen": crossing
+    "Fussgängerstreifen": crossing
 };
-//var geosearch = new L.Control.GeoSearch({
-//    position:"topleft",
-//    provider: new L.GeoSearch.Provider.OpenStreetMap({countrycodes: 'ch'}),
-//    searchLabel: 'Address',
-//    notFoundMessage: 'No result found...'
-//}).addTo(map);
 L.control.zoom().addTo(map);
 map.addControl(new customControl());
 if($(document).width() >= 800) {
@@ -143,3 +163,7 @@ if($(document).width() >= 800) {
 } else {
     L.control.layers(baseMaps, overlayMaps, {position: 'topleft'}).addTo(map);
 }
+$('.leaflet-control-layers-overlays').after('<div class="leaflet-control-layers-separator"></div>' +
+    '<div class="leaflet-control-layers-custom">' +
+    '<label><span> <a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Legende ">Legende</a></span></label></div>'
+);
