@@ -100,13 +100,13 @@ map.on('moveend', function() {
                         });
                     } else if(features.properties.rated){
                         layer.bindPopup('Nr. ' + features.properties.osm_node_id.toString() + '<br />' +
-                            '<a href="crossing.html?crosswalk=' + features.properties.osm_node_id + '">Detailes</a> | ' +
-                            '<a href="https://www.openstreetmap.org/node/' + features.properties.osm_node_id + '">OSM</a>',
+                            '<a target="_blank" href="crossing.html?crosswalk=' + features.properties.osm_node_id + '">Detailes</a> | ' +
+                            '<a target="_blank" href="https://www.openstreetmap.org/node/' + features.properties.osm_node_id + '">OSM</a>',
                             {offset: new L.Point(0, -5)});
                     } else {
                         layer.bindPopup('Nr. ' + features.properties.osm_node_id.toString() + '<br />' +
                             'Nicht bewertet | ' +
-                            '<a href="https://www.openstreetmap.org/node/' + features.properties.osm_node_id + '">OSM</a>',
+                            '<a target="_blank" href="https://www.openstreetmap.org/node/' + features.properties.osm_node_id + '">OSM</a>',
                             {offset: new L.Point(0, -5)});
                     }
 
@@ -165,5 +165,5 @@ if($(document).width() >= 800) {
 }
 $('.leaflet-control-layers-overlays').after('<div class="leaflet-control-layers-separator"></div>' +
     '<div class="leaflet-control-layers-custom">' +
-    '<label><span> <a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Legende ">Legende</a></span></label></div>'
+    '<label><span> <a target="_blank" href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Legende ">Legende</a></span></label></div>'
 );
