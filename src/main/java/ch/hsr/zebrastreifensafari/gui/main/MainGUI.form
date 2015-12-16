@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ch.hsr.zebrastreifensafari.gui.main.MainGUI">
   <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="751" height="603"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -10,36 +10,84 @@
       <tabbedpane id="49e05" binding="dataTabbedPane">
         <constraints border-constraint="Center"/>
         <properties/>
-        <border type="none"/>
+        <border type="none">
+          <font/>
+        </border>
         <children>
           <grid id="c58b8" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
               <tabbedpane title-resource-bundle="Bundle" title-key="defaultCrossingTabbedPaneTitle"/>
             </constraints>
             <properties/>
-            <border type="none"/>
+            <border type="empty">
+              <size top="0" left="5" bottom="5" right="5"/>
+            </border>
             <children>
               <grid id="bc8ca" layout-manager="BorderLayout" hgap="0" vgap="0">
                 <constraints border-constraint="North"/>
                 <properties/>
-                <border type="none"/>
+                <border type="empty">
+                  <size top="5" left="0" bottom="5" right="0"/>
+                </border>
                 <children>
-                  <component id="43582" class="javax.swing.JTextField" binding="searchTextField">
-                    <constraints border-constraint="Center"/>
+                  <grid id="f2bba" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="2">
+                    <constraints border-constraint="East"/>
                     <properties/>
-                  </component>
-                  <component id="c04c6" class="javax.swing.JLabel" binding="searchLabel">
+                    <border type="none"/>
+                    <children>
+                      <component id="81f89" class="javax.swing.JButton" binding="addCrossingButton">
+                        <constraints/>
+                        <properties>
+                          <actionCommand resource-bundle="Bundle" key="add"/>
+                          <hideActionText value="false"/>
+                          <text resource-bundle="Bundle" key="add"/>
+                        </properties>
+                      </component>
+                      <component id="489fa" class="javax.swing.JButton" binding="editCrossingButton">
+                        <constraints/>
+                        <properties>
+                          <actionCommand resource-bundle="Bundle" key="edit"/>
+                          <text resource-bundle="Bundle" key="edit"/>
+                        </properties>
+                      </component>
+                      <component id="fb771" class="javax.swing.JButton" binding="deleteCrossingButton">
+                        <constraints/>
+                        <properties>
+                          <actionCommand resource-bundle="Bundle" key="delete"/>
+                          <text resource-bundle="Bundle" key="delete"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="1bdb8" layout-manager="BorderLayout" hgap="0" vgap="0">
                     <constraints border-constraint="West"/>
-                    <properties>
-                      <text resource-bundle="Bundle" key="searchLabelText"/>
-                    </properties>
-                  </component>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="43582" class="javax.swing.JTextField" binding="searchTextField">
+                        <constraints border-constraint="Center"/>
+                        <properties>
+                          <columns value="19"/>
+                          <margin top="0" left="0" bottom="0" right="0"/>
+                          <preferredSize width="223" height="24"/>
+                        </properties>
+                      </component>
+                      <component id="c04c6" class="javax.swing.JLabel" binding="searchLabel">
+                        <constraints border-constraint="West"/>
+                        <properties>
+                          <text resource-bundle="Bundle" key="searchLabelText"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
                 </children>
               </grid>
               <scrollpane id="26343">
                 <constraints border-constraint="Center"/>
                 <properties/>
-                <border type="none"/>
+                <border type="none">
+                  <size top="0" left="0" bottom="0" right="0"/>
+                </border>
                 <children>
                   <component id="b8e8b" class="javax.swing.JTable" binding="crossingDataTable" custom-create="true">
                     <constraints/>
@@ -55,48 +103,65 @@
               </scrollpane>
             </children>
           </grid>
-          <scrollpane id="3b082">
+          <grid id="16da4" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
               <tabbedpane title-resource-bundle="Bundle" title-key="defaultRatingTabbedPaneTitle"/>
             </constraints>
             <properties/>
-            <border type="none"/>
+            <border type="empty">
+              <size top="0" left="5" bottom="5" right="5"/>
+            </border>
             <children>
-              <component id="89fe5" class="javax.swing.JTable" binding="ratingDataTable" custom-create="true">
-                <constraints/>
-                <properties>
-                  <rowSelectionAllowed value="true"/>
-                </properties>
-              </component>
+              <scrollpane id="3b082">
+                <constraints border-constraint="Center"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="89fe5" class="javax.swing.JTable" binding="ratingDataTable" custom-create="true">
+                    <constraints/>
+                    <properties>
+                      <rowSelectionAllowed value="true"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <grid id="3fcb" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="2">
+                <constraints border-constraint="North"/>
+                <properties/>
+                <border type="empty">
+                  <size top="5" left="0" bottom="5" right="0"/>
+                </border>
+                <children>
+                  <component id="72c46" class="javax.swing.JButton" binding="addRatingButton">
+                    <constraints/>
+                    <properties>
+                      <actionCommand resource-bundle="Bundle" key="add"/>
+                      <horizontalAlignment value="4"/>
+                      <text resource-bundle="Bundle" key="add"/>
+                    </properties>
+                  </component>
+                  <component id="35273" class="javax.swing.JButton" binding="editRatingButton">
+                    <constraints/>
+                    <properties>
+                      <actionCommand resource-bundle="Bundle" key="edit"/>
+                      <horizontalAlignment value="4"/>
+                      <text resource-bundle="Bundle" key="edit"/>
+                    </properties>
+                  </component>
+                  <component id="1fa1d" class="javax.swing.JButton" binding="deleteRatingButton">
+                    <constraints/>
+                    <properties>
+                      <actionCommand resource-bundle="Bundle" key="delete"/>
+                      <horizontalAlignment value="4"/>
+                      <text resource-bundle="Bundle" key="delete"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
             </children>
-          </scrollpane>
+          </grid>
         </children>
       </tabbedpane>
-      <grid id="f2bba" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="2">
-        <constraints border-constraint="North"/>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="81f89" class="javax.swing.JButton" binding="addButton">
-            <constraints/>
-            <properties>
-              <text resource-bundle="Bundle" key="add"/>
-            </properties>
-          </component>
-          <component id="489fa" class="javax.swing.JButton" binding="editButton">
-            <constraints/>
-            <properties>
-              <text resource-bundle="Bundle" key="edit"/>
-            </properties>
-          </component>
-          <component id="fb771" class="javax.swing.JButton" binding="deleteButton">
-            <constraints/>
-            <properties>
-              <text resource-bundle="Bundle" key="delete"/>
-            </properties>
-          </component>
-        </children>
-      </grid>
     </children>
   </grid>
 </form>

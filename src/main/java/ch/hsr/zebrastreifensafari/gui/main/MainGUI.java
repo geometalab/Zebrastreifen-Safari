@@ -42,11 +42,14 @@ public class MainGUI extends JFrame {
     private final Model model;
     private JPanel mainPanel;
     private JTextField searchTextField;
-    private JButton addButton, editButton, deleteButton;
+    private JButton addCrossingButton, editCrossingButton, deleteCrossingButton;
     private JTable crossingDataTable, ratingDataTable;
     private JLabel searchLabel;
     private JMenuItem exitMenuItem, refreshMenuItem, addMenuItem, editMenuItem, deleteMenuItem, helpMenuItem, aboutMenuItem;
     private JTabbedPane dataTabbedPane;
+    private JButton addRatingButton;
+    private JButton editRatingButton;
+    private JButton deleteRatingButton;
     private DefaultTableModel crossingTableModel, ratingTableModel;
 
     public MainGUI(Model model) throws HeadlessException {
@@ -72,9 +75,12 @@ public class MainGUI extends JFrame {
                 onSearch();
             }
         });
-        addButton.addActionListener(e -> onAddClick());
-        editButton.addActionListener(e -> onEditClick());
-        deleteButton.addActionListener(e -> onDeleteClick());
+        addCrossingButton.addActionListener(e -> onAddClick());
+        editCrossingButton.addActionListener(e -> onEditClick());
+        deleteCrossingButton.addActionListener(e -> onDeleteClick());
+        addRatingButton.addActionListener(e -> onAddClick());
+        editRatingButton.addActionListener(e -> onEditClick());
+        deleteRatingButton.addActionListener(e -> onDeleteClick());
         refreshMenuItem.addActionListener(e -> onRefreshClick());
         exitMenuItem.addActionListener(e -> onExitClick());
         addMenuItem.addActionListener(e -> onAddClick());
@@ -107,12 +113,8 @@ public class MainGUI extends JFrame {
         try {
             if (isRatingMode()) {
                 model.reloadRating(getCrossingFromTable());
-                searchLabel.setVisible(false);
-                searchTextField.setVisible(false);
                 addRatingDataToTable(model.getRatings());
             } else {
-                searchLabel.setVisible(true);
-                searchTextField.setVisible(true);
                 searchTextField.requestFocusInWindow();
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
@@ -146,28 +148,20 @@ public class MainGUI extends JFrame {
     }
 
     private void onAddClick() {
-        ModifyGUI modifyGUI;
-
         if (isRatingMode()) {
-            modifyGUI = new CreateRatingGUI(this, getCrossingFromTable().getOsmNodeId());
+            new CreateRatingGUI(this, getCrossingFromTable().getOsmNodeId()).setVisible(true);
         } else {
-            modifyGUI = new CreateCrossingGUI(this);
+            new CreateCrossingGUI(this).setVisible(true);
         }
-
-        modifyGUI.setVisible(true);
     }
 
     private void onEditClick() {
         try {
-            ModifyGUI modifyGUI;
-
             if (isRatingMode()) {
-                modifyGUI = new EditRatingGUI(this, getRatingFromTable());
+                new EditRatingGUI(this, getRatingFromTable()).setVisible(true);
             } else {
-                modifyGUI = new EditCrossingGUI(this, getCrossingFromTable());
+                new EditCrossingGUI(this, getCrossingFromTable()).setVisible(true);
             }
-
-            modifyGUI.setVisible(true);
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             errorMessage(Properties.get("editSelectionError"));
         }
@@ -459,7 +453,7 @@ public class MainGUI extends JFrame {
     //</editor-fold>
 
     //<editor-fold desc="GUI Builder">
-    private void createUIComponents() {
+    private void createUICrossingTable() {
         crossingTableModel = new DefaultTableModel(new String[]{
                 Properties.get("osmNodeId"),
                 Properties.get("ratingAmount"),
@@ -482,8 +476,13 @@ public class MainGUI extends JFrame {
 
                 return super.getColumnClass(column);
             }
-
         };
+
+        crossingDataTable = new JTable(crossingTableModel);
+        crossingDataTable.removeColumn(crossingDataTable.getColumnModel().getColumn(3));
+    }
+
+    private void createUIRatingTable() {
 
         ratingTableModel = new DefaultTableModel(new String[]{
                 Properties.get("user"),
@@ -502,11 +501,11 @@ public class MainGUI extends JFrame {
             }
         };
 
-        crossingDataTable = new JTable(crossingTableModel);
         ratingDataTable = new JTable(ratingTableModel);
-        crossingDataTable.removeColumn(crossingDataTable.getColumnModel().getColumn(3));
         ratingDataTable.removeColumn(ratingDataTable.getColumnModel().getColumn(7));
+    }
 
+    private void createUIMenu() {
         JMenuBar bar = new JMenuBar();
         JMenu fileMenu = new JMenu(Properties.get("file"));
         JMenu editMenu = new JMenu(Properties.get("edit"));
@@ -525,23 +524,14 @@ public class MainGUI extends JFrame {
         helpMenuItem = new JMenuItem(Properties.get("help"));
         aboutMenuItem = new JMenuItem(Properties.get("about"));
 
-        KeyStroke keyStrokeToClose = KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_DOWN_MASK);
-        KeyStroke keyStrokeToRefresh = KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0);
-        KeyStroke keyStrokeToCut = KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK);
-        KeyStroke keyStrokeToCopy = KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK);
-        KeyStroke keyStrokeToPaste = KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK);
-        KeyStroke keyStrokeToAdd = KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK);
-        KeyStroke keyStrokeToEdit = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
-        KeyStroke keyStrokeToDelete = KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0);
-
-        exitMenuItem.setAccelerator(keyStrokeToClose);
-        refreshMenuItem.setAccelerator(keyStrokeToRefresh);
-        cutMenuItem.setAccelerator(keyStrokeToCut);
-        copyMenuItem.setAccelerator(keyStrokeToCopy);
-        pasteMenuItem.setAccelerator(keyStrokeToPaste);
-        addMenuItem.setAccelerator(keyStrokeToAdd);
-        editMenuItem.setAccelerator(keyStrokeToEdit);
-        deleteMenuItem.setAccelerator(keyStrokeToDelete);
+        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_DOWN_MASK));
+        refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+        cutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
+        copyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK));
+        pasteMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK));
+        addMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
+        editMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
+        deleteMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
 
         fileMenu.add(refreshMenuItem);
         fileMenu.add(exitMenuItem);
@@ -560,6 +550,12 @@ public class MainGUI extends JFrame {
         setJMenuBar(bar);
     }
 
+    private void createUIComponents() {
+        createUICrossingTable();
+        createUIRatingTable();
+        createUIMenu();
+    }
+
     /**
      * Method generated by IntelliJ IDEA GUI Designer
      * >>> IMPORTANT!! <<<
@@ -576,14 +572,38 @@ public class MainGUI extends JFrame {
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new BorderLayout(0, 0));
         dataTabbedPane.addTab(ResourceBundle.getBundle("Bundle").getString("defaultCrossingTabbedPaneTitle"), panel1);
+        panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5), null));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new BorderLayout(0, 0));
         panel1.add(panel2, BorderLayout.NORTH);
+        panel2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0), null));
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        panel2.add(panel3, BorderLayout.EAST);
+        addCrossingButton = new JButton();
+        addCrossingButton.setActionCommand(ResourceBundle.getBundle("Bundle").getString("add"));
+        addCrossingButton.setHideActionText(false);
+        this.$$$loadButtonText$$$(addCrossingButton, ResourceBundle.getBundle("Bundle").getString("add"));
+        panel3.add(addCrossingButton);
+        editCrossingButton = new JButton();
+        editCrossingButton.setActionCommand(ResourceBundle.getBundle("Bundle").getString("edit"));
+        this.$$$loadButtonText$$$(editCrossingButton, ResourceBundle.getBundle("Bundle").getString("edit"));
+        panel3.add(editCrossingButton);
+        deleteCrossingButton = new JButton();
+        deleteCrossingButton.setActionCommand(ResourceBundle.getBundle("Bundle").getString("delete"));
+        this.$$$loadButtonText$$$(deleteCrossingButton, ResourceBundle.getBundle("Bundle").getString("delete"));
+        panel3.add(deleteCrossingButton);
+        final JPanel panel4 = new JPanel();
+        panel4.setLayout(new BorderLayout(0, 0));
+        panel2.add(panel4, BorderLayout.WEST);
         searchTextField = new JTextField();
-        panel2.add(searchTextField, BorderLayout.CENTER);
+        searchTextField.setColumns(19);
+        searchTextField.setMargin(new Insets(0, 0, 0, 0));
+        searchTextField.setPreferredSize(new Dimension(223, 24));
+        panel4.add(searchTextField, BorderLayout.CENTER);
         searchLabel = new JLabel();
         this.$$$loadLabelText$$$(searchLabel, ResourceBundle.getBundle("Bundle").getString("searchLabelText"));
-        panel2.add(searchLabel, BorderLayout.WEST);
+        panel4.add(searchLabel, BorderLayout.WEST);
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, BorderLayout.CENTER);
         crossingDataTable.setAutoCreateRowSorter(false);
@@ -592,22 +612,33 @@ public class MainGUI extends JFrame {
         crossingDataTable.setFillsViewportHeight(false);
         crossingDataTable.setRowSelectionAllowed(true);
         scrollPane1.setViewportView(crossingDataTable);
+        final JPanel panel5 = new JPanel();
+        panel5.setLayout(new BorderLayout(0, 0));
+        dataTabbedPane.addTab(ResourceBundle.getBundle("Bundle").getString("defaultRatingTabbedPaneTitle"), panel5);
+        panel5.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5), null));
         final JScrollPane scrollPane2 = new JScrollPane();
-        dataTabbedPane.addTab(ResourceBundle.getBundle("Bundle").getString("defaultRatingTabbedPaneTitle"), scrollPane2);
+        panel5.add(scrollPane2, BorderLayout.CENTER);
         ratingDataTable.setRowSelectionAllowed(true);
         scrollPane2.setViewportView(ratingDataTable);
-        final JPanel panel3 = new JPanel();
-        panel3.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        mainPanel.add(panel3, BorderLayout.NORTH);
-        addButton = new JButton();
-        this.$$$loadButtonText$$$(addButton, ResourceBundle.getBundle("Bundle").getString("add"));
-        panel3.add(addButton);
-        editButton = new JButton();
-        this.$$$loadButtonText$$$(editButton, ResourceBundle.getBundle("Bundle").getString("edit"));
-        panel3.add(editButton);
-        deleteButton = new JButton();
-        this.$$$loadButtonText$$$(deleteButton, ResourceBundle.getBundle("Bundle").getString("delete"));
-        panel3.add(deleteButton);
+        final JPanel panel6 = new JPanel();
+        panel6.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        panel5.add(panel6, BorderLayout.NORTH);
+        panel6.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0), null));
+        addRatingButton = new JButton();
+        addRatingButton.setActionCommand(ResourceBundle.getBundle("Bundle").getString("add"));
+        addRatingButton.setHorizontalAlignment(4);
+        this.$$$loadButtonText$$$(addRatingButton, ResourceBundle.getBundle("Bundle").getString("add"));
+        panel6.add(addRatingButton);
+        editRatingButton = new JButton();
+        editRatingButton.setActionCommand(ResourceBundle.getBundle("Bundle").getString("edit"));
+        editRatingButton.setHorizontalAlignment(4);
+        this.$$$loadButtonText$$$(editRatingButton, ResourceBundle.getBundle("Bundle").getString("edit"));
+        panel6.add(editRatingButton);
+        deleteRatingButton = new JButton();
+        deleteRatingButton.setActionCommand(ResourceBundle.getBundle("Bundle").getString("delete"));
+        deleteRatingButton.setHorizontalAlignment(4);
+        this.$$$loadButtonText$$$(deleteRatingButton, ResourceBundle.getBundle("Bundle").getString("delete"));
+        panel6.add(deleteRatingButton);
     }
 
     /**
