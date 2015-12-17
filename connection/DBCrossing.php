@@ -73,16 +73,24 @@ class DBCrossing {
                                             WHERE crossing_id = $crossingId;");
     }
 
-    public function getLineChartStatistic() {
+    public function getCrossingLineChartStatistic() {
         return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, max(amount) AS amount FROM statistic.crossingstatistic GROUP BY week ORDER BY week ASC;");
     }
 
-    public function getWeekAmount() {
+    public function getCrossingBarChartStatistic($offset) {
+        return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, max(amount) AS amount FROM statistic.crossingstatistic GROUP BY week ORDER BY week ASC OFFSET $offset;");
+    }
+
+    public function getCrossingStatisticWeekAmount() {
         return pg_query($this->connection, "SELECT count(DISTINCT date_trunc('week', enquiry_date)) AS week_amount FROM statistic.crossingstatistic;");
     }
 
-    public function getBarChartStatistic($offset) {
-        return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, max(amount) AS amount FROM statistic.crossingstatistic GROUP BY week ORDER BY week ASC OFFSET $offset;");
+    public function getRatingBarChartStatistic($offset) {
+        return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, max(amount) AS amount FROM statistic.ratingstatistic GROUP BY week ORDER BY week ASC OFFSET $offset;");
+    }
+
+    public function getRatingStatisticWeekAmount() {
+        return pg_query($this->connection, "SELECT count(DISTINCT date_trunc('week', enquiry_date)) AS week_amount FROM statistic.ratingstatistic;");
     }
 
     public function getClusteredAmount($number, $bounds) {
