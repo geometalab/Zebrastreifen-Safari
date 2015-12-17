@@ -193,18 +193,30 @@ p {
         order: 2;
     }
     #linecanvas {
-        width: 60%;
+        width: 49%;
     }
     #barcanvas {
-        width: 60%;
+        width: 49%;
     }
     .aside-2 {
         width: 10%;
         flex: 1 auto;
         order: 3;
     }
+    #table {
+        min-width: 50%;
+    }
     .t_mobile {
         display: none;
+    }
+    #t_rating {
+        border-collapse: collapse;
+    }
+    #t_rating td {
+        border-right: 1px solid;
+    }
+    tr{
+        border: solid thin;
     }
 
 }
@@ -335,6 +347,7 @@ p {
         width: 70%;
         z-index: 5;
     }
+
 }
 @media only screen and (max-width: 800px) {
 
@@ -342,11 +355,15 @@ p {
         display: block;
         width: 100%;
     }
-    tr{
-        border: 1px solid;
-    }
+
     table {
         padding-top: 20px;
+    }
+    #t_rating {
+        border-collapse: collapse;
+    }
+    #t_rating tr{
+        border: solid thin;
     }
     .t_mobile {
         display: flex;

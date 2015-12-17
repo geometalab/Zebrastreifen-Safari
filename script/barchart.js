@@ -1,6 +1,7 @@
 $(document).ready(function() {
+    
     $.ajax({
-        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/barchart',
+        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crossingbarchart',
         dataType: 'json',
         method: 'get',
         success: function (response)  {

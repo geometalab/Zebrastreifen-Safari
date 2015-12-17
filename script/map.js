@@ -65,11 +65,7 @@ map.on('moveend', function() {
 
     bound = [minx, miny, maxx, maxy].toString();
     zoom = map.getZoom();
-    if(zoom == 18){
-        maxamount = 100;
-    } else {
-        maxamount = 20;
-    }
+    maxamount = zoom * 2.95;
 });
 map.on('moveend', function() {
     $.ajax({
@@ -79,7 +75,7 @@ map.on('moveend', function() {
         success:function(response){
             var icon = new L.icon({
                 iconUrl:"libs/script/leaflet/images/crossing.png",
-                iconSize:[20,20]
+                iconSize:[18,18]
             });
             crossing.clearLayers();
             var tmpCrossing = L.geoJson(response, {
@@ -100,7 +96,7 @@ map.on('moveend', function() {
                         });
                     } else if(features.properties.rated){
                         layer.bindPopup('Nr. ' + features.properties.osm_node_id.toString() + '<br />' +
-                            '<a target="_blank" href="crossing.html?crosswalk=' + features.properties.osm_node_id + '">Detailes</a> | ' +
+                            '<a href="crossing.html?crosswalk=' + features.properties.osm_node_id + '">Details</a> | ' +
                             '<a target="_blank" href="https://www.openstreetmap.org/node/' + features.properties.osm_node_id + '">OSM</a>',
                             {offset: new L.Point(0, -5)});
                     } else {
@@ -114,7 +110,6 @@ map.on('moveend', function() {
                 // add the points to the layer
                 pointToLayer: function (feature, latlng) {
                     var newlatlng = unproject(latlng);
-                    //console.log(latlng);
                     return L.marker(newlatlng, {
                         icon:icon
                     });
@@ -165,5 +160,5 @@ if($(document).width() >= 800) {
 }
 $('.leaflet-control-layers-overlays').after('<div class="leaflet-control-layers-separator"></div>' +
     '<div class="leaflet-control-layers-custom">' +
-    '<label><span> <a target="_blank" href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Legende ">Legende</a></span></label></div>'
+    '<label><span> <a href="http://giswiki.hsr.ch/Zebrasteifen-Safari#Legende ">Legende</a></span></label></div>'
 );

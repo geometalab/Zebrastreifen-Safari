@@ -5,6 +5,7 @@ $(document).ready(function() {
         method: 'get',
         success : function (data){
             var json = data;
+            document.getElementById("rating_title").textContent = "Bewertung des Zebrastreifen Nr. " + json.osm_node_id;
             if (json.hasOwnProperty('error')){
                 $("#table").hide();
                 document.getElementById("error").textContent = "Fehler: 404 Zebrastreifen nicht gefunden";
@@ -72,12 +73,6 @@ $(document).ready(function() {
                     var row = $('<tr></tr>');
                     var data = $('<td></td>');
                     row.append($('<th class="t_mobile"></th>').text("Userbewertung"));
-                    row.append($('<th class="t_mobile"></th>').text("Kommentar: "));
-                    if(json.ratings[i].comment == null){
-                        row.append($('<td></td>').text("-"));
-                    } else {
-                        row.append($('<td></td>').text(json.ratings[i].comment));
-                    }
                     row.append($('<th class="t_mobile"></th>').text("Benutzer: "));
                     row.append($('<td></td>').text(json.ratings[i].username));
                     row.append($('<th class="t_mobile"></th>').text( "Übersicht: "));
@@ -86,6 +81,12 @@ $(document).ready(function() {
                     row.append($('<td></td>').text(json.ratings[i].illumination));
                     row.append($('<th class="t_mobile"></th>').text("Verkehr: "));
                     row.append($('<td></td>').text(json.ratings[i].traffic));
+                    row.append($('<th class="t_mobile"></th>').text("Kommentar: "));
+                    if(json.ratings[i].comment == null){
+                        row.append($('<td></td>').text("-"));
+                    } else {
+                        row.append($('<td></td>').text(json.ratings[i].comment));
+                    }
                     row.append($('<th class="t_mobile"></th>').text("Bild: "));
                     if(json.ratings[i].image_weblink == null){
                         row.append($('<td></td>').text("Kein Bild vorhanden"));

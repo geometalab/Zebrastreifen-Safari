@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $.ajax({
-        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/linechart',
+        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crossinglinechart',
         dataType: 'json',
         method: 'get',
         success: function (data1)  {
