@@ -7,8 +7,8 @@
  * Time: 14:51
  */
 
-require_once('../connection/DBConfig.php');
-require_once('../connection/DBCrossing.php');
+require_once('connection/DBConfig.php');
+require_once('connection/DBCrossing.php');
 
 $crossingConnection = new DBCrossing();
 $crossingConnection->updateCrossingStatus();
