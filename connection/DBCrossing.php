@@ -107,6 +107,14 @@ class DBCrossing {
         pg_query($this->connection, "INSERT INTO statistic.crossingstatistic (amount) VALUES ($amount);");
     }
 
+    public function getRatingAmount() {
+        return pg_query($this->connection, "SELECT count(*) AS amount FROM crossing.rating;");
+    }
+
+    public function setRatingAmount($amount) {
+        pg_query($this->connection, "INSERT INTO statistic.ratingstatistic (amount) VALUES ($amount);");
+    }
+
     public function updateCrossingStatus() {
         pg_query($this->connection, "UPDATE crossing.crossing SET status = 0 WHERE status != 0 AND osm_node_id NOT IN (SELECT osm_id FROM crossing.osm_crossings);");
         pg_query($this->connection, "UPDATE crossing.crossing SET status = 1 WHERE status != 1 AND osm_node_id IN (SELECT osm_id FROM crossing.osm_crossings);");
