@@ -16,10 +16,12 @@ require_once('crossing.php');
 if (!empty($_GET['chart'])) {
     $type = pg_escape_string($_GET['chart']);
 
-    if ($type == 'linechart') {
-        echo json_encode(linechartStatistic());
-    } else if ($type == 'barchart') {
-        echo json_encode(barchartStatistic());
+    if ($type == 'crossinglinechart') {
+        echo json_encode(crossingLinechartStatistic());
+    } else if ($type == 'crossingbarchart') {
+        echo json_encode(crossingBarchartStatistic());
+    } else if ($type == 'ratingbarchart') {
+        echo json_encode(ratingBarchartStatistic());
     } else {
         echo json_encode(array("error" => 404, "reason" => 'Parameter "chart" has an invalid value.'));
     }
