@@ -7,8 +7,8 @@
  * Time: 16:09
  */
 
-require_once('../connection/DBConfig.php');
-require_once('../connection/DBCrossing.php');
+require_once('connection/DBConfig.php');
+require_once('connection/DBCrossing.php');
 
 $dbConnection = new DBCrossing();
 $crossingQuery = $dbConnection->getCrossingAmount();
