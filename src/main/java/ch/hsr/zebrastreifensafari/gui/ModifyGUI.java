@@ -1,6 +1,6 @@
-package ch.hsr.zebrastreifensafari.gui.modify;
+package ch.hsr.zebrastreifensafari.gui;
 
-import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
+import ch.hsr.zebrastreifensafari.gui.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;

@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui.modify.edit;
+package ch.hsr.zebrastreifensafari.gui.create;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +12,7 @@ import org.junit.Test;
  * @date : 21.10.2015
  */
 
-public class EditRatingGUITest {
+public class CreateCrossingGUITest {
 
     @Before
     public void setUp() throws Exception {
@@ -26,11 +26,6 @@ public class EditRatingGUITest {
 
     @Test
     public void testOnSendClick() throws Exception {
-
-    }
-
-    @Test
-    public void testSetButtonGroupValue() throws Exception {
 
     }
 }

@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui.about;
+package ch.hsr.zebrastreifensafari.gui;
 
 import ch.hsr.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;
