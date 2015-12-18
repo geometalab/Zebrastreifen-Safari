@@ -1,9 +1,9 @@
-package ch.hsr.zebrastreifensafari.gui.about;
+package ch.hsr.zebrastreifensafari.gui.sub.about;
 
+import ch.hsr.zebrastreifensafari.gui.sub.CenterJDialog;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.lw.StringDescriptor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ResourceBundle;
 
-public class AboutGUI extends JDialog {
+public class AboutGUI extends CenterJDialog {
 
     private JPanel mainPanel;
     private JButton closeButton;
@@ -22,11 +22,10 @@ public class AboutGUI extends JDialog {
     private JLabel crossingLink;
 
     public AboutGUI(JFrame parent) {
-        super(parent, Properties.get("aboutGuiTitle"), true);
+        super(parent, Properties.get("aboutGuiTitle"), true, 350, 200);
         setContentPane(mainPanel);
         getRootPane().setDefaultButton(closeButton);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        pack();
         initListeners();
     }
 
@@ -81,7 +80,7 @@ public class AboutGUI extends JDialog {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0, 0));
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(5, 2, new Insets(5, 5, 5, 5), -1, -1));
         mainPanel.add(panel1, BorderLayout.CENTER);
         final JLabel label1 = new JLabel();
         this.$$$loadLabelText$$$(label1, ResourceBundle.getBundle("Bundle").getString("version"));

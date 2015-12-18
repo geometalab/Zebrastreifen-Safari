@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui.modify;
+package ch.hsr.zebrastreifensafari.gui.sub.modify;
 
 import ch.hsr.zebrastreifensafari.TestJDBC;
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;

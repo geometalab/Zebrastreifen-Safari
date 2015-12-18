@@ -116,23 +116,14 @@ public class Model {
         return null;
     }
 
-    /**
-     * @return the users
-     */
     public List<User> getUsers() {
         return users;
     }
 
-    /**
-     * @return the zebras
-     */
     public List<Crossing> getCrossings() {
         return crossings;
     }
 
-    /**
-     * @return the ratings
-     */
     public List<Rating> getRatings() {
         return ratings;
     }

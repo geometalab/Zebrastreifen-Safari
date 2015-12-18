@@ -1,11 +1,10 @@
 package ch.hsr.zebrastreifensafari.gui.main;
 
-import ch.hsr.zebrastreifensafari.gui.about.AboutGUI;
-import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
-import ch.hsr.zebrastreifensafari.gui.modify.create.CreateCrossingGUI;
-import ch.hsr.zebrastreifensafari.gui.modify.create.CreateRatingGUI;
-import ch.hsr.zebrastreifensafari.gui.modify.edit.EditCrossingGUI;
-import ch.hsr.zebrastreifensafari.gui.modify.edit.EditRatingGUI;
+import ch.hsr.zebrastreifensafari.gui.sub.about.AboutGUI;
+import ch.hsr.zebrastreifensafari.gui.sub.modify.create.CreateCrossingGUI;
+import ch.hsr.zebrastreifensafari.gui.sub.modify.create.CreateRatingGUI;
+import ch.hsr.zebrastreifensafari.gui.sub.modify.edit.EditCrossingGUI;
+import ch.hsr.zebrastreifensafari.gui.sub.modify.edit.EditRatingGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
