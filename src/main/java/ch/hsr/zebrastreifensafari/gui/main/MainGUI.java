@@ -113,8 +113,6 @@ public class MainGUI extends JFrame {
             if (isRatingMode()) {
                 model.reloadRating(getCrossingFromTable());
                 addRatingDataToTable(model.getRatings());
-            } else {
-                searchTextField.requestFocusInWindow();
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             dataTabbedPane.setSelectedIndex(0);
