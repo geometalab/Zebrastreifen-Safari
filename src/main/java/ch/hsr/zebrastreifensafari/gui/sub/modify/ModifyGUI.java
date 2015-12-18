@@ -1,6 +1,7 @@
-package ch.hsr.zebrastreifensafari.gui.modify;
+package ch.hsr.zebrastreifensafari.gui.sub.modify;
 
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
+import ch.hsr.zebrastreifensafari.gui.sub.CenterJDialog;
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -26,7 +27,7 @@ import java.util.ResourceBundle;
  * @date : 26.10.2015
  */
 
-public abstract class ModifyGUI extends JDialog {
+public abstract class ModifyGUI extends CenterJDialog {
 
     protected final MainGUI mainGUI;
     protected JButton sendButton;
@@ -41,7 +42,7 @@ public abstract class ModifyGUI extends JDialog {
     private JButton cancelButton;
 
     protected ModifyGUI(MainGUI mainGUI, String title) {
-        super(mainGUI, title, true);
+        super(mainGUI, title, true, 650, 600);
         $$$setupUI$$$();
         setContentPane(mainPanel);
         getRootPane().setDefaultButton(sendButton);
@@ -54,7 +55,6 @@ public abstract class ModifyGUI extends JDialog {
         }
 
         initListeners();
-        setPosition();
     }
 
     protected abstract void onSendClick();
@@ -72,14 +72,6 @@ public abstract class ModifyGUI extends JDialog {
                 setImage(imageTextField.getText());
             }
         });
-    }
-
-    private void setPosition() {
-        int width = 650;
-        int height = 600;
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-
-        setBounds((int) ((dimension.getWidth() - width) / 2), (int) ((dimension.getHeight() - height) / 2), width, height);
     }
 
     protected int getSelectedButtonInt(ButtonGroup bg) {

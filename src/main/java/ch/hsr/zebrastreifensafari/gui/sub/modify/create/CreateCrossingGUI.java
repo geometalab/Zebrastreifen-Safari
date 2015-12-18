@@ -1,7 +1,7 @@
-package ch.hsr.zebrastreifensafari.gui.modify.create;
+package ch.hsr.zebrastreifensafari.gui.sub.modify.create;
 
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
-import ch.hsr.zebrastreifensafari.gui.modify.ModifyGUI;
+import ch.hsr.zebrastreifensafari.gui.sub.modify.ModifyGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -24,8 +24,10 @@ public class CreateCrossingGUI extends ModifyGUI {
         try {
             //todo: überarbeiten, wenn ein bild wiederholt verwendet wird, wird trozdem ein crossing erstellt (momentane lösung funktioniert ist aber nicht schön)
             Crossing crossing = createCrossing();
-            createRating(crossing);
-            dispose();
+
+            if (createRating(crossing)) {
+                dispose();
+            }
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (RollbackException rex) {
@@ -48,7 +50,7 @@ public class CreateCrossingGUI extends ModifyGUI {
         return crossing;
     }
 
-    private void createRating(Crossing crossing) {
+    private boolean createRating(Crossing crossing) {
         try {
             DataServiceLoader.getCrossingData().createRating(
                     new Rating(
@@ -63,10 +65,13 @@ public class CreateCrossingGUI extends ModifyGUI {
                             new Date()
                     )
             );
+
+            return true;
         } catch (RollbackException rex) {
-            rex.printStackTrace();
             mainGUI.removeCrossing();
             errorMessage(Properties.get("duplicatedPhotoError"));
         }
+
+        return false;
     }
 }

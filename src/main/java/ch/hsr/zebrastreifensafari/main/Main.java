@@ -20,23 +20,28 @@ import java.util.Locale;
  */
 public class Main {
 
-    private Main() {
-        try {
-            Properties.setLanguage(Locale.GERMAN);
-            DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPU"));
-            Model model = new Model();
-            MainGUI mainGUI = new MainGUI(model);
-            mainGUI.setVisible(true);
-        } catch (PersistenceException pex) {
-            Object[] choices = {Properties.get("retry"), Properties.get("close")};
+    public static void main(String[] args) {
+        while (true) {
+            try {
+                Properties.setLanguage(Locale.GERMAN);
+                DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPU"));
+                Model model = new Model();
+                MainGUI mainGUI = new MainGUI(model);
+                mainGUI.setVisible(true);
+                break;
+            } catch (PersistenceException pex) {
+                Object[] choices = {Properties.get("retry"), Properties.get("close")};
 
-            if (JOptionPane.showOptionDialog(null, Properties.get("connectionError"), Properties.get("mainGuiTitle") + Properties.get("versionNumber") + Properties.get("connectionErrorTitle"), JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, choices, choices[0]) == 0) {
-                new Main();
+                if (JOptionPane.showOptionDialog(null,
+                        Properties.get("connectionError"), Properties.get("mainGuiTitle") + Properties.get("versionNumber") + Properties.get("connectionErrorTitle"),
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.ERROR_MESSAGE,
+                        null,
+                        choices,
+                        choices[0]) != 0) {
+                    break;
+                }
             }
         }
-    }
-
-    public static void main(String[] args) {
-        new Main();
     }
 }
