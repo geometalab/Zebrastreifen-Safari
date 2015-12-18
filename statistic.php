@@ -31,6 +31,13 @@ function ratingBarchartStatistic() {
     return $resultset;
 }
 
+function ratingLinechartStatistic() {
+    $statisticConnection = new DBCrossing();
+    $resultset = getFormattedLinechartStatisticData($statisticConnection->getRatingLineChartStatistic());
+    $statisticConnection->closeConnection();
+    return $resultset;
+}
+
 function getFormattedBarchartStatisticData($barchartQuery) {
     $barchartResultset = pg_fetch_all($barchartQuery);
 

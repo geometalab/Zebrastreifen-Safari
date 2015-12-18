@@ -73,10 +73,6 @@ class DBCrossing {
                                             WHERE crossing_id = $crossingId;");
     }
 
-    public function getCrossingLineChartStatistic() {
-        return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, max(amount) AS amount FROM statistic.crossingstatistic GROUP BY week ORDER BY week ASC;");
-    }
-
     public function getCrossingBarChartStatistic($offset) {
         return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, max(amount) AS amount FROM statistic.crossingstatistic GROUP BY week ORDER BY week ASC OFFSET $offset;");
     }
@@ -85,12 +81,20 @@ class DBCrossing {
         return pg_query($this->connection, "SELECT count(DISTINCT date_trunc('week', enquiry_date)) AS week_amount FROM statistic.crossingstatistic;");
     }
 
+    public function getCrossingLineChartStatistic() {
+        return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, max(amount) AS amount FROM statistic.crossingstatistic GROUP BY week ORDER BY week ASC;");
+    }
+
     public function getRatingBarChartStatistic($offset) {
         return pg_query($this->connection, "SELECT date_trunc('week', enquiry_date) AS week, max(amount) AS amount FROM statistic.ratingstatistic GROUP BY week ORDER BY week ASC OFFSET $offset;");
     }
 
     public function getRatingStatisticWeekAmount() {
         return pg_query($this->connection, "SELECT count(DISTINCT date_trunc('week', enquiry_date)) AS week_amount FROM statistic.ratingstatistic;");
+    }
+
+    public function getRatingLineChartStatistic() {
+        return pg_query($this->connection,  "SELECT date_trunc('week', enquiry_date) AS week, max(amount) AS amount FROM statistic.ratingstatistic GROUP BY week ORDER BY week ASC;");
     }
 
     public function getClusteredAmount($number, $bounds) {
@@ -108,7 +112,7 @@ class DBCrossing {
     }
 
     public function getRatingAmount() {
-        return pg_query($this->connection, "SELECT count(*) AS amount FROM crossing.rating;");
+        return pg_query($this->connection, "SELECT count(*) AS amount FROM crossing.rating AS rating INNER JOIN crossing.crossing AS crossing ON crossing.id = rating.crossing_id WHERE crossing.status = 1;");
     }
 
     public function setRatingAmount($amount) {
