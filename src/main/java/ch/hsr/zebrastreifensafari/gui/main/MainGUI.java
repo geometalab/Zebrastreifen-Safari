@@ -609,7 +609,7 @@ public class MainGUI extends JFrame {
         crossingDataTable.setCellSelectionEnabled(false);
         crossingDataTable.setColumnSelectionAllowed(false);
         crossingDataTable.setFillsViewportHeight(false);
-        crossingDataTable.setRowSelectionAllowed(false);
+        crossingDataTable.setRowSelectionAllowed(true);
         scrollPane1.setViewportView(crossingDataTable);
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new BorderLayout(0, 0));

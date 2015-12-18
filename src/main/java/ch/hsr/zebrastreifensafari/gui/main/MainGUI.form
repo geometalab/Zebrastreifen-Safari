@@ -96,7 +96,7 @@
                       <cellSelectionEnabled value="false"/>
                       <columnSelectionAllowed value="false"/>
                       <fillsViewportHeight value="false"/>
-                      <rowSelectionAllowed value="false"/>
+                      <rowSelectionAllowed value="true"/>
                     </properties>
                   </component>
                 </children>
