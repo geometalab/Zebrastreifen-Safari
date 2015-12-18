@@ -15,6 +15,7 @@ var mapbox = L.tileLayer("http://api.tiles.mapbox.com/v4/sfkeller.k0onh2me/{z}/{
     "?access_token=pk.eyJ1Ijoic2ZrZWxsZXIiLCJhIjoia3h4T3pScyJ9.MDLSUwpRpPqaV7SVfGcZDw", {
     attribution: "https://www.mapbox.com/about/maps/"
 });
+var mapbox_bright = "EINFÜGEN";
 var searchPoints = L.geoJson(null, {
     onEachFeature: function (feature, layer) {
         layer.bindPopup(feature.properties.name);
@@ -65,7 +66,7 @@ map.on('moveend', function() {
 
     bound = [minx, miny, maxx, maxy].toString();
     zoom = map.getZoom();
-    maxamount = zoom * 2.95;
+    maxamount = zoom * 10;
 });
 map.on('moveend', function() {
     $.ajax({

@@ -13,7 +13,9 @@ body {
 p {
     font-size: 0.9em;
 }
-
+td {
+    font-size: 0.9em;
+}
 
 .ribbon {
     position: fixed;
@@ -198,13 +200,25 @@ p {
     #barcanvas {
         width: 49%;
     }
+    #ratinglinecanvas{
+        width: 49%;
+    }
     .aside-2 {
         width: 10%;
         flex: 1 auto;
         order: 3;
     }
+    #line {
+        margin-top: 25px;
+        width: 100%;
+        border: 1px solid;
+    }
     #table {
-        min-width: 50%;
+        min-width: 45%;
+        border-collapse: collapse;;
+    }
+    #table td {
+        border-right: 1px solid;
     }
     .t_mobile {
         display: none;

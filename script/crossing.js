@@ -5,7 +5,7 @@ $(document).ready(function() {
         method: 'get',
         success : function (data){
             var json = data;
-            document.getElementById("rating_title").textContent = "Bewertung des Zebrastreifen Nr. " + json.osm_node_id;
+            document.getElementById("rating_title").textContent = "Detailansicht";
             if (json.hasOwnProperty('error')){
                 $("#table").hide();
                 document.getElementById("error").textContent = "Fehler: 404 Zebrastreifen nicht gefunden";
