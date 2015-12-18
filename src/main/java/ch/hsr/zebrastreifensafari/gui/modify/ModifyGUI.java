@@ -1,7 +1,6 @@
-package ch.hsr.zebrastreifensafari.gui.sub.modify;
+package ch.hsr.zebrastreifensafari.gui.modify;
 
 import ch.hsr.zebrastreifensafari.gui.main.MainGUI;
-import ch.hsr.zebrastreifensafari.gui.sub.CenterJDialog;
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -11,6 +10,8 @@ import com.intellij.uiDesigner.core.Spacer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -27,7 +28,7 @@ import java.util.ResourceBundle;
  * @date : 26.10.2015
  */
 
-public abstract class ModifyGUI extends CenterJDialog {
+public abstract class ModifyGUI extends JDialog {
 
     protected final MainGUI mainGUI;
     protected JButton sendButton;
@@ -42,11 +43,13 @@ public abstract class ModifyGUI extends CenterJDialog {
     private JButton cancelButton;
 
     protected ModifyGUI(MainGUI mainGUI, String title) {
-        super(mainGUI, title, true, 650, 600);
+        super(mainGUI, title, true);
         $$$setupUI$$$();
         setContentPane(mainPanel);
         getRootPane().setDefaultButton(sendButton);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(650, 600);
+        setLocationRelativeTo(mainGUI);
 
         this.mainGUI = mainGUI;
 
@@ -71,6 +74,19 @@ public abstract class ModifyGUI extends CenterJDialog {
             public void keyReleased(KeyEvent e) {
                 setImage(imageTextField.getText());
             }
+        });
+        commentTextArea.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (commentTextArea.getDocument().getLength() > 500) {
+                    SwingUtilities.invokeLater(() -> {
+                        commentTextArea.setText(commentTextArea.getText().substring(0, 500));
+                        errorMessage(Properties.get("commentLengthError"));
+                    });
+                }
+            }
+            @Override public void removeUpdate(DocumentEvent e) { }
+            @Override public void changedUpdate(DocumentEvent e) { }
         });
     }
 
@@ -215,6 +231,9 @@ public abstract class ModifyGUI extends CenterJDialog {
         commentScrollPane = new JScrollPane();
         panel2.add(commentScrollPane, new GridConstraints(5, 1, 3, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         commentTextArea = new JTextArea();
+        commentTextArea.setLineWrap(true);
+        commentTextArea.setMargin(new Insets(2, 2, 2, 2));
+        commentTextArea.setWrapStyleWord(true);
         commentScrollPane.setViewportView(commentTextArea);
         imageField = new JLabel();
         this.$$$loadLabelText$$$(imageField, ResourceBundle.getBundle("Bundle").getString("imageNotFound"));

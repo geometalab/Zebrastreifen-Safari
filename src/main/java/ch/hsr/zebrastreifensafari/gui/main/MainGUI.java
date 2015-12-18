@@ -1,10 +1,11 @@
 package ch.hsr.zebrastreifensafari.gui.main;
 
-import ch.hsr.zebrastreifensafari.gui.sub.about.AboutGUI;
-import ch.hsr.zebrastreifensafari.gui.sub.modify.create.CreateCrossingGUI;
-import ch.hsr.zebrastreifensafari.gui.sub.modify.create.CreateRatingGUI;
-import ch.hsr.zebrastreifensafari.gui.sub.modify.edit.EditCrossingGUI;
-import ch.hsr.zebrastreifensafari.gui.sub.modify.edit.EditRatingGUI;
+import ch.hsr.zebrastreifensafari.gui.JTextPlaceHolder;
+import ch.hsr.zebrastreifensafari.gui.about.AboutGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.create.CreateCrossingGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.create.CreateRatingGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.edit.EditCrossingGUI;
+import ch.hsr.zebrastreifensafari.gui.modify.edit.EditRatingGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -62,7 +63,6 @@ public class MainGUI extends JFrame {
         addCrossingDataToTable(model.getCrossings());
         pack();
         setExtendedState(Frame.MAXIMIZED_BOTH);
-        searchTextField.requestFocusInWindow();
     }
 
     private void initListeners() {
@@ -553,6 +553,7 @@ public class MainGUI extends JFrame {
         createUICrossingTable();
         createUIRatingTable();
         createUIMenu();
+        searchTextField = new JTextPlaceHolder(Properties.get("searchPlaceHolder"));
     }
 
     /**
@@ -595,7 +596,6 @@ public class MainGUI extends JFrame {
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new BorderLayout(0, 0));
         panel2.add(panel4, BorderLayout.WEST);
-        searchTextField = new JTextField();
         searchTextField.setColumns(19);
         searchTextField.setMargin(new Insets(0, 0, 0, 0));
         searchTextField.setPreferredSize(new Dimension(223, 24));
@@ -609,7 +609,7 @@ public class MainGUI extends JFrame {
         crossingDataTable.setCellSelectionEnabled(false);
         crossingDataTable.setColumnSelectionAllowed(false);
         crossingDataTable.setFillsViewportHeight(false);
-        crossingDataTable.setRowSelectionAllowed(true);
+        crossingDataTable.setRowSelectionAllowed(false);
         scrollPane1.setViewportView(crossingDataTable);
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new BorderLayout(0, 0));
