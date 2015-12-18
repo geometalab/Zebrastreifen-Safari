@@ -64,7 +64,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="43582" class="javax.swing.JTextField" binding="searchTextField">
+                      <component id="43582" class="javax.swing.JTextField" binding="searchTextField" custom-create="true">
                         <constraints border-constraint="Center"/>
                         <properties>
                           <columns value="19"/>
@@ -96,7 +96,7 @@
                       <cellSelectionEnabled value="false"/>
                       <columnSelectionAllowed value="false"/>
                       <fillsViewportHeight value="false"/>
-                      <rowSelectionAllowed value="true"/>
+                      <rowSelectionAllowed value="false"/>
                     </properties>
                   </component>
                 </children>

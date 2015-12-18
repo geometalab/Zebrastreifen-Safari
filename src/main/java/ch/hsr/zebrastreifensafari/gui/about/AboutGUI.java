@@ -1,6 +1,5 @@
-package ch.hsr.zebrastreifensafari.gui.sub.about;
+package ch.hsr.zebrastreifensafari.gui.about;
 
-import ch.hsr.zebrastreifensafari.gui.sub.CenterJDialog;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -14,7 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ResourceBundle;
 
-public class AboutGUI extends CenterJDialog {
+public class AboutGUI extends JDialog {
 
     private JPanel mainPanel;
     private JButton closeButton;
@@ -22,10 +21,12 @@ public class AboutGUI extends CenterJDialog {
     private JLabel crossingLink;
 
     public AboutGUI(JFrame parent) {
-        super(parent, Properties.get("aboutGuiTitle"), true, 350, 200);
+        super(parent, Properties.get("aboutGuiTitle"), true);
         setContentPane(mainPanel);
         getRootPane().setDefaultButton(closeButton);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(350, 200);
+        setLocationRelativeTo(parent);
         initListeners();
     }
 
