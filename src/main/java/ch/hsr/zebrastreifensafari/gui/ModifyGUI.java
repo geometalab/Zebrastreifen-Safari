@@ -1,6 +1,5 @@
 package ch.hsr.zebrastreifensafari.gui;
 
-import ch.hsr.zebrastreifensafari.gui.MainGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -88,6 +87,7 @@ public abstract class ModifyGUI extends JDialog {
             @Override public void removeUpdate(DocumentEvent e) { }
             @Override public void changedUpdate(DocumentEvent e) { }
         });
+        getRootPane().registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
     }
 
     protected int getSelectedButtonInt(ButtonGroup bg) {
