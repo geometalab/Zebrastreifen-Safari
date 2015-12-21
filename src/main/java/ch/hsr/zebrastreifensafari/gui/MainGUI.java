@@ -48,6 +48,8 @@ public class MainGUI extends JFrame {
     private JButton addRatingButton;
     private JButton editRatingButton;
     private JButton deleteRatingButton;
+    private JButton previousCrossingButton;
+    private JButton nextCrossingButton;
     private DefaultTableModel crossingTableModel, ratingTableModel;
 
     public MainGUI(Model model) throws HeadlessException {
@@ -78,6 +80,8 @@ public class MainGUI extends JFrame {
         addRatingButton.addActionListener(e -> onAddClick());
         editRatingButton.addActionListener(e -> onEditClick());
         deleteRatingButton.addActionListener(e -> onDeleteClick());
+        previousCrossingButton.addActionListener(e -> onPreviousCrossingClick());
+        nextCrossingButton.addActionListener(e -> onNextCrossingClick());
         refreshMenuItem.addActionListener(e -> onRefreshClick());
         exitMenuItem.addActionListener(e -> onExitClick());
         addMenuItem.addActionListener(e -> onAddClick());
@@ -100,7 +104,29 @@ public class MainGUI extends JFrame {
         crossingDataTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                onCrossingDoubleClick(e);
+                onTableDoubleClick(e);
+            }
+        });
+        ratingDataTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                onTableDoubleClick(e);
+            }
+        });
+        crossingDataTable.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    dataTabbedPane.setSelectedIndex(1);
+                }
+            }
+        });
+        ratingDataTable.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    dataTabbedPane.setSelectedIndex(0);
+                }
             }
         });
     }
@@ -114,11 +140,9 @@ public class MainGUI extends JFrame {
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             dataTabbedPane.setSelectedIndex(0);
-            onTabbedPaneChange();
             errorMessage(Properties.get("changeSelectionError"));
         } catch (PersistenceException pex) {
             dataTabbedPane.setSelectedIndex(0);
-            onTabbedPaneChange();
             errorMessage(Properties.get("connectionError"));
         }
     }
@@ -176,6 +200,26 @@ public class MainGUI extends JFrame {
                 errorMessage(Properties.get("connectionError"));
             }
         }
+    }
+
+    private void onPreviousCrossingClick() {
+        if (crossingDataTable.getSelectedRow() != 0) {
+            changeTableSelection(crossingDataTable, crossingDataTable.getSelectedRow() - 1);
+        } else {
+            changeTableSelection(crossingDataTable, crossingDataTable.getRowCount() - 1);
+        }
+
+        onTabbedPaneChange();
+    }
+
+    private void onNextCrossingClick() {
+        if (crossingDataTable.getSelectedRow() != crossingDataTable.getRowCount() - 1) {
+            changeTableSelection(crossingDataTable, crossingDataTable.getSelectedRow() + 1);
+        } else {
+            changeTableSelection(crossingDataTable, 0);
+        }
+
+        onTabbedPaneChange();
     }
 
     private void onRefreshClick() {
@@ -248,7 +292,7 @@ public class MainGUI extends JFrame {
             model.sortByIllumination();
         } else if (col.equals(Properties.get("comment"))) {
             model.sortByComment();
-        } else if (col.equals(Properties.get("image"))) {
+        } else if (col.equals(Properties.get("imageId"))) {
             model.sortByImage();
         } else if (col.equals(Properties.get("lastChange"))) {
             model.sortByLastChanged();
@@ -257,9 +301,9 @@ public class MainGUI extends JFrame {
         addRatingDataToTable(model.getRatings());
     }
 
-    private void onCrossingDoubleClick(MouseEvent event) {
-        if (!isRatingMode() && event.getClickCount() >= 2 && !model.getCrossings().isEmpty()) {
-            dataTabbedPane.setSelectedIndex(1);
+    private void onTableDoubleClick(MouseEvent event) {
+        if (event.getClickCount() >= 2) {
+            onEditClick();
         }
     }
     //</editor-fold>
@@ -375,7 +419,7 @@ public class MainGUI extends JFrame {
         ratingTableModel.setValueAt(rating.getSpatialClarityId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("spacialClarity")).getModelIndex());
         ratingTableModel.setValueAt(rating.getIlluminationId().getValue(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("illumination")).getModelIndex());
         ratingTableModel.setValueAt(rating.getComment(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("comment")).getModelIndex());
-        ratingTableModel.setValueAt(rating.getImageWeblink(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("image")).getModelIndex());
+        ratingTableModel.setValueAt(rating.getImageWeblink(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("imageId")).getModelIndex());
         ratingTableModel.setValueAt(rating.getLastChanged(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("lastChange")).getModelIndex());
     }
 
@@ -485,7 +529,7 @@ public class MainGUI extends JFrame {
                 Properties.get("illumination"),
                 Properties.get("traffic"),
                 Properties.get("comment"),
-                Properties.get("image"),
+                Properties.get("imageId"),
                 Properties.get("lastChange"),
                 Properties.get("id")
         }, 0) {
@@ -616,24 +660,38 @@ public class MainGUI extends JFrame {
         ratingDataTable.setRowSelectionAllowed(true);
         scrollPane2.setViewportView(ratingDataTable);
         final JPanel panel6 = new JPanel();
-        panel6.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        panel6.setLayout(new BorderLayout(0, 0));
         panel5.add(panel6, BorderLayout.NORTH);
         panel6.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0), null));
+        final JPanel panel7 = new JPanel();
+        panel7.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        panel6.add(panel7, BorderLayout.EAST);
+        panel7.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0), null));
         addRatingButton = new JButton();
         addRatingButton.setActionCommand(ResourceBundle.getBundle("Bundle").getString("add"));
         addRatingButton.setHorizontalAlignment(4);
         this.$$$loadButtonText$$$(addRatingButton, ResourceBundle.getBundle("Bundle").getString("add"));
-        panel6.add(addRatingButton);
+        panel7.add(addRatingButton);
         editRatingButton = new JButton();
         editRatingButton.setActionCommand(ResourceBundle.getBundle("Bundle").getString("edit"));
         editRatingButton.setHorizontalAlignment(4);
         this.$$$loadButtonText$$$(editRatingButton, ResourceBundle.getBundle("Bundle").getString("edit"));
-        panel6.add(editRatingButton);
+        panel7.add(editRatingButton);
         deleteRatingButton = new JButton();
         deleteRatingButton.setActionCommand(ResourceBundle.getBundle("Bundle").getString("delete"));
         deleteRatingButton.setHorizontalAlignment(4);
         this.$$$loadButtonText$$$(deleteRatingButton, ResourceBundle.getBundle("Bundle").getString("delete"));
-        panel6.add(deleteRatingButton);
+        panel7.add(deleteRatingButton);
+        final JPanel panel8 = new JPanel();
+        panel8.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        panel6.add(panel8, BorderLayout.WEST);
+        panel8.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0), null));
+        previousCrossingButton = new JButton();
+        previousCrossingButton.setText("<");
+        panel8.add(previousCrossingButton);
+        nextCrossingButton = new JButton();
+        nextCrossingButton.setText(">");
+        panel8.add(nextCrossingButton);
     }
 
     /**

@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui.main;
+package ch.hsr.zebrastreifensafari.gui;
 
 import org.junit.After;
 import org.junit.Before;

@@ -125,37 +125,67 @@
                   </component>
                 </children>
               </scrollpane>
-              <grid id="3fcb" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="2">
+              <grid id="1f73b" layout-manager="BorderLayout" hgap="0" vgap="0">
                 <constraints border-constraint="North"/>
                 <properties/>
                 <border type="empty">
                   <size top="5" left="0" bottom="5" right="0"/>
                 </border>
                 <children>
-                  <component id="72c46" class="javax.swing.JButton" binding="addRatingButton">
-                    <constraints/>
-                    <properties>
-                      <actionCommand resource-bundle="Bundle" key="add"/>
-                      <horizontalAlignment value="4"/>
-                      <text resource-bundle="Bundle" key="add"/>
-                    </properties>
-                  </component>
-                  <component id="35273" class="javax.swing.JButton" binding="editRatingButton">
-                    <constraints/>
-                    <properties>
-                      <actionCommand resource-bundle="Bundle" key="edit"/>
-                      <horizontalAlignment value="4"/>
-                      <text resource-bundle="Bundle" key="edit"/>
-                    </properties>
-                  </component>
-                  <component id="1fa1d" class="javax.swing.JButton" binding="deleteRatingButton">
-                    <constraints/>
-                    <properties>
-                      <actionCommand resource-bundle="Bundle" key="delete"/>
-                      <horizontalAlignment value="4"/>
-                      <text resource-bundle="Bundle" key="delete"/>
-                    </properties>
-                  </component>
+                  <grid id="3fcb" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="2">
+                    <constraints border-constraint="East"/>
+                    <properties/>
+                    <border type="empty">
+                      <size top="0" left="0" bottom="0" right="0"/>
+                    </border>
+                    <children>
+                      <component id="72c46" class="javax.swing.JButton" binding="addRatingButton">
+                        <constraints/>
+                        <properties>
+                          <actionCommand resource-bundle="Bundle" key="add"/>
+                          <horizontalAlignment value="4"/>
+                          <text resource-bundle="Bundle" key="add"/>
+                        </properties>
+                      </component>
+                      <component id="35273" class="javax.swing.JButton" binding="editRatingButton">
+                        <constraints/>
+                        <properties>
+                          <actionCommand resource-bundle="Bundle" key="edit"/>
+                          <horizontalAlignment value="4"/>
+                          <text resource-bundle="Bundle" key="edit"/>
+                        </properties>
+                      </component>
+                      <component id="1fa1d" class="javax.swing.JButton" binding="deleteRatingButton">
+                        <constraints/>
+                        <properties>
+                          <actionCommand resource-bundle="Bundle" key="delete"/>
+                          <horizontalAlignment value="4"/>
+                          <text resource-bundle="Bundle" key="delete"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="14ff0" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="2">
+                    <constraints border-constraint="West"/>
+                    <properties/>
+                    <border type="empty">
+                      <size top="0" left="0" bottom="0" right="0"/>
+                    </border>
+                    <children>
+                      <component id="b78b2" class="javax.swing.JButton" binding="previousCrossingButton">
+                        <constraints/>
+                        <properties>
+                          <text value="&lt;"/>
+                        </properties>
+                      </component>
+                      <component id="2c29e" class="javax.swing.JButton" binding="nextCrossingButton">
+                        <constraints/>
+                        <properties>
+                          <text value="&gt;"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
                 </children>
               </grid>
             </children>
