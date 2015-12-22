@@ -20,8 +20,7 @@
         <!-- Import Css libs -->
         <link rel="stylesheet" href="libs/script/leaflet/leaflet.css" />
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-        <!--<link rel="stylesheet" href="libs/script/geosearcher/l.geosearch.css">-->
-        <link rel="stylesheet" href="libs/script/photon/leaflet.photon.css">
+        <link rel="stylesheet" href="libs/script/L.geosearcher/l.geosearch.css">
 
         <!-- Import own stylesheet-->
         <link rel="stylesheet" href="css/stylemap.css">
@@ -87,6 +86,8 @@
             </header>
         </div>
             <div id="content">
+
+                <div id="error"></div>
                 <div id="map"></div>
             </div>
         </div>
@@ -97,7 +98,8 @@
     <script type="text/javascript" src="libs/script/jquery-1.11.3.js"></script>
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="libs/script/leaflet/leaflet-hash.js"></script>
-    <script type="text/javascript" src="libs/script/photon/leaflet.photon.js"></script>
+    <script type="text/javascript" src="libs/script/L.geosearcher/l.control.geosearch.js"></script>
+    <script type="text/javascript" src="libs/script/L.geosearcher/l.geosearch.provider.openstreetmap.js"></script>
     <!-- Own Js libs -->
     <script type="text/javascript" src="script/map.js"></script>
     <script type="text/javascript" src="script/mobilemenu.js"></script>
@@ -109,7 +111,7 @@
         } else {
             var height_map = $(document).height() - $(".nav-mobile").height();
             $("#map").height(height_map);
-            $(".leaflet-photon").css("margin-top", 68);
+            $(".leaflet-control-geosearch").css("margin-top", 75);
             map.invalidateSize();
         }
 

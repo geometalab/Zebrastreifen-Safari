@@ -5,7 +5,7 @@ $(document).ready(function() {
         method: 'get',
         success : function (data){
             var json = data;
-            document.getElementById("rating_title").textContent = "Detailansicht";
+            document.getElementById("rating_title").textContent = "Details";
             if (json.hasOwnProperty('error')){
                 $("#table").hide();
                 document.getElementById("error").textContent = "Fehler: 404 Zebrastreifen nicht gefunden";

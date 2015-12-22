@@ -208,11 +208,6 @@ td {
         flex: 1 auto;
         order: 3;
     }
-    #line {
-        margin-top: 25px;
-        width: 100%;
-        border: 1px solid;
-    }
     #table {
         min-width: 45%;
         border-collapse: collapse;;

@@ -6,6 +6,7 @@ var earthradius = 6378137;
 var southWest = L.latLng(45.7300, 5.8000),
     northEast = L.latLng(47.9000, 10.600),
     bounds = L.latLngBounds(southWest, northEast);
+
 var osm = L.tileLayer('http://tile.osm.ch/osm-swiss-style/{z}/{x}/{y}.png', {
     attribution: 'v0.1 | Project data © <a href="http://opendatacommons.org/licenses/odbl/1.0/"> ODbL </a>' +
         '| Map © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' +
@@ -33,17 +34,10 @@ var map = L.map('map',{
     minZoom: 7,
     layers: [osm, crossing],
     zoomControl: false,
-    photonControl: true,
-    photonControlOptions:
-    {resultsHandler: showSearchPoints,
-        placeholder: 'Suche...',
-        position: 'topleft',
-        url: API_URL,
-        limit: 10,
-        lang: "de"
-    }
-}).setView([46.8259, 8.2000], 9);
+});
 var hash = new L.hash(map);
+map.attributionControl.setPrefix("");
+
 
 function unproject(latlng){
     var point = new L.Point(latlng.lng,latlng.lat);
@@ -52,9 +46,9 @@ function unproject(latlng){
 
 
 map.on('moveend', function() {
-    var bounds = map.getBounds();
-    var min = L.latLng(bounds._southWest.lat, bounds._southWest.lng);
-    var max = L.latLng(bounds._northEast.lat, bounds._northEast.lng);
+    var bounds1 = map.getBounds();
+    var min = L.latLng(bounds1._southWest.lat, bounds1._southWest.lng);
+    var max = L.latLng(bounds1._northEast.lat, bounds1._northEast.lng);
 
     var mercator_min = L.Projection.SphericalMercator.project(min);
     var mercator_max = L.Projection.SphericalMercator.project(max);
@@ -74,13 +68,13 @@ map.on('moveend', function() {
         dataType:'json',
         method: 'get',
         success:function(response){
+            $("#error").hide();
             var icon = new L.icon({
                 iconUrl:"libs/script/leaflet/images/crossing.png",
                 iconSize:[18,18]
             });
             crossing.clearLayers();
             var tmpCrossing = L.geoJson(response, {
-
                 onEachFeature: function(features, layer){
                     if (features.properties.hasOwnProperty('amount')){
                         layer.on('mouseover', function() {
@@ -97,7 +91,7 @@ map.on('moveend', function() {
                         });
                     } else if(features.properties.rated){
                         layer.bindPopup('Nr. ' + features.properties.osm_node_id.toString() + '<br />' +
-                            '<a href="crossing.html?crosswalk=' + features.properties.osm_node_id + '">Details</a> | ' +
+                            '<a href="crossing?crosswalk=' + features.properties.osm_node_id + '">Details</a> | ' +
                             '<a target="_blank" href="https://www.openstreetmap.org/node/' + features.properties.osm_node_id + '">OSM</a>',
                             {offset: new L.Point(0, -5)});
                     } else {
@@ -106,7 +100,6 @@ map.on('moveend', function() {
                             '<a target="_blank" href="https://www.openstreetmap.org/node/' + features.properties.osm_node_id + '">OSM</a>',
                             {offset: new L.Point(0, -5)});
                     }
-
                 },
                 // add the points to the layer
                 pointToLayer: function (feature, latlng) {
@@ -117,7 +110,14 @@ map.on('moveend', function() {
                 }
 
             });
+            crossing.clearLayers();
             tmpCrossing.addTo(crossing);
+        },
+        error: function(){
+            $("#error").text("Die Zebrastreifen konnten nicht geladen werden");
+            setTimeout(function() {
+                $("#error").fadeOut().empty();
+            }, 5000);
         }
     });
 });
@@ -145,6 +145,68 @@ var customControl =  L.Control.extend({
 
 });
 
+
+function checkUrl() {
+    // get hash  the URL
+    var hash = window.location.hash;
+    // check if something is in the hash
+    if (hash) {
+        var splitted = hash.split("/");
+        if (splitted.length == 3) {
+            var zoom = parseInt(splitted[0].substr(1)),
+                lat = parseFloat(splitted[1]),
+                lng = parseFloat(splitted[2]);
+            // check if parameters are within the swiss createBounds and the allowed zoom levels
+            if (zoom >= 7 &&
+                lat >= bounds[0] && lat <= bounds[2] &&
+                lng >= bounds[1] && lng <= bounds[3]
+            ) {
+                return true
+            }
+        }
+    }
+}
+function centerFromStorage(){
+    if (localStorage.getItem("zoom") !== null) {
+    var center = [];
+    center[0] = localStorage.getItem('lat');
+    center[1] = localStorage.getItem('lng');
+    center[2] = localStorage.getItem('zoom');
+    return center
+}
+    return false
+}
+
+    // if no tile_url parameters given or parameters are faulty
+    if(!checkUrl()){
+        var center = centerFromStorage();
+        // initiate leafelt.hash plugin, but overwrite its center
+        var hash = new L.Hash(map);
+        if (center) {
+            var cords = new L.latLng(center[0], center[1]);
+            map.setView(cords, center[2])
+        }
+        // set default center (Switzerland) if no other center is found
+        else{
+            var hash = new L.Hash(map);;
+            map.fitBounds(bounds);
+        }
+    }
+    else{
+        // initiate leaflet.hash plugin
+        var hash = new L.Hash(map);
+    }
+    map.on('moveend', function() {
+        var center = map.getCenter(),
+            zoom = map.getZoom();
+        localStorage.removeItem("lat");
+        localStorage.removeItem("lng");
+        localStorage.removeItem("zoom");
+        localStorage.setItem("lat", center.lat.toString());
+        localStorage.setItem("lng", center.lng.toString());
+        localStorage.setItem("zoom", zoom.toString());
+    });
+
 var baseMaps = {
     "OSM Standard": osm,
     "MapBox Satellite": mapbox
@@ -152,6 +214,12 @@ var baseMaps = {
 var overlayMaps = {
     "Fussgängerstreifen": crossing
 };
+var geosearch = new L.Control.GeoSearch({
+    position: "topleft",
+    provider: new L.GeoSearch.Provider.OpenStreetMap({countrycodes: 'ch'}),
+    searchlabel: 'Address',
+    notFoundMessage: 'No Result Found'
+}).addTo(map);
 L.control.zoom().addTo(map);
 map.addControl(new customControl());
 if($(document).width() >= 800) {
