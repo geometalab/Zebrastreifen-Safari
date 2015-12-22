@@ -23,7 +23,7 @@ public class Model {
     private List<User> users;
     private List<Crossing> crossings;
     private List<Rating> ratings;
-    private boolean node = true, ratingAmount = true, status = true, user = true, traffic = true, clarity = true, illumination = true, comment = true, image = true, lastChanged = true;
+    private boolean node = true, ratingAmount = true, status = true, user = true, traffic = true, clarity = true, illumination = true, comment = true, image = true, lastChanged = true, creationTime = true;
 
     public Model() {
         ratings = new ArrayList<Rating>();
@@ -161,40 +161,40 @@ public class Model {
 
     public void sortByUser() {
         if (user) {
-            ratings = ratings.stream().sorted(((o1, o2) -> o1.getUserId().getName().compareTo(o2.getUserId().getName()))).collect(Collectors.toList());
+            ratings = ratings.stream().sorted((o1, o2) -> o1.getUserId().getName().compareTo(o2.getUserId().getName())).collect(Collectors.toList());
             user = false;
         } else {
-            ratings = ratings.stream().sorted(((o1, o2) -> o2.getUserId().getName().compareTo(o1.getUserId().getName()))).collect(Collectors.toList());
+            ratings = ratings.stream().sorted((o1, o2) -> o2.getUserId().getName().compareTo(o1.getUserId().getName())).collect(Collectors.toList());
             user = true;
         }
     }
 
     public void sortByTraffic() {
         if (traffic) {
-            ratings = ratings.stream().sorted(((o1, o2) -> o1.getTrafficId().getValue().compareTo(o2.getTrafficId().getValue()))).collect(Collectors.toList());
+            ratings = ratings.stream().sorted((o1, o2) -> o1.getTrafficId().getValue().compareTo(o2.getTrafficId().getValue())).collect(Collectors.toList());
             traffic = false;
         } else {
-            ratings = ratings.stream().sorted(((o1, o2) -> o2.getTrafficId().getValue().compareTo(o1.getTrafficId().getValue()))).collect(Collectors.toList());
+            ratings = ratings.stream().sorted((o1, o2) -> o2.getTrafficId().getValue().compareTo(o1.getTrafficId().getValue())).collect(Collectors.toList());
             traffic = true;
         }
     }
 
     public void sortByClarity() {
         if (clarity) {
-            ratings = ratings.stream().sorted(((o1, o2) -> o1.getSpatialClarityId().getValue().compareTo(o2.getSpatialClarityId().getValue()))).collect(Collectors.toList());
+            ratings = ratings.stream().sorted((o1, o2) -> o1.getSpatialClarityId().getValue().compareTo(o2.getSpatialClarityId().getValue())).collect(Collectors.toList());
             clarity = false;
         } else {
-            ratings = ratings.stream().sorted(((o1, o2) -> o2.getSpatialClarityId().getValue().compareTo(o1.getSpatialClarityId().getValue()))).collect(Collectors.toList());
+            ratings = ratings.stream().sorted((o1, o2) -> o2.getSpatialClarityId().getValue().compareTo(o1.getSpatialClarityId().getValue())).collect(Collectors.toList());
             clarity = true;
         }
     }
 
     public void sortByIllumination() {
         if (illumination) {
-            ratings = ratings.stream().sorted(((o1, o2) -> o1.getIlluminationId().getValue().compareTo(o2.getIlluminationId().getValue()))).collect(Collectors.toList());
+            ratings = ratings.stream().sorted((o1, o2) -> o1.getIlluminationId().getValue().compareTo(o2.getIlluminationId().getValue())).collect(Collectors.toList());
             illumination = false;
         } else {
-            ratings = ratings.stream().sorted(((o1, o2) -> o2.getIlluminationId().getValue().compareTo(o1.getIlluminationId().getValue()))).collect(Collectors.toList());
+            ratings = ratings.stream().sorted((o1, o2) -> o2.getIlluminationId().getValue().compareTo(o1.getIlluminationId().getValue())).collect(Collectors.toList());
             illumination = true;
         }
     }
@@ -253,11 +253,37 @@ public class Model {
 
     public void sortByLastChanged() {
         if (lastChanged) {
-            ratings = ratings.stream().sorted(((o1, o2) -> o1.getLastChanged().compareTo(o2.getLastChanged()))).collect(Collectors.toList());
+            ratings = ratings.stream().sorted((o1, o2) -> o1.getLastChanged().compareTo(o2.getLastChanged())).collect(Collectors.toList());
             lastChanged = false;
         } else {
-            ratings = ratings.stream().sorted(((o1, o2) -> o2.getLastChanged().compareTo(o1.getLastChanged()))).collect(Collectors.toList());
+            ratings = ratings.stream().sorted((o1, o2) -> o2.getLastChanged().compareTo(o1.getLastChanged())).collect(Collectors.toList());
             lastChanged = true;
+        }
+    }
+
+    public void sortByCreationTime() {
+        if (creationTime) {
+            ratings = ratings.stream().sorted(((o1, o2) -> {
+                if (o1.getCreationTime() == null) {
+                    return 1;
+                } else if (o2.getCreationTime() == null) {
+                    return -1;
+                } else {
+                    return o1.getCreationTime().compareTo(o2.getCreationTime());
+                }
+            })).collect(Collectors.toList());
+            creationTime = false;
+        } else {
+            ratings = ratings.stream().sorted(((o1, o2) -> {
+                if (o1.getCreationTime() == null) {
+                    return -1;
+                } else if (o2.getCreationTime() == null) {
+                    return 1;
+                } else {
+                    return o2.getCreationTime().compareTo(o1.getCreationTime());
+                }
+            })).collect(Collectors.toList());
+            creationTime = true;
         }
     }
     //</editor-fold>

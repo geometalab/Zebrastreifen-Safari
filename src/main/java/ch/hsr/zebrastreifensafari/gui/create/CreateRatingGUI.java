@@ -36,7 +36,8 @@ public class CreateRatingGUI extends ModifyGUI {
                     mainGUI.getUser((String) userComboBox.getSelectedItem()),
                     mainGUI.getCrossing(node),
                     imageTextField.getText().isEmpty() ? null : imageTextField.getText(),
-                    new Date()
+                    new Date(),
+                    getCreationTime()
             );
 
             mainGUI.createRating(rating);
@@ -47,6 +48,10 @@ public class CreateRatingGUI extends ModifyGUI {
             errorMessage(Properties.get("duplicatedPhotoError"));
         } catch (DatabaseException dbex) {
             errorMessage(Properties.get("connectionError"));
+        } catch (NumberFormatException nfex) {
+            errorMessage(Properties.get("invalideTimeFormatError"));
+        } catch (IllegalArgumentException iaex) {
+            errorMessage(Properties.get("invalideTimeError"));
         } catch (Exception ex) {
             ex.printStackTrace();
             errorMessage(Properties.get("unexpectedError"));

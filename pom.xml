@@ -23,6 +23,7 @@
         <postgresql.version>9.4-1200-jdbc41</postgresql.version>
         <junit.version>4.11</junit.version>
         <forms_rt.version>7.0.3</forms_rt.version>
+        <swingx.version>1.6</swingx.version>
     </properties>
 
     <dependencies>
@@ -51,6 +52,11 @@
             <groupId>com.intellij</groupId>
             <artifactId>forms_rt</artifactId>
             <version>${forms_rt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swingx</artifactId>
+            <version>${swingx.version}</version>
         </dependency>
     </dependencies>
 

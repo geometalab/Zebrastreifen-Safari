@@ -193,12 +193,8 @@ public final class TestJDBC {
                 + "	('2011-06-30', 2687),\n"
                 + "	('2012-05-05', 3105),\n"
                 + "	('2015-08-06', 3746);";
-        try {
-            Statement stmt = c.createStatement();
+        try (Statement stmt = c.createStatement()) {
             stmt.executeUpdate(createString);
-            stmt.close();
-
-
             System.out.println("Tables created successuflly");
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,15 +212,11 @@ public final class TestJDBC {
 
     public void addUser(String name, String initials) {
         connect();
-        try {
+        try (Statement stmt = c.createStatement()) {
             String createString = "insert into crossing.user (name, initials) values\n"
                     + "	('" + name + "', '" + initials + "');\n";
 
-            Statement stmt = c.createStatement();
             stmt.executeUpdate(createString);
-            stmt.close();
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

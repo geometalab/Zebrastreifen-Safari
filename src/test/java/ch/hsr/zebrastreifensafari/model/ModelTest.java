@@ -51,7 +51,7 @@ public class ModelTest {
     @Test
     public void testReloadRating() throws Exception {
         assertEquals(null, model.getRating(16));
-        Rating r = new Rating(0, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), model.getCrossing(1), "", new Date());
+        Rating r = new Rating(0, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), model.getCrossing(1), "", new Date(), new Date());
         DataServiceLoader.getCrossingData().createRating(r);
         model.reloadRating(model.getCrossing(1));
         assertEquals("test Comment", model.getRating(16).getComment());

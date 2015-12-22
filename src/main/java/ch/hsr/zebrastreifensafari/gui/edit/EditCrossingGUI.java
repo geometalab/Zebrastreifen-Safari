@@ -95,5 +95,9 @@ public class EditCrossingGUI extends ModifyGUI {
         imageLabel.setVisible(false);
         imageTextField.setVisible(false);
         imageField.setVisible(false);
+        creationDateLabel.setVisible(false);
+        creationDate.setVisible(false);
+        creationTimeLabel.setVisible(false);
+        creationTime.setVisible(false);
     }
 }

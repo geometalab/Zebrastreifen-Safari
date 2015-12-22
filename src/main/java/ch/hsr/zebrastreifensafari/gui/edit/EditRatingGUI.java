@@ -45,6 +45,7 @@ public class EditRatingGUI extends ModifyGUI {
             rating.setImageWeblink(imageTextField.getText().isEmpty() ? null : imageTextField.getText());
             rating.setComment(commentTextArea.getText().isEmpty() ? null : commentTextArea.getText());
             rating.setLastChanged(new Date());
+            rating.setCreationTime(getCreationTime());
             mainGUI.editRating(rating);
             dispose();
         } catch (EntityNotFoundException enfex) {
@@ -56,6 +57,10 @@ public class EditRatingGUI extends ModifyGUI {
         } catch (DatabaseException dbex) {
             rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             errorMessage(Properties.get("connectionError"));
+        } catch (NumberFormatException nfex) {
+            errorMessage(Properties.get("invalideTimeFormatError"));
+        } catch (IllegalArgumentException iaex) {
+            errorMessage(Properties.get("invalideTimeError"));
         } catch (Exception ex) {
             rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             ex.printStackTrace();

@@ -72,12 +72,6 @@
                           <preferredSize width="223" height="24"/>
                         </properties>
                       </component>
-                      <component id="c04c6" class="javax.swing.JLabel" binding="searchLabel">
-                        <constraints border-constraint="West"/>
-                        <properties>
-                          <text resource-bundle="Bundle" key="searchLabelText"/>
-                        </properties>
-                      </component>
                     </children>
                   </grid>
                 </children>
