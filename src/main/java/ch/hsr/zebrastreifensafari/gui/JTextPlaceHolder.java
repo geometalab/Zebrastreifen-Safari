@@ -18,10 +18,10 @@ import java.util.Date;
 
 public class JTextPlaceHolder extends JTextField implements FocusListener {
 
-    private String placeholder;
+    private final String placeholder;
+    private final Color defaultForeground;
+    private final Color hintForground;
     private boolean showHint;
-    private Color defaultForeground;
-    private Color hintForground;
 
     public JTextPlaceHolder(String placeholder) {
         super(placeholder);
