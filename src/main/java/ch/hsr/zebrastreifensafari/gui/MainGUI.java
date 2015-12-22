@@ -40,16 +40,26 @@ public class MainGUI extends JFrame {
     private final Model model;
     private JPanel mainPanel;
     private JTextField searchTextField;
-    private JButton addCrossingButton, editCrossingButton, deleteCrossingButton;
-    private JTable crossingDataTable, ratingDataTable;
-    private JMenuItem exitMenuItem, refreshMenuItem, addMenuItem, editMenuItem, deleteMenuItem, helpMenuItem, aboutMenuItem;
+    private JButton addCrossingButton;
+    private JButton editCrossingButton;
+    private JButton deleteCrossingButton;
+    private JTable crossingDataTable;
+    private JTable ratingDataTable;
+    private JMenuItem exitMenuItem;
+    private JMenuItem refreshMenuItem;
+    private JMenuItem addMenuItem;
+    private JMenuItem editMenuItem;
+    private JMenuItem deleteMenuItem;
+    private JMenuItem helpMenuItem;
+    private JMenuItem aboutMenuItem;
     private JTabbedPane dataTabbedPane;
     private JButton addRatingButton;
     private JButton editRatingButton;
     private JButton deleteRatingButton;
     private JButton previousCrossingButton;
     private JButton nextCrossingButton;
-    private DefaultTableModel crossingTableModel, ratingTableModel;
+    private DefaultTableModel crossingTableModel;
+    private DefaultTableModel ratingTableModel;
 
     public MainGUI(Model model) throws HeadlessException {
         super(Properties.get("mainGuiTitle") + Properties.get("versionNumber"));
