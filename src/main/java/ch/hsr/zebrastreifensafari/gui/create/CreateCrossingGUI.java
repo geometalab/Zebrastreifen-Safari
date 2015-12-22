@@ -62,16 +62,21 @@ public class CreateCrossingGUI extends ModifyGUI {
                             mainGUI.getUser(userComboBox.getSelectedItem().toString()),
                             crossing,
                             imageTextField.getText().isEmpty() ? null : imageTextField.getText(),
-                            new Date()
+                            new Date(),
+                            getCreationTime()
                     )
             );
 
             return true;
         } catch (RollbackException rex) {
-            mainGUI.removeCrossing();
             errorMessage(Properties.get("duplicatedPhotoError"));
+        } catch (NumberFormatException nfex) {
+            errorMessage(Properties.get("invalideTimeFormatError"));
+        } catch (IllegalArgumentException iaex) {
+            errorMessage(Properties.get("invalideTimeError"));
         }
 
+        mainGUI.removeCrossing();
         return false;
     }
 }

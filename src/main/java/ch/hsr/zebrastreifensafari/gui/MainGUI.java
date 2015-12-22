@@ -42,7 +42,6 @@ public class MainGUI extends JFrame {
     private JTextField searchTextField;
     private JButton addCrossingButton, editCrossingButton, deleteCrossingButton;
     private JTable crossingDataTable, ratingDataTable;
-    private JLabel searchLabel;
     private JMenuItem exitMenuItem, refreshMenuItem, addMenuItem, editMenuItem, deleteMenuItem, helpMenuItem, aboutMenuItem;
     private JTabbedPane dataTabbedPane;
     private JButton addRatingButton;
@@ -296,6 +295,8 @@ public class MainGUI extends JFrame {
             model.sortByImage();
         } else if (col.equals(Properties.get("lastChange"))) {
             model.sortByLastChanged();
+        } else if (col.equals(Properties.get("creationDate"))) {
+            model.sortByCreationTime();
         }
 
         addRatingDataToTable(model.getRatings());
@@ -313,7 +314,7 @@ public class MainGUI extends JFrame {
     }
 
     private Rating getRatingFromTable() {
-        return model.getRating((int) ratingTableModel.getValueAt(ratingDataTable.getSelectedRow(), 7));
+        return model.getRating((int) ratingTableModel.getValueAt(ratingDataTable.getSelectedRow(), 8));
     }
 
     private void changeTableSelection(JTable table, int index) {
@@ -358,7 +359,8 @@ public class MainGUI extends JFrame {
                     rating.getTrafficId().getValue(),
                     rating.getComment(),
                     rating.getImageWeblink(),
-                    rating.getLastChanged().toString(),
+                    rating.getLastChanged(),
+                    rating.getCreationTime(),
                     rating.getId()
             });
         }
@@ -531,6 +533,7 @@ public class MainGUI extends JFrame {
                 Properties.get("comment"),
                 Properties.get("imageId"),
                 Properties.get("lastChange"),
+                Properties.get("creationDate"),
                 Properties.get("id")
         }, 0) {
 
@@ -541,7 +544,7 @@ public class MainGUI extends JFrame {
         };
 
         ratingDataTable = new JTable(ratingTableModel);
-        ratingDataTable.removeColumn(ratingDataTable.getColumnModel().getColumn(7));
+        ratingDataTable.removeColumn(ratingDataTable.getColumnModel().getColumn(8));
     }
 
     private void createUIMenu() {
@@ -640,9 +643,6 @@ public class MainGUI extends JFrame {
         searchTextField.setMargin(new Insets(0, 0, 0, 0));
         searchTextField.setPreferredSize(new Dimension(223, 24));
         panel4.add(searchTextField, BorderLayout.CENTER);
-        searchLabel = new JLabel();
-        this.$$$loadLabelText$$$(searchLabel, ResourceBundle.getBundle("Bundle").getString("searchLabelText"));
-        panel4.add(searchLabel, BorderLayout.WEST);
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, BorderLayout.CENTER);
         crossingDataTable.setAutoCreateRowSorter(false);
@@ -692,33 +692,6 @@ public class MainGUI extends JFrame {
         nextCrossingButton = new JButton();
         nextCrossingButton.setText(">");
         panel8.add(nextCrossingButton);
-    }
-
-    /**
-     * @noinspection ALL
-     */
-    private void $$$loadLabelText$$$(JLabel component, String text) {
-        StringBuffer result = new StringBuffer();
-        boolean haveMnemonic = false;
-        char mnemonic = '\0';
-        int mnemonicIndex = -1;
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == '&') {
-                i++;
-                if (i == text.length()) break;
-                if (!haveMnemonic && text.charAt(i) != '&') {
-                    haveMnemonic = true;
-                    mnemonic = text.charAt(i);
-                    mnemonicIndex = result.length();
-                }
-            }
-            result.append(text.charAt(i));
-        }
-        component.setText(result.toString());
-        if (haveMnemonic) {
-            component.setDisplayedMnemonic(mnemonic);
-            component.setDisplayedMnemonicIndex(mnemonicIndex);
-        }
     }
 
     /**

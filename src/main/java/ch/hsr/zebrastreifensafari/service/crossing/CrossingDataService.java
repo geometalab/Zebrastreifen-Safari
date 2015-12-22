@@ -98,7 +98,8 @@ public class CrossingDataService implements ICrossingDataService {
                 rating.getIlluminationId().getValue(),
                 rating.getComment(),
                 rating.getImageWeblink(),
-                rating.getLastChanged().toString(),
+                rating.getLastChanged(),
+                rating.getCreationTime(),
                 rating.getId()
         });
     }

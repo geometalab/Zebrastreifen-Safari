@@ -83,7 +83,7 @@ public class CrossingDataServiceTest {
         Crossing crossing = new Model().getCrossing(2);
         assertEquals(1, db.getCrossingDataService().getRatings(crossing).size());
         db.getCrossingDataService().createRating(new Rating(null, "test Comment", db.getCrossingDataService().getIlluminations().get(1), db.getCrossingDataService().getSpatialClarities().get(1),
-                db.getCrossingDataService().getTraffics().get(1), db.getCrossingDataService().getUsers().get(1), crossing, "", new Date()));
+                db.getCrossingDataService().getTraffics().get(1), db.getCrossingDataService().getUsers().get(1), crossing, "", new Date(), new Date()));
         assertEquals(2, db.getCrossingDataService().getRatings(crossing).size());
     }
 

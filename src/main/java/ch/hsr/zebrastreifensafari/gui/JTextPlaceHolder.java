@@ -1,9 +1,12 @@
 package ch.hsr.zebrastreifensafari.gui;
 
+import org.jdesktop.swingx.JXDatePicker;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Date;
 
 /**
  * @author : Mike Marti

@@ -37,6 +37,9 @@ public class Rating implements Serializable {
     @Column(name = "last_changed")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastChanged;
+    @Column(name = "creation_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationTime;
     @JoinColumn(name = "crossing_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Crossing crossingId;
@@ -65,7 +68,7 @@ public class Rating implements Serializable {
         this.lastChanged = lastChanged;
     }
 
-    public Rating(Integer id, String comment, Illumination illuminationId, SpatialClarity spatialClarityId, Traffic trafficId, User userId, Crossing crossingId, String imageWeblink, Date lastChanged) {
+    public Rating(Integer id, String comment, Illumination illuminationId, SpatialClarity spatialClarityId, Traffic trafficId, User userId, Crossing crossingId, String imageWeblink, Date lastChanged, Date creationTime) {
         this(id, lastChanged);
         this.comment = comment;
         this.illuminationId = illuminationId;
@@ -74,6 +77,7 @@ public class Rating implements Serializable {
         this.userId = userId;
         this.crossingId = crossingId;
         this.imageWeblink = imageWeblink;
+        this.creationTime = creationTime;
     }
 
     public Integer getId() {
@@ -106,6 +110,14 @@ public class Rating implements Serializable {
 
     public void setLastChanged(Date lastChanged) {
         this.lastChanged = lastChanged;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
     }
 
     public Crossing getCrossingId() {
