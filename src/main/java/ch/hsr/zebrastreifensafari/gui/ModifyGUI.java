@@ -161,7 +161,7 @@ public abstract class ModifyGUI extends JDialog {
         int[] splitTime = new int[2];
         String[] creationTimeParts = creationTime.getText().split(":", 2);
 
-        for (int i = 0; i < splitTime.length; i++) {
+        for (int i = 0; i < creationTimeParts.length; i++) {
             splitTime[i] = Integer.parseInt(creationTimeParts[i]);
         }
 
