@@ -85,8 +85,7 @@ function getOsmDetails($row) {
         "sloped_curb" => $row['sloped_curb'],
         "tactile_paving" => myBoolval($row['tactile_paving']),
         "traffic_signals_vibration" => myBoolval($row['traffic_signals_vibration']),
-        "traffic_signals_sound" => myBoolval($row['traffic_signals_sound']),
-        "rated" => intval($row['status']) == 0 ? false : true
+        "traffic_signals_sound" => myBoolval($row['traffic_signals_sound'])
     );
 }
 
@@ -105,7 +104,9 @@ function getOsmDetailsClustered($row) {
     $row['tactile_paving'] = str_replace('{', '', str_replace('}', '', $row['tactile_paving']));
     $row['traffic_signals_vibration'] = str_replace('{', '', str_replace('}', '', $row['traffic_signals_vibration']));
     $row['traffic_signals_sound'] = str_replace('{', '', str_replace('}', '', $row['traffic_signals_sound']));
-    return getOsmDetails($row);
+    $osmDetails = getOsmDetails($row);
+    $osmDetails['rated'] = intval($row['status']) == 0 ? false : true;
+    return $osmDetails;
 }
 
 function getRatings($query) {

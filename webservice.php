@@ -25,7 +25,8 @@ if (!empty($_GET['chart'])) {
     } else if ($type == 'ratinglinechart') {
         echo json_encode(ratingLinechartStatistic());
     } else {
-        echo json_encode(array("error" => 404, "reason" => 'Parameter "chart" has an invalid value.'));
+        echo http_response_code(404);
+//        echo json_encode(array("error" => 404, "reason" => 'Parameter "chart" has an invalid value.'));
     }
 } else if (!empty($_GET['crosswalk'])) {
     echo json_encode(crossingDetail(pg_escape_string($_GET['crosswalk'])));
