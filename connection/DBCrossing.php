@@ -61,7 +61,7 @@ class DBCrossing {
     }
 
     public function getRating($crossingId) {
-        return pg_query($this->connection, "SELECT sc.value AS sc_value, i.value AS i_value, t.value AS t_value, rating.image_weblink, rating.comment, u.name FROM crossing.rating AS rating
+        return pg_query($this->connection, "SELECT sc.value AS sc_value, i.value AS i_value, t.value AS t_value, rating.image_weblink, rating.comment, u.name, rating.last_changed, rating.creation_time FROM crossing.rating AS rating
                                             INNER JOIN crossing.user AS u
                                             ON user_id = u.id
                                             INNER JOIN crossing.spatial_clarity AS sc
