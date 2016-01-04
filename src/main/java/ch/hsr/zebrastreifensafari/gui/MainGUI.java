@@ -433,6 +433,7 @@ public class MainGUI extends JFrame {
         ratingTableModel.setValueAt(rating.getComment(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("comment")).getModelIndex());
         ratingTableModel.setValueAt(rating.getImageWeblink(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("imageId")).getModelIndex());
         ratingTableModel.setValueAt(rating.getLastChanged(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("lastChange")).getModelIndex());
+        ratingTableModel.setValueAt(rating.getCreationTime(), ratingDataTable.getSelectedRow(), ratingDataTable.getColumn(Properties.get("creationDate")).getModelIndex());
     }
 
     public void removeCrossing() {

@@ -38,22 +38,22 @@ public class EditCrossingGUI extends ModifyGUI {
             crossing.setOsmNodeId(Long.parseLong(osmNodeIdTextField.getText()));
             mainGUI.editCrossing(crossing);
             dispose();
+            return;
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (EntityNotFoundException enfex) {
-            rollback(osmNodeIdBackup);
             errorMessage(Properties.get("crossingExistError"));
         } catch (RollbackException rex) {
-            rollback(osmNodeIdBackup);
             errorMessage(Properties.get("duplicatedOsmNodeIdError"));
         } catch (DatabaseException dbex) {
-            rollback(osmNodeIdBackup);
             errorMessage(Properties.get("connectionError"));
         } catch (Exception ex) {
-            rollback(osmNodeIdBackup);
             ex.printStackTrace();
             errorMessage(Properties.get("unexpectedError"));
         }
+
+
+        rollback(osmNodeIdBackup);
     }
 
     @Override
