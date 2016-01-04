@@ -116,7 +116,9 @@ function getRatings($query) {
             "traffic" => $row['t_value'],
             "image_weblink" => $row['image_weblink'],
             "comment" => $row['comment'],
-            "username" => $row['name']
+            "username" => $row['name'],
+            "last_changed" => date('H:i d.m.Y', strtotime($row['last_changed'])),
+            "creation_time" => $row['creation_time'] == null ? null : date('H:i d.m.Y', strtotime($row['creation_time']))
         );
     }
 
