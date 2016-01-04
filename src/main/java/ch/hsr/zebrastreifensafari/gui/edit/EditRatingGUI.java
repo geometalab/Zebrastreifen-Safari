@@ -9,6 +9,7 @@ import org.eclipse.persistence.exceptions.DatabaseException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.RollbackException;
 import javax.swing.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 
@@ -36,6 +37,7 @@ public class EditRatingGUI extends ModifyGUI {
         String imageWeblinkBackup = rating.getImageWeblink();
         String commentBackup = rating.getComment();
         Date lastChangedBackup = rating.getLastChanged();
+        Date creationTimeBackup = rating.getCreationTime();
 
         try {
             rating.setUserId(mainGUI.getUser((String) userComboBox.getSelectedItem()));
@@ -48,24 +50,23 @@ public class EditRatingGUI extends ModifyGUI {
             rating.setCreationTime(getCreationTime());
             mainGUI.editRating(rating);
             dispose();
+            return;
         } catch (EntityNotFoundException enfex) {
-            rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             errorMessage(Properties.get("ratingCrossingExistError"));
         } catch (RollbackException rex) {
-            rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             errorMessage(Properties.get("duplicatedPhotoError"));
         } catch (DatabaseException dbex) {
-            rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             errorMessage(Properties.get("connectionError"));
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("invalideTimeFormatError"));
         } catch (IllegalArgumentException iaex) {
             errorMessage(Properties.get("invalideTimeError"));
         } catch (Exception ex) {
-            rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup);
             ex.printStackTrace();
             errorMessage(Properties.get("unexpectedError"));
         }
+
+        rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup, creationTimeBackup);
     }
 
     private void setButtonGroupValue(ButtonGroup bg, int selectedButtonInt) {
@@ -89,9 +90,16 @@ public class EditRatingGUI extends ModifyGUI {
         commentTextArea.setText(rating.getComment());
         imageTextField.setText(rating.getImageWeblink());
         setImage(imageTextField.getText());
+
+        if (rating.getCreationTime() != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(rating.getCreationTime());
+            creationDate.setDate(calendar.getTime());
+            creationTime.setText(calendar.get(Calendar.HOUR_OF_DAY) + ":" + (calendar.get(Calendar.MINUTE) < 10 ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE)));
+        }
     }
 
-    private void rollback(User user, Illumination illumination, SpatialClarity spatialClarity, Traffic traffic, String imageWeblink, String comment, Date lastChanged) {
+    private void rollback(User user, Illumination illumination, SpatialClarity spatialClarity, Traffic traffic, String imageWeblink, String comment, Date lastChanged, Date creationTime) {
         rating.setUserId(user);
         rating.setIlluminationId(illumination);
         rating.setSpatialClarityId(spatialClarity);
@@ -99,6 +107,7 @@ public class EditRatingGUI extends ModifyGUI {
         rating.setImageWeblink(imageWeblink);
         rating.setComment(comment);
         rating.setLastChanged(lastChanged);
+        rating.setCreationTime(creationTime);
     }
 
     private void setInvisible() {

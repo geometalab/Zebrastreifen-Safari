@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -96,7 +95,7 @@ public abstract class ModifyGUI extends JDialog {
                 setImage(imageTextField.getText());
             }
         });
-        commentTextArea.getDocument().addDocumentListener(new DocumentListener() {
+        commentTextArea.getDocument().addDocumentListener(new DocumentAdapter() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 if (commentTextArea.getDocument().getLength() > 500) {
@@ -105,14 +104,6 @@ public abstract class ModifyGUI extends JDialog {
                         errorMessage(Properties.get("commentLengthError"));
                     });
                 }
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
             }
         });
         getRootPane().registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -152,21 +143,33 @@ public abstract class ModifyGUI extends JDialog {
     }
 
     protected Date getCreationTime() throws IllegalArgumentException {
-        int[] time = new int[2];
-        String[] splitTime = creationTime.getText().split(":", 2);
-
-        for (int i = 0; i < splitTime.length; i++) {
-            time[i] = Integer.parseInt(splitTime[i]);
+        if (creationDate.getDate() == null) {
+            return null;
         }
 
-        if (time[0] > 23 || time[0] < 0 || time[1] > 59 || time[1] < 0) {
+        if (creationTime.getText().isEmpty()) {
+            return creationDate.getDate();
+        }
+
+        int[] time = splitTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(creationDate.getDate().getTime() + TimeUnit.HOURS.toMillis(time[0]) + TimeUnit.MINUTES.toMillis(time[1]));
+        return calendar.getTime();
+    }
+
+    private int[] splitTime() throws IllegalArgumentException {
+        int[] splitTime = new int[2];
+        String[] creationTimeParts = creationTime.getText().split(":", 2);
+
+        for (int i = 0; i < splitTime.length; i++) {
+            splitTime[i] = Integer.parseInt(creationTimeParts[i]);
+        }
+
+        if (splitTime[0] > 23 || splitTime[0] < 0 || splitTime[1] > 59 || splitTime[1] < 0) {
             throw new IllegalArgumentException();
         }
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(creationDate.getDate().getTime() + TimeUnit.HOURS.toMillis(time[0]) + TimeUnit.MINUTES.toMillis(time[1]));
-
-        return calendar.getTime();
+        return splitTime;
     }
 
     protected void errorMessage(String message) {
