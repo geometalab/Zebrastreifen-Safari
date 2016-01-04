@@ -49,13 +49,13 @@ $(document).ready(function() {
 
                     if ($(document).width() <= 800){
                         var myBarChart = new Chart(ctx).Bar(data, {
-                            scaleLabel : "<%= Number(value) + ' Z*'%>",
+                            scaleLabel : "<%= Number(value) + ' F*'%>",
                             scaleBeginAtZero: true,
                             responsive: true
                         });
                     } else {
                         var myBarChart = new Chart(ctx).Bar(data, {
-                            scaleLabel : "<%= Number(value) + ' Z*'%>",
+                            scaleLabel : "<%= Number(value) + ' F*'%>",
                             scaleBeginAtZero: true,
                         });
                     }

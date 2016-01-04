@@ -16,7 +16,10 @@ var mapbox = L.tileLayer("http://api.tiles.mapbox.com/v4/sfkeller.k0onh2me/{z}/{
     "?access_token=pk.eyJ1Ijoic2ZrZWxsZXIiLCJhIjoia3h4T3pScyJ9.MDLSUwpRpPqaV7SVfGcZDw", {
     attribution: "https://www.mapbox.com/about/maps/"
 });
-var mapbox_bright = "EINFÜGEN";
+var mapboxTiles = L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' +
+    "pk.eyJ1Ijoic3RhY2t0cmFjZSIsImEiOiJjaWh2cGI3aDkwMjlqdXNrb2l2eDl5dGgyIn0.96Y4mk2kaLNPoQb0URVi8g", {
+    attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+});
 var searchPoints = L.geoJson(null, {
     onEachFeature: function (feature, layer) {
         layer.bindPopup(feature.properties.name);
@@ -27,7 +30,6 @@ function showSearchPoints (geojson) {
     searchPoints.addData(geojson);
 }
 
-var API_URL = '//photon.komoot.de/api/?';
 var map = L.map('map',{
     maxBounds:bounds,
     invalidateSize: true,
@@ -206,10 +208,10 @@ function centerFromStorage(){
         localStorage.setItem("lng", center.lng.toString());
         localStorage.setItem("zoom", zoom.toString());
     });
-
 var baseMaps = {
     "OSM Standard": osm,
-    "MapBox Satellite": mapbox
+    "MapBox Satellite": mapbox,
+    "Mapbox Streets": mapboxTiles
 };
 var overlayMaps = {
     "Fussgängerstreifen": crossing
