@@ -8,6 +8,7 @@ import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
+import ch.hsr.zebrastreifensafari.service.WebsiteService;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityNotFoundException;
@@ -256,21 +257,7 @@ public class MainGUI extends JFrame {
     }
 
     private void onHelpClick() {
-        String url = Properties.get("helpLink");
-
-        if (Desktop.isDesktopSupported()) {
-            try {
-                Desktop.getDesktop().browse(new URI(url));
-            } catch (IOException | URISyntaxException ex) {
-                ex.printStackTrace();
-            }
-        } else {
-            try {
-                Runtime.getRuntime().exec("xdg-open " + url);
-            } catch (IOException ioex) {
-                ioex.printStackTrace();
-            }
-        }
+        WebsiteService.openWebsite(Properties.get("helpLink"));
     }
 
     private void onCrossingSort(MouseEvent event) {
