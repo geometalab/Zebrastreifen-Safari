@@ -24,21 +24,26 @@ public class EditCrossingGUI extends ModifyGUI {
     public EditCrossingGUI(MainGUI mainGUI, Crossing crossing) {
         super(mainGUI, Properties.get("editCrossingGuiTitle") + crossing.getOsmNodeId());
         this.crossing = crossing;
-        setValues();
-        setInvisible();
-        sendButton.setText(Properties.get("change"));
+        setInitialValues();
+        hideGuiElements();
         setSize(getWidth(), 110);
     }
 
     @Override
     protected void onSendClick() {
-        long osmNodeIdBackup = crossing.getOsmNodeId();
+        Crossing backupCrossing = new Crossing(crossing.getId(), crossing.getOsmNodeId(), crossing.getRatingAmount(), crossing.getStatus());
 
+        if (editCrossing()) return;
+
+        setCrossingData(backupCrossing.getOsmNodeId());
+    }
+
+    private boolean editCrossing() {
         try {
-            crossing.setOsmNodeId(Long.parseLong(osmNodeIdTextField.getText()));
+            setCrossingData(Long.parseLong(osmNodeIdTextField.getText()));
             mainGUI.editCrossing(crossing);
             dispose();
-            return;
+            return true;
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (EntityNotFoundException enfex) {
@@ -52,8 +57,11 @@ public class EditCrossingGUI extends ModifyGUI {
             errorMessage(Properties.get("unexpectedError"));
         }
 
+        return false;
+    }
 
-        rollback(osmNodeIdBackup);
+    private void setCrossingData(long osmNodeId) {
+        crossing.setOsmNodeId(osmNodeId);
     }
 
     @Override
@@ -66,15 +74,12 @@ public class EditCrossingGUI extends ModifyGUI {
         return true;
     }
 
-    private void setValues() {
+    private void setInitialValues() {
+        sendButton.setText(Properties.get("change"));
         osmNodeIdTextField.setText(Long.toString(crossing.getOsmNodeId()));
     }
 
-    private void rollback(long osmNodeId) {
-        crossing.setOsmNodeId(osmNodeId);
-    }
-
-    private void setInvisible() {
+    private void hideGuiElements() {
         userLabel.setVisible(false);
         userComboBox.setVisible(false);
         spatialClarityLabel.setVisible(false);

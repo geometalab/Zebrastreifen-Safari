@@ -20,8 +20,7 @@ public class CreateRatingGUI extends ModifyGUI {
     public CreateRatingGUI(MainGUI mainGUI, long node) {
         super(mainGUI, Properties.get("createRatingGuiTitle") + node);
         this.node = node;
-        osmNodeIdLabel.setVisible(false);
-        osmNodeIdTextField.setVisible(false);
+        hideGuiElements();
     }
 
     @Override
@@ -56,5 +55,10 @@ public class CreateRatingGUI extends ModifyGUI {
             ex.printStackTrace();
             errorMessage(Properties.get("unexpectedError"));
         }
+    }
+
+    private void hideGuiElements() {
+        osmNodeIdLabel.setVisible(false);
+        osmNodeIdTextField.setVisible(false);
     }
 }

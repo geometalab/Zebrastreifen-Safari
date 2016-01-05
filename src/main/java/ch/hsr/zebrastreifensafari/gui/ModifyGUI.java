@@ -142,7 +142,7 @@ public abstract class ModifyGUI extends JDialog {
         }
     }
 
-    protected Date getCreationTime() throws IllegalArgumentException {
+    protected Date getCreationTime() {
         if (creationDate.getDate() == null) {
             return null;
         }
@@ -157,7 +157,7 @@ public abstract class ModifyGUI extends JDialog {
         return calendar.getTime();
     }
 
-    private int[] splitTime() throws IllegalArgumentException {
+    private int[] splitTime() {
         int[] splitTime = new int[2];
         String[] creationTimeParts = creationTime.getText().split(":", 2);
 
@@ -165,11 +165,15 @@ public abstract class ModifyGUI extends JDialog {
             splitTime[i] = Integer.parseInt(creationTimeParts[i]);
         }
 
+        validateTime(splitTime);
+
+        return splitTime;
+    }
+
+    private void validateTime(int[] splitTime) {
         if (splitTime[0] > 23 || splitTime[0] < 0 || splitTime[1] > 59 || splitTime[1] < 0) {
             throw new IllegalArgumentException();
         }
-
-        return splitTime;
     }
 
     protected void errorMessage(String message) {

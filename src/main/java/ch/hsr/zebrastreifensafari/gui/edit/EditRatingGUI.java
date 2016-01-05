@@ -23,34 +23,45 @@ public class EditRatingGUI extends ModifyGUI {
     public EditRatingGUI(MainGUI mainGUI, Rating rating) {
         super(mainGUI, Properties.get("editRatingGuiTitleOne") + rating.getUserId().getName() + Properties.get("editRatingGuiTitleTwo") + rating.getCrossingId().getOsmNodeId());
         this.rating = rating;
-        setValues();
-        setInvisible();
-        sendButton.setText(Properties.get("change"));
+        setInitialValues();
+        hideGuiElements();
     }
 
     @Override
     protected void onSendClick() {
-        User userBackup = rating.getUserId();
-        Illumination illuminationBackup = rating.getIlluminationId();
-        SpatialClarity spatialClarityBackup = rating.getSpatialClarityId();
-        Traffic trafficBackup = rating.getTrafficId();
-        String imageWeblinkBackup = rating.getImageWeblink();
-        String commentBackup = rating.getComment();
-        Date lastChangedBackup = rating.getLastChanged();
-        Date creationTimeBackup = rating.getCreationTime();
+        Rating backupRating = new Rating(rating.getId(), rating.getComment(), rating.getIlluminationId(), rating.getSpatialClarityId(), rating.getTrafficId(),
+                rating.getUserId(), rating.getCrossingId(), rating.getImageWeblink(), rating.getLastChanged(), rating.getCreationTime());
 
+        if (editRating()) return;
+
+        setRatingData(
+                backupRating.getUserId(),
+                backupRating.getIlluminationId(),
+                backupRating.getSpatialClarityId(),
+                backupRating.getTrafficId(),
+                backupRating.getImageWeblink(),
+                backupRating.getComment(),
+                backupRating.getLastChanged(),
+                backupRating.getCreationTime()
+        );
+    }
+
+    private boolean editRating() {
         try {
-            rating.setUserId(mainGUI.getUser((String) userComboBox.getSelectedItem()));
-            rating.setIlluminationId(mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)));
-            rating.setSpatialClarityId(mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroup)));
-            rating.setTrafficId(mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)));
-            rating.setImageWeblink(imageTextField.getText().isEmpty() ? null : imageTextField.getText());
-            rating.setComment(commentTextArea.getText().isEmpty() ? null : commentTextArea.getText());
-            rating.setLastChanged(new Date());
-            rating.setCreationTime(getCreationTime());
+            setRatingData(
+                    mainGUI.getUser((String) userComboBox.getSelectedItem()),
+                    mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
+                    mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroup)),
+                    mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
+                    imageTextField.getText().isEmpty() ? null : imageTextField.getText(),
+                    commentTextArea.getText().isEmpty() ? null : commentTextArea.getText(),
+                    new Date(),
+                    getCreationTime()
+            );
+
             mainGUI.editRating(rating);
             dispose();
-            return;
+            return true;
         } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("ratingCrossingExistError"));
         } catch (RollbackException rex) {
@@ -66,7 +77,18 @@ public class EditRatingGUI extends ModifyGUI {
             errorMessage(Properties.get("unexpectedError"));
         }
 
-        rollback(userBackup, illuminationBackup, spatialClarityBackup, trafficBackup, imageWeblinkBackup, commentBackup, lastChangedBackup, creationTimeBackup);
+        return false;
+    }
+
+    private void setRatingData(User user, Illumination illumination, SpatialClarity spatialClarity, Traffic traffic, String imageWeblink, String comment, Date lastChanged, Date creationTime) {
+        rating.setUserId(user);
+        rating.setIlluminationId(illumination);
+        rating.setSpatialClarityId(spatialClarity);
+        rating.setTrafficId(traffic);
+        rating.setImageWeblink(imageWeblink);
+        rating.setComment(comment);
+        rating.setLastChanged(lastChanged);
+        rating.setCreationTime(creationTime);
     }
 
     private void setButtonGroupValue(ButtonGroup bg, int selectedButtonInt) {
@@ -82,7 +104,8 @@ public class EditRatingGUI extends ModifyGUI {
         }
     }
 
-    private void setValues() {
+    private void setInitialValues() {
+        sendButton.setText(Properties.get("change"));
         userComboBox.setSelectedItem(rating.getUserId().getName());
         setButtonGroupValue(spatialClarityButtonGroup, rating.getSpatialClarityId().getId());
         setButtonGroupValue(illuminationButtonGroup, rating.getIlluminationId().getId());
@@ -99,18 +122,7 @@ public class EditRatingGUI extends ModifyGUI {
         }
     }
 
-    private void rollback(User user, Illumination illumination, SpatialClarity spatialClarity, Traffic traffic, String imageWeblink, String comment, Date lastChanged, Date creationTime) {
-        rating.setUserId(user);
-        rating.setIlluminationId(illumination);
-        rating.setSpatialClarityId(spatialClarity);
-        rating.setTrafficId(traffic);
-        rating.setImageWeblink(imageWeblink);
-        rating.setComment(comment);
-        rating.setLastChanged(lastChanged);
-        rating.setCreationTime(creationTime);
-    }
-
-    private void setInvisible() {
+    private void hideGuiElements() {
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
     }

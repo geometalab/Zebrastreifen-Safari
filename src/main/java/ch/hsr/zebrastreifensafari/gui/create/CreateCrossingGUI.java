@@ -21,11 +21,9 @@ public class CreateCrossingGUI extends ModifyGUI {
 
     @Override
     protected void onSendClick() {
+        //todo: überarbeiten, wenn ein bild wiederholt verwendet wird, wird trozdem ein crossing erstellt (momentane lösung funktioniert ist aber nicht schön)
         try {
-            //todo: überarbeiten, wenn ein bild wiederholt verwendet wird, wird trozdem ein crossing erstellt (momentane lösung funktioniert ist aber nicht schön)
-            Crossing crossing = createCrossing();
-
-            if (createRating(crossing)) {
+            if (createRating(createCrossing())) {
                 dispose();
             }
         } catch (NumberFormatException nfex) {
