@@ -1,6 +1,7 @@
 package ch.hsr.zebrastreifensafari.gui;
 
 import ch.hsr.zebrastreifensafari.service.Properties;
+import ch.hsr.zebrastreifensafari.service.WebsiteService;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
@@ -8,9 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ResourceBundle;
 
 public class AboutGUI extends JDialog {
@@ -35,32 +33,16 @@ public class AboutGUI extends JDialog {
         geometalabLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                openWebsite(Properties.get("geometalabLink"));
+                WebsiteService.openWebsite(Properties.get("geometalabLink"));
             }
         });
         crossingLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                openWebsite(Properties.get("ourWebsiteLink"));
+                WebsiteService.openWebsite(Properties.get("ourWebsiteLink"));
             }
         });
 
-    }
-
-    private void openWebsite(String url) {
-        if (Desktop.isDesktopSupported()) {
-            try {
-                Desktop.getDesktop().browse(new URI(url));
-            } catch (IOException | URISyntaxException ex) {
-                ex.printStackTrace();
-            }
-        } else {
-            try {
-                Runtime.getRuntime().exec("xdg-open " + url);
-            } catch (IOException ioex) {
-                ioex.printStackTrace();
-            }
-        }
     }
 
     {
