@@ -3,7 +3,6 @@ package ch.hsr.zebrastreifensafari.gui;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.service.Properties;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
@@ -15,20 +14,10 @@ import java.util.List;
  * @date : 06.01.2016
  */
 
-public class CrossingTable extends JTable {
+public class CrossingTable extends SpecificTable {
 
     public CrossingTable() {
-        super(new CrossingTableModel());
-        removeColumn(getColumnModel().getColumn(3));
-    }
-
-    @Override
-    public DefaultTableModel getModel() {
-        return (DefaultTableModel) super.getModel();
-    }
-
-    public void changeTableSelection(int index) {
-        changeSelection(index, 0, false, false);
+        super(new CrossingTableModel(), 3);
     }
 
     public void drawData(List<Crossing> list) {
@@ -55,14 +44,6 @@ public class CrossingTable extends JTable {
         });
     }
 
-    public void remove(int index) {
-        getModel().removeRow(index);
-    }
-
-    public int getSelectedId() {
-        return (int) getModel().getValueAt(getSelectedRow(), 3);
-    }
-
     public long getOsmNodeIdAt(int row) {
         return (long) getValueAt(row, getColumn(Properties.get("osmNodeId")).getModelIndex());
     }
@@ -77,5 +58,28 @@ public class CrossingTable extends JTable {
 
     public void setRatingAmountAtSelectedRow(Crossing crossing) {
         setValueAt(crossing.getRatingAmount(), getSelectedRow(), getColumn(Properties.get("ratingAmount")).getModelIndex());
+    }
+}
+
+class CrossingTableModel extends DefaultTableModel {
+
+    public CrossingTableModel() {
+        super(new String[]{Properties.get("osmNodeId"), Properties.get("ratingAmount"), Properties.get("status"), Properties.get("id")}, 0);
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+
+    @Override
+    public Class<?> getColumnClass(int column) {
+        if (column == 0) {
+            return Long.class;
+        } else if (column == 1 || column == 2) {
+            return Integer.class;
+        }
+
+        return super.getColumnClass(column);
     }
 }
