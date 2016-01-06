@@ -152,7 +152,7 @@ public class MainGUI extends JFrame {
     }
 
     private void onCrossingSelection() {
-        if (!crossingTable.getSelectionModel().isSelectionEmpty() && crossingTable.getModel().getRowCount() > 0) {
+        if (crossingTable.hasData()) {
             dataTabbedPane.setTitleAt(1, Properties.get("specificRatingTabbedPaneTitle") + crossingTable.getOsmNodeIdAtSelectedRow());
         }
     }
@@ -162,8 +162,8 @@ public class MainGUI extends JFrame {
             crossingTable.drawData(model.getCrossings());
         } else {
             crossingTable.drawData(model.getCrossings().stream()
-                        .filter(crossing -> String.valueOf(crossing.getOsmNodeId()).startsWith(searchTextField.getText()))
-                        .collect(Collectors.toList()));
+                    .filter(crossing -> String.valueOf(crossing.getOsmNodeId()).startsWith(searchTextField.getText()))
+                    .collect(Collectors.toList()));
         }
     }
 

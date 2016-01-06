@@ -3,7 +3,6 @@ package ch.hsr.zebrastreifensafari.gui;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.service.Properties;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
@@ -15,20 +14,10 @@ import java.util.List;
  * @date : 06.01.2016
  */
 
-public class RatingTable extends JTable {
+public class RatingTable extends SpecificTable {
 
     public RatingTable() {
-        super(new RatingTableModel());
-        removeColumn(getColumnModel().getColumn(8));
-    }
-
-    @Override
-    public DefaultTableModel getModel() {
-        return (DefaultTableModel) super.getModel();
-    }
-
-    public void changeTableSelection(int index) {
-        changeSelection(index, 0, false, false);
+        super(new RatingTableModel(), 8);
     }
 
     public void drawData(List<Rating> list) {
@@ -65,14 +54,6 @@ public class RatingTable extends JTable {
         });
     }
 
-    public void remove(int index) {
-        getModel().removeRow(index);
-    }
-
-    public int getSelectedId() {
-        return (int) getModel().getValueAt(getSelectedRow(), 8);
-    }
-
     public void setUserIdAtSelectedRow(Rating rating) {
         setValueAt(rating.getUserId().getName(), getSelectedRow(), getColumn(Properties.get("user")).getModelIndex());
     }
@@ -103,5 +84,19 @@ public class RatingTable extends JTable {
 
     public void setValueAtSelectedRowCreationTime(Rating rating) {
         setValueAt(rating.getCreationTime(), getSelectedRow(), getColumn(Properties.get("creationDate")).getModelIndex());
+    }
+}
+
+
+class RatingTableModel extends DefaultTableModel {
+
+    public RatingTableModel() {
+        super(new String[]{Properties.get("user"), Properties.get("spacialClarity"), Properties.get("illumination"), Properties.get("traffic"),
+                Properties.get("comment"), Properties.get("imageId"), Properties.get("lastChange"), Properties.get("creationDate"), Properties.get("id")}, 0);
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
     }
 }
