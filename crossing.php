@@ -42,7 +42,7 @@ function crossingPoints($bounds, $maxCrossingAmount) {
             "type" => "Feature",
             "geometry" => array(
                 "type" => "Point",
-                "coordinates" => [doubleval($row['x']), doubleval($row['y'])]
+                "coordinates" => getCoordinates($row)
             ),
             "properties" => getOsmDetailsClustered($row)
         );
@@ -68,10 +68,15 @@ function crossingDetail($osmNodeId) {
     }
 
     $crossing = getOsmDetails($resultset);
+    $crossing['coordinates'] = getCoordinates($resultset);
     $crossing['ratings'] = getRatings($crossingConnection->getRating($resultset['id']));
 
     $crossingConnection->closeConnection();
     return $crossing;
+}
+
+function getCoordinates($row) {
+    return array(doubleval($row['x']), doubleval($row['y']));
 }
 
 function getOsmDetails($row) {
