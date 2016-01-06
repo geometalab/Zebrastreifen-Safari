@@ -74,7 +74,7 @@ public class CrossingDataServiceTest {
     @Test
     public void testAddCrossing() throws Exception {
         assertEquals(11, db.getCrossingDataService().getCrossings().size());
-        db.getCrossingDataService().createCrossing(new Crossing(), new Model());
+        db.getCrossingDataService().createCrossing(new Crossing());
         assertEquals(12, db.getCrossingDataService().getCrossings().size());
     }
 

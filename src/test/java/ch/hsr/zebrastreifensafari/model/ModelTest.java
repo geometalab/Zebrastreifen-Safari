@@ -42,7 +42,7 @@ public class ModelTest {
         assertEquals(null, model.getCrossing((long) 87));
         Crossing c = new Crossing(null, 87, 1, 1);
 
-        DataServiceLoader.getCrossingData().createCrossing(c, model);
+        DataServiceLoader.getCrossingData().createCrossing(c);
         model.reloadCrossing();
         assertEquals(87, model.getCrossing((long) 87).getOsmNodeId());
 

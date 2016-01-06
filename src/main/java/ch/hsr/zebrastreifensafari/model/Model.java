@@ -137,6 +137,34 @@ public class Model {
         return null;
     }
 
+    public boolean add(Crossing crossing) {
+        return crossings.add(crossing);
+    }
+
+    public boolean remove(Crossing crossing) {
+        return crossings.remove(crossing);
+    }
+
+    public boolean contains(Crossing crossing) {
+        return crossings.contains(crossing);
+    }
+
+    public int indexOf(Crossing crossing) {
+        return crossings.indexOf(crossing);
+    }
+
+    public boolean add(Rating rating) {
+        return ratings.add(rating);
+    }
+
+    public boolean remove(Rating rating) {
+        return ratings.remove(rating);
+    }
+
+    public int indexOf(Rating rating) {
+        return ratings.indexOf(rating);
+    }
+
     public List<User> getUsers() {
         return users;
     }
