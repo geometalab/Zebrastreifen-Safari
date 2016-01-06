@@ -69,49 +69,25 @@ public class MainGUI extends JFrame {
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
 
+    //<editor-fold desc="Listeners">
     private void initListeners() {
         dataTabbedPane.addChangeListener(e -> onTabbedPaneChange());
-        crossingTable.getSelectionModel().addListSelectionListener(e -> onCrossingSelection());
-        searchTextField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                onSearch();
-            }
-        });
+        initCrossingListeners();
+        initRatingListeners();
+        initMenuListeners();
+    }
+
+    private void initCrossingListeners() {
         addCrossingButton.addActionListener(e -> onAddClick());
         editCrossingButton.addActionListener(e -> onEditClick());
         deleteCrossingButton.addActionListener(e -> onDeleteClick());
-        addRatingButton.addActionListener(e -> onAddClick());
-        editRatingButton.addActionListener(e -> onEditClick());
-        deleteRatingButton.addActionListener(e -> onDeleteClick());
-        previousCrossingButton.addActionListener(e -> onPreviousCrossingClick());
-        nextCrossingButton.addActionListener(e -> onNextCrossingClick());
-        refreshMenuItem.addActionListener(e -> onRefreshClick());
-        exitMenuItem.addActionListener(e -> onExitClick());
-        addMenuItem.addActionListener(e -> onAddClick());
-        editMenuItem.addActionListener(e -> onEditClick());
-        deleteMenuItem.addActionListener(e -> onDeleteClick());
-        helpMenuItem.addActionListener(e -> onHelpClick());
-        aboutMenuItem.addActionListener(e -> onAboutClick());
         crossingTable.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 onCrossingSort(e);
             }
         });
-        ratingTable.getTableHeader().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                onRatingSort(e);
-            }
-        });
         crossingTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                onTableDoubleClick(e);
-            }
-        });
-        ratingTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 onTableDoubleClick(e);
@@ -125,6 +101,31 @@ public class MainGUI extends JFrame {
                 }
             }
         });
+        crossingTable.getSelectionModel().addListSelectionListener(e -> onCrossingSelection());
+        searchTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                onSearch();
+            }
+        });
+    }
+
+    private void initRatingListeners() {
+        addRatingButton.addActionListener(e -> onAddClick());
+        editRatingButton.addActionListener(e -> onEditClick());
+        deleteRatingButton.addActionListener(e -> onDeleteClick());
+        ratingTable.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                onRatingSort(e);
+            }
+        });
+        ratingTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                onTableDoubleClick(e);
+            }
+        });
         ratingTable.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -133,7 +134,20 @@ public class MainGUI extends JFrame {
                 }
             }
         });
+        previousCrossingButton.addActionListener(e -> onPreviousCrossingClick());
+        nextCrossingButton.addActionListener(e -> onNextCrossingClick());
     }
+
+    private void initMenuListeners() {
+        refreshMenuItem.addActionListener(e -> onRefreshClick());
+        exitMenuItem.addActionListener(e -> onExitClick());
+        addMenuItem.addActionListener(e -> onAddClick());
+        editMenuItem.addActionListener(e -> onEditClick());
+        deleteMenuItem.addActionListener(e -> onDeleteClick());
+        helpMenuItem.addActionListener(e -> onHelpClick());
+        aboutMenuItem.addActionListener(e -> onAboutClick());
+    }
+    //</editor-fold>
 
     //<editor-fold desc="Actions">
     private void onTabbedPaneChange() {
@@ -466,6 +480,7 @@ public class MainGUI extends JFrame {
         crossingTable = new CrossingTable();
         ratingTable = new RatingTable();
         searchTextField = new JTextPlaceHolder(Properties.get("searchPlaceHolder"));
+
         JMenuBar bar = new JMenuBar();
         JMenu fileMenu = new JMenu(Properties.get("file"));
         JMenu editMenu = new JMenu(Properties.get("edit"));
