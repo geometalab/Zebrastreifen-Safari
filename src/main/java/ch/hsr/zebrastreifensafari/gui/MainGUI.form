@@ -83,15 +83,9 @@
                   <size top="0" left="0" bottom="0" right="0"/>
                 </border>
                 <children>
-                  <component id="b8e8b" class="javax.swing.JTable" binding="crossingDataTable" custom-create="true">
+                  <component id="33ce1" class="ch.hsr.zebrastreifensafari.gui.CrossingTable" binding="crossingTable" custom-create="true">
                     <constraints/>
-                    <properties>
-                      <autoCreateRowSorter value="false"/>
-                      <cellSelectionEnabled value="false"/>
-                      <columnSelectionAllowed value="false"/>
-                      <fillsViewportHeight value="false"/>
-                      <rowSelectionAllowed value="true"/>
-                    </properties>
+                    <properties/>
                   </component>
                 </children>
               </scrollpane>
@@ -111,7 +105,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="89fe5" class="javax.swing.JTable" binding="ratingDataTable" custom-create="true">
+                  <component id="65af1" class="ch.hsr.zebrastreifensafari.gui.RatingTable" binding="ratingTable" custom-create="true">
                     <constraints/>
                     <properties>
                       <rowSelectionAllowed value="true"/>
