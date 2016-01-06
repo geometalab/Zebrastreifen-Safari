@@ -60,53 +60,8 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void createCrossing(Crossing crossing, Model model) {
+    public void createCrossing(Crossing crossing) {
         new CrossingJpaController(emFactory).create(crossing);
-        model.getCrossings().add(crossing);
-    }
-
-    @Override
-    public void createCrossing(Crossing crossing, Model model, DefaultTableModel tableModel) {
-        createCrossing(crossing, model);
-        tableModel.addRow(new Object[]{
-                crossing.getOsmNodeId(),
-                crossing.getRatingAmount(),
-                crossing.getStatus(),
-                crossing.getId()
-        });
-    }
-
-    @Override
-    public void createRating(Rating rating) throws EntityNotFoundException {
-        new RatingJpaController(emFactory).create(rating);
-    }
-
-    @Override
-    public void createRating(Rating rating, Model model) throws EntityNotFoundException {
-        createRating(rating);
-        model.getRatings().add(rating);
-
-    }
-
-    @Override
-    public void createRating(Rating rating, Model model, DefaultTableModel tableModel) throws EntityNotFoundException {
-        createRating(rating, model);
-        tableModel.addRow(new Object[]{
-                rating.getUserId().getName(),
-                rating.getTrafficId().getValue(),
-                rating.getSpatialClarityId().getValue(),
-                rating.getIlluminationId().getValue(),
-                rating.getComment(),
-                rating.getImageWeblink(),
-                rating.getLastChanged(),
-                rating.getCreationTime(),
-                rating.getId()
-        });
-    }
-
-    @Override
-    public void editRating(Rating rating) throws EntityNotFoundException {
-        new RatingJpaController(emFactory).edit(rating);
     }
 
     @Override
@@ -120,23 +75,17 @@ public class CrossingDataService implements ICrossingDataService {
     }
 
     @Override
-    public void removeCrossing(int id, Model model, DefaultTableModel tableModel) throws EntityNotFoundException {
-        removeCrossing(id);
-        Crossing removeCrossing = model.getCrossing(id);
-        tableModel.removeRow(model.getCrossings().indexOf(removeCrossing));
-        model.getCrossings().remove(removeCrossing);
+    public void createRating(Rating rating) throws EntityNotFoundException {
+        new RatingJpaController(emFactory).create(rating);
+    }
+
+    @Override
+    public void editRating(Rating rating) throws EntityNotFoundException {
+        new RatingJpaController(emFactory).edit(rating);
     }
 
     @Override
     public void removeRating(int id) throws EntityNotFoundException {
         new RatingJpaController(emFactory).destroy(id);
-    }
-
-    @Override
-    public void removeRating(int id, Model model, DefaultTableModel tableModel) throws EntityNotFoundException {
-        removeRating(id);
-        Rating removeRating = model.getRating(id);
-        tableModel.removeRow(model.getRatings().indexOf(removeRating));
-        model.getRatings().remove(model.getRating(id));
     }
 }

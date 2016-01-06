@@ -29,25 +29,15 @@ public interface ICrossingDataService {
 
     List<Traffic> getTraffics();
 
-    void createCrossing(Crossing crossing, Model model) throws EntityNotFoundException;
-
-    void createCrossing(Crossing crossing, Model model, DefaultTableModel tableModel) throws EntityNotFoundException;
-
-    void createRating(Rating rating) throws EntityNotFoundException;
-
-    void createRating(Rating rating, Model model) throws EntityNotFoundException;
-
-    void createRating(Rating rating, Model model, DefaultTableModel tableModel) throws EntityNotFoundException;
-
-    void editRating(Rating rating) throws EntityNotFoundException;
+    void createCrossing(Crossing crossing) throws EntityNotFoundException;
 
     void editCrossing(Crossing crossing) throws EntityNotFoundException;
 
     void removeCrossing(int id) throws EntityNotFoundException;
 
-    void removeCrossing(int id, Model model, DefaultTableModel tableModel) throws EntityNotFoundException;
+    void createRating(Rating rating) throws EntityNotFoundException;
+
+    void editRating(Rating rating) throws EntityNotFoundException;
 
     void removeRating(int id) throws EntityNotFoundException;
-
-    void removeRating(int id, Model model, DefaultTableModel tableModel) throws EntityNotFoundException;
 }

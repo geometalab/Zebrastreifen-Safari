@@ -1,6 +1,7 @@
 package ch.hsr.zebrastreifensafari.gui;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
+import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -26,7 +27,11 @@ public class RatingTable extends JTable {
         return (DefaultTableModel) super.getModel();
     }
 
-    public void addRatingDataToTable(List<Rating> list) {
+    public void changeTableSelection(int index) {
+        changeSelection(index, 0, false, false);
+    }
+
+    public void drawData(List<Rating> list) {
         getModel().setRowCount(0);
 
         for (Rating rating : list) {
@@ -46,7 +51,57 @@ public class RatingTable extends JTable {
         changeTableSelection(0);
     }
 
-    void changeTableSelection(int index) {
-        changeSelection(index, 0, false, false);
+    public void add(Rating rating) {
+        getModel().addRow(new Object[]{
+                rating.getUserId().getName(),
+                rating.getTrafficId().getValue(),
+                rating.getSpatialClarityId().getValue(),
+                rating.getIlluminationId().getValue(),
+                rating.getComment(),
+                rating.getImageWeblink(),
+                rating.getLastChanged(),
+                rating.getCreationTime(),
+                rating.getId()
+        });
+    }
+
+    public void remove(int index) {
+        getModel().removeRow(index);
+    }
+
+    public int getSelectedId() {
+        return (int) getModel().getValueAt(getSelectedRow(), 8);
+    }
+
+    public void setUserIdAtSelectedRow(Rating rating) {
+        setValueAt(rating.getUserId().getName(), getSelectedRow(), getColumn(Properties.get("user")).getModelIndex());
+    }
+
+    public void setTrafficIdAtSelectedRow(Rating rating) {
+        setValueAt(rating.getTrafficId().getValue(), getSelectedRow(), getColumn(Properties.get("traffic")).getModelIndex());
+    }
+
+    public void setSpatialClarityIdAtSelected(Rating rating) {
+        setValueAt(rating.getSpatialClarityId().getValue(), getSelectedRow(), getColumn(Properties.get("spacialClarity")).getModelIndex());
+    }
+
+    public void setIlluminationIdAtSelectedRow(Rating rating) {
+        setValueAt(rating.getIlluminationId().getValue(), getSelectedRow(), getColumn(Properties.get("illumination")).getModelIndex());
+    }
+
+    public void setCommentAtSelectedRow(Rating rating) {
+        setValueAt(rating.getComment(), getSelectedRow(), getColumn(Properties.get("comment")).getModelIndex());
+    }
+
+    public void setImageWeblinkAtSelectedRow(Rating rating) {
+        setValueAt(rating.getImageWeblink(), getSelectedRow(), getColumn(Properties.get("imageId")).getModelIndex());
+    }
+
+    public void setLastChangedAtSelectedRow(Rating rating) {
+        setValueAt(rating.getLastChanged(), getSelectedRow(), getColumn(Properties.get("lastChange")).getModelIndex());
+    }
+
+    public void setValueAtSelectedRowCreationTime(Rating rating) {
+        setValueAt(rating.getCreationTime(), getSelectedRow(), getColumn(Properties.get("creationDate")).getModelIndex());
     }
 }

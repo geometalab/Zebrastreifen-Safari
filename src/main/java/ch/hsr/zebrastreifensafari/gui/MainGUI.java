@@ -64,7 +64,7 @@ public class MainGUI extends JFrame {
 
         this.model = model;
         initListeners();
-        crossingTable.addCrossingDataToTable(model.getCrossings());
+        crossingTable.drawData(model.getCrossings());
         pack();
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
@@ -140,7 +140,7 @@ public class MainGUI extends JFrame {
         try {
             if (isRatingMode()) {
                 model.reloadRating(getCrossingFromTable());
-                ratingTable.addRatingDataToTable(model.getRatings());
+                ratingTable.drawData(model.getRatings());
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             dataTabbedPane.setSelectedIndex(0);
@@ -153,18 +153,15 @@ public class MainGUI extends JFrame {
 
     private void onCrossingSelection() {
         if (!crossingTable.getSelectionModel().isSelectionEmpty() && crossingTable.getModel().getRowCount() > 0) {
-            dataTabbedPane.setTitleAt(1, Properties.get("specificRatingTabbedPaneTitle") + crossingTable.getModel().getValueAt(
-                    crossingTable.getSelectedRow(),
-                    crossingTable.getColumn(Properties.get("osmNodeId")).getModelIndex()
-            ));
+            dataTabbedPane.setTitleAt(1, Properties.get("specificRatingTabbedPaneTitle") + crossingTable.getOsmNodeIdAtSelectedRow());
         }
     }
 
     private void onSearch() {
         if (searchTextField.getText().isEmpty()) {
-            crossingTable.addCrossingDataToTable(model.getCrossings());
+            crossingTable.drawData(model.getCrossings());
         } else {
-            crossingTable.addCrossingDataToTable(model.getCrossings().stream()
+            crossingTable.drawData(model.getCrossings().stream()
                         .filter(crossing -> String.valueOf(crossing.getOsmNodeId()).startsWith(searchTextField.getText()))
                         .collect(Collectors.toList()));
         }
@@ -232,10 +229,10 @@ public class MainGUI extends JFrame {
 
             if (isRatingMode()) {
                 model.reloadRating(getCrossingFromTable());
-                ratingTable.addRatingDataToTable(model.getRatings());
+                ratingTable.drawData(model.getRatings());
             } else {
                 model.reloadCrossing();
-                crossingTable.addCrossingDataToTable(model.getCrossings());
+                crossingTable.drawData(model.getCrossings());
             }
         } catch (PersistenceException pex) {
             errorMessage(Properties.get("connectionError"));
@@ -265,7 +262,7 @@ public class MainGUI extends JFrame {
             model.sortByStatus();
         }
 
-        crossingTable.addCrossingDataToTable(model.getCrossings());
+        crossingTable.drawData(model.getCrossings());
         searchTextField.getKeyListeners()[0].keyReleased(null);
     }
 
@@ -290,7 +287,7 @@ public class MainGUI extends JFrame {
             model.sortByCreationTime();
         }
 
-        ratingTable.addRatingDataToTable(model.getRatings());
+        ratingTable.drawData(model.getRatings());
     }
 
     private void onTableDoubleClick(MouseEvent event) {
@@ -301,11 +298,11 @@ public class MainGUI extends JFrame {
     //</editor-fold>
 
     private Crossing getCrossingFromTable() {
-        return model.getCrossing((int) crossingTable.getModel().getValueAt(crossingTable.getSelectedRow(), 3));
+        return model.getCrossing(crossingTable.getSelectedId());
     }
 
     private Rating getRatingFromTable() {
-        return model.getRating((int) ratingTable.getModel().getValueAt(ratingTable.getSelectedRow(), 8));
+        return model.getRating(ratingTable.getSelectedId());
     }
 
     private void errorMessage(String message) {
@@ -320,68 +317,62 @@ public class MainGUI extends JFrame {
         return dataTabbedPane.getSelectedIndex() == 1;
     }
 
+    //<editor-fold desc="CRUD Crossing">
     public void createCrossing(Crossing crossing) {
-        if (model.getCrossings().contains(crossing)) {
-            crossing.increaseRatingAmount();
-
-            if (searchTextField.getText().isEmpty()) {
-                crossingTable.changeTableSelection(model.getCrossings().indexOf(crossing));
-                crossingTable.getModel().setValueAt(crossing.getRatingAmount(), crossingTable.getSelectedRow(), crossingTable.getColumn(Properties.get("ratingAmount")).getModelIndex());
-            } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
-                for (int i = 0; i < crossingTable.getModel().getRowCount(); i++) {
-                    if ((long) crossingTable.getModel().getValueAt(i, crossingTable.getColumn(Properties.get("osmNodeId")).getModelIndex()) == crossing.getOsmNodeId()) {
-                        crossingTable.changeTableSelection(i);
-                        crossingTable.getModel().setValueAt(crossing.getRatingAmount(), crossingTable.getSelectedRow(), crossingTable.getColumn(Properties.get("ratingAmount")).getModelIndex());
-                        break;
-                    }
-                }
-            }
+        if (model.contains(crossing)) {
+            createExistingCrossing(crossing);
         } else {
-            DataServiceLoader.getCrossingData().createCrossing(crossing, model, crossingTable.getModel());
+            createNewCrossing(crossing);
+        }
+    }
 
-            if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText()) || searchTextField.getText().isEmpty()) {
-                crossingTable.changeTableSelection(crossingTable.getModel().getRowCount() - 1);
-            } else {
-                crossingTable.getModel().removeRow(crossingTable.getModel().getRowCount() - 1);
+    private void createExistingCrossing(Crossing crossing) {
+        crossing.increaseRatingAmount();
+
+        if (searchTextField.getText().isEmpty()) {
+            crossingTable.changeTableSelection(model.indexOf(crossing));
+            crossingTable.setRatingAmountAtSelectedRow(crossing);
+        } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
+            for (int i = 0; i < crossingTable.getModel().getRowCount(); i++) {
+                if (crossingTable.getOsmNodeIdAt(i) == crossing.getOsmNodeId()) {
+                    crossingTable.changeTableSelection(i);
+                    crossingTable.setRatingAmountAtSelectedRow(crossing);
+                    break;
+                }
             }
         }
     }
 
-    public void createRating(Rating rating) throws EntityNotFoundException {
-        DataServiceLoader.getCrossingData().createRating(rating, model, ratingTable.getModel());
-        ratingTable.changeTableSelection(ratingTable.getRowCount() - 1);
-        Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
-        crossingOfRating.increaseRatingAmount();
-        crossingTable.getModel().setValueAt(crossingOfRating.getRatingAmount(), crossingTable.getSelectedRow(), crossingTable.getColumn(Properties.get("ratingAmount")).getModelIndex());
+    private void createNewCrossing(Crossing crossing) {
+        DataServiceLoader.getCrossingData().createCrossing(crossing);
+        model.add(crossing);
+        crossingTable.add(crossing);
+
+        if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText()) || searchTextField.getText().isEmpty()) {
+            crossingTable.changeTableSelection(crossingTable.getModel().getRowCount() - 1);
+        } else {
+            crossingTable.getModel().removeRow(crossingTable.getModel().getRowCount() - 1);
+        }
     }
 
     public void editCrossing(Crossing crossing) throws EntityNotFoundException {
         DataServiceLoader.getCrossingData().editCrossing(crossing);
 
         if (searchTextField.getText().isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
-            crossingTable.getModel().setValueAt(crossing.getOsmNodeId(), crossingTable.getSelectedRow(), crossingTable.getColumn(Properties.get("osmNodeId")).getModelIndex());
+            crossingTable.setOsmNodeIdAtSelectedRow(crossing);
             onCrossingSelection();
         } else {
             crossingTable.getModel().removeRow(crossingTable.getSelectedRow());
         }
     }
 
-    public void editRating(Rating rating) throws EntityNotFoundException {
-        DataServiceLoader.getCrossingData().editRating(rating);
-        ratingTable.getModel().setValueAt(rating.getUserId().getName(), ratingTable.getSelectedRow(), ratingTable.getColumn(Properties.get("user")).getModelIndex());
-        ratingTable.getModel().setValueAt(rating.getTrafficId().getValue(), ratingTable.getSelectedRow(), ratingTable.getColumn(Properties.get("traffic")).getModelIndex());
-        ratingTable.getModel().setValueAt(rating.getSpatialClarityId().getValue(), ratingTable.getSelectedRow(), ratingTable.getColumn(Properties.get("spacialClarity")).getModelIndex());
-        ratingTable.getModel().setValueAt(rating.getIlluminationId().getValue(), ratingTable.getSelectedRow(), ratingTable.getColumn(Properties.get("illumination")).getModelIndex());
-        ratingTable.getModel().setValueAt(rating.getComment(), ratingTable.getSelectedRow(), ratingTable.getColumn(Properties.get("comment")).getModelIndex());
-        ratingTable.getModel().setValueAt(rating.getImageWeblink(), ratingTable.getSelectedRow(), ratingTable.getColumn(Properties.get("imageId")).getModelIndex());
-        ratingTable.getModel().setValueAt(rating.getLastChanged(), ratingTable.getSelectedRow(), ratingTable.getColumn(Properties.get("lastChange")).getModelIndex());
-        ratingTable.getModel().setValueAt(rating.getCreationTime(), ratingTable.getSelectedRow(), ratingTable.getColumn(Properties.get("creationDate")).getModelIndex());
-    }
-
     public void removeCrossing() {
         try {
             int selectedRow = crossingTable.getSelectedRow();
-            DataServiceLoader.getCrossingData().removeCrossing(getCrossingFromTable().getId(), model, crossingTable.getModel());
+            Crossing crossing = getCrossingFromTable();
+            DataServiceLoader.getCrossingData().removeCrossing(crossing.getId());
+            crossingTable.remove(model.indexOf(crossing));
+            model.remove(crossing);
 
             if (crossingTable.getModel().getRowCount() == selectedRow) {
                 selectedRow--;
@@ -392,12 +383,38 @@ public class MainGUI extends JFrame {
             errorMessage(Properties.get("crossingExistError"));
         }
     }
+    //</editor-fold>
+
+    //<editor-fold desc="CRUD Rating">
+    public void createRating(Rating rating) throws EntityNotFoundException {
+        DataServiceLoader.getCrossingData().createRating(rating);
+        model.add(rating);
+        ratingTable.add(rating);
+        ratingTable.changeTableSelection(ratingTable.getRowCount() - 1);
+        Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
+        crossingOfRating.increaseRatingAmount();
+        crossingTable.setRatingAmountAtSelectedRow(crossingOfRating);
+    }
+
+    public void editRating(Rating rating) throws EntityNotFoundException {
+        DataServiceLoader.getCrossingData().editRating(rating);
+        ratingTable.setUserIdAtSelectedRow(rating);
+        ratingTable.setTrafficIdAtSelectedRow(rating);
+        ratingTable.setSpatialClarityIdAtSelected(rating);
+        ratingTable.setIlluminationIdAtSelectedRow(rating);
+        ratingTable.setCommentAtSelectedRow(rating);
+        ratingTable.setImageWeblinkAtSelectedRow(rating);
+        ratingTable.setLastChangedAtSelectedRow(rating);
+        ratingTable.setValueAtSelectedRowCreationTime(rating);
+    }
 
     public void removeRating() {
         try {
             int selectedRow = ratingTable.getSelectedRow();
-            Rating removeRating = getRatingFromTable();
-            DataServiceLoader.getCrossingData().removeRating(removeRating.getId(), model, ratingTable.getModel());
+            Rating rating = getRatingFromTable();
+            DataServiceLoader.getCrossingData().removeRating(rating.getId());
+            ratingTable.remove(model.indexOf(rating));
+            model.remove(rating);
 
             if (model.getRatings().isEmpty()) {
                 removeCrossing();
@@ -408,17 +425,15 @@ public class MainGUI extends JFrame {
                 }
 
                 ratingTable.changeTableSelection(selectedRow);
-                Crossing crossingOfRating = model.getCrossing(removeRating.getCrossingId().getId());
+                Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
                 crossingOfRating.decreaseRatingAmount();
-                crossingTable.getModel().setValueAt(crossingOfRating.getRatingAmount(),
-                        crossingTable.getSelectedRow(),
-                        crossingTable.getColumn(Properties.get("ratingAmount")).getModelIndex()
-                );
+                crossingTable.setRatingAmountAtSelectedRow(crossingOfRating);
             }
         } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("ratingCrossingExistError"));
         }
     }
+    //</editor-fold>
 
     //<editor-fold desc="Model methods">
     public User getUser(String name) {
