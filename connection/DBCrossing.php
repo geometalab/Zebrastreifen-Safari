@@ -31,7 +31,9 @@ class DBCrossing {
                                             osm.sloped_curb,
                                             osm.tactile_paving,
                                             osm.traffic_signals_vibration,
-                                            osm.traffic_signals_sound
+                                            osm.traffic_signals_sound,
+                                            ST_X(osm.wkb_geometry) AS x,
+                                            ST_Y(osm.wkb_geometry) AS y
                                             FROM crossing.crossing AS crossing
                                             INNER JOIN crossing.osm_crossings AS osm
                                             ON crossing.osm_node_id = osm.osm_id
