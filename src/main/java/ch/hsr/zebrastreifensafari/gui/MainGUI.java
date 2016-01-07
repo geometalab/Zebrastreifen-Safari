@@ -523,6 +523,10 @@ public class MainGUI extends JFrame {
         bar.add(editMenu);
         bar.add(helpMenu);
         setJMenuBar(bar);
+
+        cutMenuItem.setEnabled(false);
+        copyMenuItem.setEnabled(false);
+        pasteMenuItem.setEnabled(false);
     }
 
     /**
