@@ -219,8 +219,8 @@ var overlayMaps = {
 var geosearch = new L.Control.GeoSearch({
     position: "topleft",
     provider: new L.GeoSearch.Provider.OpenStreetMap({countrycodes: 'ch'}),
-    searchlabel: 'Address',
-    notFoundMessage: 'No Result Found'
+    searchLabel: 'Suche...',
+    notFoundMessage: 'Kein Ergebnis gefunden'
 }).addTo(map);
 L.control.zoom().addTo(map);
 map.addControl(new customControl());

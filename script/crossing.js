@@ -1,10 +1,15 @@
 $(document).ready(function() {
+    var earthradius = 6378137;
+
+
     $.ajax({
         url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crosswalk/' + location.search.split('crosswalk=')[1],
         dataType: 'json',
         method: 'get',
         success : function (data){
             var json = data;
+            var point = new L.Point(json.coordinates[0],json.coordinates[1]);
+            var coords =  L.Projection.SphericalMercator.unproject(point.divideBy(earthradius));
             document.getElementById("rating_title").textContent = "Details";
             if (json.hasOwnProperty('error')){
                 $("#table").hide();
@@ -13,9 +18,9 @@ $(document).ready(function() {
             } else {
                 $("#error").hide();
                 $("#reason").hide();
-
                 /*changes the value of the table*/
-                document.getElementById("node").textContent = json.osm_node_id;
+                document.getElementById("node2").textContent = json.osm_node_id;
+                document.getElementById("node2").href="map#18/"+ coords.lat +"/" + coords.lng +"";
                 if(json.traffic_signals){
                     document.getElementById("traffic_signal").textContent = "Lichtsignal vorhanden";
                 } else {
@@ -93,6 +98,8 @@ $(document).ready(function() {
                     } else {
                         row.append($('<td></td>').prepend('<img id="theImg" src="https://d1cuyjsrcm0gby.cloudfront.net/'+ json.ratings[i].image_weblink +'/thumb-320.jpg" />'));
                     }
+                    row.append($('<th class="t_mobile"></th>').text( "Änderungsdatum: "));
+                    row.append($('<td></td>').text(json.ratings[i].last_changed));
                     table.append(row);
                 }
             }
