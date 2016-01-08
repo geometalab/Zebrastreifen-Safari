@@ -26,7 +26,7 @@ public abstract class SpecificTable extends JTable {
         return (DefaultTableModel) super.getModel();
     }
 
-    public void changeTableSelection(int index) {
+    public void changeSelection(int index) {
         changeSelection(index, 0, false, false);
     }
 

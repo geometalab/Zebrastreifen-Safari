@@ -219,9 +219,9 @@ public class MainGUI extends JFrame {
 
     private void onPreviousCrossingClick() {
         if (crossingTable.getSelectedRow() != 0) {
-            crossingTable.changeTableSelection(crossingTable.getSelectedRow() - 1);
+            crossingTable.changeSelection(crossingTable.getSelectedRow() - 1);
         } else {
-            crossingTable.changeTableSelection(crossingTable.getRowCount() - 1);
+            crossingTable.changeSelection(crossingTable.getRowCount() - 1);
         }
 
         onTabbedPaneChange();
@@ -229,9 +229,9 @@ public class MainGUI extends JFrame {
 
     private void onNextCrossingClick() {
         if (crossingTable.getSelectedRow() != crossingTable.getRowCount() - 1) {
-            crossingTable.changeTableSelection(crossingTable.getSelectedRow() + 1);
+            crossingTable.changeSelection(crossingTable.getSelectedRow() + 1);
         } else {
-            crossingTable.changeTableSelection(0);
+            crossingTable.changeSelection(0);
         }
 
         onTabbedPaneChange();
@@ -344,12 +344,12 @@ public class MainGUI extends JFrame {
         crossing.increaseRatingAmount();
 
         if (searchTextField.getText().isEmpty()) {
-            crossingTable.changeTableSelection(model.indexOf(crossing));
+            crossingTable.changeSelection(model.indexOf(crossing));
             crossingTable.setRatingAmountAtSelectedRow(crossing);
         } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
             for (int i = 0; i < crossingTable.getModel().getRowCount(); i++) {
                 if (crossingTable.getOsmNodeIdAt(i) == crossing.getOsmNodeId()) {
-                    crossingTable.changeTableSelection(i);
+                    crossingTable.changeSelection(i);
                     crossingTable.setRatingAmountAtSelectedRow(crossing);
                     break;
                 }
@@ -363,7 +363,7 @@ public class MainGUI extends JFrame {
         crossingTable.add(crossing);
 
         if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText()) || searchTextField.getText().isEmpty()) {
-            crossingTable.changeTableSelection(crossingTable.getModel().getRowCount() - 1);
+            crossingTable.changeSelection(crossingTable.getModel().getRowCount() - 1);
         } else {
             crossingTable.getModel().removeRow(crossingTable.getModel().getRowCount() - 1);
         }
@@ -392,7 +392,7 @@ public class MainGUI extends JFrame {
                 selectedRow--;
             }
 
-            crossingTable.changeTableSelection(selectedRow);
+            crossingTable.changeSelection(selectedRow);
         } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("crossingExistError"));
         }
@@ -404,7 +404,7 @@ public class MainGUI extends JFrame {
         DataServiceLoader.getCrossingData().createRating(rating);
         model.add(rating);
         ratingTable.add(rating);
-        ratingTable.changeTableSelection(ratingTable.getRowCount() - 1);
+        ratingTable.changeSelection(ratingTable.getRowCount() - 1);
         Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
         crossingOfRating.increaseRatingAmount();
         crossingTable.setRatingAmountAtSelectedRow(crossingOfRating);
@@ -438,7 +438,7 @@ public class MainGUI extends JFrame {
                     selectedRow--;
                 }
 
-                ratingTable.changeTableSelection(selectedRow);
+                ratingTable.changeSelection(selectedRow);
                 Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
                 crossingOfRating.decreaseRatingAmount();
                 crossingTable.setRatingAmountAtSelectedRow(crossingOfRating);
