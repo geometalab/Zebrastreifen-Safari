@@ -414,12 +414,12 @@ public class MainGUI extends JFrame {
         DataServiceLoader.getCrossingData().editRating(rating);
         ratingTable.setUserIdAtSelectedRow(rating);
         ratingTable.setTrafficIdAtSelectedRow(rating);
-        ratingTable.setSpatialClarityIdAtSelected(rating);
+        ratingTable.setSpatialClarityIdAtSelectedRow(rating);
         ratingTable.setIlluminationIdAtSelectedRow(rating);
         ratingTable.setCommentAtSelectedRow(rating);
         ratingTable.setImageWeblinkAtSelectedRow(rating);
         ratingTable.setLastChangedAtSelectedRow(rating);
-        ratingTable.setValueAtSelectedRowCreationTime(rating);
+        ratingTable.setCreationTimeAtSelectedRow(rating);
     }
 
     public void removeRating() {

@@ -62,7 +62,7 @@ public class RatingTable extends SpecificTable {
         setValueAt(rating.getTrafficId().getValue(), getSelectedRow(), getColumn(Properties.get("traffic")).getModelIndex());
     }
 
-    public void setSpatialClarityIdAtSelected(Rating rating) {
+    public void setSpatialClarityIdAtSelectedRow(Rating rating) {
         setValueAt(rating.getSpatialClarityId().getValue(), getSelectedRow(), getColumn(Properties.get("spacialClarity")).getModelIndex());
     }
 
@@ -82,7 +82,7 @@ public class RatingTable extends SpecificTable {
         setValueAt(rating.getLastChanged(), getSelectedRow(), getColumn(Properties.get("lastChange")).getModelIndex());
     }
 
-    public void setValueAtSelectedRowCreationTime(Rating rating) {
+    public void setCreationTimeAtSelectedRow(Rating rating) {
         setValueAt(rating.getCreationTime(), getSelectedRow(), getColumn(Properties.get("creationDate")).getModelIndex());
     }
 }
