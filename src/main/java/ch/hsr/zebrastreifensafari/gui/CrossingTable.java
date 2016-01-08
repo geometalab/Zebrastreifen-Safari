@@ -32,7 +32,7 @@ public class CrossingTable extends SpecificTable {
             });
         }
 
-        changeTableSelection(0);
+        changeSelection(0);
     }
 
     public void add(Crossing crossing) {

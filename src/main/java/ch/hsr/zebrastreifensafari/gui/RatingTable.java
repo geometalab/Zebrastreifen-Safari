@@ -37,7 +37,7 @@ public class RatingTable extends SpecificTable {
             });
         }
 
-        changeTableSelection(0);
+        changeSelection(0);
     }
 
     public void add(Rating rating) {
