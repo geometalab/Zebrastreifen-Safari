@@ -99,10 +99,10 @@ class DBCrossing {
         return pg_query($this->connection,  "SELECT date_trunc('week', enquiry_date) AS week, max(amount) AS amount FROM statistic.ratingstatistic GROUP BY week ORDER BY week ASC;");
     }
 
-    public function getClusteredAmount($number, $bounds) {
+    public function getClusteredAmount($size, $bounds) {
         return pg_query($this->connection, "SELECT count(*) AS amount FROM (SELECT count(osm.wkb_geometry) FROM crossing.osm_crossings AS osm
                                             WHERE ST_Contains(ST_GeomFromText('POLYGON(($bounds[0] $bounds[1],$bounds[0] $bounds[3],$bounds[2] $bounds[3],$bounds[2] $bounds[1],$bounds[0] $bounds[1]))', 3785), osm.wkb_geometry)
-                                            GROUP BY ST_SnapToGrid(osm.wkb_geometry, $number)) AS tmp;");
+                                            GROUP BY ST_SnapToGrid(osm.wkb_geometry, $size)) AS tmp;");
     }
 
     public function getCrossingAmount() {

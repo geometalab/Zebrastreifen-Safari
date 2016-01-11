@@ -144,22 +144,22 @@ function myBoolval($var) {
 //$crossingConnection->closeConnection();
 
 function getSnap($maxAmount, $bounds, $crossingConnection) {
-    $numbers = range(-1000, 1000000, 1000);
-    $position = halve(count($numbers));
-    $maxHeight = count($numbers);
+    $sizeRange = range(-1000, 1000000, 1000);
+    $position = halve(count($sizeRange));
+    $maxHeight = count($sizeRange);
     $minHeight = 0;
 
     while (true) {
         $oldMinHeight = $minHeight;
         $oldMaxHeight = $maxHeight;
-        $query = $crossingConnection->getClusteredAmount($numbers[$position], $bounds);
+        $query = $crossingConnection->getClusteredAmount($sizeRange[$position], $bounds);
         $queryAmount = pg_fetch_all($query)[0]['amount'];
 
         if ($queryAmount > $maxAmount) {
             $minHeight = $position;
 
             if ($maxHeight == $oldMaxHeight && $minHeight == $oldMinHeight) {
-                break;
+                return $sizeRange[$position];
             }
 
             $position += halve($maxHeight - $position);
@@ -168,16 +168,14 @@ function getSnap($maxAmount, $bounds, $crossingConnection) {
             $maxHeight = $position;
 
             if ($maxHeight == $oldMaxHeight && $minHeight == $oldMinHeight) {
-                break;
+                return $sizeRange[$position];
             }
 
             $position = halve($position - $minHeight);
         } else {
-            break;
+            return $sizeRange[$position];
         }
     }
-
-    return $numbers[$position];
 }
 
 function halve($number) {
