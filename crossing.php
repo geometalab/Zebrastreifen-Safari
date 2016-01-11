@@ -158,7 +158,7 @@ function getSnap($maxAmount, $bounds, $crossingConnection) {
         if ($queryAmount > $maxAmount) {
             $minHeight = $position;
 
-            if ($maxHeight == $oldMaxHeight && $minHeight == $oldMinHeight) {
+            if (haveNotChanged($maxHeight, $oldMaxHeight, $minHeight, $oldMinHeight)) {
                 return $sizeRange[$position];
             }
 
@@ -167,7 +167,7 @@ function getSnap($maxAmount, $bounds, $crossingConnection) {
         } else if ($queryAmount < $maxAmount) {
             $maxHeight = $position;
 
-            if ($maxHeight == $oldMaxHeight && $minHeight == $oldMinHeight) {
+            if (haveNotChanged($maxHeight, $oldMaxHeight, $minHeight, $oldMinHeight)) {
                 return $sizeRange[$position];
             }
 
@@ -176,6 +176,10 @@ function getSnap($maxAmount, $bounds, $crossingConnection) {
             return $sizeRange[$position];
         }
     }
+}
+
+function haveNotChanged($maxHeight, $oldMaxHeight, $minHeight, $oldMinHeight) {
+    return $maxHeight == $oldMaxHeight && $minHeight == $oldMinHeight;
 }
 
 function halve($number) {
