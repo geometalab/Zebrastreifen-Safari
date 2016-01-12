@@ -65,13 +65,9 @@ function getOffset($query) {
     $resultset = pg_fetch_all($query)[0]['week_amount'];
 
     if ($resultset < 11) {
-        $offset = 0;
-    } else if ($resultset < 21) {
-        $offset = $resultset - ($resultset - 10);
+        return 0;
     } else {
-        $offset = $resultset - 11;
+        return $resultset - 11;
     }
-
-    return $offset;
 }
 ?>
