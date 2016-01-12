@@ -14,11 +14,15 @@ var osm = L.tileLayer('http://tile.osm.ch/osm-swiss-style/{z}/{x}/{y}.png', {
 });
 var mapbox = L.tileLayer("http://api.tiles.mapbox.com/v4/sfkeller.k0onh2me/{z}/{x}/{y}.png" +
     "?access_token=pk.eyJ1Ijoic2ZrZWxsZXIiLCJhIjoia3h4T3pScyJ9.MDLSUwpRpPqaV7SVfGcZDw", {
-    attribution: "https://www.mapbox.com/about/maps/"
+    attribution: 'v0.1 | Project data © <a href="http://opendatacommons.org/licenses/odbl/1.0/"> ODbL </a>' +
+    '| © <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' +
+    ' | <a href="http://www.openstreetmap.org/fixthemap">Improve this map</a>'
 });
 var mapboxTiles = L.tileLayer('https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' +
     "pk.eyJ1Ijoic3RhY2t0cmFjZSIsImEiOiJjaWh2cGI3aDkwMjlqdXNrb2l2eDl5dGgyIn0.96Y4mk2kaLNPoQb0URVi8g", {
-    attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+    attribution: 'v0.1 | Project data © <a href="http://opendatacommons.org/licenses/odbl/1.0/"> ODbL </a>' +
+    '| © <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' +
+    ' | <a href="http://www.openstreetmap.org/fixthemap">Improve this map</a>'
 });
 var searchPoints = L.geoJson(null, {
     onEachFeature: function (feature, layer) {
@@ -209,7 +213,7 @@ function centerFromStorage(){
         localStorage.setItem("zoom", zoom.toString());
     });
 var baseMaps = {
-    "OSM Standard": osm,
+    "OSM Swiss Style": osm,
     "MapBox Satellite": mapbox,
     "Mapbox Streets": mapboxTiles
 };
