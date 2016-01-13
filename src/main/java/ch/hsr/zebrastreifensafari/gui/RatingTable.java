@@ -14,12 +14,13 @@ import java.util.List;
  * @date : 06.01.2016
  */
 
-public class RatingTable extends SpecificTable {
+public class RatingTable extends SpecificTable<Rating> {
 
     public RatingTable() {
         super(new RatingTableModel(), 8);
     }
 
+    @Override
     public void drawData(List<Rating> list) {
         getModel().setRowCount(0);
 
@@ -40,6 +41,7 @@ public class RatingTable extends SpecificTable {
         changeSelection(0);
     }
 
+    @Override
     public void add(Rating rating) {
         getModel().addRow(new Object[]{
                 rating.getUserId().getName(),
