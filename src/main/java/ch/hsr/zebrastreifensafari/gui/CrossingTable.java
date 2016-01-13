@@ -14,12 +14,13 @@ import java.util.List;
  * @date : 06.01.2016
  */
 
-public class CrossingTable extends SpecificTable {
+public class CrossingTable extends SpecificTable<Crossing> {
 
     public CrossingTable() {
         super(new CrossingTableModel(), 3);
     }
 
+    @Override
     public void drawData(List<Crossing> list) {
         getModel().setRowCount(0);
 
@@ -35,6 +36,7 @@ public class CrossingTable extends SpecificTable {
         changeSelection(0);
     }
 
+    @Override
     public void add(Crossing crossing) {
         getModel().addRow(new Object[]{
                 crossing.getOsmNodeId(),

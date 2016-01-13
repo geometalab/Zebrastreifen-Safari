@@ -2,6 +2,7 @@ package ch.hsr.zebrastreifensafari.gui;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 /**
  * @author : Mike Marti
@@ -11,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
  * @date : 06.01.2016
  */
 
-public abstract class SpecificTable extends JTable {
+public abstract class SpecificTable<T> extends JTable {
 
     protected final int ID_POSITION;
 
@@ -20,6 +21,10 @@ public abstract class SpecificTable extends JTable {
         ID_POSITION = idPosition;
         removeColumn(getColumnModel().getColumn(ID_POSITION));
     }
+
+    public abstract void drawData(List<T> list);
+
+    public abstract void add(T type);
 
     @Override
     public DefaultTableModel getModel() {
