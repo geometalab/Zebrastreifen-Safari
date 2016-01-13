@@ -249,55 +249,33 @@ public class Model {
     }
 
     public void sortByComment() {
-        if (commentSort) {
-            ratings = ratings.stream().sorted(((o1, o2) -> {
-                if (o1.getComment() == null) {
-                    return 1;
-                } else if (o2.getComment() == null) {
-                    return -1;
-                } else {
-                    return o1.getComment().compareTo(o2.getComment());
-                }
-            })).collect(Collectors.toList());
-            commentSort = false;
-        } else {
-            ratings = ratings.stream().sorted(((o1, o2) -> {
-                if (o1.getComment() == null) {
-                    return -1;
-                } else if (o2.getComment() == null) {
-                    return 1;
-                } else {
-                    return o2.getComment().compareTo(o1.getComment());
-                }
-            })).collect(Collectors.toList());
-            commentSort = true;
-        }
+        ratings = ratings.stream().sorted(((o1, o2) -> {
+            if (o1.getComment() == null) {
+                return sorter(commentSort);
+            }
+
+            if (o2.getComment() == null) {
+                return sorter(!commentSort);
+            }
+
+            return commentSort ? o1.getComment().compareTo(o2.getComment()) : o2.getComment().compareTo(o1.getComment());
+        })).collect(Collectors.toList());
+        commentSort = !commentSort;
     }
 
     public void sortByImage() {
-        if (imageSort) {
-            ratings = ratings.stream().sorted(((o1, o2) -> {
-                if (o1.getImageWeblink() == null) {
-                    return 1;
-                } else if (o2.getImageWeblink() == null) {
-                    return -1;
-                } else {
-                    return o1.getImageWeblink().compareTo(o2.getImageWeblink());
-                }
-            })).collect(Collectors.toList());
-            imageSort = false;
-        } else {
-            ratings = ratings.stream().sorted(((o1, o2) -> {
-                if (o1.getImageWeblink() == null) {
-                    return -1;
-                } else if (o2.getImageWeblink() == null) {
-                    return 1;
-                } else {
-                    return o2.getImageWeblink().compareTo(o1.getImageWeblink());
-                }
-            })).collect(Collectors.toList());
-            imageSort = true;
-        }
+        ratings = ratings.stream().sorted(((o1, o2) -> {
+            if (o1.getImageWeblink() == null) {
+                return sorter(imageSort);
+            }
+
+            if (o2.getImageWeblink() == null) {
+                return sorter(!imageSort);
+            }
+
+            return imageSort ? o1.getImageWeblink().compareTo(o2.getImageWeblink()) : o2.getImageWeblink().compareTo(o1.getImageWeblink());
+        })).collect(Collectors.toList());
+        imageSort = !imageSort;
     }
 
     public void sortByLastChanged() {
@@ -311,29 +289,22 @@ public class Model {
     }
 
     public void sortByCreationTime() {
-        if (creationTimeSort) {
-            ratings = ratings.stream().sorted(((o1, o2) -> {
-                if (o1.getCreationTime() == null) {
-                    return 1;
-                } else if (o2.getCreationTime() == null) {
-                    return -1;
-                } else {
-                    return o1.getCreationTime().compareTo(o2.getCreationTime());
-                }
-            })).collect(Collectors.toList());
-            creationTimeSort = false;
-        } else {
-            ratings = ratings.stream().sorted(((o1, o2) -> {
-                if (o1.getCreationTime() == null) {
-                    return -1;
-                } else if (o2.getCreationTime() == null) {
-                    return 1;
-                } else {
-                    return o2.getCreationTime().compareTo(o1.getCreationTime());
-                }
-            })).collect(Collectors.toList());
-            creationTimeSort = true;
-        }
+        ratings = ratings.stream().sorted(((o1, o2) -> {
+            if (o1.getCreationTime() == null) {
+                return sorter(creationTimeSort);
+            }
+
+            if (o2.getCreationTime() == null) {
+                return sorter(!creationTimeSort);
+            }
+
+            return creationTimeSort ? o1.getCreationTime().compareTo(o2.getCreationTime()) : o2.getCreationTime().compareTo(o1.getCreationTime());
+        })).collect(Collectors.toList());
+        creationTimeSort = !creationTimeSort;
+    }
+
+    private int sorter(boolean sort) {
+        return sort ? 1 : -1;
     }
     //</editor-fold>
 }
