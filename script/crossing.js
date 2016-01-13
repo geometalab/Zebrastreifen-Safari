@@ -21,6 +21,12 @@ $(document).ready(function() {
                 /*changes the value of the table*/
                 document.getElementById("node2").textContent = json.osm_node_id;
                 document.getElementById("node2").href="map#18/"+ coords.lat +"/" + coords.lng +"";
+                localStorage.removeItem("lat");
+                localStorage.removeItem("lng");
+                localStorage.removeItem("zoom");
+                localStorage.setItem("lat", coords.lat.toString());
+                localStorage.setItem("lng", coords.lng.toString());
+                localStorage.setItem("zoom", "18");
                 if(json.traffic_signals){
                     document.getElementById("traffic_signal").textContent = "Lichtsignal vorhanden";
                 } else {
