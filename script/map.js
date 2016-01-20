@@ -66,7 +66,7 @@ map.on('moveend', function() {
 
     bound = [minx, miny, maxx, maxy].toString();
     zoom = map.getZoom();
-    maxamount = zoom * 10;
+    maxamount = zoom * 12;
 });
 map.on('moveend', function() {
     $.ajax({
