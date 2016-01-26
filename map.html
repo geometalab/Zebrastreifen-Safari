@@ -32,7 +32,7 @@
         <link rel="icon" type="image/ico" href="img/favicon.ico"/>
         <!-- Import Css libs -->
         <link rel="stylesheet" href="libs/script/leaflet/leaflet.css" />
-        <link href='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet' />
+
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="libs/script/L.geosearcher/l.geosearch.css">
         <!-- Import own stylesheet-->
@@ -108,10 +108,12 @@
 
     <!-- Import Js libs -->
 
+
     <script type="text/javascript" src="libs/script/leaflet/leaflet.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
     <script type="text/javascript" src="libs/script/jquery-1.11.3.js"></script>
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-    <script src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
+
     <script type="text/javascript" src="libs/script/leaflet/leaflet-hash.js"></script>
     <script type="text/javascript" src="libs/script/L.geosearcher/l.control.geosearch.js"></script>
     <script type="text/javascript" src="libs/script/L.geosearcher/l.geosearch.provider.openstreetmap.js"></script>
@@ -127,6 +129,7 @@
             var height_map = $(document).height() - $(".nav-mobile").height();
             $("#map").height(height_map);
             $(".leaflet-control-geosearch").css("margin-top", 75);
+
             map.invalidateSize();
         }
 

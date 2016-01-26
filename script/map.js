@@ -75,11 +75,18 @@ map.on('moveend', function() {
         method: 'get',
         success:function(response){
             $("#error").hide();
-            var icon = new L.icon({
+            var icon_clustered = new L.icon({
+                iconUrl: "img/Zebra_2_brackets.png",
+                iconSize: [25,18]
+            });
+            var icon_rated = new L.icon({
+                iconUrl: "img/Zebra_2_check_2.png",
+                iconSize: [18,18]
+            });
+            var icon_normal = new L.icon({
                 iconUrl:"libs/script/leaflet/images/crossing.png",
                 iconSize:[18,18]
             });
-            crossing.clearLayers();
             var tmpCrossing = L.geoJson(response, {
                 onEachFeature: function(features, layer){
                     if (features.properties.hasOwnProperty('amount')){
@@ -109,6 +116,13 @@ map.on('moveend', function() {
                 },
                 // add the points to the layer
                 pointToLayer: function (feature, latlng) {
+                    if(feature.properties.hasOwnProperty('amount')){
+                        var icon = icon_clustered;
+                    } else if(feature.properties.rated){
+                        var icon = icon_rated;
+                    } else {
+                        var icon = icon_normal;
+                    }
                     var newlatlng = unproject(latlng);
                     return L.marker(newlatlng, {
                         icon:icon
@@ -231,7 +245,7 @@ map.addControl(new customControl());
 if($(document).width() >= 800) {
     L.control.layers(baseMaps, overlayMaps).addTo(map);
 } else {
-    L.control.layers(baseMaps, overlayMaps, {position: 'topleft'}).addTo(map);
+    L.control.layers(baseMaps, overlayMaps, {position: 'topleft', size: [25,25]}).addTo(map);
 }
 $('.leaflet-control-layers-overlays').after('<div class="leaflet-control-layers-separator"></div>' +
     '<div class="leaflet-control-layers-custom">' +
