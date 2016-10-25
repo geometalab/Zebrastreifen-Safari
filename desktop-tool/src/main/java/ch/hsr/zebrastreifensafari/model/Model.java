@@ -159,46 +159,46 @@ public class Model {
     }
 
     public void sortByNode() {
-        CrossingSorter.getInstance().sortByNode(crossings);
+        CrossingSorter.sortByNode(crossings);
     }
 
     public void sortByNumberOfRatings() {
-        CrossingSorter.getInstance().sortByNumberOfRatings(crossings);
+        CrossingSorter.sortByNumberOfRatings(crossings);
     }
 
     public void sortByStatus() {
-        CrossingSorter.getInstance().sortByStatus(crossings);
+        CrossingSorter.sortByStatus(crossings);
     }
     
     public void sortByUser() {
-        RatingSorter.getInstance().sortByUser(ratings);
+        RatingSorter.sortByUser(ratings);
     }
 
     public void sortByTraffic() {
-        RatingSorter.getInstance().sortByTraffic(ratings);
+        RatingSorter.sortByTraffic(ratings);
     }
 
     public void sortByClarity() {
-        RatingSorter.getInstance().sortByClarity(ratings);
+        RatingSorter.sortByClarity(ratings);
     }
 
     public void sortByIllumination() {
-        RatingSorter.getInstance().sortByIllumination(ratings);
+        RatingSorter.sortByIllumination(ratings);
     }
 
     public void sortByComment() {
-        RatingSorter.getInstance().sortByComment(ratings);
+        RatingSorter.sortByComment(ratings);
     }
 
     public void sortByImage() {
-        RatingSorter.getInstance().sortByImage(ratings);
+        RatingSorter.sortByImage(ratings);
     }
 
     public void sortByLastChanged() {
-        RatingSorter.getInstance().sortByLastChanged(ratings);
+        RatingSorter.sortByLastChanged(ratings);
     }
 
     public void sortByCreationTime() {
-        RatingSorter.getInstance().sortByCreationTime(ratings);
+        RatingSorter.sortByCreationTime(ratings);
     }
 }
