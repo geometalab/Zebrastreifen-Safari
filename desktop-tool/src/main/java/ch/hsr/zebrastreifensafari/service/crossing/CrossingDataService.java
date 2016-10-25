@@ -2,13 +2,11 @@ package ch.hsr.zebrastreifensafari.service.crossing;
 
 import ch.hsr.zebrastreifensafari.jpa.controllers.*;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.model.Model;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 /**

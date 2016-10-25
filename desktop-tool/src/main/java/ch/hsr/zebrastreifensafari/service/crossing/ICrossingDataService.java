@@ -1,10 +1,8 @@
 package ch.hsr.zebrastreifensafari.service.crossing;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.model.Model;
 
 import javax.persistence.EntityNotFoundException;
-import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 /**
