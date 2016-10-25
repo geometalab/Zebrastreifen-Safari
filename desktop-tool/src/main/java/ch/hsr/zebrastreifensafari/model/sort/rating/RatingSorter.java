@@ -47,13 +47,13 @@ public class RatingSorter {
     }
 
     public static void sortByComment(List<Rating> ratings) {
-        Comparator<Rating> comparator = (o1, o2) -> compareNullableValues(o1.getComment(), o2.getComment(), comment);
+        Comparator<Rating> comparator = (o1, o2) -> compareNullableValues(o1.getComment(), o2.getComment());
         Collections.sort(ratings, comment ? comparator.reversed() : comparator);
         comment = !comment;
     }
 
     public static void sortByImage(List<Rating> ratings) {
-        Comparator<Rating> comparator = (o1, o2) -> compareNullableValues(o1.getImageWeblink(), o2.getImageWeblink(), image);
+        Comparator<Rating> comparator = (o1, o2) -> compareNullableValues(o1.getImageWeblink(), o2.getImageWeblink());
         Collections.sort(ratings, image ? comparator.reversed() : comparator);
         image = !image;
     }
@@ -65,15 +65,22 @@ public class RatingSorter {
     }
 
     public static void sortByCreationTime(List<Rating> ratings) {
-        Comparator<Rating> comparator = (o1, o2) -> compareNullableValues(o1.getCreationTime(), o2.getCreationTime(), creationTime);
+        Comparator<Rating> comparator = (o1, o2) -> compareNullableValues(o1.getCreationTime(), o2.getCreationTime());
         Collections.sort(ratings, creationTime ? comparator.reversed() : comparator);
         creationTime = !creationTime;
     }
 
-    //todo doesn't work properly jet
-    private static  <T extends Comparable<T>> int compareNullableValues(T value1, T value2, boolean sort) {
-        if (value1 == null || value2 == null) {
-            return sort ? 1 : -1;
+    private static  <T extends Comparable<T>> int compareNullableValues(T value1, T value2) {
+        if (value1 == null && value2 == null) {
+            return 0;
+        }
+
+        if (value1 == null) {
+            return 1;
+        }
+
+        if (value2 == null) {
+            return -1;
         }
 
         return value1.compareTo(value2);
