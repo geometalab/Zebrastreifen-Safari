@@ -4,13 +4,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 15:45
- * @date : 04.01.2016
+ * @since : 1.0
  */
-
 public abstract class DocumentAdapter implements DocumentListener {
 
     public void insertUpdate(DocumentEvent e) {

@@ -12,13 +12,10 @@ import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 15:34
- * @date : 08.10.2015
+ * @since : 1.0
  */
-
 public class CrossingDataService implements ICrossingDataService {
 
     private final EntityManagerFactory emFactory;

@@ -5,13 +5,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 08:17
- * @date : 24.11.2015
+ * @since : 1.0
  */
-
 public class Properties {
 
     private static ResourceBundle resourceBundle;

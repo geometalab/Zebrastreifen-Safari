@@ -3,11 +3,9 @@ package ch.hsr.zebrastreifensafari.service;
 import ch.hsr.zebrastreifensafari.service.crossing.ICrossingDataService;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 15:34
- * @date : 08.10.2015
+ * @since : 1.0
  */
 public class DataServiceLoader {
 
