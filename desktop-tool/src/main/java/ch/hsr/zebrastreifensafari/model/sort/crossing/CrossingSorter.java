@@ -2,8 +2,9 @@ package ch.hsr.zebrastreifensafari.model.sort.crossing;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author : SeboCode
@@ -13,10 +14,14 @@ import java.util.stream.Collectors;
 public class CrossingSorter {
 
     private static CrossingSorter instance;
-    private CrossingLastSorted lastSorted;
+    private boolean node;
+    private boolean numberOfRatings;
+    private boolean status;
 
     private CrossingSorter() {
-        lastSorted = CrossingLastSorted.NOT_SORTED;
+        node = false;
+        numberOfRatings = false;
+        status = false;
     }
 
     public static CrossingSorter getInstance() {
@@ -27,36 +32,21 @@ public class CrossingSorter {
         return instance;
     }
 
-    public List<Crossing> sortByNode(List<Crossing> crossings) {
-        if (lastSorted != CrossingLastSorted.NODE) {
-            crossings = crossings.stream().sorted((o1, o2) -> Long.compare(o1.getOsmNodeId(), o2.getOsmNodeId())).collect(Collectors.toList());
-        } else {
-            crossings = crossings.stream().sorted((o1, o2) -> Long.compare(o2.getOsmNodeId(), o1.getOsmNodeId())).collect(Collectors.toList());
-        }
-
-        lastSorted = CrossingLastSorted.NODE;
-        return crossings;
+    public void sortByNode(List<Crossing> crossings) {
+        Comparator<Crossing> comparator = (o1, o2) -> Long.compare(o1.getOsmNodeId(), o2.getOsmNodeId());
+        Collections.sort(crossings, node ? comparator.reversed() : comparator);
+        node = !node;
     }
 
-    public List<Crossing> sortByNumberOfRatings(List<Crossing> crossings) {
-        if (lastSorted != CrossingLastSorted.NUMBER_OF_RATINGS) {
-            crossings = crossings.stream().sorted((o1, o2) -> Long.compare(o1.getRatingAmount(), o2.getRatingAmount())).collect(Collectors.toList());
-        } else {
-            crossings = crossings.stream().sorted((o1, o2) -> Long.compare(o2.getRatingAmount(), o1.getRatingAmount())).collect(Collectors.toList());
-        }
-
-        lastSorted = CrossingLastSorted.NUMBER_OF_RATINGS;
-        return crossings;
+    public void sortByNumberOfRatings(List<Crossing> crossings) {
+        Comparator<Crossing> comparator = (o1, o2) -> Long.compare(o1.getRatingAmount(), o2.getRatingAmount());
+        Collections.sort(crossings, numberOfRatings ? comparator.reversed() : comparator);
+        numberOfRatings = !numberOfRatings;
     }
 
-    public List<Crossing> sortByStatus(List<Crossing> crossings) {
-        if (lastSorted != CrossingLastSorted.STATUS) {
-            crossings = crossings.stream().sorted((o1, o2) -> Integer.compare(o1.getStatus(), o2.getStatus())).collect(Collectors.toList());
-        } else {
-            crossings = crossings.stream().sorted((o1, o2) -> Integer.compare(o2.getStatus(), o1.getStatus())).collect(Collectors.toList());
-        }
-
-        lastSorted = CrossingLastSorted.STATUS;
-        return crossings;
+    public void sortByStatus(List<Crossing> crossings) {
+        Comparator<Crossing> comparator = (o1, o2) -> Integer.compare(o1.getStatus(), o2.getStatus());
+        Collections.sort(crossings, status ? comparator.reversed() : comparator);
+        status = !status;
     }
 }

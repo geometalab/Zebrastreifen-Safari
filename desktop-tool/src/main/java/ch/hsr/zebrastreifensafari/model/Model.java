@@ -159,46 +159,46 @@ public class Model {
     }
 
     public void sortByNode() {
-        crossings = CrossingSorter.getInstance().sortByNode(crossings);
+        CrossingSorter.getInstance().sortByNode(crossings);
     }
 
     public void sortByNumberOfRatings() {
-        crossings = CrossingSorter.getInstance().sortByNumberOfRatings(crossings);
+        CrossingSorter.getInstance().sortByNumberOfRatings(crossings);
     }
 
     public void sortByStatus() {
-        crossings = CrossingSorter.getInstance().sortByStatus(crossings);
+        CrossingSorter.getInstance().sortByStatus(crossings);
     }
     
     public void sortByUser() {
-        ratings = RatingSorter.getInstance().sortByUser(ratings);
+        RatingSorter.getInstance().sortByUser(ratings);
     }
 
     public void sortByTraffic() {
-        ratings = RatingSorter.getInstance().sortByTraffic(ratings);
+        RatingSorter.getInstance().sortByTraffic(ratings);
     }
 
     public void sortByClarity() {
-        ratings = RatingSorter.getInstance().sortByClarity(ratings);
+        RatingSorter.getInstance().sortByClarity(ratings);
     }
 
     public void sortByIllumination() {
-        ratings = RatingSorter.getInstance().sortByIllumination(ratings);
+        RatingSorter.getInstance().sortByIllumination(ratings);
     }
 
     public void sortByComment() {
-        ratings = RatingSorter.getInstance().sortByComment(ratings);
+        RatingSorter.getInstance().sortByComment(ratings);
     }
 
     public void sortByImage() {
-        ratings = RatingSorter.getInstance().sortByImage(ratings);
+        RatingSorter.getInstance().sortByImage(ratings);
     }
 
     public void sortByLastChanged() {
-        ratings = RatingSorter.getInstance().sortByLastChanged(ratings);
+        RatingSorter.getInstance().sortByLastChanged(ratings);
     }
 
     public void sortByCreationTime() {
-        ratings = RatingSorter.getInstance().sortByCreationTime(ratings);
+        RatingSorter.getInstance().sortByCreationTime(ratings);
     }
 }
