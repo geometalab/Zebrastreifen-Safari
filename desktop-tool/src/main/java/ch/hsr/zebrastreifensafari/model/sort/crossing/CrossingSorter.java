@@ -19,19 +19,19 @@ public class CrossingSorter {
 
     public static void sortByNode(List<Crossing> crossings) {
         Comparator<Crossing> comparator = (o1, o2) -> Long.compare(o1.getOsmNodeId(), o2.getOsmNodeId());
-        Collections.sort(crossings, node ? comparator.reversed() : comparator);
+        crossings.sort(node ? comparator.reversed() : comparator);
         node = !node;
     }
 
     public static void sortByNumberOfRatings(List<Crossing> crossings) {
         Comparator<Crossing> comparator = (o1, o2) -> Long.compare(o1.getRatingAmount(), o2.getRatingAmount());
-        Collections.sort(crossings, numberOfRatings ? comparator.reversed() : comparator);
+        crossings.sort(numberOfRatings ? comparator.reversed() : comparator);
         numberOfRatings = !numberOfRatings;
     }
 
     public static void sortByStatus(List<Crossing> crossings) {
         Comparator<Crossing> comparator = (o1, o2) -> Integer.compare(o1.getStatus(), o2.getStatus());
-        Collections.sort(crossings, status ? comparator.reversed() : comparator);
+        crossings.sort(status ? comparator.reversed() : comparator);
         status = !status;
     }
 }
