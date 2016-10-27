@@ -1,5 +1,6 @@
 package ch.hsr.zebrastreifensafari.gui;
 
+import ch.hsr.zebrastreifensafari.controller.AboutController;
 import ch.hsr.zebrastreifensafari.gui.create.CreateCrossingGUI;
 import ch.hsr.zebrastreifensafari.gui.create.CreateRatingGUI;
 import ch.hsr.zebrastreifensafari.gui.edit.EditCrossingGUI;
@@ -258,7 +259,7 @@ public class MainGUI extends JFrame {
     }
 
     private void onAboutClick() {
-        new AboutGUI(this).setVisible(true);
+        new AboutGUI(this, new AboutController()).setVisible(true);
     }
 
     private void onHelpClick() {

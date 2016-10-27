@@ -1,7 +1,7 @@
 package ch.hsr.zebrastreifensafari.gui;
 
+import ch.hsr.zebrastreifensafari.controller.AboutController;
 import ch.hsr.zebrastreifensafari.service.Properties;
-import ch.hsr.zebrastreifensafari.service.WebsiteService;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
@@ -11,15 +11,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ResourceBundle;
 
+/**
+ * @author : SeboCode
+ * @version : 1.0
+ * @since : 1.0
+ */
 public class AboutGUI extends JDialog {
 
+    private AboutController controller;
     private JPanel mainPanel;
     private JButton closeButton;
     private JLabel geometalabLink;
     private JLabel crossingLink;
 
-    public AboutGUI(JFrame parent) {
+    public AboutGUI(JFrame parent, AboutController controller) {
         super(parent, Properties.get("aboutGuiTitle"), true);
+        this.controller = controller;
         setContentPane(mainPanel);
         getRootPane().setDefaultButton(closeButton);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -33,13 +40,13 @@ public class AboutGUI extends JDialog {
         geometalabLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                WebsiteService.openWebsite(Properties.get("geometalabLink"));
+                controller.openGeometalab();
             }
         });
         crossingLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                WebsiteService.openWebsite(Properties.get("ourWebsiteLink"));
+                controller.openZebrastreifensafari();
             }
         });
 
