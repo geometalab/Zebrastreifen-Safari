@@ -5,7 +5,7 @@ package ch.hsr.zebrastreifensafari.main;
  * and open the template in the editor.
  */
 
-import ch.hsr.zebrastreifensafari.gui.MainGUI;
+import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;

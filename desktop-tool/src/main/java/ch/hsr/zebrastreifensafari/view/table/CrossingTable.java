@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.view.table;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.service.Properties;

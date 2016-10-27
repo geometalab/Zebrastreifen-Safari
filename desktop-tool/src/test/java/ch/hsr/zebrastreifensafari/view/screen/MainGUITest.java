@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui.create;
+package ch.hsr.zebrastreifensafari.view.screen;
 
 import org.junit.After;
 import org.junit.Before;
@@ -8,11 +8,11 @@ import org.junit.Test;
  * @author : Mike Marti
  * @version : 1.0
  * @project : Zebrastreifen-Safari
- * @time : 13:37
+ * @time : 13:38
  * @date : 21.10.2015
  */
 
-public class CreateCrossingGUITest {
+public class MainGUITest {
 
     @Before
     public void setUp() throws Exception {
@@ -25,7 +25,7 @@ public class CreateCrossingGUITest {
     }
 
     @Test
-    public void testOnSendClick() throws Exception {
+    public void testUpdate() throws Exception {
 
     }
 }

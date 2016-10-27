@@ -1,7 +1,7 @@
-package ch.hsr.zebrastreifensafari.gui.edit;
+package ch.hsr.zebrastreifensafari.view.screen.modify.edit;
 
-import ch.hsr.zebrastreifensafari.gui.MainGUI;
-import ch.hsr.zebrastreifensafari.gui.ModifyGUI;
+import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
+import ch.hsr.zebrastreifensafari.view.screen.modify.ModifyGUI;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import org.eclipse.persistence.exceptions.DatabaseException;

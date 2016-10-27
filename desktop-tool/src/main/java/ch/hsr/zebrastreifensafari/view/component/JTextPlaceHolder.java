@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.view.component;
 
 import javax.swing.*;
 import java.awt.*;

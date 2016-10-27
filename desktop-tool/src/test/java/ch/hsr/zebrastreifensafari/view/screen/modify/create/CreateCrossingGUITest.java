@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui.edit;
+package ch.hsr.zebrastreifensafari.view.screen.modify.create;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +12,7 @@ import org.junit.Test;
  * @date : 21.10.2015
  */
 
-public class EditCrossingGUITest {
+public class CreateCrossingGUITest {
 
     @Before
     public void setUp() throws Exception {

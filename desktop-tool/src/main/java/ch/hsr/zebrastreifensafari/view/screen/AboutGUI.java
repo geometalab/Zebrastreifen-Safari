@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.view.screen;
 
 import ch.hsr.zebrastreifensafari.controller.AboutController;
 import ch.hsr.zebrastreifensafari.service.Properties;

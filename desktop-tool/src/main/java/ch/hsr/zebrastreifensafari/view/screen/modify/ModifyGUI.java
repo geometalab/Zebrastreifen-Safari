@@ -1,7 +1,9 @@
-package ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.view.screen.modify;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
 import ch.hsr.zebrastreifensafari.service.Properties;
+import ch.hsr.zebrastreifensafari.view.adapter.DocumentAdapter;
+import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;

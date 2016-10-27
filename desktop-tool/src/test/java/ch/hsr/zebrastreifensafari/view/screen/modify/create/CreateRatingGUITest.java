@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.view.screen.modify.create;
 
 import org.junit.After;
 import org.junit.Before;
@@ -8,11 +8,11 @@ import org.junit.Test;
  * @author : Mike Marti
  * @version : 1.0
  * @project : Zebrastreifen-Safari
- * @time : 13:38
+ * @time : 13:35
  * @date : 21.10.2015
  */
 
-public class MainGUITest {
+public class CreateRatingGUITest {
 
     @Before
     public void setUp() throws Exception {
@@ -25,7 +25,7 @@ public class MainGUITest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    public void testOnSendClick() throws Exception {
 
     }
 }

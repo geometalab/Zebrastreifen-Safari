@@ -1,9 +1,8 @@
-package ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.view.screen.modify;
 
 import ch.hsr.zebrastreifensafari.TestJDBC;
-import ch.hsr.zebrastreifensafari.gui.MainGUI;
-import ch.hsr.zebrastreifensafari.gui.ModifyGUI;
 import ch.hsr.zebrastreifensafari.model.Model;
+import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import org.junit.After;
 import org.junit.Before;
 

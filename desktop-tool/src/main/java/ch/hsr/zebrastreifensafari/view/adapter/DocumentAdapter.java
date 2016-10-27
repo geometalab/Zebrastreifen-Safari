@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.view.adapter;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

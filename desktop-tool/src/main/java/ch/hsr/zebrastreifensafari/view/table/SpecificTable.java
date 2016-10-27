@@ -1,4 +1,4 @@
-package ch.hsr.zebrastreifensafari.gui;
+package ch.hsr.zebrastreifensafari.view.table;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
