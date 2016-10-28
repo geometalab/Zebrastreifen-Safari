@@ -1,9 +1,11 @@
 package ch.hsr.zebrastreifensafari.view.table;
 
+import ch.hsr.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.swing.table.DefaultTableModel;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,7 +16,7 @@ import java.util.List;
  * @date : 06.01.2016
  */
 
-public class RatingTable extends SpecificTable<Rating> {
+public class RatingTable extends SpecificTable<Rating> implements IRatingTable{
 
     public RatingTable() {
         super(new RatingTableModel(), 8);
@@ -56,36 +58,44 @@ public class RatingTable extends SpecificTable<Rating> {
         });
     }
 
-    public void setUserIdAtSelectedRow(Rating rating) {
-        setValueAt(rating.getUserId().getName(), getSelectedRow(), getColumn(Properties.get("user")).getModelIndex());
+    @Override
+    public void setUserIdAtSelectedRow(String username) {
+        setValueAt(username, getSelectedRow(), getColumn(Properties.get("user")).getModelIndex());
     }
 
-    public void setTrafficIdAtSelectedRow(Rating rating) {
-        setValueAt(rating.getTrafficId().getValue(), getSelectedRow(), getColumn(Properties.get("traffic")).getModelIndex());
+    @Override
+    public void setTrafficIdAtSelectedRow(String traffic) {
+        setValueAt(traffic, getSelectedRow(), getColumn(Properties.get("traffic")).getModelIndex());
     }
 
-    public void setSpatialClarityIdAtSelectedRow(Rating rating) {
-        setValueAt(rating.getSpatialClarityId().getValue(), getSelectedRow(), getColumn(Properties.get("spacialClarity")).getModelIndex());
+    @Override
+    public void setSpatialClarityIdAtSelectedRow(String spatialClarity) {
+        setValueAt(spatialClarity, getSelectedRow(), getColumn(Properties.get("spacialClarity")).getModelIndex());
     }
 
-    public void setIlluminationIdAtSelectedRow(Rating rating) {
-        setValueAt(rating.getIlluminationId().getValue(), getSelectedRow(), getColumn(Properties.get("illumination")).getModelIndex());
+    @Override
+    public void setIlluminationIdAtSelectedRow(String illumination) {
+        setValueAt(illumination, getSelectedRow(), getColumn(Properties.get("illumination")).getModelIndex());
     }
 
-    public void setCommentAtSelectedRow(Rating rating) {
-        setValueAt(rating.getComment(), getSelectedRow(), getColumn(Properties.get("comment")).getModelIndex());
+    @Override
+    public void setCommentAtSelectedRow(String comment) {
+        setValueAt(comment, getSelectedRow(), getColumn(Properties.get("comment")).getModelIndex());
     }
 
-    public void setImageWeblinkAtSelectedRow(Rating rating) {
-        setValueAt(rating.getImageWeblink(), getSelectedRow(), getColumn(Properties.get("imageId")).getModelIndex());
+    @Override
+    public void setImageWeblinkAtSelectedRow(String imageWeblink) {
+        setValueAt(imageWeblink, getSelectedRow(), getColumn(Properties.get("imageId")).getModelIndex());
     }
 
-    public void setLastChangedAtSelectedRow(Rating rating) {
-        setValueAt(rating.getLastChanged(), getSelectedRow(), getColumn(Properties.get("lastChange")).getModelIndex());
+    @Override
+    public void setLastChangedAtSelectedRow(Date lastChanged) {
+        setValueAt(lastChanged, getSelectedRow(), getColumn(Properties.get("lastChange")).getModelIndex());
     }
 
-    public void setCreationTimeAtSelectedRow(Rating rating) {
-        setValueAt(rating.getCreationTime(), getSelectedRow(), getColumn(Properties.get("creationDate")).getModelIndex());
+    @Override
+    public void setCreationTimeAtSelectedRow(Date creationTime) {
+        setValueAt(creationTime, getSelectedRow(), getColumn(Properties.get("creationDate")).getModelIndex());
     }
 }
 

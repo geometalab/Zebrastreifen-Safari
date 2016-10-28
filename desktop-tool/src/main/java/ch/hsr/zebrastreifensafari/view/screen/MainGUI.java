@@ -3,6 +3,8 @@ package ch.hsr.zebrastreifensafari.view.screen;
 import ch.hsr.zebrastreifensafari.controller.AboutController;
 import ch.hsr.zebrastreifensafari.controller.MainController;
 import ch.hsr.zebrastreifensafari.controller.callback.IMainCallback;
+import ch.hsr.zebrastreifensafari.controller.callback.table.ICrossingTable;
+import ch.hsr.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -159,7 +161,7 @@ public class MainGUI extends JFrame implements IMainCallback {
     }
 
     private void onCrossingSelection() {
-        controller.onCrossingSelection(crossingTable.hasData());
+        controller.onCrossingSelection(getCrossingTable().hasData());
     }
 
     private void onSearch() {
@@ -220,11 +222,11 @@ public class MainGUI extends JFrame implements IMainCallback {
     //</editor-fold>
 
     private Crossing getCrossingFromTable() {
-        return model.getCrossing(crossingTable.getSelectedId());
+        return model.getCrossing(getCrossingTable().getSelectedId());
     }
 
     private Rating getRatingFromTable() {
-        return model.getRating(ratingTable.getSelectedId());
+        return model.getRating(getRatingTable().getSelectedId());
     }
 
     private int warningMessage(String message, int option) {
@@ -245,12 +247,12 @@ public class MainGUI extends JFrame implements IMainCallback {
 
         if (searchTextField.getText().isEmpty()) {
             changeSelectionCrossing(model.indexOf(crossing));
-            crossingTable.setRatingAmountAtSelectedRow(crossing);
+            getCrossingTable().setRatingAmountAtSelectedRow(crossing.getRatingAmount());
         } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
-            for (int i = 0; i < crossingTable.getModel().getRowCount(); i++) {
-                if (crossingTable.getOsmNodeIdAt(i) == crossing.getOsmNodeId()) {
-                    crossingTable.changeSelection(i);
-                    crossingTable.setRatingAmountAtSelectedRow(crossing);
+            for (int i = 0; i < getCrossingTable().getRowCount(); i++) {
+                if (getCrossingTable().getOsmNodeIdAt(i) == crossing.getOsmNodeId()) {
+                    getCrossingTable().changeSelection(i);
+                    getCrossingTable().setRatingAmountAtSelectedRow(crossing.getRatingAmount());
                     break;
                 }
             }
@@ -260,12 +262,12 @@ public class MainGUI extends JFrame implements IMainCallback {
     private void createNewCrossing(Crossing crossing) {
         DataServiceLoader.getCrossingData().createCrossing(crossing);
         model.add(crossing);
-        crossingTable.add(crossing);
+        getCrossingTable().add(crossing);
 
         if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText()) || searchTextField.getText().isEmpty()) {
-            crossingTable.changeSelection(crossingTable.getModel().getRowCount() - 1);
+            getCrossingTable().changeSelection(getCrossingTable().getRowCount() - 1);
         } else {
-            crossingTable.getModel().removeRow(crossingTable.getModel().getRowCount() - 1);
+            getCrossingTable().removeRow(getCrossingTable().getRowCount() - 1);
         }
     }
 
@@ -273,27 +275,27 @@ public class MainGUI extends JFrame implements IMainCallback {
         DataServiceLoader.getCrossingData().editCrossing(crossing);
 
         if (searchTextField.getText().isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
-            crossingTable.setOsmNodeIdAtSelectedRow(crossing);
+            getCrossingTable().setOsmNodeIdAtSelectedRow(crossing.getOsmNodeId());
             onCrossingSelection();
         } else {
-            crossingTable.getModel().removeRow(crossingTable.getSelectedRow());
+            getCrossingTable().removeRow(getCrossingTable().getSelectedRow());
         }
     }
 
     @Override
     public void removeCrossing() {
         try {
-            int selectedRow = crossingTable.getSelectedRow();
+            int selectedRow = getCrossingTable().getSelectedRow();
             Crossing crossing = getCrossingFromTable();
             DataServiceLoader.getCrossingData().removeCrossing(crossing.getId());
             removeCrossing(model.indexOf(crossing));
             model.remove(crossing);
 
-            if (crossingTable.getModel().getRowCount() == selectedRow) {
+            if (getCrossingTable().getRowCount() == selectedRow) {
                 selectedRow--;
             }
 
-            crossingTable.changeSelection(selectedRow);
+            getCrossingTable().changeSelection(selectedRow);
         } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("crossingExistError"));
         }
@@ -304,29 +306,29 @@ public class MainGUI extends JFrame implements IMainCallback {
     public void createRating(Rating rating) throws EntityNotFoundException {
         DataServiceLoader.getCrossingData().createRating(rating);
         model.add(rating);
-        ratingTable.add(rating);
-        changeSelectionRating(ratingTable.getRowCount() - 1);
+        getRatingTable().add(rating);
+        changeSelectionRating(getRatingTable().getRowCount() - 1);
         Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
         crossingOfRating.increaseRatingAmount();
-        crossingTable.setRatingAmountAtSelectedRow(crossingOfRating);
+        getCrossingTable().setRatingAmountAtSelectedRow(crossingOfRating.getRatingAmount());
     }
 
     public void editRating(Rating rating) throws EntityNotFoundException {
         DataServiceLoader.getCrossingData().editRating(rating);
-        ratingTable.setUserIdAtSelectedRow(rating);
-        ratingTable.setTrafficIdAtSelectedRow(rating);
-        ratingTable.setSpatialClarityIdAtSelectedRow(rating);
-        ratingTable.setIlluminationIdAtSelectedRow(rating);
-        ratingTable.setCommentAtSelectedRow(rating);
-        ratingTable.setImageWeblinkAtSelectedRow(rating);
-        ratingTable.setLastChangedAtSelectedRow(rating);
-        ratingTable.setCreationTimeAtSelectedRow(rating);
+        getRatingTable().setUserIdAtSelectedRow(rating.getUserId().getName());
+        getRatingTable().setTrafficIdAtSelectedRow(rating.getTrafficId().getValue());
+        getRatingTable().setSpatialClarityIdAtSelectedRow(rating.getSpatialClarityId().getValue());
+        getRatingTable().setIlluminationIdAtSelectedRow(rating.getIlluminationId().getValue());
+        getRatingTable().setCommentAtSelectedRow(rating.getComment());
+        getRatingTable().setImageWeblinkAtSelectedRow(rating.getImageWeblink());
+        getRatingTable().setLastChangedAtSelectedRow(rating.getLastChanged());
+        getRatingTable().setCreationTimeAtSelectedRow(rating.getCreationTime());
     }
 
     @Override
     public void removeRating() {
         try {
-            int selectedRow = ratingTable.getSelectedRow();
+            int selectedRow = getRatingTable().getSelectedRow();
             Rating rating = getRatingFromTable();
             DataServiceLoader.getCrossingData().removeRating(rating.getId());
             removeRating(model.indexOf(rating));
@@ -336,14 +338,14 @@ public class MainGUI extends JFrame implements IMainCallback {
                 removeCrossing();
                 setSelectedTabbedPaneIndex(0);
             } else {
-                if (ratingTable.getModel().getRowCount() == selectedRow) {
+                if (getRatingTable().getRowCount() == selectedRow) {
                     selectedRow--;
                 }
 
                 changeSelectionRating(selectedRow);
                 Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
                 crossingOfRating.decreaseRatingAmount();
-                crossingTable.setRatingAmountAtSelectedRow(crossingOfRating);
+                getCrossingTable().setRatingAmountAtSelectedRow(crossingOfRating.getRatingAmount());
             }
         } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("ratingCrossingExistError"));
@@ -397,34 +399,42 @@ public class MainGUI extends JFrame implements IMainCallback {
         new EditRatingGUI(this, getRatingFromTable()).setVisible(true);
     }
 
+    public ICrossingTable getCrossingTable() {
+        return crossingTable;
+    }
+
+    public IRatingTable getRatingTable() {
+        return ratingTable;
+    }
+
     @Override
     public void drawDataCrossing(List<Crossing> crossings) {
-        crossingTable.drawData(crossings);
+        getCrossingTable().drawData(crossings);
     }
 
     @Override
     public void drawDataRating(List<Rating> ratings) {
-        ratingTable.drawData(ratings);
+        getRatingTable().drawData(ratings);
     }
 
     @Override
     public void removeCrossing(int index) {
-        crossingTable.remove(index);
+        getCrossingTable().remove(index);
     }
 
     @Override
     public void removeRating(int index) {
-        ratingTable.remove(index);
+        getRatingTable().remove(index);
     }
 
     @Override
     public void changeSelectionCrossing(int index) {
-        crossingTable.changeSelection(index);
+        getCrossingTable().changeSelection(index);
     }
 
     @Override
     public void changeSelectionRating(int index) {
-        ratingTable.changeSelection(index);
+        getRatingTable().changeSelection(index);
     }
 
     @Override
@@ -449,22 +459,22 @@ public class MainGUI extends JFrame implements IMainCallback {
 
     @Override
     public int getSelectedCrossingId() {
-        return crossingTable.getSelectedId();
+        return getCrossingTable().getSelectedId();
     }
 
     @Override
     public int getSelectedCrossingRow() {
-        return crossingTable.getSelectedRow();
+        return getCrossingTable().getSelectedRow();
     }
 
     @Override
     public int getCrossingRowCount() {
-        return crossingTable.getRowCount();
+        return getCrossingTable().getRowCount();
     }
 
     @Override
     public long getOsmNodeIdAtSelectedRow() {
-        return crossingTable.getOsmNodeIdAtSelectedRow();
+        return getCrossingTable().getOsmNodeIdAtSelectedRow();
     }
 
     //<editor-fold desc="GUI Builder">
