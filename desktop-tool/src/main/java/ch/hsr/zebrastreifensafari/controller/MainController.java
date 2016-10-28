@@ -36,8 +36,8 @@ public class MainController {
     public void onTabbedPaneChange() {
         try {
             if (callback.isRatingMode()) {
-                model.reloadRating(model.getCrossing(callback.getSelectedCrossingId()));
-                callback.drawDataRating(model.getRatings());
+                model.reloadRating(model.getCrossing(callback.getCrossingTable().getSelectedId()));
+                callback.getRatingTable().drawData(model.getRatings());
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             callback.setSelectedTabbedPaneIndex(0);
@@ -48,17 +48,18 @@ public class MainController {
         }
     }
 
+    //todo refactor
     public void onCrossingSelection(boolean hasData) {
         if (hasData) {
-            callback.setRatingTabbedPaneTitle(Properties.get("specificRatingTabbedPaneTitle") + callback.getOsmNodeIdAtSelectedRow());
+            callback.setRatingTabbedPaneTitle(Properties.get("specificRatingTabbedPaneTitle") + callback.getCrossingTable().getOsmNodeIdAtSelectedRow());
         }
     }
 
     public void onSearch(String searchText) {
         if (searchText.isEmpty()) {
-            callback.drawDataCrossing(model.getCrossings());
+            callback.getCrossingTable().drawData(model.getCrossings());
         } else {
-            callback.drawDataCrossing(model.getCrossings().stream()
+            callback.getCrossingTable().drawData(model.getCrossings().stream()
                     .filter(crossing -> String.valueOf(crossing.getOsmNodeId()).startsWith(searchText))
                     .collect(Collectors.toList()));
         }
@@ -99,20 +100,20 @@ public class MainController {
     }
 
     public void onPreviousCrossingClick() {
-        if (callback.getSelectedCrossingRow() != 0) {
-            callback.changeSelectionCrossing(callback.getSelectedCrossingRow() - 1);
+        if (callback.getCrossingTable().getSelectedRow() != 0) {
+            callback.getCrossingTable().changeSelection(callback.getCrossingTable().getSelectedRow() - 1);
         } else {
-            callback.changeSelectionCrossing(callback.getCrossingRowCount() - 1);
+            callback.getCrossingTable().changeSelection(callback.getCrossingTable().getRowCount() - 1);
         }
 
         onTabbedPaneChange();
     }
 
     public void onNextCrossingClick() {
-        if (callback.getSelectedCrossingRow() != callback.getCrossingRowCount() - 1) {
-            callback.changeSelectionCrossing(callback.getSelectedCrossingRow() + 1);
+        if (callback.getCrossingTable().getSelectedRow() != callback.getCrossingTable().getRowCount() - 1) {
+            callback.getCrossingTable().changeSelection(callback.getCrossingTable().getSelectedRow() + 1);
         } else {
-            callback.changeSelectionCrossing(0);
+            callback.getCrossingTable().changeSelection(0);
         }
 
         onTabbedPaneChange();
@@ -123,11 +124,11 @@ public class MainController {
             model.reloadUsers();
 
             if (callback.isRatingMode()) {
-                model.reloadRating(model.getCrossing(callback.getSelectedCrossingId()));
-                callback.drawDataRating(model.getRatings());
+                model.reloadRating(model.getCrossing(callback.getCrossingTable().getSelectedId()));
+                callback.getRatingTable().drawData(model.getRatings());
             } else {
                 model.reloadCrossing();
-                callback.drawDataCrossing(model.getCrossings());
+                callback.getCrossingTable().drawData(model.getCrossings());
             }
         } catch (PersistenceException pex) {
             callback.errorMessage(Properties.get("connectionError"));
@@ -147,7 +148,7 @@ public class MainController {
             model.sortByStatus();
         }
 
-        callback.drawDataCrossing(model.getCrossings());
+        callback.getCrossingTable().drawData(model.getCrossings());
     }
 
     public void onRatingSort(String columnName) {
@@ -169,7 +170,7 @@ public class MainController {
             model.sortByCreationTime();
         }
 
-        callback.drawDataRating(model.getRatings());
+        callback.getRatingTable().drawData(model.getRatings());
     }
 
     public void onTableDoubleClick(int clickCount) {

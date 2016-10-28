@@ -70,7 +70,7 @@ public class MainGUI extends JFrame implements IMainCallback {
         setContentPane(mainPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         initListeners();
-        drawDataCrossing(model.getCrossings());
+        getCrossingTable().drawData(model.getCrossings());
         pack();
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
@@ -246,7 +246,7 @@ public class MainGUI extends JFrame implements IMainCallback {
         crossing.increaseRatingAmount();
 
         if (searchTextField.getText().isEmpty()) {
-            changeSelectionCrossing(model.indexOf(crossing));
+            getCrossingTable().changeSelection(model.indexOf(crossing));
             getCrossingTable().setRatingAmountAtSelectedRow(crossing.getRatingAmount());
         } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
             for (int i = 0; i < getCrossingTable().getRowCount(); i++) {
@@ -288,7 +288,7 @@ public class MainGUI extends JFrame implements IMainCallback {
             int selectedRow = getCrossingTable().getSelectedRow();
             Crossing crossing = getCrossingFromTable();
             DataServiceLoader.getCrossingData().removeCrossing(crossing.getId());
-            removeCrossing(model.indexOf(crossing));
+            getCrossingTable().remove(model.indexOf(crossing));
             model.remove(crossing);
 
             if (getCrossingTable().getRowCount() == selectedRow) {
@@ -307,7 +307,7 @@ public class MainGUI extends JFrame implements IMainCallback {
         DataServiceLoader.getCrossingData().createRating(rating);
         model.add(rating);
         getRatingTable().add(rating);
-        changeSelectionRating(getRatingTable().getRowCount() - 1);
+        getRatingTable().changeSelection(getRatingTable().getRowCount() - 1);
         Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
         crossingOfRating.increaseRatingAmount();
         getCrossingTable().setRatingAmountAtSelectedRow(crossingOfRating.getRatingAmount());
@@ -331,7 +331,7 @@ public class MainGUI extends JFrame implements IMainCallback {
             int selectedRow = getRatingTable().getSelectedRow();
             Rating rating = getRatingFromTable();
             DataServiceLoader.getCrossingData().removeRating(rating.getId());
-            removeRating(model.indexOf(rating));
+            getRatingTable().remove(model.indexOf(rating));
             model.remove(rating);
 
             if (model.getRatings().isEmpty()) {
@@ -342,7 +342,7 @@ public class MainGUI extends JFrame implements IMainCallback {
                     selectedRow--;
                 }
 
-                changeSelectionRating(selectedRow);
+                getRatingTable().changeSelection(selectedRow);
                 Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
                 crossingOfRating.decreaseRatingAmount();
                 getCrossingTable().setRatingAmountAtSelectedRow(crossingOfRating.getRatingAmount());
@@ -399,42 +399,14 @@ public class MainGUI extends JFrame implements IMainCallback {
         new EditRatingGUI(this, getRatingFromTable()).setVisible(true);
     }
 
+    @Override
     public ICrossingTable getCrossingTable() {
         return crossingTable;
     }
 
+    @Override
     public IRatingTable getRatingTable() {
         return ratingTable;
-    }
-
-    @Override
-    public void drawDataCrossing(List<Crossing> crossings) {
-        getCrossingTable().drawData(crossings);
-    }
-
-    @Override
-    public void drawDataRating(List<Rating> ratings) {
-        getRatingTable().drawData(ratings);
-    }
-
-    @Override
-    public void removeCrossing(int index) {
-        getCrossingTable().remove(index);
-    }
-
-    @Override
-    public void removeRating(int index) {
-        getRatingTable().remove(index);
-    }
-
-    @Override
-    public void changeSelectionCrossing(int index) {
-        getCrossingTable().changeSelection(index);
-    }
-
-    @Override
-    public void changeSelectionRating(int index) {
-        getRatingTable().changeSelection(index);
     }
 
     @Override
@@ -455,26 +427,6 @@ public class MainGUI extends JFrame implements IMainCallback {
     @Override
     public void errorMessage(String message) {
         JOptionPane.showMessageDialog(this, message, Properties.get("error"), JOptionPane.ERROR_MESSAGE);
-    }
-
-    @Override
-    public int getSelectedCrossingId() {
-        return getCrossingTable().getSelectedId();
-    }
-
-    @Override
-    public int getSelectedCrossingRow() {
-        return getCrossingTable().getSelectedRow();
-    }
-
-    @Override
-    public int getCrossingRowCount() {
-        return getCrossingTable().getRowCount();
-    }
-
-    @Override
-    public long getOsmNodeIdAtSelectedRow() {
-        return getCrossingTable().getOsmNodeIdAtSelectedRow();
     }
 
     //<editor-fold desc="GUI Builder">
