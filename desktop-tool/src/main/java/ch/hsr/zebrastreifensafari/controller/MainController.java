@@ -39,10 +39,10 @@ public class MainController {
         callback.getCrossingTable().drawData(model.getCrossings());
     }
 
-    public void onTabbedPaneChange() {
+    public void changeTabbedPane() {
         try {
             if (callback.isRatingMode()) {
-                model.reloadRating(model.getCrossing(callback.getCrossingTable().getSelectedId()));
+                model.loadRating(model.getCrossing(callback.getCrossingTable().getSelectedId()));
                 callback.getRatingTable().drawData(model.getRatings());
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
@@ -54,13 +54,13 @@ public class MainController {
         }
     }
 
-    public void onCrossingSelection() {
+    public void updateRatingTabTitle() {
         if (callback.getCrossingTable().hasData()) {
             callback.setRatingTabbedPaneTitle(Properties.get("specificRatingTabbedPaneTitle") + callback.getCrossingTable().getOsmNodeIdAtSelectedRow());
         }
     }
 
-    public void onSearch(String searchText) {
+    public void search(String searchText) {
         if (searchText.isEmpty()) {
             callback.getCrossingTable().drawData(model.getCrossings());
         } else {
@@ -70,7 +70,7 @@ public class MainController {
         }
     }
 
-    public void onAddClick() {
+    public void add() {
         if (callback.isRatingMode()) {
             callback.showCreateRating(model.getCrossing(callback.getCrossingTable().getSelectedId()).getOsmNodeId());
         } else {
@@ -78,7 +78,7 @@ public class MainController {
         }
     }
 
-    public void onEditClick() {
+    public void edit() {
         try {
             if (callback.isRatingMode()) {
                 callback.showEditRating(model.getRating(callback.getRatingTable().getSelectedId()));
@@ -90,12 +90,22 @@ public class MainController {
         }
     }
 
-    public void onDelete() {
+    public void doubleClickEdit(int clickCount) {
+        if (clickCount >= 2) {
+            edit();
+        }
+    }
+
+    public void openAboutDialog() {
+        callback.showAbout(new AboutController());
+    }
+
+    public void delete() {
         try {
             if (callback.isRatingMode()) {
-                removeRating();
+                deleteRating();
             } else {
-                removeCrossing();
+                deleteCrossing();
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             callback.errorMessage(Properties.get("deleteSelectionError"));
@@ -104,35 +114,35 @@ public class MainController {
         }
     }
 
-    public void onPreviousCrossingClick() {
+    public void previousCrossing() {
         if (callback.getCrossingTable().getSelectedRow() != 0) {
             callback.getCrossingTable().changeSelection(callback.getCrossingTable().getSelectedRow() - 1);
         } else {
             callback.getCrossingTable().changeSelection(callback.getCrossingTable().getRowCount() - 1);
         }
 
-        onTabbedPaneChange();
+        changeTabbedPane();
     }
 
-    public void onNextCrossingClick() {
+    public void nextCrossing() {
         if (callback.getCrossingTable().getSelectedRow() != callback.getCrossingTable().getRowCount() - 1) {
             callback.getCrossingTable().changeSelection(callback.getCrossingTable().getSelectedRow() + 1);
         } else {
             callback.getCrossingTable().changeSelection(0);
         }
 
-        onTabbedPaneChange();
+        changeTabbedPane();
     }
 
-    public void onRefreshClick() {
+    public void refresh() {
         try {
-            model.reloadUsers();
+            model.loadUsers();
 
             if (callback.isRatingMode()) {
-                model.reloadRating(model.getCrossing(callback.getCrossingTable().getSelectedId()));
+                model.loadRating(model.getCrossing(callback.getCrossingTable().getSelectedId()));
                 callback.getRatingTable().drawData(model.getRatings());
             } else {
-                model.reloadCrossing();
+                model.loadCrossing();
                 callback.getCrossingTable().drawData(model.getCrossings());
             }
         } catch (PersistenceException pex) {
@@ -140,11 +150,11 @@ public class MainController {
         }
     }
 
-    public void onHelpClick() {
+    public void help() {
         WebsiteService.openWebsite(Properties.get("helpLink"));
     }
 
-    public void onCrossingSort(String columnName) {
+    public void sortCrossing(String columnName) {
         if (columnName.equals(Properties.get("osmNodeId"))) {
             model.sortByNode();
         } else if (columnName.equals(Properties.get("ratingAmount"))) {
@@ -156,7 +166,7 @@ public class MainController {
         callback.getCrossingTable().drawData(model.getCrossings());
     }
 
-    public void onRatingSort(String columnName) {
+    public void sortRating(String columnName) {
         if (columnName.equals(Properties.get("user"))) {
             model.sortByUser();
         } else if (columnName.equals(Properties.get("traffic"))) {
@@ -178,18 +188,21 @@ public class MainController {
         callback.getRatingTable().drawData(model.getRatings());
     }
 
-    public void onTableDoubleClick(int clickCount) {
-        if (clickCount >= 2) {
-            onEditClick();
-        }
-    }
-
     //<editor-fold desc="CRUD Crossing">
     public void createCrossing(Crossing crossing, String searchText) {
         if (model.contains(crossing)) {
             createExistingCrossing(crossing, searchText);
+            return;
+        }
+
+        DataServiceLoader.getCrossingData().createCrossing(crossing);
+        model.add(crossing);
+        callback.getCrossingTable().add(crossing);
+
+        if (Long.toString(crossing.getOsmNodeId()).startsWith(searchText) || searchText.isEmpty()) {
+            callback.getCrossingTable().changeSelection(callback.getCrossingTable().getRowCount() - 1);
         } else {
-            createNewCrossing(crossing, searchText);
+            callback.getCrossingTable().removeRow(callback.getCrossingTable().getRowCount() - 1);
         }
     }
 
@@ -210,29 +223,18 @@ public class MainController {
         }
     }
 
-    private void createNewCrossing(Crossing crossing, String searchText) {
-        DataServiceLoader.getCrossingData().createCrossing(crossing);
-        model.add(crossing);
-        callback.getCrossingTable().add(crossing);
-
-        if (Long.toString(crossing.getOsmNodeId()).startsWith(searchText) || searchText.isEmpty()) {
-            callback.getCrossingTable().changeSelection(callback.getCrossingTable().getRowCount() - 1);
-        } else {
-            callback.getCrossingTable().removeRow(callback.getCrossingTable().getRowCount() - 1);
-        }
-    }
-
     public void editCrossing(Crossing crossing, String searchText) throws EntityNotFoundException {
         DataServiceLoader.getCrossingData().editCrossing(crossing);
 
         if (searchText.isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(searchText)) {
             callback.getCrossingTable().setOsmNodeIdAtSelectedRow(crossing.getOsmNodeId());
-            onCrossingSelection();
+            updateRatingTabTitle();
         } else {
             callback.getCrossingTable().removeRow(callback.getCrossingTable().getSelectedRow());
         }
     }
-    public void removeCrossing() {
+
+    public void deleteCrossing() {
         try {
             int selectedRow = callback.getCrossingTable().getSelectedRow();
             Crossing crossing = getCrossingFromTable();
@@ -274,7 +276,8 @@ public class MainController {
         callback.getRatingTable().setLastChangedAtSelectedRow(rating.getLastChanged());
         callback.getRatingTable().setCreationTimeAtSelectedRow(rating.getCreationTime());
     }
-    public void removeRating() {
+
+    public void deleteRating() {
         try {
             int selectedRow = callback.getRatingTable().getSelectedRow();
             Rating rating = getRatingFromTable();
@@ -283,7 +286,7 @@ public class MainController {
             model.remove(rating);
 
             if (model.getRatings().isEmpty()) {
-                removeCrossing();
+                deleteCrossing();
                 callback.setSelectedTabbedPaneIndex(0);
             } else {
                 if (callback.getRatingTable().getRowCount() == selectedRow) {
@@ -299,7 +302,6 @@ public class MainController {
             callback.errorMessage(Properties.get("ratingCrossingExistError"));
         }
     }
-
     //</editor-fold>
 
     private Crossing getCrossingFromTable() {
