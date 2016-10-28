@@ -1,5 +1,7 @@
 package ch.hsr.zebrastreifensafari.controller.callback;
 
+import ch.hsr.zebrastreifensafari.controller.callback.table.ICrossingTable;
+import ch.hsr.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 
@@ -24,17 +26,9 @@ public interface IMainCallback {
 
     void removeRating();
 
-    void removeCrossing(int index);
+    ICrossingTable getCrossingTable();
 
-    void removeRating(int index);
-
-    void drawDataCrossing(List<Crossing> crossings);
-
-    void drawDataRating(List<Rating> ratings);
-
-    void changeSelectionCrossing(int index);
-
-    void changeSelectionRating(int index);
+    IRatingTable getRatingTable();
 
     void setSelectedTabbedPaneIndex(int index);
 
@@ -42,13 +36,5 @@ public interface IMainCallback {
 
     void errorMessage(String changeSelectionError);
 
-    int getSelectedCrossingId();
-
-    int getSelectedCrossingRow();
-
-    int getCrossingRowCount();
-
     boolean isRatingMode();
-
-    long getOsmNodeIdAtSelectedRow();
 }
