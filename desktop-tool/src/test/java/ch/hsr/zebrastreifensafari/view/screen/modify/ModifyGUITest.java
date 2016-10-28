@@ -1,6 +1,7 @@
 package ch.hsr.zebrastreifensafari.view.screen.modify;
 
 import ch.hsr.zebrastreifensafari.TestJDBC;
+import ch.hsr.zebrastreifensafari.controller.MainController;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import org.junit.After;
@@ -25,7 +26,7 @@ public class ModifyGUITest {
     @Before
     public void setUp() throws Exception {
         db = new TestJDBC();
-        cug = new ModifyGUI(new MainGUI(new Model()), "changeSelectionError") {
+        cug = new ModifyGUI(new MainGUI(new MainController(new Model()), new Model()), "changeSelectionError") {
 
             @Override
             protected void onSendClick() {
