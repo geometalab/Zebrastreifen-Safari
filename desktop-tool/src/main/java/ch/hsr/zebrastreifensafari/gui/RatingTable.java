@@ -7,13 +7,10 @@ import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 08:57
- * @date : 06.01.2016
+ * @since : 1.0
  */
-
 public class RatingTable extends SpecificTable<Rating> {
 
     public RatingTable() {

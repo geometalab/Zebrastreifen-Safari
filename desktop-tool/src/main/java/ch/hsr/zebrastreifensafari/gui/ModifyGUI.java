@@ -23,13 +23,10 @@ import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 10:46
- * @date : 26.10.2015
+ * @since : 1.0
  */
-
 public abstract class ModifyGUI extends JDialog {
 
     protected final MainGUI mainGUI;

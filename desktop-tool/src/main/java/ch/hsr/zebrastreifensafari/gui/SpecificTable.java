@@ -5,13 +5,10 @@ import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 15:14
- * @date : 06.01.2016
+ * @since : 1.0
  */
-
 public abstract class SpecificTable<T> extends JTable {
 
     protected final int ID_POSITION;
