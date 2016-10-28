@@ -93,9 +93,9 @@ public class MainController {
     public void onDelete() {
         try {
             if (callback.isRatingMode()) {
-                callback.removeRating();
+                removeRating();
             } else {
-                callback.removeCrossing();
+                removeCrossing();
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             callback.errorMessage(Properties.get("deleteSelectionError"));

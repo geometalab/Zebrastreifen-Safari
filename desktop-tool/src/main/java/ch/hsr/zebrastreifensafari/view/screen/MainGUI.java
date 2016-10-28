@@ -230,7 +230,6 @@ public class MainGUI extends JFrame implements IMainCallback {
         controller.editCrossing(crossing, searchTextField.getText());
     }
 
-    @Override
     public void removeCrossing() {
         controller.removeCrossing();
     }
@@ -243,7 +242,6 @@ public class MainGUI extends JFrame implements IMainCallback {
         controller.editRating(rating);
     }
 
-    @Override
     public void removeRating() {
         controller.removeRating();
     }

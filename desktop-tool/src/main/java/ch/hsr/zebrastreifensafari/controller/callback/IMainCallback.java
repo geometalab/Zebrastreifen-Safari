@@ -22,10 +22,6 @@ public interface IMainCallback {
 
     void showEditRating(Rating rating);
 
-    void removeCrossing();
-
-    void removeRating();
-
     ICrossingTable getCrossingTable();
 
     IRatingTable getRatingTable();
