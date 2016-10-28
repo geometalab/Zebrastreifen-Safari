@@ -40,8 +40,8 @@ public class Model {
         illuminations = DataServiceLoader.getCrossingData().getIlluminations();
         spatialClaritys = DataServiceLoader.getCrossingData().getSpatialClarities();
         traffics = DataServiceLoader.getCrossingData().getTraffics();
-        reloadCrossing();
-        reloadUsers();
+        loadCrossing();
+        loadUsers();
         nodeSort = true;
         ratingAmountSort = true;
         statusSort = true;
@@ -55,15 +55,15 @@ public class Model {
         creationTimeSort = true;
     }
 
-    public void reloadCrossing() {
+    public void loadCrossing() {
         crossings = DataServiceLoader.getCrossingData().getCrossings();
     }
 
-    public void reloadRating(Crossing crossing) {
+    public void loadRating(Crossing crossing) {
         ratings = DataServiceLoader.getCrossingData().getRatings(crossing);
     }
 
-    public void reloadUsers() {
+    public void loadUsers() {
         users = DataServiceLoader.getCrossingData().getUsers();
     }
 

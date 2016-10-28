@@ -1,5 +1,6 @@
 package ch.hsr.zebrastreifensafari.controller.callback;
 
+import ch.hsr.zebrastreifensafari.controller.AboutController;
 import ch.hsr.zebrastreifensafari.controller.callback.table.ICrossingTable;
 import ch.hsr.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
@@ -21,6 +22,8 @@ public interface IMainCallback {
     void showEditCrossing(Crossing crossing);
 
     void showEditRating(Rating rating);
+
+    void showAbout(AboutController controller);
 
     ICrossingTable getCrossingTable();
 
