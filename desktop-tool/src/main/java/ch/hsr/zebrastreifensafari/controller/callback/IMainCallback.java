@@ -14,13 +14,13 @@ import java.util.List;
  */
 public interface IMainCallback {
 
-    void createCrossing();
+    void showCreateCrossing();
 
-    void createRating();
+    void showCreateRating(long osmNodeId);
 
-    void editCrossing();
+    void showEditCrossing(Crossing crossing);
 
-    void editRating();
+    void showEditRating(Rating rating);
 
     void removeCrossing();
 

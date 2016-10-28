@@ -26,7 +26,7 @@ public class ModifyGUITest {
     @Before
     public void setUp() throws Exception {
         db = new TestJDBC();
-        cug = new ModifyGUI(new MainGUI(new MainController(new Model()), new Model()), "changeSelectionError") {
+        cug = new ModifyGUI(new MainGUI(new MainController(new Model())), "changeSelectionError") {
 
             @Override
             protected void onSendClick() {
