@@ -3,10 +3,12 @@ package ch.hsr.zebrastreifensafari.controller;
 import ch.hsr.zebrastreifensafari.controller.callback.IMainCallback;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
+import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.service.WebsiteService;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,9 +50,8 @@ public class MainController {
         }
     }
 
-    //todo refactor
-    public void onCrossingSelection(boolean hasData) {
-        if (hasData) {
+    public void onCrossingSelection() {
+        if (callback.getCrossingTable().hasData()) {
             callback.setRatingTabbedPaneTitle(Properties.get("specificRatingTabbedPaneTitle") + callback.getCrossingTable().getOsmNodeIdAtSelectedRow());
         }
     }
@@ -177,6 +178,132 @@ public class MainController {
         if (clickCount >= 2) {
             onEditClick();
         }
+    }
+
+    //<editor-fold desc="CRUD Crossing">
+    public void createCrossing(Crossing crossing, String searchText) {
+        if (model.contains(crossing)) {
+            createExistingCrossing(crossing, searchText);
+        } else {
+            createNewCrossing(crossing, searchText);
+        }
+    }
+
+    private void createExistingCrossing(Crossing crossing, String searchText) {
+        crossing.increaseRatingAmount();
+
+        if (searchText.isEmpty()) {
+            callback.getCrossingTable().changeSelection(model.indexOf(crossing));
+            callback.getCrossingTable().setRatingAmountAtSelectedRow(crossing.getRatingAmount());
+        } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchText)) {
+            for (int i = 0; i < callback.getCrossingTable().getRowCount(); i++) {
+                if (callback.getCrossingTable().getOsmNodeIdAt(i) == crossing.getOsmNodeId()) {
+                    callback.getCrossingTable().changeSelection(i);
+                    callback.getCrossingTable().setRatingAmountAtSelectedRow(crossing.getRatingAmount());
+                    break;
+                }
+            }
+        }
+    }
+
+    private void createNewCrossing(Crossing crossing, String searchText) {
+        DataServiceLoader.getCrossingData().createCrossing(crossing);
+        model.add(crossing);
+        callback.getCrossingTable().add(crossing);
+
+        if (Long.toString(crossing.getOsmNodeId()).startsWith(searchText) || searchText.isEmpty()) {
+            callback.getCrossingTable().changeSelection(callback.getCrossingTable().getRowCount() - 1);
+        } else {
+            callback.getCrossingTable().removeRow(callback.getCrossingTable().getRowCount() - 1);
+        }
+    }
+
+    public void editCrossing(Crossing crossing, String searchText) throws EntityNotFoundException {
+        DataServiceLoader.getCrossingData().editCrossing(crossing);
+
+        if (searchText.isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(searchText)) {
+            callback.getCrossingTable().setOsmNodeIdAtSelectedRow(crossing.getOsmNodeId());
+            onCrossingSelection();
+        } else {
+            callback.getCrossingTable().removeRow(callback.getCrossingTable().getSelectedRow());
+        }
+    }
+
+    public void removeCrossing() {
+        try {
+            int selectedRow = callback.getCrossingTable().getSelectedRow();
+            Crossing crossing = getCrossingFromTable();
+            DataServiceLoader.getCrossingData().removeCrossing(crossing.getId());
+            callback.getCrossingTable().remove(model.indexOf(crossing));
+            model.remove(crossing);
+
+            if (callback.getCrossingTable().getRowCount() == selectedRow) {
+                selectedRow--;
+            }
+
+            callback.getCrossingTable().changeSelection(selectedRow);
+        } catch (EntityNotFoundException enfex) {
+            callback.errorMessage(Properties.get("crossingExistError"));
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="CRUD Rating">
+    public void createRating(Rating rating) throws EntityNotFoundException {
+        DataServiceLoader.getCrossingData().createRating(rating);
+        model.add(rating);
+        callback.getRatingTable().add(rating);
+        callback.getRatingTable().changeSelection(callback.getRatingTable().getRowCount() - 1);
+        Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
+        crossingOfRating.increaseRatingAmount();
+        callback.getCrossingTable().setRatingAmountAtSelectedRow(crossingOfRating.getRatingAmount());
+    }
+
+    public void editRating(Rating rating) throws EntityNotFoundException {
+        DataServiceLoader.getCrossingData().editRating(rating);
+        callback.getRatingTable().setUserIdAtSelectedRow(rating.getUserId().getName());
+        callback.getRatingTable().setTrafficIdAtSelectedRow(rating.getTrafficId().getValue());
+        callback.getRatingTable().setSpatialClarityIdAtSelectedRow(rating.getSpatialClarityId().getValue());
+        callback.getRatingTable().setIlluminationIdAtSelectedRow(rating.getIlluminationId().getValue());
+        callback.getRatingTable().setCommentAtSelectedRow(rating.getComment());
+        callback.getRatingTable().setImageWeblinkAtSelectedRow(rating.getImageWeblink());
+        callback.getRatingTable().setLastChangedAtSelectedRow(rating.getLastChanged());
+        callback.getRatingTable().setCreationTimeAtSelectedRow(rating.getCreationTime());
+    }
+
+    public void removeRating() {
+        try {
+            int selectedRow = callback.getRatingTable().getSelectedRow();
+            Rating rating = getRatingFromTable();
+            DataServiceLoader.getCrossingData().removeRating(rating.getId());
+            callback.getRatingTable().remove(model.indexOf(rating));
+            model.remove(rating);
+
+            if (model.getRatings().isEmpty()) {
+                removeCrossing();
+                callback.setSelectedTabbedPaneIndex(0);
+            } else {
+                if (callback.getRatingTable().getRowCount() == selectedRow) {
+                    selectedRow--;
+                }
+
+                callback.getRatingTable().changeSelection(selectedRow);
+                Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
+                crossingOfRating.decreaseRatingAmount();
+                callback.getCrossingTable().setRatingAmountAtSelectedRow(crossingOfRating.getRatingAmount());
+            }
+        } catch (EntityNotFoundException enfex) {
+            callback.errorMessage(Properties.get("ratingCrossingExistError"));
+        }
+    }
+    //</editor-fold>
+
+    private Crossing getCrossingFromTable() {
+        return model.getCrossing(callback.getCrossingTable().getSelectedId());
+    }
+
+    private Rating getRatingFromTable() {
+        return model.getRating(callback.getRatingTable().getSelectedId());
     }
 
     public User getUser(String name) {
