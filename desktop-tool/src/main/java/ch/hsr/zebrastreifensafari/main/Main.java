@@ -28,7 +28,7 @@ public class Main {
                 DataServiceLoader.provideCrossingData(new CrossingDataService("ZebraPU"));
                 Model model = new Model();
                 MainController mainController = new MainController(model);
-                MainGUI mainGUI = new MainGUI(mainController, model);
+                MainGUI mainGUI = new MainGUI(mainController);
                 mainGUI.setVisible(true);
                 break;
             } catch (PersistenceException pex) {

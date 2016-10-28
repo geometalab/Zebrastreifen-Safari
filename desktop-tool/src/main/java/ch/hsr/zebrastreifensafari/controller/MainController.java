@@ -27,12 +27,16 @@ public class MainController {
         this.model = model;
     }
 
-    public void subscribe(IMainCallback callback) {
+    public void setCallback(IMainCallback callback) {
         if (callback == null) {
             throw new IllegalArgumentException("callback can't be null");
         }
 
         this.callback = callback;
+    }
+
+    public void loadCrossings() {
+        callback.getCrossingTable().drawData(model.getCrossings());
     }
 
     public void onTabbedPaneChange() {
@@ -68,18 +72,18 @@ public class MainController {
 
     public void onAddClick() {
         if (callback.isRatingMode()) {
-            callback.createRating();
+            callback.showCreateRating(model.getCrossing(callback.getCrossingTable().getSelectedId()).getOsmNodeId());
         } else {
-            callback.createCrossing();
+            callback.showCreateCrossing();
         }
     }
 
     public void onEditClick() {
         try {
             if (callback.isRatingMode()) {
-                callback.editRating();
+                callback.showEditRating(model.getRating(callback.getRatingTable().getSelectedId()));
             } else {
-                callback.editCrossing();
+                callback.showEditCrossing(model.getCrossing(callback.getCrossingTable().getSelectedId()));
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             callback.errorMessage(Properties.get("editSelectionError"));
@@ -228,7 +232,6 @@ public class MainController {
             callback.getCrossingTable().removeRow(callback.getCrossingTable().getSelectedRow());
         }
     }
-
     public void removeCrossing() {
         try {
             int selectedRow = callback.getCrossingTable().getSelectedRow();
@@ -246,6 +249,7 @@ public class MainController {
             callback.errorMessage(Properties.get("crossingExistError"));
         }
     }
+
     //</editor-fold>
 
     //<editor-fold desc="CRUD Rating">
@@ -270,7 +274,6 @@ public class MainController {
         callback.getRatingTable().setLastChangedAtSelectedRow(rating.getLastChanged());
         callback.getRatingTable().setCreationTimeAtSelectedRow(rating.getCreationTime());
     }
-
     public void removeRating() {
         try {
             int selectedRow = callback.getRatingTable().getSelectedRow();
@@ -296,6 +299,7 @@ public class MainController {
             callback.errorMessage(Properties.get("ratingCrossingExistError"));
         }
     }
+
     //</editor-fold>
 
     private Crossing getCrossingFromTable() {

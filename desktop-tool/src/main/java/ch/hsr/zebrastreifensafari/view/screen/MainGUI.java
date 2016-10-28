@@ -7,7 +7,6 @@ import ch.hsr.zebrastreifensafari.controller.callback.table.ICrossingTable;
 import ch.hsr.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.component.JTextPlaceHolder;
 import ch.hsr.zebrastreifensafari.view.screen.modify.create.CreateCrossingGUI;
@@ -38,7 +37,6 @@ import java.util.ResourceBundle;
 
 public class MainGUI extends JFrame implements IMainCallback {
 
-    private final Model model;
     private final MainController controller;
     private JPanel mainPanel;
     private JTextField searchTextField;
@@ -61,16 +59,15 @@ public class MainGUI extends JFrame implements IMainCallback {
     private JButton previousCrossingButton;
     private JButton nextCrossingButton;
 
-    public MainGUI(MainController controller, Model model) throws HeadlessException {
+    public MainGUI(MainController controller) throws HeadlessException {
         super(Properties.get("mainGuiTitle") + Properties.get("versionNumber"));
         this.controller = controller;
-        this.model = model;
-        controller.subscribe(this);
+        controller.setCallback(this);
         $$$setupUI$$$();
         setContentPane(mainPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         initListeners();
-        getCrossingTable().drawData(model.getCrossings());
+        controller.loadCrossings();
         pack();
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
@@ -221,14 +218,6 @@ public class MainGUI extends JFrame implements IMainCallback {
     }
     //</editor-fold>
 
-    private Crossing getCrossingFromTable() {
-        return model.getCrossing(getCrossingTable().getSelectedId());
-    }
-
-    private Rating getRatingFromTable() {
-        return model.getRating(getRatingTable().getSelectedId());
-    }
-
     private int warningMessage(String message, int option) {
         return JOptionPane.showConfirmDialog(this, message, Properties.get("warning"), option);
     }
@@ -286,23 +275,23 @@ public class MainGUI extends JFrame implements IMainCallback {
     //</editor-fold>
 
     @Override
-    public void createCrossing() {
+    public void showCreateCrossing() {
         new CreateCrossingGUI(this).setVisible(true);
     }
 
     @Override
-    public void createRating() {
-        new CreateRatingGUI(this, getCrossingFromTable().getOsmNodeId()).setVisible(true);
+    public void showCreateRating(long osmNodeId) {
+        new CreateRatingGUI(this, osmNodeId).setVisible(true);
     }
 
     @Override
-    public void editCrossing() {
-        new EditCrossingGUI(this, getCrossingFromTable()).setVisible(true);
+    public void showEditCrossing(Crossing crossing) {
+        new EditCrossingGUI(this, crossing).setVisible(true);
     }
 
     @Override
-    public void editRating() {
-        new EditRatingGUI(this, getRatingFromTable()).setVisible(true);
+    public void showEditRating(Rating rating) {
+        new EditRatingGUI(this, rating).setVisible(true);
     }
 
     @Override
