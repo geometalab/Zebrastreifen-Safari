@@ -161,7 +161,7 @@ public class MainGUI extends JFrame implements IMainCallback {
     }
 
     private void onCrossingSelection() {
-        controller.onCrossingSelection(getCrossingTable().hasData());
+        controller.onCrossingSelection();
     }
 
     private void onSearch() {
@@ -233,125 +233,31 @@ public class MainGUI extends JFrame implements IMainCallback {
         return JOptionPane.showConfirmDialog(this, message, Properties.get("warning"), option);
     }
 
-    //<editor-fold desc="CRUD Crossing">
     public void createCrossing(Crossing crossing) {
-        if (model.contains(crossing)) {
-            createExistingCrossing(crossing);
-        } else {
-            createNewCrossing(crossing);
-        }
-    }
-
-    private void createExistingCrossing(Crossing crossing) {
-        crossing.increaseRatingAmount();
-
-        if (searchTextField.getText().isEmpty()) {
-            getCrossingTable().changeSelection(model.indexOf(crossing));
-            getCrossingTable().setRatingAmountAtSelectedRow(crossing.getRatingAmount());
-        } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
-            for (int i = 0; i < getCrossingTable().getRowCount(); i++) {
-                if (getCrossingTable().getOsmNodeIdAt(i) == crossing.getOsmNodeId()) {
-                    getCrossingTable().changeSelection(i);
-                    getCrossingTable().setRatingAmountAtSelectedRow(crossing.getRatingAmount());
-                    break;
-                }
-            }
-        }
-    }
-
-    private void createNewCrossing(Crossing crossing) {
-        DataServiceLoader.getCrossingData().createCrossing(crossing);
-        model.add(crossing);
-        getCrossingTable().add(crossing);
-
-        if (Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText()) || searchTextField.getText().isEmpty()) {
-            getCrossingTable().changeSelection(getCrossingTable().getRowCount() - 1);
-        } else {
-            getCrossingTable().removeRow(getCrossingTable().getRowCount() - 1);
-        }
+        controller.createCrossing(crossing, searchTextField.getText());
     }
 
     public void editCrossing(Crossing crossing) throws EntityNotFoundException {
-        DataServiceLoader.getCrossingData().editCrossing(crossing);
-
-        if (searchTextField.getText().isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(searchTextField.getText())) {
-            getCrossingTable().setOsmNodeIdAtSelectedRow(crossing.getOsmNodeId());
-            onCrossingSelection();
-        } else {
-            getCrossingTable().removeRow(getCrossingTable().getSelectedRow());
-        }
+        controller.editCrossing(crossing, searchTextField.getText());
     }
 
     @Override
     public void removeCrossing() {
-        try {
-            int selectedRow = getCrossingTable().getSelectedRow();
-            Crossing crossing = getCrossingFromTable();
-            DataServiceLoader.getCrossingData().removeCrossing(crossing.getId());
-            getCrossingTable().remove(model.indexOf(crossing));
-            model.remove(crossing);
-
-            if (getCrossingTable().getRowCount() == selectedRow) {
-                selectedRow--;
-            }
-
-            getCrossingTable().changeSelection(selectedRow);
-        } catch (EntityNotFoundException enfex) {
-            errorMessage(Properties.get("crossingExistError"));
-        }
+        controller.removeCrossing();
     }
-    //</editor-fold>
 
-    //<editor-fold desc="CRUD Rating">
     public void createRating(Rating rating) throws EntityNotFoundException {
-        DataServiceLoader.getCrossingData().createRating(rating);
-        model.add(rating);
-        getRatingTable().add(rating);
-        getRatingTable().changeSelection(getRatingTable().getRowCount() - 1);
-        Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
-        crossingOfRating.increaseRatingAmount();
-        getCrossingTable().setRatingAmountAtSelectedRow(crossingOfRating.getRatingAmount());
+        controller.createRating(rating);
     }
 
     public void editRating(Rating rating) throws EntityNotFoundException {
-        DataServiceLoader.getCrossingData().editRating(rating);
-        getRatingTable().setUserIdAtSelectedRow(rating.getUserId().getName());
-        getRatingTable().setTrafficIdAtSelectedRow(rating.getTrafficId().getValue());
-        getRatingTable().setSpatialClarityIdAtSelectedRow(rating.getSpatialClarityId().getValue());
-        getRatingTable().setIlluminationIdAtSelectedRow(rating.getIlluminationId().getValue());
-        getRatingTable().setCommentAtSelectedRow(rating.getComment());
-        getRatingTable().setImageWeblinkAtSelectedRow(rating.getImageWeblink());
-        getRatingTable().setLastChangedAtSelectedRow(rating.getLastChanged());
-        getRatingTable().setCreationTimeAtSelectedRow(rating.getCreationTime());
+        controller.editRating(rating);
     }
 
     @Override
     public void removeRating() {
-        try {
-            int selectedRow = getRatingTable().getSelectedRow();
-            Rating rating = getRatingFromTable();
-            DataServiceLoader.getCrossingData().removeRating(rating.getId());
-            getRatingTable().remove(model.indexOf(rating));
-            model.remove(rating);
-
-            if (model.getRatings().isEmpty()) {
-                removeCrossing();
-                setSelectedTabbedPaneIndex(0);
-            } else {
-                if (getRatingTable().getRowCount() == selectedRow) {
-                    selectedRow--;
-                }
-
-                getRatingTable().changeSelection(selectedRow);
-                Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
-                crossingOfRating.decreaseRatingAmount();
-                getCrossingTable().setRatingAmountAtSelectedRow(crossingOfRating.getRatingAmount());
-            }
-        } catch (EntityNotFoundException enfex) {
-            errorMessage(Properties.get("ratingCrossingExistError"));
-        }
+        controller.removeRating();
     }
-    //</editor-fold>
 
     //<editor-fold desc="Model methods">
     public User getUser(String name) {
