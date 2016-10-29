@@ -25,10 +25,6 @@ public interface IMainCallback {
 
     void showAbout(AboutController controller);
 
-    ICrossingTable getCrossingTable();
-
-    IRatingTable getRatingTable();
-
     void setSelectedTabbedPaneIndex(int index);
 
     void setRatingTabbedPaneTitle(String title);
