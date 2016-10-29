@@ -3,7 +3,6 @@ package ch.hsr.zebrastreifensafari.view.screen;
 import ch.hsr.zebrastreifensafari.controller.AboutController;
 import ch.hsr.zebrastreifensafari.controller.MainController;
 import ch.hsr.zebrastreifensafari.controller.callback.IMainCallback;
-import ch.hsr.zebrastreifensafari.controller.callback.table.ICrossingTable;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.component.JTextPlaceHolder;
@@ -39,7 +38,7 @@ public class MainGUI extends JFrame implements IMainCallback {
 
     private final MainController controller;
     private JPanel mainPanel;
-    private JTextField searchTextField;
+    private JTextField filterTextField;
     private JButton addCrossingButton;
     private JButton editCrossingButton;
     private JButton deleteCrossingButton;
@@ -105,10 +104,10 @@ public class MainGUI extends JFrame implements IMainCallback {
             }
         });
         crossingTable.getSelectionModel().addListSelectionListener(e -> onCrossingSelection());
-        searchTextField.addKeyListener(new KeyAdapter() {
+        filterTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                onSearch();
+                onFilter();
             }
         });
     }
@@ -171,8 +170,8 @@ public class MainGUI extends JFrame implements IMainCallback {
         controller.updateRatingTabTitle(crossingTable);
     }
 
-    private void onSearch() {
-        controller.search(crossingTable, searchTextField.getText());
+    private void onFilter() {
+        controller.filter(crossingTable, filterTextField.getText());
     }
 
     private void onAddClick() {
@@ -262,9 +261,7 @@ public class MainGUI extends JFrame implements IMainCallback {
     }
 
     private void onCrossingSort(MouseEvent event) {
-        controller.sortCrossing(crossingTable, crossingTable.getColumnName(crossingTable.columnAtPoint(event.getPoint())));
-        //todo move to controller
-        searchTextField.getKeyListeners()[0].keyReleased(null);
+        controller.sortFilteredCrossing(crossingTable, crossingTable.getColumnName(crossingTable.columnAtPoint(event.getPoint())), filterTextField.getText());
     }
 
     private void onRatingSort(MouseEvent event) {
@@ -291,11 +288,11 @@ public class MainGUI extends JFrame implements IMainCallback {
     }
 
     public void createCrossing(Crossing crossing) {
-        controller.createCrossing(crossingTable, crossing, searchTextField.getText());
+        controller.createCrossing(crossingTable, crossing, filterTextField.getText());
     }
 
     public void editCrossing(Crossing crossing) throws EntityNotFoundException {
-        controller.editCrossing(crossingTable, crossing, searchTextField.getText());
+        controller.editCrossing(crossingTable, crossing, filterTextField.getText());
     }
 
     public void removeCrossing() {
@@ -375,7 +372,7 @@ public class MainGUI extends JFrame implements IMainCallback {
     private void createUIComponents() {
         crossingTable = new CrossingTable();
         ratingTable = new RatingTable();
-        searchTextField = new JTextPlaceHolder(Properties.get("searchPlaceHolder"));
+        filterTextField = new JTextPlaceHolder(Properties.get("filterPlaceHolder"));
 
         JMenuBar bar = new JMenuBar();
         JMenu fileMenu = new JMenu(Properties.get("file"));
@@ -465,10 +462,10 @@ public class MainGUI extends JFrame implements IMainCallback {
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new BorderLayout(0, 0));
         panel2.add(panel4, BorderLayout.WEST);
-        searchTextField.setColumns(19);
-        searchTextField.setMargin(new Insets(0, 0, 0, 0));
-        searchTextField.setPreferredSize(new Dimension(223, 24));
-        panel4.add(searchTextField, BorderLayout.CENTER);
+        filterTextField.setColumns(19);
+        filterTextField.setMargin(new Insets(0, 0, 0, 0));
+        filterTextField.setPreferredSize(new Dimension(223, 24));
+        panel4.add(filterTextField, BorderLayout.CENTER);
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, BorderLayout.CENTER);
         scrollPane1.setViewportView(crossingTable);

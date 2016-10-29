@@ -64,7 +64,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="43582" class="javax.swing.JTextField" binding="searchTextField" custom-create="true">
+                      <component id="43582" class="javax.swing.JTextField" binding="filterTextField" custom-create="true">
                         <constraints border-constraint="Center"/>
                         <properties>
                           <columns value="19"/>

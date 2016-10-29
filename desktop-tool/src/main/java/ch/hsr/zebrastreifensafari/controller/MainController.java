@@ -47,12 +47,12 @@ public class MainController {
         }
     }
 
-    public void search(ICrossingTable crossingTable, String searchText) {
-        if (searchText.isEmpty()) {
+    public void filter(ICrossingTable crossingTable, String filter) {
+        if (filter.isEmpty()) {
             drawCrossings(crossingTable);
         } else {
             crossingTable.drawData(model.getCrossings().stream()
-                    .filter(crossing -> String.valueOf(crossing.getOsmNodeId()).startsWith(searchText))
+                    .filter(crossing -> String.valueOf(crossing.getOsmNodeId()).startsWith(filter))
                     .collect(Collectors.toList()));
         }
     }
@@ -111,6 +111,11 @@ public class MainController {
         WebsiteService.openWebsite(Properties.get("helpLink"));
     }
 
+    public void sortFilteredCrossing(ICrossingTable crossingTable, String columnName, String filter) {
+        sortCrossing(crossingTable, columnName);
+        filter(crossingTable, filter);
+    }
+
     public void sortCrossing(ICrossingTable crossingTable, String columnName) {
         if (columnName.equals(Properties.get("osmNodeId"))) {
             model.sortByNode();
@@ -146,9 +151,9 @@ public class MainController {
     }
 
     //<editor-fold desc="CRUD Crossing">
-    public void createCrossing(ICrossingTable crossingTable, Crossing crossing, String searchText) {
+    public void createCrossing(ICrossingTable crossingTable, Crossing crossing, String filter) {
         if (model.contains(crossing)) {
-            createExistingCrossing(crossingTable, crossing, searchText);
+            createExistingCrossing(crossingTable, crossing, filter);
             return;
         }
 
@@ -156,20 +161,20 @@ public class MainController {
         model.add(crossing);
         crossingTable.add(crossing);
 
-        if (Long.toString(crossing.getOsmNodeId()).startsWith(searchText) || searchText.isEmpty()) {
+        if (Long.toString(crossing.getOsmNodeId()).startsWith(filter) || filter.isEmpty()) {
             crossingTable.changeSelection(crossingTable.getRowCount() - 1);
         } else {
             crossingTable.removeRow(crossingTable.getRowCount() - 1);
         }
     }
 
-    private void createExistingCrossing(ICrossingTable crossingTable, Crossing crossing, String searchText) {
+    private void createExistingCrossing(ICrossingTable crossingTable, Crossing crossing, String filter) {
         crossing.increaseRatingAmount();
 
-        if (searchText.isEmpty()) {
+        if (filter.isEmpty()) {
             crossingTable.changeSelection(model.indexOf(crossing));
             crossingTable.setRatingAmountAtSelectedRow(crossing.getRatingAmount());
-        } else if (Long.toString(crossing.getOsmNodeId()).startsWith(searchText)) {
+        } else if (Long.toString(crossing.getOsmNodeId()).startsWith(filter)) {
             for (int i = 0; i < crossingTable.getRowCount(); i++) {
                 if (crossingTable.getOsmNodeIdAt(i) == crossing.getOsmNodeId()) {
                     crossingTable.changeSelection(i);
@@ -180,10 +185,10 @@ public class MainController {
         }
     }
 
-    public void editCrossing(ICrossingTable crossingTable, Crossing crossing, String searchText) throws EntityNotFoundException {
+    public void editCrossing(ICrossingTable crossingTable, Crossing crossing, String filter) throws EntityNotFoundException {
         DataServiceLoader.getCrossingData().editCrossing(crossing);
 
-        if (searchText.isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(searchText)) {
+        if (filter.isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(filter)) {
             crossingTable.setOsmNodeIdAtSelectedRow(crossing.getOsmNodeId());
             updateRatingTabTitle(crossingTable);
         } else {
