@@ -3,8 +3,6 @@ package ch.hsr.zebrastreifensafari.view.screen;
 import ch.hsr.zebrastreifensafari.controller.AboutController;
 import ch.hsr.zebrastreifensafari.controller.MainController;
 import ch.hsr.zebrastreifensafari.controller.callback.IMainCallback;
-import ch.hsr.zebrastreifensafari.controller.callback.table.ICrossingTable;
-import ch.hsr.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.component.JTextPlaceHolder;
@@ -66,7 +64,7 @@ public class MainGUI extends JFrame implements IMainCallback {
         setContentPane(mainPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         initListeners();
-        controller.loadCrossings();
+        controller.drawCrossings(crossingTable);
         pack();
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
@@ -153,41 +151,41 @@ public class MainGUI extends JFrame implements IMainCallback {
 
     //<editor-fold desc="Actions">
     private void onTabbedPaneChange() {
-        controller.changeTabbedPane();
+        controller.changeTabbedPane(crossingTable, ratingTable);
     }
 
     private void onCrossingSelection() {
-        controller.updateRatingTabTitle();
+        controller.updateRatingTabTitle(crossingTable);
     }
 
     private void onSearch() {
-        controller.search(searchTextField.getText());
+        controller.search(crossingTable, searchTextField.getText());
     }
 
     private void onAddClick() {
-        controller.add();
+        controller.add(crossingTable);
     }
 
     private void onEditClick() {
-        controller.edit();
+        controller.edit(crossingTable, ratingTable);
     }
 
     private void onDeleteClick() {
         if (warningMessage(Properties.get("deleteWarning"), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            controller.delete();
+            controller.delete(crossingTable, ratingTable);
         }
     }
 
     private void onPreviousCrossingClick() {
-        controller.previousCrossing();
+        controller.previousCrossing(crossingTable, ratingTable);
     }
 
     private void onNextCrossingClick() {
-        controller.nextCrossing();
+        controller.nextCrossing(crossingTable, ratingTable);
     }
 
     private void onRefreshClick() {
-        controller.refresh();
+        controller.refresh(crossingTable, ratingTable);
     }
 
     private void onExitClick() {
@@ -203,17 +201,17 @@ public class MainGUI extends JFrame implements IMainCallback {
     }
 
     private void onCrossingSort(MouseEvent event) {
-        controller.sortCrossing(crossingTable.getColumnName(crossingTable.columnAtPoint(event.getPoint())));
+        controller.sortCrossing(crossingTable, crossingTable.getColumnName(crossingTable.columnAtPoint(event.getPoint())));
         //todo move to controller
         searchTextField.getKeyListeners()[0].keyReleased(null);
     }
 
     private void onRatingSort(MouseEvent event) {
-        controller.sortRating(ratingTable.getColumnName(ratingTable.columnAtPoint(event.getPoint())));
+        controller.sortRating(ratingTable, ratingTable.getColumnName(ratingTable.columnAtPoint(event.getPoint())));
     }
 
     private void onTableDoubleClick(MouseEvent event) {
-        controller.doubleClickEdit(event.getClickCount());
+        controller.doubleClickEdit(crossingTable, ratingTable, event.getClickCount());
     }
     //</editor-fold>
 
@@ -222,27 +220,27 @@ public class MainGUI extends JFrame implements IMainCallback {
     }
 
     public void createCrossing(Crossing crossing) {
-        controller.createCrossing(crossing, searchTextField.getText());
+        controller.createCrossing(crossingTable, crossing, searchTextField.getText());
     }
 
     public void editCrossing(Crossing crossing) throws EntityNotFoundException {
-        controller.editCrossing(crossing, searchTextField.getText());
+        controller.editCrossing(crossingTable, crossing, searchTextField.getText());
     }
 
     public void removeCrossing() {
-        controller.deleteCrossing();
+        controller.deleteCrossing(crossingTable);
     }
 
     public void createRating(Rating rating) throws EntityNotFoundException {
-        controller.createRating(rating);
+        controller.createRating(crossingTable, ratingTable, rating);
     }
 
     public void editRating(Rating rating) throws EntityNotFoundException {
-        controller.editRating(rating);
+        controller.editRating(ratingTable, rating);
     }
 
     public void removeRating() {
-        controller.deleteRating();
+        controller.deleteRating(crossingTable, ratingTable);
     }
 
     //<editor-fold desc="Model methods">
@@ -294,16 +292,6 @@ public class MainGUI extends JFrame implements IMainCallback {
     @Override
     public void showAbout(AboutController controller) {
         new AboutGUI(this, controller).setVisible(true);
-    }
-
-    @Override
-    public ICrossingTable getCrossingTable() {
-        return crossingTable;
-    }
-
-    @Override
-    public IRatingTable getRatingTable() {
-        return ratingTable;
     }
 
     @Override
