@@ -28,8 +28,4 @@ public interface IMainCallback {
     void setSelectedTabbedPaneIndex(int index);
 
     void setRatingTabbedPaneTitle(String title);
-
-    void errorMessage(String changeSelectionError);
-
-    boolean isRatingMode();
 }
