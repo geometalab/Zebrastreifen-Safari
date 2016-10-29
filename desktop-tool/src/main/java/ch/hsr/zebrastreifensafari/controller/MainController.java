@@ -41,21 +41,6 @@ public class MainController {
         crossingTable.drawData(model.getCrossings());
     }
 
-    public void changeTabbedPane(ICrossingTable crossingTable, IRatingTable ratingTable) {
-        try {
-            if (callback.isRatingMode()) {
-                model.loadRating(getCrossingFromTable(crossingTable));
-                ratingTable.drawData(model.getRatings());
-            }
-        } catch (ArrayIndexOutOfBoundsException aioobe) {
-            callback.setSelectedTabbedPaneIndex(0);
-            callback.errorMessage(Properties.get("changeSelectionError"));
-        } catch (PersistenceException pex) {
-            callback.setSelectedTabbedPaneIndex(0);
-            callback.errorMessage(Properties.get("connectionError"));
-        }
-    }
-
     public void updateRatingTabTitle(ICrossingTable crossingTable) {
         if (crossingTable.hasData()) {
             callback.setRatingTabbedPaneTitle(Properties.get("specificRatingTabbedPaneTitle") + crossingTable.getOsmNodeIdAtSelectedRow());
@@ -72,84 +57,54 @@ public class MainController {
         }
     }
 
-    public void add(ICrossingTable crossingTable) {
-        if (callback.isRatingMode()) {
-            callback.showCreateRating(getCrossingFromTable(crossingTable).getOsmNodeId());
-        } else {
-            callback.showCreateCrossing();
-        }
+    public void addCrossing() {
+        callback.showCreateCrossing();
     }
 
-    public void edit(ICrossingTable crossingTable, IRatingTable ratingTable) {
-        try {
-            if (callback.isRatingMode()) {
-                callback.showEditRating(getRatingFromTable(ratingTable));
-            } else {
-                callback.showEditCrossing(getCrossingFromTable(crossingTable));
-            }
-        } catch (ArrayIndexOutOfBoundsException aioobe) {
-            callback.errorMessage(Properties.get("editSelectionError"));
-        }
+    public void addRating(ICrossingTable crossingTable) {
+        callback.showCreateRating(getCrossingFromTable(crossingTable).getOsmNodeId());
     }
 
-    public void doubleClickEdit(ICrossingTable crossingTable, IRatingTable ratingTable, int clickCount) {
-        if (clickCount >= 2) {
-            edit(crossingTable, ratingTable);
-        }
+    public void editCrossing(ICrossingTable crossingTable) throws ArrayIndexOutOfBoundsException {
+        callback.showEditCrossing(getCrossingFromTable(crossingTable));
+    }
+
+    public void editRating(IRatingTable ratingTable) throws ArrayIndexOutOfBoundsException {
+        callback.showEditRating(getRatingFromTable(ratingTable));
     }
 
     public void openAboutDialog() {
         callback.showAbout(new AboutController());
     }
 
-    public void delete(ICrossingTable crossingTable, IRatingTable ratingTable) {
-        try {
-            if (callback.isRatingMode()) {
-                deleteRating(crossingTable, ratingTable);
-            } else {
-                deleteCrossing(crossingTable);
-            }
-        } catch (ArrayIndexOutOfBoundsException aioobe) {
-            callback.errorMessage(Properties.get("deleteSelectionError"));
-        } catch (DatabaseException dbex) {
-            callback.errorMessage(Properties.get("connectionError"));
-        }
-    }
-
-    public void previousCrossing(ICrossingTable crossingTable, IRatingTable ratingTable) {
+    public void previousCrossing(ICrossingTable crossingTable) {
         if (crossingTable.getSelectedRow() != 0) {
             crossingTable.changeSelection(crossingTable.getSelectedRow() - 1);
         } else {
             crossingTable.changeSelection(crossingTable.getRowCount() - 1);
         }
-
-        changeTabbedPane(crossingTable, ratingTable);
     }
 
-    public void nextCrossing(ICrossingTable crossingTable, IRatingTable ratingTable) {
+    public void nextCrossing(ICrossingTable crossingTable) {
         if (crossingTable.getSelectedRow() != crossingTable.getRowCount() - 1) {
             crossingTable.changeSelection(crossingTable.getSelectedRow() + 1);
         } else {
             crossingTable.changeSelection(0);
         }
-
-        changeTabbedPane(crossingTable, ratingTable);
     }
 
-    public void refresh(ICrossingTable crossingTable, IRatingTable ratingTable) {
-        try {
-            model.loadUsers();
+    public void loadCrossings(ICrossingTable crossingTable) throws ArrayIndexOutOfBoundsException, PersistenceException {
+        model.loadCrossing();
+        drawCrossings(crossingTable);
+    }
 
-            if (callback.isRatingMode()) {
-                model.loadRating(getCrossingFromTable(crossingTable));
-                ratingTable.drawData(model.getRatings());
-            } else {
-                model.loadCrossing();
-                drawCrossings(crossingTable);
-            }
-        } catch (PersistenceException pex) {
-            callback.errorMessage(Properties.get("connectionError"));
-        }
+    public void loadRatings(ICrossingTable crossingTable, IRatingTable ratingTable) throws ArrayIndexOutOfBoundsException, PersistenceException {
+        model.loadRating(getCrossingFromTable(crossingTable));
+        ratingTable.drawData(model.getRatings());
+    }
+
+    public void loadUsers() throws ArrayIndexOutOfBoundsException, PersistenceException {
+        model.loadUsers();
     }
 
     public void help() {
@@ -236,22 +191,18 @@ public class MainController {
         }
     }
 
-    public void deleteCrossing(ICrossingTable crossingTable) {
-        try {
-            int selectedRow = crossingTable.getSelectedRow();
-            Crossing crossing = getCrossingFromTable(crossingTable);
-            DataServiceLoader.getCrossingData().removeCrossing(crossing.getId());
-            crossingTable.remove(model.indexOf(crossing));
-            model.remove(crossing);
+    public void deleteCrossing(ICrossingTable crossingTable) throws ArrayIndexOutOfBoundsException, DatabaseException, EntityNotFoundException {
+        int selectedRow = crossingTable.getSelectedRow();
+        Crossing crossing = getCrossingFromTable(crossingTable);
+        DataServiceLoader.getCrossingData().removeCrossing(crossing.getId());
+        crossingTable.remove(model.indexOf(crossing));
+        model.remove(crossing);
 
-            if (crossingTable.getRowCount() == selectedRow) {
-                selectedRow--;
-            }
-
-            crossingTable.changeSelection(selectedRow);
-        } catch (EntityNotFoundException enfex) {
-            callback.errorMessage(Properties.get("crossingExistError"));
+        if (crossingTable.getRowCount() == selectedRow) {
+            selectedRow--;
         }
+
+        crossingTable.changeSelection(selectedRow);
     }
 
     //</editor-fold>
@@ -279,30 +230,22 @@ public class MainController {
         ratingTable.setCreationTimeAtSelectedRow(rating.getCreationTime());
     }
 
-    public void deleteRating(ICrossingTable crossingTable, IRatingTable ratingTable) {
-        try {
-            int selectedRow = ratingTable.getSelectedRow();
-            Rating rating = getRatingFromTable(ratingTable);
-            DataServiceLoader.getCrossingData().removeRating(rating.getId());
-            ratingTable.remove(model.indexOf(rating));
-            model.remove(rating);
+    public void deleteRating(IRatingTable ratingTable) throws ArrayIndexOutOfBoundsException, DatabaseException, EntityNotFoundException {
+        Rating rating = getRatingFromTable(ratingTable);
+        DataServiceLoader.getCrossingData().removeRating(rating.getId());
+        ratingTable.remove(model.indexOf(rating));
+        model.remove(rating);
+    }
 
-            if (model.getRatings().isEmpty()) {
-                deleteCrossing(crossingTable);
-                callback.setSelectedTabbedPaneIndex(0);
-            } else {
-                if (ratingTable.getRowCount() == selectedRow) {
-                    selectedRow--;
-                }
-
-                ratingTable.changeSelection(selectedRow);
-                Crossing crossingOfRating = model.getCrossing(rating.getCrossingId().getId());
-                crossingOfRating.decreaseRatingAmount();
-                crossingTable.setRatingAmountAtSelectedRow(crossingOfRating.getRatingAmount());
-            }
-        } catch (EntityNotFoundException enfex) {
-            callback.errorMessage(Properties.get("ratingCrossingExistError"));
+    public void updateRatingAmount(ICrossingTable crossingTable, IRatingTable ratingTable, int selectedRow) throws EntityNotFoundException {
+        if (ratingTable.getRowCount() == selectedRow) {
+            selectedRow--;
         }
+
+        ratingTable.changeSelection(selectedRow);
+        Crossing crossing = getCrossingFromTable(crossingTable);
+        crossing.decreaseRatingAmount();
+        crossingTable.setRatingAmountAtSelectedRow(crossing.getRatingAmount());
     }
     //</editor-fold>
 

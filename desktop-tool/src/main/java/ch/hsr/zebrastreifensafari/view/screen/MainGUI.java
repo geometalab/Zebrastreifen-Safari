@@ -3,6 +3,7 @@ package ch.hsr.zebrastreifensafari.view.screen;
 import ch.hsr.zebrastreifensafari.controller.AboutController;
 import ch.hsr.zebrastreifensafari.controller.MainController;
 import ch.hsr.zebrastreifensafari.controller.callback.IMainCallback;
+import ch.hsr.zebrastreifensafari.controller.callback.table.ICrossingTable;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.component.JTextPlaceHolder;
@@ -12,8 +13,10 @@ import ch.hsr.zebrastreifensafari.view.screen.modify.edit.EditCrossingGUI;
 import ch.hsr.zebrastreifensafari.view.screen.modify.edit.EditRatingGUI;
 import ch.hsr.zebrastreifensafari.view.table.CrossingTable;
 import ch.hsr.zebrastreifensafari.view.table.RatingTable;
+import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceException;
 import javax.swing.*;
 import javax.swing.text.DefaultEditorKit;
 import java.awt.*;
@@ -151,7 +154,17 @@ public class MainGUI extends JFrame implements IMainCallback {
 
     //<editor-fold desc="Actions">
     private void onTabbedPaneChange() {
-        controller.changeTabbedPane(crossingTable, ratingTable);
+        try {
+            if (isRatingMode()) {
+                controller.loadRatings(crossingTable, ratingTable);
+            }
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+            setSelectedTabbedPaneIndex(0);
+            errorMessage(Properties.get("changeSelectionError"));
+        } catch (PersistenceException pex) {
+            setSelectedTabbedPaneIndex(0);
+            errorMessage(Properties.get("connectionError"));
+        }
     }
 
     private void onCrossingSelection() {
@@ -163,29 +176,77 @@ public class MainGUI extends JFrame implements IMainCallback {
     }
 
     private void onAddClick() {
-        controller.add(crossingTable);
+        if (isRatingMode()) {
+            controller.addRating(crossingTable);
+        } else {
+            controller.addCrossing();
+        }
     }
 
     private void onEditClick() {
-        controller.edit(crossingTable, ratingTable);
+        try {
+            if (isRatingMode()) {
+                controller.editRating(ratingTable);
+            } else {
+                controller.editCrossing(crossingTable);
+            }
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+            errorMessage(Properties.get("editSelectionError"));
+        }
     }
 
     private void onDeleteClick() {
         if (warningMessage(Properties.get("deleteWarning"), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            controller.delete(crossingTable, ratingTable);
+            try {
+                if (isRatingMode()) {
+                    if (ratingTable.getRowCount() == 1) {
+                        controller.deleteCrossing(crossingTable);
+                        setSelectedTabbedPaneIndex(0);
+                        return;
+                    }
+
+                    try {
+                        int selectedRow = ratingTable.getSelectedRow();
+                        controller.deleteRating(ratingTable);
+                        controller.updateRatingAmount(crossingTable, ratingTable, selectedRow);
+                    } catch (EntityNotFoundException enfex) {
+                        errorMessage(Properties.get("ratingCrossingExistError"));
+                    }
+                } else {
+                    controller.deleteCrossing(crossingTable);
+                }
+            } catch (ArrayIndexOutOfBoundsException aioobe) {
+                errorMessage(Properties.get("deleteSelectionError"));
+            } catch (DatabaseException dbex) {
+                errorMessage(Properties.get("connectionError"));
+            } catch (EntityNotFoundException enfex) {
+                errorMessage(Properties.get("crossingExistError"));
+            }
         }
     }
 
     private void onPreviousCrossingClick() {
-        controller.previousCrossing(crossingTable, ratingTable);
+        controller.previousCrossing(crossingTable);
+        onTabbedPaneChange();
     }
 
     private void onNextCrossingClick() {
-        controller.nextCrossing(crossingTable, ratingTable);
+        controller.nextCrossing(crossingTable);
+        onTabbedPaneChange();
     }
 
     private void onRefreshClick() {
-        controller.refresh(crossingTable, ratingTable);
+        try {
+            controller.loadUsers();
+
+            if (isRatingMode()) {
+                controller.loadRatings(crossingTable, ratingTable);
+            } else {
+                controller.loadCrossings(crossingTable);
+            }
+        } catch (PersistenceException pex) {
+            errorMessage(Properties.get("connectionError"));
+        }
     }
 
     private void onExitClick() {
@@ -211,9 +272,19 @@ public class MainGUI extends JFrame implements IMainCallback {
     }
 
     private void onTableDoubleClick(MouseEvent event) {
-        controller.doubleClickEdit(crossingTable, ratingTable, event.getClickCount());
+        if (event.getClickCount() >= 2) {
+            onEditClick();
+        }
     }
     //</editor-fold>
+
+    private boolean isRatingMode() {
+        return dataTabbedPane.getSelectedIndex() == 1;
+    }
+
+    private void errorMessage(String message) {
+        JOptionPane.showMessageDialog(this, message, Properties.get("error"), JOptionPane.ERROR_MESSAGE);
+    }
 
     private int warningMessage(String message, int option) {
         return JOptionPane.showConfirmDialog(this, message, Properties.get("warning"), option);
@@ -237,10 +308,6 @@ public class MainGUI extends JFrame implements IMainCallback {
 
     public void editRating(Rating rating) throws EntityNotFoundException {
         controller.editRating(ratingTable, rating);
-    }
-
-    public void removeRating() {
-        controller.deleteRating(crossingTable, ratingTable);
     }
 
     //<editor-fold desc="Model methods">
@@ -302,16 +369,6 @@ public class MainGUI extends JFrame implements IMainCallback {
     @Override
     public void setRatingTabbedPaneTitle(String title) {
         dataTabbedPane.setTitleAt(1, title);
-    }
-
-    @Override
-    public boolean isRatingMode() {
-        return dataTabbedPane.getSelectedIndex() == 1;
-    }
-
-    @Override
-    public void errorMessage(String message) {
-        JOptionPane.showMessageDialog(this, message, Properties.get("error"), JOptionPane.ERROR_MESSAGE);
     }
 
     //<editor-fold desc="GUI Builder">
