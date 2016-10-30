@@ -1,6 +1,6 @@
-package ch.hsr.ifs.zebrastreifensafari.jpa.controllers;
+package ch.hsr.ifs.zebrastreifensafari.model.jpa.controllers;
 
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.User;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.User;
 
 import javax.persistence.EntityManagerFactory;
 import java.io.Serializable;

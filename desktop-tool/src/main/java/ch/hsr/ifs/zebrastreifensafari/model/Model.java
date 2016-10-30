@@ -5,7 +5,7 @@
  */
 package ch.hsr.ifs.zebrastreifensafari.model;
 
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 import ch.hsr.ifs.zebrastreifensafari.service.DataServiceLoader;
 
 import java.util.ArrayList;

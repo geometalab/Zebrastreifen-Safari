@@ -2,7 +2,7 @@ package ch.hsr.ifs.zebrastreifensafari.controller;
 
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IMainController;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.ICrossingTable;
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 import ch.hsr.ifs.zebrastreifensafari.model.sort.crossing.CrossingSorter;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.IMainCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.IRatingTable;

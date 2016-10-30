@@ -1,8 +1,8 @@
 package ch.hsr.ifs.zebrastreifensafari.service.crossing;
 
 import ch.hsr.ifs.zebrastreifensafari.TestJDBC;
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.Crossing;
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.Rating;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Rating;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
 import org.junit.After;
 import org.junit.Assert;

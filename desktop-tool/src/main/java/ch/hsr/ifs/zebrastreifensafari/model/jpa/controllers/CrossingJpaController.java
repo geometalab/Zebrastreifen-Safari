@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hsr.ifs.zebrastreifensafari.jpa.controllers;
+package ch.hsr.ifs.zebrastreifensafari.model.jpa.controllers;
 
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.Crossing;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

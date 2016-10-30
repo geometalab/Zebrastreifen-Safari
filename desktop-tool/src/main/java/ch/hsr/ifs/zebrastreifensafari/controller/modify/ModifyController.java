@@ -1,7 +1,7 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.modify;
 
 import ch.hsr.ifs.zebrastreifensafari.exception.InvalidTimeException;
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.User;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.User;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
 
 import java.util.Calendar;
