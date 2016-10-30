@@ -8,7 +8,7 @@ import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Rating;
  * @version : 1.0
  * @since : 2.0
  */
-public interface IMainController {
+public interface IEntityManipulation {
 
     void createCrossing(Crossing crossing);
 
