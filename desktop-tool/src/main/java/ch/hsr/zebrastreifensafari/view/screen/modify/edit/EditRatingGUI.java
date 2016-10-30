@@ -55,9 +55,9 @@ public class EditRatingGUI extends ModifyGUI implements IEditRatingCallback {
         } catch (DatabaseException dbex) {
             errorMessage(Properties.get("connectionError"));
         } catch (NumberFormatException nfex) {
-            errorMessage(Properties.get("invalideTimeFormatError"));
+            errorMessage(Properties.get("invalidTimeFormatError"));
         } catch (InvalidTimeException itex) {
-            errorMessage(Properties.get("invalideTimeError"));
+            errorMessage(Properties.get("invalidTimeError"));
         } catch (Exception ex) {
             ex.printStackTrace();
             errorMessage(Properties.get("unexpectedError"));

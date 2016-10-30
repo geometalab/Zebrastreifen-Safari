@@ -53,9 +53,9 @@ public class CreateCrossingGUI extends ModifyGUI implements ICreateCrossingCallb
         } catch (RollbackException rex) {
             errorMessage(Properties.get("duplicatedPhotoError"));
         } catch (NumberFormatException nfex) {
-            errorMessage(Properties.get("invalideTimeFormatError"));
+            errorMessage(Properties.get("invalidTimeFormatError"));
         } catch (InvalidTimeException itex) {
-            errorMessage(Properties.get("invalideTimeError"));
+            errorMessage(Properties.get("invalidTimeError"));
         }
 
         controller.deleteCrossing();
