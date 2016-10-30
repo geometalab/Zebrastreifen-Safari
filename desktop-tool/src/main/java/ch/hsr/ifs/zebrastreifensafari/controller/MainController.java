@@ -1,7 +1,7 @@
 package ch.hsr.ifs.zebrastreifensafari.controller;
 
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.IMainCallback;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEntityManipulation;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.IEntityManipulation;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.ICrossingTable;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateCrossingController;
