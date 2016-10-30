@@ -1,11 +1,10 @@
 package ch.hsr.zebrastreifensafari.view.screen.modify.create;
 
+import ch.hsr.zebrastreifensafari.controller.callback.modify.ICreateCrossingCallback;
+import ch.hsr.zebrastreifensafari.controller.modify.create.CreateCrossingController;
+import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import ch.hsr.zebrastreifensafari.view.screen.modify.ModifyGUI;
-import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
-import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
-import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import ch.hsr.zebrastreifensafari.service.Properties;
 
 import javax.persistence.RollbackException;
 import java.util.Date;
@@ -13,19 +12,21 @@ import java.util.Date;
 /**
  * @author aeugster
  */
-public class CreateCrossingGUI extends ModifyGUI {
+public class CreateCrossingGUI extends ModifyGUI implements ICreateCrossingCallback {
 
-    public CreateCrossingGUI(MainGUI mainGUI) {
-        super(mainGUI, Properties.get("createCrossingGuiTitle"));
+    private CreateCrossingController controller;
+
+    public CreateCrossingGUI(CreateCrossingController controller, MainGUI mainGUI) {
+        super(controller, mainGUI, Properties.get("createCrossingGuiTitle"));
+        this.controller = controller;
+        controller.setCallback(this);
     }
 
     @Override
     protected void onSendClick() {
         //todo: überarbeiten, wenn ein bild wiederholt verwendet wird, wird trozdem ein crossing erstellt (momentane lösung funktioniert ist aber nicht schön)
         try {
-            if (createRating(createCrossing())) {
-                dispose();
-            }
+            controller.send(osmNodeIdTextField.getText());
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (RollbackException rex) {
@@ -36,35 +37,17 @@ public class CreateCrossingGUI extends ModifyGUI {
         }
     }
 
-    private Crossing createCrossing() {
-        long osmNode = Long.parseLong(osmNodeIdTextField.getText());
-        Crossing crossing = mainGUI.getCrossing(osmNode);
-
-        if (crossing == null) {
-            crossing = new Crossing(null, osmNode, 1, 1);
-        }
-
-        mainGUI.createCrossing(crossing);
-        return crossing;
-    }
-
-    private boolean createRating(Crossing crossing) {
+    @Override
+    public boolean createRating() {
         try {
-            DataServiceLoader.getCrossingData().createRating(
-                    new Rating(
-                            null,
-                            commentTextArea.getText().isEmpty() ? null : commentTextArea.getText(),
-                            mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
-                            mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroup)),
-                            mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
-                            mainGUI.getUser(userComboBox.getSelectedItem().toString()),
-                            crossing,
-                            imageTextField.getText().isEmpty() ? null : imageTextField.getText(),
-                            new Date(),
-                            getCreationTime()
-                    )
-            );
-
+            String commentText = commentTextArea.getText();
+            int selectedIllumination = getSelectedButton(illuminationButtonGroup);
+            int selectedSpatialClarity = getSelectedButton(spatialClarityButtonGroup);
+            int selectedTraffic = getSelectedButton(trafficButtonGroup);
+            String selectedUser = userComboBox.getSelectedItem().toString();
+            String imageWeblinkText = imageTextField.getText();
+            Date creationTime = getCreationTime();
+            controller.createRating(commentText, selectedIllumination, selectedSpatialClarity, selectedTraffic, selectedUser, imageWeblinkText, creationTime);
             return true;
         } catch (RollbackException rex) {
             errorMessage(Properties.get("duplicatedPhotoError"));
@@ -74,7 +57,7 @@ public class CreateCrossingGUI extends ModifyGUI {
             errorMessage(Properties.get("invalideTimeError"));
         }
 
-        mainGUI.removeCrossing();
+        controller.deleteCrossing();
         return false;
     }
 }

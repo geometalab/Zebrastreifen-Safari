@@ -1,6 +1,8 @@
 package ch.hsr.zebrastreifensafari.view.screen.modify;
 
-import ch.hsr.zebrastreifensafari.jpa.entities.User;
+import ch.hsr.zebrastreifensafari.controller.callback.modify.IMainModifyCallback;
+import ch.hsr.zebrastreifensafari.controller.callback.modify.IModifyCallback;
+import ch.hsr.zebrastreifensafari.controller.modify.ModifyController;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.adapter.DocumentAdapter;
 import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
@@ -18,11 +20,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author : Mike Marti
@@ -32,9 +32,10 @@ import java.util.concurrent.TimeUnit;
  * @date : 26.10.2015
  */
 
-public abstract class ModifyGUI extends JDialog {
+public abstract class ModifyGUI extends JDialog implements IModifyCallback {
 
-    protected final MainGUI mainGUI;
+    private final ModifyController controller;
+    private final IMainModifyCallback callback;
     protected JButton sendButton;
     protected JTextField osmNodeIdTextField;
     protected JTextField imageTextField;
@@ -69,20 +70,18 @@ public abstract class ModifyGUI extends JDialog {
     private JPanel mainPanel;
     private JButton cancelButton;
 
-    protected ModifyGUI(MainGUI mainGUI, String title) {
-        super(mainGUI, title, true);
-        this.mainGUI = mainGUI;
-
+    protected ModifyGUI(ModifyController controller, MainGUI parent, String title) {
+        super(parent, title, true);
+        this.controller = controller;
+        this.callback = parent;
         $$$setupUI$$$();
         setContentPane(mainPanel);
         getRootPane().setDefaultButton(sendButton);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(650, 600);
-        setLocationRelativeTo(mainGUI);
+        setLocationRelativeTo(parent);
         initListeners();
     }
-
-    protected abstract void onSendClick();
 
     private void initListeners() {
         sendButton.addActionListener(e -> {
@@ -111,7 +110,14 @@ public abstract class ModifyGUI extends JDialog {
         getRootPane().registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
     }
 
-    protected int getSelectedButtonInt(ButtonGroup bg) {
+    protected abstract void onSendClick();
+
+    @Override
+    public IMainModifyCallback getCallback() {
+        return callback;
+    }
+
+    protected int getSelectedButton(ButtonGroup bg) {
         Enumeration<AbstractButton> buttons = bg.getElements();
 
         for (int i = 1; buttons.hasMoreElements(); i++) {
@@ -140,42 +146,12 @@ public abstract class ModifyGUI extends JDialog {
             imageField.setText(null);
         } catch (IOException ioex) {
             imageField.setIcon(null);
-            imageField.setText(Properties.get("imageNotFound"));
+            imageField.setText(Properties.get("noImageFound"));
         }
     }
 
     protected Date getCreationTime() {
-        if (creationDate.getDate() == null) {
-            return null;
-        }
-
-        if (creationTime.getText().isEmpty()) {
-            return creationDate.getDate();
-        }
-
-        int[] time = splitTime();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(creationDate.getDate().getTime() + TimeUnit.HOURS.toMillis(time[0]) + TimeUnit.MINUTES.toMillis(time[1]));
-        return calendar.getTime();
-    }
-
-    private int[] splitTime() {
-        int[] splitTime = new int[2];
-        String[] creationTimeParts = creationTime.getText().split(":", 2);
-
-        for (int i = 0; i < creationTimeParts.length; i++) {
-            splitTime[i] = Integer.parseInt(creationTimeParts[i]);
-        }
-
-        validateTime(splitTime);
-
-        return splitTime;
-    }
-
-    private void validateTime(int[] splitTime) {
-        if (splitTime[0] > 23 || splitTime[0] < 0 || splitTime[1] > 59 || splitTime[1] < 0) {
-            throw new IllegalArgumentException();
-        }
+        return controller.getCreationTime(creationDate.getDate(), creationTime.getText());
     }
 
     protected void errorMessage(String message) {
@@ -184,11 +160,7 @@ public abstract class ModifyGUI extends JDialog {
 
     //<editor-fold desc="GUI Builder">
     private void createUIComboBox() {
-        userComboBox = new JComboBox<String>();
-
-        for (User u : mainGUI.getUsers()) {
-            userComboBox.addItem(u.getName());
-        }
+        userComboBox = new JComboBox<>(controller.getUsernames());
     }
 
     private void createUIRadioButtons() {
@@ -290,7 +262,7 @@ public abstract class ModifyGUI extends JDialog {
         commentTextArea.setWrapStyleWord(true);
         commentScrollPane.setViewportView(commentTextArea);
         imageField = new JLabel();
-        this.$$$loadLabelText$$$(imageField, ResourceBundle.getBundle("Bundle").getString("imageNotFound"));
+        this.$$$loadLabelText$$$(imageField, ResourceBundle.getBundle("Bundle").getString("noImageFound"));
         panel2.add(imageField, new GridConstraints(9, 1, 1, 5, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         creationDateLabel = new JLabel();
         creationDateLabel.setRequestFocusEnabled(true);

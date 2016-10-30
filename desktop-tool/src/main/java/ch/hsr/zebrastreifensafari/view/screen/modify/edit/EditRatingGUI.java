@@ -1,9 +1,10 @@
 package ch.hsr.zebrastreifensafari.view.screen.modify.edit;
 
+import ch.hsr.zebrastreifensafari.controller.callback.modify.IEditRatingCallback;
+import ch.hsr.zebrastreifensafari.controller.modify.edit.EditRatingController;
+import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import ch.hsr.zebrastreifensafari.view.screen.modify.ModifyGUI;
-import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.service.Properties;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityNotFoundException;
@@ -16,50 +17,34 @@ import java.util.Enumeration;
 /**
  * @author aeugster
  */
-public class EditRatingGUI extends ModifyGUI {
+public class EditRatingGUI extends ModifyGUI implements IEditRatingCallback {
 
-    private final Rating rating;
+    private final EditRatingController controller;
 
-    public EditRatingGUI(MainGUI mainGUI, Rating rating) {
-        super(mainGUI, Properties.get("editRatingGuiTitleOne") + rating.getUserId().getName() + Properties.get("editRatingGuiTitleTwo") + rating.getCrossingId().getOsmNodeId());
-        this.rating = rating;
+    public EditRatingGUI(EditRatingController controller, MainGUI mainGUI) {
+        super(controller, mainGUI, Properties.get("editRatingGuiTitleOne") + controller.getRating().getUserId().getName() + Properties.get("editRatingGuiTitleTwo") + controller.getRating().getCrossingId().getOsmNodeId());
+        this.controller = controller;
+        controller.setCallback(this);
         setInitialValues();
         hideGuiElements();
     }
 
     @Override
     protected void onSendClick() {
-        Rating backupRating = new Rating(rating.getId(), rating.getComment(), rating.getIlluminationId(), rating.getSpatialClarityId(), rating.getTrafficId(),
-                rating.getUserId(), rating.getCrossingId(), rating.getImageWeblink(), rating.getLastChanged(), rating.getCreationTime());
-
-        if (editRating()) return;
-
-        setRatingData(
-                backupRating.getUserId(),
-                backupRating.getIlluminationId(),
-                backupRating.getSpatialClarityId(),
-                backupRating.getTrafficId(),
-                backupRating.getImageWeblink(),
-                backupRating.getComment(),
-                backupRating.getLastChanged(),
-                backupRating.getCreationTime()
-        );
+        controller.send();
     }
 
-    private boolean editRating() {
+    @Override
+    public boolean editRating() {
         try {
-            setRatingData(
-                    mainGUI.getUser((String) userComboBox.getSelectedItem()),
-                    mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
-                    mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroup)),
-                    mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
-                    imageTextField.getText().isEmpty() ? null : imageTextField.getText(),
-                    commentTextArea.getText().isEmpty() ? null : commentTextArea.getText(),
-                    new Date(),
-                    getCreationTime()
-            );
-
-            mainGUI.editRating(rating);
+            String selectedUser = userComboBox.getSelectedItem().toString();
+            int illumination = getSelectedButton(illuminationButtonGroup);
+            int spatialClarity = getSelectedButton(spatialClarityButtonGroup);
+            int traffic = getSelectedButton(trafficButtonGroup);
+            String imageText = imageTextField.getText();
+            String commentText = commentTextArea.getText();
+            Date creationTime = getCreationTime();
+            controller.editRating(selectedUser, illumination, spatialClarity, traffic, imageText, commentText, creationTime);
             dispose();
             return true;
         } catch (EntityNotFoundException enfex) {
@@ -80,15 +65,22 @@ public class EditRatingGUI extends ModifyGUI {
         return false;
     }
 
-    private void setRatingData(User user, Illumination illumination, SpatialClarity spatialClarity, Traffic traffic, String imageWeblink, String comment, Date lastChanged, Date creationTime) {
-        rating.setUserId(user);
-        rating.setIlluminationId(illumination);
-        rating.setSpatialClarityId(spatialClarity);
-        rating.setTrafficId(traffic);
-        rating.setImageWeblink(imageWeblink);
-        rating.setComment(comment);
-        rating.setLastChanged(lastChanged);
-        rating.setCreationTime(creationTime);
+    private void setInitialValues() {
+        sendButton.setText(Properties.get("change"));
+        userComboBox.setSelectedItem(controller.getRating().getUserId().getName());
+        setButtonGroupValue(spatialClarityButtonGroup, controller.getRating().getSpatialClarityId().getId());
+        setButtonGroupValue(illuminationButtonGroup, controller.getRating().getIlluminationId().getId());
+        setButtonGroupValue(trafficButtonGroup, controller.getRating().getTrafficId().getId());
+        commentTextArea.setText(controller.getRating().getComment());
+        imageTextField.setText(controller.getRating().getImageWeblink());
+        setImage(imageTextField.getText());
+
+        if (controller.getRating().getCreationTime() != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(controller.getRating().getCreationTime());
+            creationDate.setDate(calendar.getTime());
+            creationTime.setText(calendar.get(Calendar.HOUR_OF_DAY) + ":" + (calendar.get(Calendar.MINUTE) < 10 ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE)));
+        }
     }
 
     private void setButtonGroupValue(ButtonGroup bg, int selectedButtonInt) {
@@ -104,26 +96,9 @@ public class EditRatingGUI extends ModifyGUI {
         }
     }
 
-    private void setInitialValues() {
-        sendButton.setText(Properties.get("change"));
-        userComboBox.setSelectedItem(rating.getUserId().getName());
-        setButtonGroupValue(spatialClarityButtonGroup, rating.getSpatialClarityId().getId());
-        setButtonGroupValue(illuminationButtonGroup, rating.getIlluminationId().getId());
-        setButtonGroupValue(trafficButtonGroup, rating.getTrafficId().getId());
-        commentTextArea.setText(rating.getComment());
-        imageTextField.setText(rating.getImageWeblink());
-        setImage(imageTextField.getText());
-
-        if (rating.getCreationTime() != null) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(rating.getCreationTime());
-            creationDate.setDate(calendar.getTime());
-            creationTime.setText(calendar.get(Calendar.HOUR_OF_DAY) + ":" + (calendar.get(Calendar.MINUTE) < 10 ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE)));
-        }
-    }
-
     private void hideGuiElements() {
         osmNodeIdLabel.setVisible(false);
         osmNodeIdTextField.setVisible(false);
     }
+
 }
