@@ -23,12 +23,7 @@ public class CrossingTable extends SpecificTable<Crossing> implements ICrossingT
         getModel().setRowCount(0);
 
         for (Crossing crossing : crossings) {
-            getModel().addRow(new Object[]{
-                    crossing.getOsmNodeId(),
-                    crossing.getRatingAmount(),
-                    crossing.getStatus(),
-                    crossing.getId()
-            });
+            getModel().addRow(new Object[] {crossing.getOsmNodeId(), crossing.getRatingAmount(), crossing.getStatus(), crossing.getId()});
         }
 
         changeSelection(0);
@@ -36,12 +31,7 @@ public class CrossingTable extends SpecificTable<Crossing> implements ICrossingT
 
     @Override
     public void add(Crossing crossing) {
-        getModel().addRow(new Object[]{
-                crossing.getOsmNodeId(),
-                crossing.getRatingAmount(),
-                crossing.getStatus(),
-                crossing.getId()
-        });
+        getModel().addRow(new Object[] {crossing.getOsmNodeId(), crossing.getRatingAmount(), crossing.getStatus(), crossing.getId()});
     }
 
     @Override
@@ -73,7 +63,7 @@ public class CrossingTable extends SpecificTable<Crossing> implements ICrossingT
 class CrossingTableModel extends DefaultTableModel {
 
     public CrossingTableModel() {
-        super(new String[]{Properties.get("osmNodeId"), Properties.get("ratingAmount"), Properties.get("status"), Properties.get("id")}, 0);
+        super(new String[] {Properties.get("osmNodeId"), Properties.get("ratingAmount"), Properties.get("status"), Properties.get("id")}, 0);
     }
 
     @Override
