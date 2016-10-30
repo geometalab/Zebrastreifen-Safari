@@ -43,7 +43,7 @@ public class ModelTest {
         Crossing c = new Crossing(null, 87, 1, 1);
 
         DataServiceLoader.getCrossingData().createCrossing(c);
-        model.reloadCrossing();
+        model.loadCrossing();
         assertEquals(87, model.getCrossing((long) 87).getOsmNodeId());
 
     }
@@ -53,7 +53,7 @@ public class ModelTest {
         assertEquals(null, model.getRating(16));
         Rating r = new Rating(0, "test Comment", model.getIllumination(1), model.getSpatialClarity(1), model.getTraffic(1), model.getUser("Alex Eugster"), model.getCrossing(1), "", new Date(), new Date());
         DataServiceLoader.getCrossingData().createRating(r);
-        model.reloadRating(model.getCrossing(1));
+        model.loadRating(model.getCrossing(1));
         assertEquals("test Comment", model.getRating(16).getComment());
 
     }
@@ -62,7 +62,7 @@ public class ModelTest {
     public void testReloadUsers() throws Exception {
         assertEquals(null, model.getUser("Bob Ford"));
         db.addUser("Bob Ford", "BF");
-        model.reloadUsers();
+        model.loadUsers();
         assertEquals("Bob Ford", model.getUser("Bob Ford").getName());
     }
 
