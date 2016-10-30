@@ -2,12 +2,10 @@ package ch.hsr.zebrastreifensafari.controller.modify.create;
 
 import ch.hsr.zebrastreifensafari.controller.callback.modify.ICreateCrossingCallback;
 import ch.hsr.zebrastreifensafari.controller.callback.modify.IMainController;
-import ch.hsr.zebrastreifensafari.controller.callback.modify.IModifyCallback;
 import ch.hsr.zebrastreifensafari.controller.modify.ModifyController;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
-import ch.hsr.zebrastreifensafari.view.screen.modify.create.CreateCrossingGUI;
 
 import java.util.Date;
 

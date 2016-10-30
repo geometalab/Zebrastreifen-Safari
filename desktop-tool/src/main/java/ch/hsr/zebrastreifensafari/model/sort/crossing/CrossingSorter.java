@@ -2,7 +2,6 @@ package ch.hsr.zebrastreifensafari.model.sort.crossing;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

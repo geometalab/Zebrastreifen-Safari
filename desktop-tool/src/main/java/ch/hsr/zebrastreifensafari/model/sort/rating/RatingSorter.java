@@ -2,7 +2,6 @@ package ch.hsr.zebrastreifensafari.model.sort.rating;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

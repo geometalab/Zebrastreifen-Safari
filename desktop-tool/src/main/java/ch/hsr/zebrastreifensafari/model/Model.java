@@ -12,7 +12,6 @@ import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author aeugster
@@ -169,7 +168,7 @@ public class Model {
     public void sortByStatus() {
         CrossingSorter.sortByStatus(crossings);
     }
-    
+
     public void sortByUser() {
         RatingSorter.sortByUser(ratings);
     }

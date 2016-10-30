@@ -1,6 +1,5 @@
 package ch.hsr.zebrastreifensafari.controller.modify.edit;
 
-import ch.hsr.zebrastreifensafari.controller.MainController;
 import ch.hsr.zebrastreifensafari.controller.callback.modify.IEditRatingCallback;
 import ch.hsr.zebrastreifensafari.controller.callback.modify.IMainController;
 import ch.hsr.zebrastreifensafari.controller.modify.ModifyController;
