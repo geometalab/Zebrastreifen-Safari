@@ -54,7 +54,7 @@ public class CrossingJpaController extends EntityController implements Serializa
 
     public List<Crossing> findEntities() {
         EntityManager em = getEntityManager();
-        List<Crossing> resultList = new ArrayList<Crossing>();
+        List<Crossing> resultList = new ArrayList<>();
 
         for (Object[] objects : em.createNamedQuery("Crossing.findAll", Object[].class).getResultList()) {
             Crossing crossing = (Crossing) objects[0];

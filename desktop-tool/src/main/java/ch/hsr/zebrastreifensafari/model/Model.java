@@ -27,7 +27,7 @@ public class Model {
 
 
     public Model() {
-        ratings = new ArrayList<Rating>();
+        ratings = new ArrayList<>();
         illuminations = DataServiceLoader.getCrossingData().getIlluminations();
         spatialClaritys = DataServiceLoader.getCrossingData().getSpatialClarities();
         traffics = DataServiceLoader.getCrossingData().getTraffics();
