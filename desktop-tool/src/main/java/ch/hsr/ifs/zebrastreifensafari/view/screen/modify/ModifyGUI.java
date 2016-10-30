@@ -1,7 +1,5 @@
 package ch.hsr.ifs.zebrastreifensafari.view.screen.modify;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IMainModifyCallback;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IModifyCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
 import ch.hsr.ifs.zebrastreifensafari.exception.InvalidTimeException;
 import ch.hsr.ifs.zebrastreifensafari.service.Properties;
@@ -30,10 +28,9 @@ import java.util.ResourceBundle;
  * @version : 1.0
  * @since : 1.0
  */
-public abstract class ModifyGUI extends JDialog implements IModifyCallback {
+public abstract class ModifyGUI extends JDialog {
 
     private final ModifyController controller;
-    private final IMainModifyCallback callback;
     protected JButton sendButton;
     protected JTextField osmNodeIdTextField;
     protected JTextField imageTextField;
@@ -71,7 +68,6 @@ public abstract class ModifyGUI extends JDialog implements IModifyCallback {
     protected ModifyGUI(ModifyController controller, MainGUI parent, String title) {
         super(parent, title, true);
         this.controller = controller;
-        this.callback = parent;
         $$$setupUI$$$();
         setContentPane(mainPanel);
         getRootPane().setDefaultButton(sendButton);
@@ -109,11 +105,6 @@ public abstract class ModifyGUI extends JDialog implements IModifyCallback {
     }
 
     protected abstract void onSendClick();
-
-    @Override
-    public IMainModifyCallback getCallback() {
-        return callback;
-    }
 
     protected int getSelectedButton(ButtonGroup bg) {
         Enumeration<AbstractButton> buttons = bg.getElements();

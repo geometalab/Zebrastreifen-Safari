@@ -1,7 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.modify.create;
 
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IMainController;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IModifyCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
@@ -17,16 +16,11 @@ public class CreateRatingController extends ModifyController {
 
     private final IMainController parent;
     private final long node;
-    private IModifyCallback callback;
 
     public CreateRatingController(IMainController parent, Model model, long node) {
         super(model);
         this.parent = parent;
         this.node = node;
-    }
-
-    public void setCallback(IModifyCallback callback) {
-        this.callback = callback;
     }
 
     public long getNode() {
@@ -42,6 +36,6 @@ public class CreateRatingController extends ModifyController {
         Crossing crossing = model.getCrossing(node);
         String imageWeblink = imageWeblinkText.isEmpty() ? null : imageWeblinkText;
         Rating rating = new Rating(null, comment, illumination, spatialClarity, traffic, user, crossing, imageWeblink, new Date(), creationTime);
-        parent.createRating(callback.getCallback().getCrossingTable(), callback.getCallback().getRatingTable(), rating);
+        parent.createRating(rating);
     }
 }

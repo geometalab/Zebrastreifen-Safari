@@ -1,8 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.callback.modify;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.ICrossingTable;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Rating;
 
 /**
@@ -12,13 +10,13 @@ import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Rating;
  */
 public interface IMainController {
 
-    void createCrossing(ICrossingTable crossingTable, Crossing crossing, String filter);
+    void createCrossing(Crossing crossing);
 
-    void createRating(ICrossingTable crossingTable, IRatingTable ratingTable, Rating rating);
+    void createRating(Rating rating);
 
-    void editCrossing(ICrossingTable crossingTable, Crossing crossing, String filter);
+    void editCrossing(Crossing crossing);
 
-    void editRating(IRatingTable ratingTable, Rating rating);
+    void editRating(Rating rating);
 
-    void deleteCrossing(ICrossingTable crossingTable);
+    void deleteCrossing();
 }

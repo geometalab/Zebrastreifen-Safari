@@ -2,7 +2,6 @@ package ch.hsr.ifs.zebrastreifensafari.view.screen;
 
 import ch.hsr.ifs.zebrastreifensafari.controller.MainController;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.IMainCallback;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IMainModifyCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.ICrossingTable;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateCrossingController;
@@ -36,7 +35,7 @@ import java.util.ResourceBundle;
  * @version : 1.0
  * @since : 1.0
  */
-public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallback {
+public class MainGUI extends JFrame implements IMainCallback {
 
     private final MainController controller;
     private JPanel mainPanel;
@@ -68,7 +67,7 @@ public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallbac
         setContentPane(mainPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         initListeners();
-        controller.drawCrossings(crossingTable);
+        controller.drawCrossings();
         pack();
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
@@ -157,7 +156,7 @@ public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallbac
     private void onTabbedPaneChange() {
         try {
             if (isRatingMode()) {
-                controller.loadRatings(crossingTable, ratingTable);
+                controller.loadRatings();
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             setSelectedTabbedPaneIndex(0);
@@ -169,16 +168,16 @@ public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallbac
     }
 
     private void onCrossingSelection() {
-        controller.updateRatingTabTitle(crossingTable);
+        controller.updateRatingTabTitle();
     }
 
     private void onFilter() {
-        controller.filter(crossingTable, filterTextField.getText());
+        controller.filter();
     }
 
     private void onAddClick() {
         if (isRatingMode()) {
-            controller.addRatingDialog(crossingTable);
+            controller.addRatingDialog();
         } else {
             controller.addCrossingDialog();
         }
@@ -187,9 +186,9 @@ public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallbac
     private void onEditClick() {
         try {
             if (isRatingMode()) {
-                controller.editRatingDialog(ratingTable);
+                controller.editRatingDialog();
             } else {
-                controller.editCrossingDialog(crossingTable);
+                controller.editCrossingDialog();
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             errorMessage(Properties.get("editSelectionError"));
@@ -201,20 +200,20 @@ public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallbac
             try {
                 if (isRatingMode()) {
                     if (ratingTable.getRowCount() == 1) {
-                        controller.deleteCrossing(crossingTable);
+                        controller.deleteCrossing();
                         setSelectedTabbedPaneIndex(0);
                         return;
                     }
 
                     try {
                         int selectedRow = ratingTable.getSelectedRow();
-                        controller.deleteRating(ratingTable);
-                        controller.updateRatingAmount(crossingTable, ratingTable, selectedRow);
+                        controller.deleteRating();
+                        controller.updateRatingAmount(selectedRow);
                     } catch (EntityNotFoundException enfex) {
                         errorMessage(Properties.get("ratingCrossingExistError"));
                     }
                 } else {
-                    controller.deleteCrossing(crossingTable);
+                    controller.deleteCrossing();
                 }
             } catch (ArrayIndexOutOfBoundsException aioobe) {
                 errorMessage(Properties.get("deleteSelectionError"));
@@ -227,12 +226,12 @@ public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallbac
     }
 
     private void onPreviousCrossingClick() {
-        controller.previousCrossing(crossingTable);
+        controller.previousCrossing();
         onTabbedPaneChange();
     }
 
     private void onNextCrossingClick() {
-        controller.nextCrossing(crossingTable);
+        controller.nextCrossing();
         onTabbedPaneChange();
     }
 
@@ -241,9 +240,9 @@ public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallbac
             controller.loadUsers();
 
             if (isRatingMode()) {
-                controller.loadRatings(crossingTable, ratingTable);
+                controller.loadRatings();
             } else {
-                controller.loadCrossings(crossingTable);
+                controller.loadCrossings();
             }
         } catch (PersistenceException pex) {
             errorMessage(Properties.get("connectionError"));
@@ -263,11 +262,11 @@ public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallbac
     }
 
     private void onCrossingSort(MouseEvent event) {
-        controller.sortFilteredCrossing(crossingTable, crossingTable.getColumnName(crossingTable.columnAtPoint(event.getPoint())), filterTextField.getText());
+        controller.sortFilteredCrossing(crossingTable.getColumnName(crossingTable.columnAtPoint(event.getPoint())));
     }
 
     private void onRatingSort(MouseEvent event) {
-        controller.sortRating(ratingTable, ratingTable.getColumnName(ratingTable.columnAtPoint(event.getPoint())));
+        controller.sortRating(ratingTable.getColumnName(ratingTable.columnAtPoint(event.getPoint())));
     }
 
     private void onTableDoubleClick(MouseEvent event) {

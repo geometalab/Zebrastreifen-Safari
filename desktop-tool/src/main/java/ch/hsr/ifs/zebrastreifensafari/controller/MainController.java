@@ -44,21 +44,25 @@ public class MainController implements IMainController {
         this.callback = callback;
     }
 
-    public void drawCrossings(ICrossingTable crossingTable) {
-        crossingTable.drawData(model.getCrossings());
+    public void drawCrossings() {
+        callback.getCrossingTable().drawData(model.getCrossings());
     }
 
-    public void updateRatingTabTitle(ICrossingTable crossingTable) {
+    public void updateRatingTabTitle() {
+        ICrossingTable crossingTable = callback.getCrossingTable();
+
         if (crossingTable.hasData()) {
             callback.setRatingTabbedPaneTitle(Properties.get("specificRatingTabbedPaneTitle") + crossingTable.getOsmNodeIdAtSelectedRow());
         }
     }
 
-    public void filter(ICrossingTable crossingTable, String filter) {
+    public void filter() {
+        String filter = callback.getFilter();
+
         if (filter.isEmpty()) {
-            drawCrossings(crossingTable);
+            drawCrossings();
         } else {
-            crossingTable.drawData(model.getCrossings().stream()
+            callback.getCrossingTable().drawData(model.getCrossings().stream()
                     .filter(crossing -> String.valueOf(crossing.getOsmNodeId()).startsWith(filter))
                     .collect(Collectors.toList()));
         }
@@ -68,23 +72,25 @@ public class MainController implements IMainController {
         callback.showCreateCrossing(new CreateCrossingController(this, model));
     }
 
-    public void addRatingDialog(ICrossingTable crossingTable) {
-        callback.showCreateRating(new CreateRatingController(this, model, getCrossingFromTable(crossingTable).getOsmNodeId()));
+    public void addRatingDialog() {
+        callback.showCreateRating(new CreateRatingController(this, model, getCrossingFromTable(callback.getCrossingTable()).getOsmNodeId()));
     }
 
-    public void editCrossingDialog(ICrossingTable crossingTable) throws ArrayIndexOutOfBoundsException {
-        callback.showEditCrossing(new EditCrossingController(this, model, getCrossingFromTable(crossingTable)));
+    public void editCrossingDialog() throws ArrayIndexOutOfBoundsException {
+        callback.showEditCrossing(new EditCrossingController(this, model, getCrossingFromTable(callback.getCrossingTable())));
     }
 
-    public void editRatingDialog(IRatingTable ratingTable) throws ArrayIndexOutOfBoundsException {
-        callback.showEditRating(new EditRatingController(this, model, getRatingFromTable(ratingTable)));
+    public void editRatingDialog() throws ArrayIndexOutOfBoundsException {
+        callback.showEditRating(new EditRatingController(this, model, getRatingFromTable(callback.getRatingTable())));
     }
 
     public void openAboutDialog() {
         callback.showAbout(new AboutController());
     }
 
-    public void previousCrossing(ICrossingTable crossingTable) {
+    public void previousCrossing() {
+        ICrossingTable crossingTable = callback.getCrossingTable();
+
         if (crossingTable.getSelectedRow() != 0) {
             crossingTable.changeSelection(crossingTable.getSelectedRow() - 1);
         } else {
@@ -92,7 +98,9 @@ public class MainController implements IMainController {
         }
     }
 
-    public void nextCrossing(ICrossingTable crossingTable) {
+    public void nextCrossing() {
+        ICrossingTable crossingTable = callback.getCrossingTable();
+
         if (crossingTable.getSelectedRow() != crossingTable.getRowCount() - 1) {
             crossingTable.changeSelection(crossingTable.getSelectedRow() + 1);
         } else {
@@ -100,14 +108,14 @@ public class MainController implements IMainController {
         }
     }
 
-    public void loadCrossings(ICrossingTable crossingTable) throws ArrayIndexOutOfBoundsException, PersistenceException {
+    public void loadCrossings() throws ArrayIndexOutOfBoundsException, PersistenceException {
         model.loadCrossing();
-        drawCrossings(crossingTable);
+        drawCrossings();
     }
 
-    public void loadRatings(ICrossingTable crossingTable, IRatingTable ratingTable) throws ArrayIndexOutOfBoundsException, PersistenceException {
-        model.loadRating(getCrossingFromTable(crossingTable));
-        ratingTable.drawData(model.getRatings());
+    public void loadRatings() throws ArrayIndexOutOfBoundsException, PersistenceException {
+        model.loadRating(getCrossingFromTable(callback.getCrossingTable()));
+        callback.getRatingTable().drawData(model.getRatings());
     }
 
     public void loadUsers() throws ArrayIndexOutOfBoundsException, PersistenceException {
@@ -118,12 +126,12 @@ public class MainController implements IMainController {
         WebsiteService.openWebsite(Properties.get("helpLink"));
     }
 
-    public void sortFilteredCrossing(ICrossingTable crossingTable, String columnName, String filter) {
-        sortCrossing(crossingTable, columnName);
-        filter(crossingTable, filter);
+    public void sortFilteredCrossing(String columnName) {
+        sortCrossing(columnName);
+        filter();
     }
 
-    public void sortCrossing(ICrossingTable crossingTable, String columnName) {
+    public void sortCrossing(String columnName) {
         if (columnName.equals(Properties.get("osmNodeId"))) {
             CrossingSorter.sortByNode(model.getCrossings());
         } else if (columnName.equals(Properties.get("ratingAmount"))) {
@@ -132,10 +140,10 @@ public class MainController implements IMainController {
             CrossingSorter.sortByStatus(model.getCrossings());
         }
 
-        drawCrossings(crossingTable);
+        drawCrossings();
     }
 
-    public void sortRating(IRatingTable ratingTable, String columnName) {
+    public void sortRating(String columnName) {
         if (columnName.equals(Properties.get("user"))) {
             RatingSorter.sortByUser(model.getRatings());
         } else if (columnName.equals(Properties.get("traffic"))) {
@@ -154,12 +162,15 @@ public class MainController implements IMainController {
             RatingSorter.sortByCreationTime(model.getRatings());
         }
 
-        ratingTable.drawData(model.getRatings());
+        callback.getRatingTable().drawData(model.getRatings());
     }
 
     //<editor-fold desc="CRUD Crossing">
     @Override
-    public void createCrossing(ICrossingTable crossingTable, Crossing crossing, String filter) {
+    public void createCrossing(Crossing crossing) {
+        ICrossingTable crossingTable = callback.getCrossingTable();
+        String filter = callback.getFilter();
+
         if (model.contains(crossing)) {
             createExistingCrossing(crossingTable, crossing, filter);
             return;
@@ -194,19 +205,22 @@ public class MainController implements IMainController {
     }
 
     @Override
-    public void editCrossing(ICrossingTable crossingTable, Crossing crossing, String filter) throws EntityNotFoundException {
+    public void editCrossing(Crossing crossing) throws EntityNotFoundException {
+        ICrossingTable crossingTable = callback.getCrossingTable();
+        String filter = callback.getFilter();
         DataServiceLoader.getCrossingData().editCrossing(crossing);
 
         if (filter.isEmpty() || Long.toString(crossing.getOsmNodeId()).startsWith(filter)) {
             crossingTable.setOsmNodeIdAtSelectedRow(crossing.getOsmNodeId());
-            updateRatingTabTitle(crossingTable);
+            updateRatingTabTitle();
         } else {
             crossingTable.removeRow(crossingTable.getSelectedRow());
         }
     }
 
     @Override
-    public void deleteCrossing(ICrossingTable crossingTable) throws ArrayIndexOutOfBoundsException, DatabaseException, EntityNotFoundException {
+    public void deleteCrossing() throws ArrayIndexOutOfBoundsException, DatabaseException, EntityNotFoundException {
+        ICrossingTable crossingTable = callback.getCrossingTable();
         int selectedRow = crossingTable.getSelectedRow();
         Crossing crossing = getCrossingFromTable(crossingTable);
         DataServiceLoader.getCrossingData().removeCrossing(crossing.getId());
@@ -223,7 +237,9 @@ public class MainController implements IMainController {
 
     //<editor-fold desc="CRUD Rating">
     @Override
-    public void createRating(ICrossingTable crossingTable, IRatingTable ratingTable, Rating rating) throws EntityNotFoundException {
+    public void createRating(Rating rating) throws EntityNotFoundException {
+        ICrossingTable crossingTable = callback.getCrossingTable();
+        IRatingTable ratingTable = callback.getRatingTable();
         DataServiceLoader.getCrossingData().createRating(rating);
         model.add(rating);
         ratingTable.add(rating);
@@ -234,7 +250,8 @@ public class MainController implements IMainController {
     }
 
     @Override
-    public void editRating(IRatingTable ratingTable, Rating rating) throws EntityNotFoundException {
+    public void editRating(Rating rating) throws EntityNotFoundException {
+        IRatingTable ratingTable = callback.getRatingTable();
         DataServiceLoader.getCrossingData().editRating(rating);
         ratingTable.setUserIdAtSelectedRow(rating.getUserId().getName());
         ratingTable.setTrafficIdAtSelectedRow(rating.getTrafficId().getValue());
@@ -246,14 +263,18 @@ public class MainController implements IMainController {
         ratingTable.setCreationTimeAtSelectedRow(rating.getCreationTime());
     }
 
-    public void deleteRating(IRatingTable ratingTable) throws ArrayIndexOutOfBoundsException, DatabaseException, EntityNotFoundException {
+    public void deleteRating() throws ArrayIndexOutOfBoundsException, DatabaseException, EntityNotFoundException {
+        IRatingTable ratingTable = callback.getRatingTable();
         Rating rating = getRatingFromTable(ratingTable);
         DataServiceLoader.getCrossingData().removeRating(rating.getId());
         ratingTable.remove(model.indexOf(rating));
         model.remove(rating);
     }
 
-    public void updateRatingAmount(ICrossingTable crossingTable, IRatingTable ratingTable, int selectedRow) throws EntityNotFoundException {
+    public void updateRatingAmount(int selectedRow) throws EntityNotFoundException {
+        ICrossingTable crossingTable = callback.getCrossingTable();
+        IRatingTable ratingTable = callback.getRatingTable();
+
         if (ratingTable.getRowCount() == selectedRow) {
             selectedRow--;
         }
