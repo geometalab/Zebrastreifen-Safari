@@ -2,6 +2,7 @@ package ch.hsr.zebrastreifensafari.view.screen.modify.edit;
 
 import ch.hsr.zebrastreifensafari.controller.callback.modify.IEditRatingCallback;
 import ch.hsr.zebrastreifensafari.controller.modify.edit.EditRatingController;
+import ch.hsr.zebrastreifensafari.exception.InvalidTimeException;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import ch.hsr.zebrastreifensafari.view.screen.modify.ModifyGUI;
@@ -55,7 +56,7 @@ public class EditRatingGUI extends ModifyGUI implements IEditRatingCallback {
             errorMessage(Properties.get("connectionError"));
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("invalideTimeFormatError"));
-        } catch (IllegalArgumentException iaex) {
+        } catch (InvalidTimeException itex) {
             errorMessage(Properties.get("invalideTimeError"));
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -1,6 +1,7 @@
 package ch.hsr.zebrastreifensafari.view.screen.modify.create;
 
 import ch.hsr.zebrastreifensafari.controller.modify.create.CreateRatingController;
+import ch.hsr.zebrastreifensafari.exception.InvalidTimeException;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import ch.hsr.zebrastreifensafari.view.screen.modify.ModifyGUI;
@@ -44,7 +45,7 @@ public class CreateRatingGUI extends ModifyGUI {
             errorMessage(Properties.get("connectionError"));
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("invalideTimeFormatError"));
-        } catch (IllegalArgumentException iaex) {
+        } catch (InvalidTimeException itex) {
             errorMessage(Properties.get("invalideTimeError"));
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -1,5 +1,6 @@
 package ch.hsr.zebrastreifensafari.controller.modify;
 
+import ch.hsr.zebrastreifensafari.exception.InvalidTimeException;
 import ch.hsr.zebrastreifensafari.jpa.entities.User;
 import ch.hsr.zebrastreifensafari.model.Model;
 
@@ -26,7 +27,7 @@ public abstract class ModifyController {
         return model.getUsers().stream().map(User::getName).collect(Collectors.toCollection(Vector::new));
     }
 
-    public Date getCreationTime(Date creationDate, String creationTime) {
+    public Date getCreationTime(Date creationDate, String creationTime) throws InvalidTimeException {
         if (creationDate == null) {
             return null;
         }
@@ -41,7 +42,7 @@ public abstract class ModifyController {
         return calendar.getTime();
     }
 
-    private int[] splitTime(String creationTime) {
+    private int[] splitTime(String creationTime) throws InvalidTimeException {
         int[] splitTime = new int[2];
         String[] creationTimeParts = creationTime.split(":", 2);
 
@@ -54,9 +55,9 @@ public abstract class ModifyController {
         return splitTime;
     }
 
-    private void validateTime(int[] splitTime) {
+    private void validateTime(int[] splitTime) throws InvalidTimeException {
         if (splitTime[0] > 23 || splitTime[0] < 0 || splitTime[1] > 59 || splitTime[1] < 0) {
-            throw new IllegalArgumentException();
+            throw new InvalidTimeException();
         }
     }
 }
