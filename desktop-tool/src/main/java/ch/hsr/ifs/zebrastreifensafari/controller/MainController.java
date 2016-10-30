@@ -293,28 +293,4 @@ public class MainController implements IEntityManipulation {
     private Rating getRatingFromTable(IRatingTable ratingTable) {
         return model.getRating(ratingTable.getSelectedId());
     }
-
-    public User getUser(String name) {
-        return model.getUser(name);
-    }
-
-    public Crossing getCrossing(long node) {
-        return model.getCrossing(node);
-    }
-
-    public Illumination getIllumination(int id) {
-        return model.getIllumination(id);
-    }
-
-    public SpatialClarity getSpatialClarity(int id) {
-        return model.getSpatialClarity(id);
-    }
-
-    public Traffic getTraffic(int id) {
-        return model.getTraffic(id);
-    }
-
-    public List<User> getUsers() {
-        return model.getUsers();
-    }
 }
