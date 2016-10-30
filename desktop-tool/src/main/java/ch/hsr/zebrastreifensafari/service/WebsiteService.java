@@ -6,13 +6,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 16:55
- * @date : 05.01.2016
+ * @since : 1.0
  */
-
 public class WebsiteService {
 
     private WebsiteService() {

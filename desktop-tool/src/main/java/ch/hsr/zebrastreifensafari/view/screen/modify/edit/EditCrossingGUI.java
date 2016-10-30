@@ -11,13 +11,10 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.RollbackException;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 14:11
- * @date : 12.10.2015
+ * @since : 1.0
  */
-
 public class EditCrossingGUI extends ModifyGUI implements IEditCrossingCallback {
 
     private final EditCrossingController controller;

@@ -4,13 +4,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 16:38
- * @date : 30.11.2015
+ * @since : 1.0
  */
-
 public abstract class EntityController {
 
     private final EntityManagerFactory emf;

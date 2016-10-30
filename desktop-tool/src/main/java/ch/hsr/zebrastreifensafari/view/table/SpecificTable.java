@@ -6,13 +6,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 15:14
- * @date : 06.01.2016
+ * @since : 1.0
  */
-
 public abstract class SpecificTable<T> extends JTable implements ITable<T> {
 
     protected final int ID_POSITION;

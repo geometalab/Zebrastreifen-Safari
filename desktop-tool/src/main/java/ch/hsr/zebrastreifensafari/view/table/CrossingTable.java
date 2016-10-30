@@ -8,13 +8,10 @@ import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 08:51
- * @date : 06.01.2016
+ * @since : 1.0
  */
-
 public class CrossingTable extends SpecificTable<Crossing> implements ICrossingTable {
 
     public CrossingTable() {
