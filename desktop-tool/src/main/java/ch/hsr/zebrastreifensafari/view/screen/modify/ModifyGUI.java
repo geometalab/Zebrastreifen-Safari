@@ -3,6 +3,7 @@ package ch.hsr.zebrastreifensafari.view.screen.modify;
 import ch.hsr.zebrastreifensafari.controller.callback.modify.IMainModifyCallback;
 import ch.hsr.zebrastreifensafari.controller.callback.modify.IModifyCallback;
 import ch.hsr.zebrastreifensafari.controller.modify.ModifyController;
+import ch.hsr.zebrastreifensafari.exception.InvalidTimeException;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.adapter.DocumentAdapter;
 import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
@@ -150,7 +151,7 @@ public abstract class ModifyGUI extends JDialog implements IModifyCallback {
         }
     }
 
-    protected Date getCreationTime() {
+    protected Date getCreationTime() throws InvalidTimeException {
         return controller.getCreationTime(creationDate.getDate(), creationTime.getText());
     }
 

@@ -2,6 +2,7 @@ package ch.hsr.zebrastreifensafari.view.screen.modify.create;
 
 import ch.hsr.zebrastreifensafari.controller.callback.modify.ICreateCrossingCallback;
 import ch.hsr.zebrastreifensafari.controller.modify.create.CreateCrossingController;
+import ch.hsr.zebrastreifensafari.exception.InvalidTimeException;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import ch.hsr.zebrastreifensafari.view.screen.modify.ModifyGUI;
@@ -53,7 +54,7 @@ public class CreateCrossingGUI extends ModifyGUI implements ICreateCrossingCallb
             errorMessage(Properties.get("duplicatedPhotoError"));
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("invalideTimeFormatError"));
-        } catch (IllegalArgumentException iaex) {
+        } catch (InvalidTimeException itex) {
             errorMessage(Properties.get("invalideTimeError"));
         }
 
