@@ -10,6 +10,8 @@ import ch.hsr.zebrastreifensafari.controller.modify.edit.EditCrossingController;
 import ch.hsr.zebrastreifensafari.controller.modify.edit.EditRatingController;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
+import ch.hsr.zebrastreifensafari.model.sort.crossing.CrossingSorter;
+import ch.hsr.zebrastreifensafari.model.sort.rating.RatingSorter;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.service.WebsiteService;
@@ -123,11 +125,11 @@ public class MainController implements IMainController {
 
     public void sortCrossing(ICrossingTable crossingTable, String columnName) {
         if (columnName.equals(Properties.get("osmNodeId"))) {
-            model.sortByNode();
+            CrossingSorter.sortByNode(model.getCrossings());
         } else if (columnName.equals(Properties.get("ratingAmount"))) {
-            model.sortByNumberOfRatings();
+            CrossingSorter.sortByNumberOfRatings(model.getCrossings());
         } else if (columnName.equals(Properties.get("status"))) {
-            model.sortByStatus();
+            CrossingSorter.sortByStatus(model.getCrossings());
         }
 
         drawCrossings(crossingTable);
@@ -135,21 +137,21 @@ public class MainController implements IMainController {
 
     public void sortRating(IRatingTable ratingTable, String columnName) {
         if (columnName.equals(Properties.get("user"))) {
-            model.sortByUser();
+            RatingSorter.sortByUser(model.getRatings());
         } else if (columnName.equals(Properties.get("traffic"))) {
-            model.sortByTraffic();
+            RatingSorter.sortByTraffic(model.getRatings());
         } else if (columnName.equals(Properties.get("spacialClarity"))) {
-            model.sortByClarity();
+            RatingSorter.sortByClarity(model.getRatings());
         } else if (columnName.equals(Properties.get("illumination"))) {
-            model.sortByIllumination();
+            RatingSorter.sortByIllumination(model.getRatings());
         } else if (columnName.equals(Properties.get("comment"))) {
-            model.sortByComment();
+            RatingSorter.sortByComment(model.getRatings());
         } else if (columnName.equals(Properties.get("imageId"))) {
-            model.sortByImage();
+            RatingSorter.sortByImage(model.getRatings());
         } else if (columnName.equals(Properties.get("lastChange"))) {
-            model.sortByLastChanged();
+            RatingSorter.sortByLastChanged(model.getRatings());
         } else if (columnName.equals(Properties.get("creationDate"))) {
-            model.sortByCreationTime();
+            RatingSorter.sortByCreationTime(model.getRatings());
         }
 
         ratingTable.drawData(model.getRatings());
