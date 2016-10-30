@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.modify.edit;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IMainController;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEntityManipulation;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
@@ -13,13 +13,11 @@ import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.edit.IEditCross
  */
 public class EditCrossingController extends ModifyController {
 
-    private final IMainController parent;
     private final Crossing crossing;
     private IEditCrossingCallback callback;
 
-    public EditCrossingController(IMainController parent, Model model, Crossing crossing) {
-        super(model);
-        this.parent = parent;
+    public EditCrossingController(IEntityManipulation entityManipulation, Model model, Crossing crossing) {
+        super(entityManipulation, model);
         this.crossing = crossing;
     }
 
@@ -41,7 +39,7 @@ public class EditCrossingController extends ModifyController {
 
     public void editCrossing(String osmNodeIdText) {
         setCrossingData(Long.parseLong(osmNodeIdText));
-        parent.editCrossing(crossing);
+        entityManipulation.editCrossing(crossing);
     }
 
     private void setCrossingData(long osmNodeId) {

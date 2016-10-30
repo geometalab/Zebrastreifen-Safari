@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.controller;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IMainController;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEntityManipulation;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.ICrossingTable;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 import ch.hsr.ifs.zebrastreifensafari.model.sort.crossing.CrossingSorter;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @version : 1.0
  * @since : 2.0
  */
-public class MainController implements IMainController {
+public class MainController implements IEntityManipulation {
 
     private final Model model;
     private IMainCallback callback;

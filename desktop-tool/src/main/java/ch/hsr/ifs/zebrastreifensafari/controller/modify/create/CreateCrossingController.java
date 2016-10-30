@@ -1,7 +1,7 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.modify.create;
 
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.create.ICreateCrossingCallback;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IMainController;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEntityManipulation;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
@@ -16,13 +16,11 @@ import java.util.Date;
  */
 public class CreateCrossingController extends ModifyController {
 
-    private final IMainController parent;
     private ICreateCrossingCallback callback;
     private Crossing crossing;
 
-    public CreateCrossingController(IMainController parent, Model model) {
-        super(model);
-        this.parent = parent;
+    public CreateCrossingController(IEntityManipulation entityManipulation, Model model) {
+        super(entityManipulation, model);
     }
 
     public void setCallback(ICreateCrossingCallback callback) {
@@ -45,7 +43,7 @@ public class CreateCrossingController extends ModifyController {
             crossing = new Crossing(null, osmNodeId, 1, 1);
         }
 
-        parent.createCrossing(crossing);
+        entityManipulation.createCrossing(crossing);
     }
 
     public void createRating(String commentText, int selectedIllumination, int selectedSpatialClarity, int selectedTraffic, String selectedUser, String imageWeblinkText, Date creationTime) {
@@ -60,6 +58,6 @@ public class CreateCrossingController extends ModifyController {
     }
 
     public void deleteCrossing() {
-        parent.deleteCrossing();
+        entityManipulation.deleteCrossing();
     }
 }

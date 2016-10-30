@@ -1,5 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.modify;
 
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEntityManipulation;
 import ch.hsr.ifs.zebrastreifensafari.exception.InvalidTimeException;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.User;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
@@ -18,8 +19,10 @@ import java.util.stream.Collectors;
 public abstract class ModifyController {
 
     protected final Model model;
+    protected final IEntityManipulation entityManipulation;
 
-    protected ModifyController(Model model) {
+    protected ModifyController(IEntityManipulation entityManipulation, Model model) {
+        this.entityManipulation = entityManipulation;
         this.model = model;
     }
 
