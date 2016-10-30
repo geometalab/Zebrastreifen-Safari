@@ -32,13 +32,10 @@ import java.awt.event.MouseEvent;
 import java.util.ResourceBundle;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 09:49
- * @date : 27.10.2015
+ * @since : 1.0
  */
-
 public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallback {
 
     private final MainController controller;

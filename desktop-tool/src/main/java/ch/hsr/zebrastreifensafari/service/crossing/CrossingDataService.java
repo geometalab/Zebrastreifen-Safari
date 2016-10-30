@@ -2,23 +2,18 @@ package ch.hsr.zebrastreifensafari.service.crossing;
 
 import ch.hsr.zebrastreifensafari.jpa.controllers.*;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.model.Model;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 15:34
- * @date : 08.10.2015
+ * @since : 1.0
  */
-
 public class CrossingDataService implements ICrossingDataService {
 
     private final EntityManagerFactory emFactory;

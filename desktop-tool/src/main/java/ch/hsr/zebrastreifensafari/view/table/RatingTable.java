@@ -9,14 +9,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 08:57
- * @date : 06.01.2016
+ * @since : 1.0
  */
-
-public class RatingTable extends SpecificTable<Rating> implements IRatingTable{
+public class RatingTable extends SpecificTable<Rating> implements IRatingTable {
 
     public RatingTable() {
         super(new RatingTableModel(), 8);

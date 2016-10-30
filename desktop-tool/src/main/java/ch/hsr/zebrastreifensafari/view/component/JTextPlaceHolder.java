@@ -6,13 +6,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 /**
- * @author : Mike Marti
+ * @author : SeboCode
  * @version : 1.0
- * @project : Zebrastreifen-Safari
- * @time : 13:59
- * @date : 18.12.2015
+ * @since : 1.0
  */
-
 public class JTextPlaceHolder extends JTextField implements FocusListener {
 
     private final String placeholder;
