@@ -6,8 +6,6 @@
 package ch.hsr.zebrastreifensafari.model;
 
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
-import ch.hsr.zebrastreifensafari.model.sort.crossing.CrossingSorter;
-import ch.hsr.zebrastreifensafari.model.sort.rating.RatingSorter;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 
 import java.util.ArrayList;
@@ -155,49 +153,5 @@ public class Model {
 
     public List<Rating> getRatings() {
         return ratings;
-    }
-
-    public void sortByNode() {
-        CrossingSorter.sortByNode(crossings);
-    }
-
-    public void sortByNumberOfRatings() {
-        CrossingSorter.sortByNumberOfRatings(crossings);
-    }
-
-    public void sortByStatus() {
-        CrossingSorter.sortByStatus(crossings);
-    }
-
-    public void sortByUser() {
-        RatingSorter.sortByUser(ratings);
-    }
-
-    public void sortByTraffic() {
-        RatingSorter.sortByTraffic(ratings);
-    }
-
-    public void sortByClarity() {
-        RatingSorter.sortByClarity(ratings);
-    }
-
-    public void sortByIllumination() {
-        RatingSorter.sortByIllumination(ratings);
-    }
-
-    public void sortByComment() {
-        RatingSorter.sortByComment(ratings);
-    }
-
-    public void sortByImage() {
-        RatingSorter.sortByImage(ratings);
-    }
-
-    public void sortByLastChanged() {
-        RatingSorter.sortByLastChanged(ratings);
-    }
-
-    public void sortByCreationTime() {
-        RatingSorter.sortByCreationTime(ratings);
     }
 }
