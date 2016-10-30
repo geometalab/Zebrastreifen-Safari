@@ -24,7 +24,7 @@ public class RatingTable extends SpecificTable<Rating> implements IRatingTable {
         getModel().setRowCount(0);
 
         for (Rating rating : list) {
-            getModel().addRow(new Object[]{
+            getModel().addRow(new Object[] {
                     rating.getUserId().getName(),
                     rating.getSpatialClarityId().getValue(),
                     rating.getIlluminationId().getValue(),
@@ -42,7 +42,7 @@ public class RatingTable extends SpecificTable<Rating> implements IRatingTable {
 
     @Override
     public void add(Rating rating) {
-        getModel().addRow(new Object[]{
+        getModel().addRow(new Object[] {
                 rating.getUserId().getName(),
                 rating.getTrafficId().getValue(),
                 rating.getSpatialClarityId().getValue(),
@@ -100,7 +100,7 @@ public class RatingTable extends SpecificTable<Rating> implements IRatingTable {
 class RatingTableModel extends DefaultTableModel {
 
     public RatingTableModel() {
-        super(new String[]{Properties.get("user"), Properties.get("spacialClarity"), Properties.get("illumination"), Properties.get("traffic"),
+        super(new String[] {Properties.get("user"), Properties.get("spacialClarity"), Properties.get("illumination"), Properties.get("traffic"),
                 Properties.get("comment"), Properties.get("imageId"), Properties.get("lastChange"), Properties.get("creationDate"), Properties.get("id")}, 0);
     }
 
