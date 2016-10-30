@@ -10,7 +10,6 @@ import ch.hsr.zebrastreifensafari.controller.modify.create.CreateCrossingControl
 import ch.hsr.zebrastreifensafari.controller.modify.create.CreateRatingController;
 import ch.hsr.zebrastreifensafari.controller.modify.edit.EditCrossingController;
 import ch.hsr.zebrastreifensafari.controller.modify.edit.EditRatingController;
-import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.component.JTextPlaceHolder;
 import ch.hsr.zebrastreifensafari.view.screen.modify.create.CreateCrossingGUI;
@@ -30,7 +29,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -293,52 +291,6 @@ public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallbac
     private int warningMessage(String message, int option) {
         return JOptionPane.showConfirmDialog(this, message, Properties.get("warning"), option);
     }
-
-    public void createCrossing(Crossing crossing) {
-        controller.createCrossing(crossingTable, crossing, filterTextField.getText());
-    }
-
-    public void editCrossing(Crossing crossing) throws EntityNotFoundException {
-        controller.editCrossing(crossingTable, crossing, filterTextField.getText());
-    }
-
-    public void removeCrossing() {
-        controller.deleteCrossing(crossingTable);
-    }
-
-    public void createRating(Rating rating) throws EntityNotFoundException {
-        controller.createRating(crossingTable, ratingTable, rating);
-    }
-
-    public void editRating(Rating rating) throws EntityNotFoundException {
-        controller.editRating(ratingTable, rating);
-    }
-
-    //<editor-fold desc="Model methods">
-    public User getUser(String name) {
-        return controller.getUser(name);
-    }
-
-    public Crossing getCrossing(long node) {
-        return controller.getCrossing(node);
-    }
-
-    public Illumination getIllumination(int id) {
-        return controller.getIllumination(id);
-    }
-
-    public SpatialClarity getSpatialClarity(int id) {
-        return controller.getSpatialClarity(id);
-    }
-
-    public Traffic getTraffic(int id) {
-        return controller.getTraffic(id);
-    }
-
-    public List<User> getUsers() {
-        return controller.getUsers();
-    }
-    //</editor-fold>
 
     @Override
     public void showCreateCrossing(CreateCrossingController controller) {
