@@ -1,7 +1,7 @@
 package ch.hsr.ifs.zebrastreifensafari.view.screen.modify.edit;
 
 import ch.hsr.ifs.zebrastreifensafari.exception.InvalidTimeException;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEditRatingCallback;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.edit.IEditRatingCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.edit.EditRatingController;
 import ch.hsr.ifs.zebrastreifensafari.service.Properties;
 import ch.hsr.ifs.zebrastreifensafari.view.screen.MainGUI;

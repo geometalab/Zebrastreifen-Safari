@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.view.screen.modify.create;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.ICreateCrossingCallback;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.create.ICreateCrossingCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateCrossingController;
 import ch.hsr.ifs.zebrastreifensafari.exception.InvalidTimeException;
 import ch.hsr.ifs.zebrastreifensafari.service.Properties;

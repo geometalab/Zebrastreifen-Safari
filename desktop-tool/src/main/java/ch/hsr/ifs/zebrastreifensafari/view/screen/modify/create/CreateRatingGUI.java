@@ -21,7 +21,6 @@ public class CreateRatingGUI extends ModifyGUI {
     public CreateRatingGUI(CreateRatingController controller, MainGUI mainGUI) {
         super(controller, mainGUI, Properties.get("createRatingGuiTitle") + controller.getNode());
         this.controller = controller;
-        controller.setCallback(this);
         hideGuiElements();
     }
 

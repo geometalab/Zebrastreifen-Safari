@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.modify.edit;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEditRatingCallback;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.edit.IEditRatingCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IMainController;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
@@ -56,7 +56,7 @@ public class EditRatingController extends ModifyController {
         String imageWeblink = imageWeblinkText.isEmpty() ? null : imageWeblinkText;
         String comment = commentText.isEmpty() ? null : commentText;
         setRatingData(user, illumination, spatialClarity, traffic, imageWeblink, comment, new Date(), creationTime);
-        parent.editRating(callback.getCallback().getRatingTable(), rating);
+        parent.editRating(rating);
     }
 
     private void setRatingData(User user, Illumination illumination, SpatialClarity spatialClarity, Traffic traffic, String imageWeblink, String comment, Date lastChanged, Date creationTime) {

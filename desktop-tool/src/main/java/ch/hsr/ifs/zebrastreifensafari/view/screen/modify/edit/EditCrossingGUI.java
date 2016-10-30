@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.view.screen.modify.edit;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEditCrossingCallback;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.edit.IEditCrossingCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.edit.EditCrossingController;
 import ch.hsr.ifs.zebrastreifensafari.service.Properties;
 import ch.hsr.ifs.zebrastreifensafari.view.screen.MainGUI;

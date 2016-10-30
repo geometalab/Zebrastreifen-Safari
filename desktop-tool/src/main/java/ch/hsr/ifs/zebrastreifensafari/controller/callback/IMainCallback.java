@@ -1,6 +1,8 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.callback;
 
 import ch.hsr.ifs.zebrastreifensafari.controller.AboutController;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.ICrossingTable;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateCrossingController;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateRatingController;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.edit.EditCrossingController;
@@ -26,4 +28,10 @@ public interface IMainCallback {
     void setSelectedTabbedPaneIndex(int index);
 
     void setRatingTabbedPaneTitle(String title);
+
+    ICrossingTable getCrossingTable();
+
+    IRatingTable getRatingTable();
+
+    String getFilter();
 }

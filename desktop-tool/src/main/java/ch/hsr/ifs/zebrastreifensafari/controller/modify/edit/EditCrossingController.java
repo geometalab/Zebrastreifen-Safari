@@ -4,7 +4,7 @@ import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IMainController
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEditCrossingCallback;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.edit.IEditCrossingCallback;
 
 /**
  * @author : SeboCode
@@ -41,7 +41,7 @@ public class EditCrossingController extends ModifyController {
 
     public void editCrossing(String osmNodeIdText) {
         setCrossingData(Long.parseLong(osmNodeIdText));
-        parent.editCrossing(callback.getCallback().getCrossingTable(), crossing, callback.getCallback().getFilter());
+        parent.editCrossing(crossing);
     }
 
     private void setCrossingData(long osmNodeId) {
