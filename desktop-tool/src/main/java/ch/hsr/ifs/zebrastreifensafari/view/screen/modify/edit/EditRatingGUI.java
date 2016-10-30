@@ -1,8 +1,11 @@
 package ch.hsr.ifs.zebrastreifensafari.view.screen.modify.edit;
 
-import ch.hsr.ifs.zebrastreifensafari.exception.InvalidTimeException;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.edit.IEditRatingCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.edit.EditRatingController;
+import ch.hsr.ifs.zebrastreifensafari.exception.InvalidTimeException;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Illumination;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.SpatialClarity;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Traffic;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.User;
 import ch.hsr.ifs.zebrastreifensafari.service.Properties;
 import ch.hsr.ifs.zebrastreifensafari.view.screen.MainGUI;
 import ch.hsr.ifs.zebrastreifensafari.view.screen.modify.ModifyGUI;
@@ -18,25 +21,36 @@ import java.util.Enumeration;
 /**
  * @author aeugster
  */
-public class EditRatingGUI extends ModifyGUI implements IEditRatingCallback {
+public class EditRatingGUI extends ModifyGUI {
 
     private final EditRatingController controller;
 
     public EditRatingGUI(EditRatingController controller, MainGUI mainGUI) {
         super(controller, mainGUI, Properties.get("editRatingGuiTitleOne") + controller.getRating().getUserId().getName() + Properties.get("editRatingGuiTitleTwo") + controller.getRating().getCrossingId().getOsmNodeId());
         this.controller = controller;
-        controller.setCallback(this);
         setInitialValues();
         hideGuiElements();
     }
 
     @Override
     protected void onSendClick() {
-        controller.send();
+        String comment = controller.getRating().getComment();
+        Illumination illumination = controller.getRating().getIlluminationId();
+        SpatialClarity spatialClarity = controller.getRating().getSpatialClarityId();
+        Traffic traffic = controller.getRating().getTrafficId();
+        User user = controller.getRating().getUserId();
+        String imageWeblink = controller.getRating().getImageWeblink();
+        Date lastChanged = controller.getRating().getLastChanged();
+        Date creationTime = controller.getRating().getCreationTime();
+
+        if (editRating()) {
+            dispose();
+        } else {
+            controller.setRatingData(user, illumination, spatialClarity, traffic, imageWeblink, comment, lastChanged, creationTime);
+        }
     }
 
-    @Override
-    public boolean editRating() {
+    private boolean editRating() {
         try {
             String selectedUser = userComboBox.getSelectedItem().toString();
             int illumination = getSelectedButton(illuminationButtonGroup);
@@ -46,7 +60,6 @@ public class EditRatingGUI extends ModifyGUI implements IEditRatingCallback {
             String commentText = commentTextArea.getText();
             Date creationTime = getCreationTime();
             controller.editRating(selectedUser, illumination, spatialClarity, traffic, imageText, commentText, creationTime);
-            dispose();
             return true;
         } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("ratingCrossingExistError"));

@@ -1,10 +1,12 @@
 package ch.hsr.ifs.zebrastreifensafari.view.screen;
 
+import ch.hsr.ifs.zebrastreifensafari.controller.AboutController;
 import ch.hsr.ifs.zebrastreifensafari.controller.MainController;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.IMainCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.ICrossingTable;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateCrossingController;
+import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateRatingController;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.edit.EditCrossingController;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.edit.EditRatingController;
 import ch.hsr.ifs.zebrastreifensafari.service.Properties;
@@ -15,8 +17,6 @@ import ch.hsr.ifs.zebrastreifensafari.view.screen.modify.edit.EditCrossingGUI;
 import ch.hsr.ifs.zebrastreifensafari.view.screen.modify.edit.EditRatingGUI;
 import ch.hsr.ifs.zebrastreifensafari.view.table.CrossingTable;
 import ch.hsr.ifs.zebrastreifensafari.view.table.RatingTable;
-import ch.hsr.ifs.zebrastreifensafari.controller.AboutController;
-import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateRatingController;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityNotFoundException;

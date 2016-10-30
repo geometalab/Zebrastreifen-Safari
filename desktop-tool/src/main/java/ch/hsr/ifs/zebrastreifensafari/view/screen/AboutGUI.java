@@ -1,7 +1,7 @@
 package ch.hsr.ifs.zebrastreifensafari.view.screen;
 
-import ch.hsr.ifs.zebrastreifensafari.service.Properties;
 import ch.hsr.ifs.zebrastreifensafari.controller.AboutController;
+import ch.hsr.ifs.zebrastreifensafari.service.Properties;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 

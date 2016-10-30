@@ -1,9 +1,9 @@
 package ch.hsr.ifs.zebrastreifensafari;
 
 import ch.hsr.ifs.zebrastreifensafari.service.DataServiceLoader;
+import ch.hsr.ifs.zebrastreifensafari.service.Properties;
 import ch.hsr.ifs.zebrastreifensafari.service.crossing.CrossingDataService;
 import ch.hsr.ifs.zebrastreifensafari.service.crossing.ICrossingDataService;
-import ch.hsr.ifs.zebrastreifensafari.service.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;

@@ -2,8 +2,8 @@ package ch.hsr.ifs.zebrastreifensafari.controller.modify.create;
 
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEntityManipulation;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
-import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 
 import java.util.Date;
 
@@ -25,7 +25,7 @@ public class CreateRatingController extends ModifyController {
         return node;
     }
 
-    public void send(String commentText, int selectedIllumination, int selectedSpatialClarity, int selectedTraffic, String selectedUser, String imageWeblinkText, Date creationTime) {
+    public void createRating(String commentText, int selectedIllumination, int selectedSpatialClarity, int selectedTraffic, String selectedUser, String imageWeblinkText, Date creationTime) {
         String comment = commentText.isEmpty() ? null : commentText;
         Illumination illumination = model.getIllumination(selectedIllumination);
         SpatialClarity spatialClarity = model.getSpatialClarity(selectedSpatialClarity);

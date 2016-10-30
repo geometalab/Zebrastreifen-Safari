@@ -1,6 +1,10 @@
 package ch.hsr.ifs.zebrastreifensafari.view.screen.modify;
 
 import ch.hsr.ifs.zebrastreifensafari.TestJDBC;
+import ch.hsr.ifs.zebrastreifensafari.controller.MainController;
+import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
+import ch.hsr.ifs.zebrastreifensafari.model.Model;
+import ch.hsr.ifs.zebrastreifensafari.view.screen.MainGUI;
 import org.junit.After;
 import org.junit.Before;
 
@@ -23,13 +27,14 @@ public class ModifyGUITest {
     @Before
     public void setUp() throws Exception {
         db = new TestJDBC();
-        //todo
-//        cug = new ModifyGUI(new MainGUI(new MainController(new Model())), "changeSelectionError") {
-//
-//            @Override
-//            protected void onSendClick() {
-//            }
-//        };
+        Model model = new Model();
+        MainController controller = new MainController(model);
+        cug = new ModifyGUI(new ModifyController(controller, model) {}, new MainGUI(controller), "test") {
+
+            @Override
+            protected void onSendClick() {
+            }
+        };
     }
 
     @After

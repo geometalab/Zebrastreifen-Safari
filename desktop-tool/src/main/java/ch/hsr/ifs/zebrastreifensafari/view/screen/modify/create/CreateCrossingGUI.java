@@ -1,6 +1,5 @@
 package ch.hsr.ifs.zebrastreifensafari.view.screen.modify.create;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.create.ICreateCrossingCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateCrossingController;
 import ch.hsr.ifs.zebrastreifensafari.exception.InvalidTimeException;
 import ch.hsr.ifs.zebrastreifensafari.service.Properties;
@@ -13,21 +12,26 @@ import java.util.Date;
 /**
  * @author aeugster
  */
-public class CreateCrossingGUI extends ModifyGUI implements ICreateCrossingCallback {
+public class CreateCrossingGUI extends ModifyGUI {
 
     private CreateCrossingController controller;
 
     public CreateCrossingGUI(CreateCrossingController controller, MainGUI mainGUI) {
         super(controller, mainGUI, Properties.get("createCrossingGuiTitle"));
         this.controller = controller;
-        controller.setCallback(this);
     }
 
     @Override
     protected void onSendClick() {
         //todo: überarbeiten, wenn ein bild wiederholt verwendet wird, wird trozdem ein crossing erstellt (momentane lösung funktioniert ist aber nicht schön)
         try {
-            controller.send(osmNodeIdTextField.getText());
+            controller.createCrossing(osmNodeIdTextField.getText());
+
+            if (createRating()) {
+                dispose();
+            } else {
+                controller.deleteCrossing();
+            }
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("osmNodeIdNumericError"));
         } catch (RollbackException rex) {
@@ -38,8 +42,7 @@ public class CreateCrossingGUI extends ModifyGUI implements ICreateCrossingCallb
         }
     }
 
-    @Override
-    public boolean createRating() {
+    private boolean createRating() {
         try {
             String commentText = commentTextArea.getText();
             int selectedIllumination = getSelectedButton(illuminationButtonGroup);
@@ -58,7 +61,6 @@ public class CreateCrossingGUI extends ModifyGUI implements ICreateCrossingCallb
             errorMessage(Properties.get("invalidTimeError"));
         }
 
-        controller.deleteCrossing();
         return false;
     }
 }

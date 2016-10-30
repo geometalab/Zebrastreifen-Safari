@@ -1,16 +1,17 @@
 package ch.hsr.ifs.zebrastreifensafari.controller;
 
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.IMainCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEntityManipulation;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.ICrossingTable;
-import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
-import ch.hsr.ifs.zebrastreifensafari.model.sort.crossing.CrossingSorter;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.IMainCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.IRatingTable;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateCrossingController;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.create.CreateRatingController;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.edit.EditCrossingController;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.edit.EditRatingController;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Rating;
+import ch.hsr.ifs.zebrastreifensafari.model.sort.crossing.CrossingSorter;
 import ch.hsr.ifs.zebrastreifensafari.model.sort.rating.RatingSorter;
 import ch.hsr.ifs.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.ifs.zebrastreifensafari.service.Properties;
@@ -19,7 +20,6 @@ import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
