@@ -6,11 +6,11 @@ package ch.hsr.zebrastreifensafari.main;
  */
 
 import ch.hsr.zebrastreifensafari.controller.MainController;
-import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.service.crossing.CrossingDataService;
+import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 
 import javax.persistence.PersistenceException;
 import javax.swing.*;
