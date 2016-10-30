@@ -1,10 +1,9 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.modify.create;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.create.ICreateCrossingCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEntityManipulation;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
-import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 import ch.hsr.ifs.zebrastreifensafari.service.DataServiceLoader;
 
 import java.util.Date;
@@ -16,26 +15,13 @@ import java.util.Date;
  */
 public class CreateCrossingController extends ModifyController {
 
-    private ICreateCrossingCallback callback;
     private Crossing crossing;
 
     public CreateCrossingController(IEntityManipulation entityManipulation, Model model) {
         super(entityManipulation, model);
     }
 
-    public void setCallback(ICreateCrossingCallback callback) {
-        this.callback = callback;
-    }
-
-    public void send(String osmNodeIdText) {
-        createCrossing(osmNodeIdText);
-
-        if (callback.createRating()) {
-            callback.dispose();
-        }
-    }
-
-    private void createCrossing(String osmNodeIdText) {
+    public void createCrossing(String osmNodeIdText) {
         long osmNodeId = Long.parseLong(osmNodeIdText);
         crossing = model.getCrossing(osmNodeId);
 

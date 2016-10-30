@@ -1,17 +1,15 @@
 package ch.hsr.ifs.zebrastreifensafari.service.crossing;
 
 import ch.hsr.ifs.zebrastreifensafari.TestJDBC;
+import ch.hsr.ifs.zebrastreifensafari.model.Model;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Rating;
-import ch.hsr.ifs.zebrastreifensafari.model.Model;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author : Mike Marti

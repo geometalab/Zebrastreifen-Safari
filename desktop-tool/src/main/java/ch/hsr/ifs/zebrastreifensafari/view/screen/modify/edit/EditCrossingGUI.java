@@ -1,6 +1,5 @@
 package ch.hsr.ifs.zebrastreifensafari.view.screen.modify.edit;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.edit.IEditCrossingCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.edit.EditCrossingController;
 import ch.hsr.ifs.zebrastreifensafari.service.Properties;
 import ch.hsr.ifs.zebrastreifensafari.view.screen.MainGUI;
@@ -15,14 +14,13 @@ import javax.persistence.RollbackException;
  * @version : 1.0
  * @since : 1.0
  */
-public class EditCrossingGUI extends ModifyGUI implements IEditCrossingCallback {
+public class EditCrossingGUI extends ModifyGUI {
 
     private final EditCrossingController controller;
 
     public EditCrossingGUI(EditCrossingController controller, MainGUI mainGUI) {
         super(controller, mainGUI, Properties.get("editCrossingGuiTitle") + controller.getCrossing().getOsmNodeId());
         this.controller = controller;
-        controller.setCallback(this);
         setInitialValues();
         hideGuiElements();
         setSize(getWidth(), 110);
@@ -30,14 +28,18 @@ public class EditCrossingGUI extends ModifyGUI implements IEditCrossingCallback 
 
     @Override
     protected void onSendClick() {
-        controller.send();
+        long osmNodeId = controller.getCrossing().getOsmNodeId();
+
+        if (editCrossing()) {
+            dispose();
+        } else {
+            controller.setCrossingData(osmNodeId);
+        }
     }
 
-    @Override
-    public boolean editCrossing() {
+    private boolean editCrossing() {
         try {
             controller.editCrossing(osmNodeIdTextField.getText());
-            dispose();
             return true;
         } catch (NumberFormatException nfex) {
             errorMessage(Properties.get("osmNodeIdNumericError"));

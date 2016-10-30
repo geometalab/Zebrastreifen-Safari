@@ -2,9 +2,8 @@ package ch.hsr.ifs.zebrastreifensafari.controller.modify.edit;
 
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEntityManipulation;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
-import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.edit.IEditCrossingCallback;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
 
 /**
  * @author : SeboCode
@@ -14,7 +13,6 @@ import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.edit.IEditCross
 public class EditCrossingController extends ModifyController {
 
     private final Crossing crossing;
-    private IEditCrossingCallback callback;
 
     public EditCrossingController(IEntityManipulation entityManipulation, Model model, Crossing crossing) {
         super(entityManipulation, model);
@@ -25,24 +23,12 @@ public class EditCrossingController extends ModifyController {
         return crossing;
     }
 
-    public void setCallback(IEditCrossingCallback callback) {
-        this.callback = callback;
-    }
-
-    public void send() {
-        long osmNodeId = crossing.getOsmNodeId();
-
-        if (!callback.editCrossing()) {
-            setCrossingData(osmNodeId);
-        }
-    }
-
     public void editCrossing(String osmNodeIdText) {
         setCrossingData(Long.parseLong(osmNodeIdText));
         entityManipulation.editCrossing(crossing);
     }
 
-    private void setCrossingData(long osmNodeId) {
+    public void setCrossingData(long osmNodeId) {
         crossing.setOsmNodeId(osmNodeId);
     }
 }
