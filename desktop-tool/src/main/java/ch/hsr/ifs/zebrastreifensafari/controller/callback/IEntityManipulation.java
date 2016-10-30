@@ -1,4 +1,4 @@
-package ch.hsr.ifs.zebrastreifensafari.controller.callback.modify;
+package ch.hsr.ifs.zebrastreifensafari.controller.callback;
 
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Rating;

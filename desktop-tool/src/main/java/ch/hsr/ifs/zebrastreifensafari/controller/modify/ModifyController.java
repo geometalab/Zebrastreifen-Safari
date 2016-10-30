@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.modify;
 
-import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IEntityManipulation;
+import ch.hsr.ifs.zebrastreifensafari.controller.callback.IEntityManipulation;
 import ch.hsr.ifs.zebrastreifensafari.exception.InvalidTimeException;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
 import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.User;
