@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hsr.ifs.zebrastreifensafari.jpa.entities;
+package ch.hsr.ifs.zebrastreifensafari.model.jpa.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,13 +13,13 @@ import java.util.List;
  * @author aeugster
  */
 @Entity
-@Table(name = "crossing.spatial_clarity")
+@Table(name = "crossing.traffic")
 @NamedQueries({
-        @NamedQuery(name = "SpatialClarity.findAll", query = "SELECT s FROM SpatialClarity s"),
-        @NamedQuery(name = "SpatialClarity.findById", query = "SELECT s FROM SpatialClarity s WHERE s.id = :id"),
-        @NamedQuery(name = "SpatialClarity.findByValue", query = "SELECT s FROM SpatialClarity s WHERE s.value = :value")
+        @NamedQuery(name = "Traffic.findAll", query = "SELECT t FROM Traffic t"),
+        @NamedQuery(name = "Traffic.findById", query = "SELECT t FROM Traffic t WHERE t.id = :id"),
+        @NamedQuery(name = "Traffic.findByValue", query = "SELECT t FROM Traffic t WHERE t.value = :value")
 })
-public class SpatialClarity implements Serializable {
+public class Traffic implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,17 +29,17 @@ public class SpatialClarity implements Serializable {
     @Basic(optional = false)
     @Column(name = "value")
     private String value;
-    @OneToMany(mappedBy = "spatialClarityId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "trafficId", fetch = FetchType.LAZY)
     private List<Rating> ratingList;
 
-    public SpatialClarity() {
+    public Traffic() {
     }
 
-    public SpatialClarity(Integer id) {
+    public Traffic(Integer id) {
         this.id = id;
     }
 
-    public SpatialClarity(Integer id, String value) {
+    public Traffic(Integer id, String value) {
         this.id = id;
         this.value = value;
     }
@@ -77,7 +77,7 @@ public class SpatialClarity implements Serializable {
 
     @Override
     public String toString() {
-        return "SpatialClarity[ id=" + id + " ]";
+        return "Traffic[ id=" + id + " ]";
     }
 
 }

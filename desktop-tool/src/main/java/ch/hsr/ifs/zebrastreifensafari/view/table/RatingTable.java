@@ -1,7 +1,7 @@
 package ch.hsr.ifs.zebrastreifensafari.view.table;
 
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.table.IRatingTable;
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.Rating;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Rating;
 import ch.hsr.ifs.zebrastreifensafari.service.Properties;
 
 import javax.swing.table.DefaultTableModel;

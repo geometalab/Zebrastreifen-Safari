@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hsr.ifs.zebrastreifensafari.jpa.entities;
+package ch.hsr.ifs.zebrastreifensafari.model.jpa.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hsr.ifs.zebrastreifensafari.jpa.entities;
+package ch.hsr.ifs.zebrastreifensafari.model.jpa.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,13 +13,13 @@ import java.util.List;
  * @author aeugster
  */
 @Entity
-@Table(name = "crossing.traffic")
+@Table(name = "crossing.illumination")
 @NamedQueries({
-        @NamedQuery(name = "Traffic.findAll", query = "SELECT t FROM Traffic t"),
-        @NamedQuery(name = "Traffic.findById", query = "SELECT t FROM Traffic t WHERE t.id = :id"),
-        @NamedQuery(name = "Traffic.findByValue", query = "SELECT t FROM Traffic t WHERE t.value = :value")
+        @NamedQuery(name = "Illumination.findAll", query = "SELECT i FROM Illumination i"),
+        @NamedQuery(name = "Illumination.findById", query = "SELECT i FROM Illumination i WHERE i.id = :id"),
+        @NamedQuery(name = "Illumination.findByValue", query = "SELECT i FROM Illumination i WHERE i.value = :value")
 })
-public class Traffic implements Serializable {
+public class Illumination implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,17 +29,17 @@ public class Traffic implements Serializable {
     @Basic(optional = false)
     @Column(name = "value")
     private String value;
-    @OneToMany(mappedBy = "trafficId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "illuminationId", fetch = FetchType.LAZY)
     private List<Rating> ratingList;
 
-    public Traffic() {
+    public Illumination() {
     }
 
-    public Traffic(Integer id) {
+    public Illumination(Integer id) {
         this.id = id;
     }
 
-    public Traffic(Integer id, String value) {
+    public Illumination(Integer id, String value) {
         this.id = id;
         this.value = value;
     }
@@ -77,7 +77,7 @@ public class Traffic implements Serializable {
 
     @Override
     public String toString() {
-        return "Traffic[ id=" + id + " ]";
+        return "Illumination[ id=" + id + " ]";
     }
 
 }

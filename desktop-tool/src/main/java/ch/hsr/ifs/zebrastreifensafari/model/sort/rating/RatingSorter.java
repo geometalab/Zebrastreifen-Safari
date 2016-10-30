@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.model.sort.rating;
 
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.Rating;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Rating;
 
 import java.util.Comparator;
 import java.util.List;

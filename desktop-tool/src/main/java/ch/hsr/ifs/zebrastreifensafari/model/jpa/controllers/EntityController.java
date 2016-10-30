@@ -1,4 +1,4 @@
-package ch.hsr.ifs.zebrastreifensafari.jpa.controllers;
+package ch.hsr.ifs.zebrastreifensafari.model.jpa.controllers;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

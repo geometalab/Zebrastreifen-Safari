@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.callback.table;
 
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.Crossing;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
 
 /**
  * @author : SeboCode

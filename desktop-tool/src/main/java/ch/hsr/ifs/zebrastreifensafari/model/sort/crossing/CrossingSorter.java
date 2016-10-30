@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.model.sort.crossing;
 
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.Crossing;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Crossing;
 
 import java.util.Comparator;
 import java.util.List;

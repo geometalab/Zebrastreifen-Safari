@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.service.crossing;
 
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;

@@ -1,7 +1,7 @@
 package ch.hsr.ifs.zebrastreifensafari.service.crossing;
 
-import ch.hsr.ifs.zebrastreifensafari.jpa.controllers.*;
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.controllers.*;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;

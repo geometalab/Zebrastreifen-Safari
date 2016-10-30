@@ -3,7 +3,7 @@ package ch.hsr.ifs.zebrastreifensafari.controller.modify.create;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.ICreateCrossingCallback;
 import ch.hsr.ifs.zebrastreifensafari.controller.callback.modify.IMainController;
 import ch.hsr.ifs.zebrastreifensafari.controller.modify.ModifyController;
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.*;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.*;
 import ch.hsr.ifs.zebrastreifensafari.model.Model;
 import ch.hsr.ifs.zebrastreifensafari.service.DataServiceLoader;
 

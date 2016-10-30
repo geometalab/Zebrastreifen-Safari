@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.hsr.ifs.zebrastreifensafari.jpa.entities;
+package ch.hsr.ifs.zebrastreifensafari.model.jpa.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,13 +13,13 @@ import java.util.List;
  * @author aeugster
  */
 @Entity
-@Table(name = "crossing.illumination")
+@Table(name = "crossing.spatial_clarity")
 @NamedQueries({
-        @NamedQuery(name = "Illumination.findAll", query = "SELECT i FROM Illumination i"),
-        @NamedQuery(name = "Illumination.findById", query = "SELECT i FROM Illumination i WHERE i.id = :id"),
-        @NamedQuery(name = "Illumination.findByValue", query = "SELECT i FROM Illumination i WHERE i.value = :value")
+        @NamedQuery(name = "SpatialClarity.findAll", query = "SELECT s FROM SpatialClarity s"),
+        @NamedQuery(name = "SpatialClarity.findById", query = "SELECT s FROM SpatialClarity s WHERE s.id = :id"),
+        @NamedQuery(name = "SpatialClarity.findByValue", query = "SELECT s FROM SpatialClarity s WHERE s.value = :value")
 })
-public class Illumination implements Serializable {
+public class SpatialClarity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,17 +29,17 @@ public class Illumination implements Serializable {
     @Basic(optional = false)
     @Column(name = "value")
     private String value;
-    @OneToMany(mappedBy = "illuminationId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "spatialClarityId", fetch = FetchType.LAZY)
     private List<Rating> ratingList;
 
-    public Illumination() {
+    public SpatialClarity() {
     }
 
-    public Illumination(Integer id) {
+    public SpatialClarity(Integer id) {
         this.id = id;
     }
 
-    public Illumination(Integer id, String value) {
+    public SpatialClarity(Integer id, String value) {
         this.id = id;
         this.value = value;
     }
@@ -77,7 +77,7 @@ public class Illumination implements Serializable {
 
     @Override
     public String toString() {
-        return "Illumination[ id=" + id + " ]";
+        return "SpatialClarity[ id=" + id + " ]";
     }
 
 }

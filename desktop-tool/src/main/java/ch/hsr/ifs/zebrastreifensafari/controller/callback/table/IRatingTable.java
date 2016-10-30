@@ -1,6 +1,6 @@
 package ch.hsr.ifs.zebrastreifensafari.controller.callback.table;
 
-import ch.hsr.ifs.zebrastreifensafari.jpa.entities.Rating;
+import ch.hsr.ifs.zebrastreifensafari.model.jpa.entities.Rating;
 
 import java.util.Date;
 
