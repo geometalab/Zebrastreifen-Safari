@@ -26,12 +26,13 @@ public class ModifyGUITest {
     @Before
     public void setUp() throws Exception {
         db = new TestJDBC();
-        cug = new ModifyGUI(new MainGUI(new MainController(new Model())), "changeSelectionError") {
-
-            @Override
-            protected void onSendClick() {
-            }
-        };
+        //todo
+//        cug = new ModifyGUI(new MainGUI(new MainController(new Model())), "changeSelectionError") {
+//
+//            @Override
+//            protected void onSendClick() {
+//            }
+//        };
     }
 
     @After
@@ -49,6 +50,6 @@ public class ModifyGUITest {
         bg.add(b2);
         bg.add(b3);
         b2.setSelected(true);
-        assertEquals(2, cug.getSelectedButtonInt(bg));
+        assertEquals(2, cug.getSelectedButton(bg));
     }
 }

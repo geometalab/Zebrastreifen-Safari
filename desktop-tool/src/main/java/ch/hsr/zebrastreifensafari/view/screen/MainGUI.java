@@ -3,6 +3,13 @@ package ch.hsr.zebrastreifensafari.view.screen;
 import ch.hsr.zebrastreifensafari.controller.AboutController;
 import ch.hsr.zebrastreifensafari.controller.MainController;
 import ch.hsr.zebrastreifensafari.controller.callback.IMainCallback;
+import ch.hsr.zebrastreifensafari.controller.callback.modify.IMainModifyCallback;
+import ch.hsr.zebrastreifensafari.controller.callback.table.ICrossingTable;
+import ch.hsr.zebrastreifensafari.controller.callback.table.IRatingTable;
+import ch.hsr.zebrastreifensafari.controller.modify.create.CreateCrossingController;
+import ch.hsr.zebrastreifensafari.controller.modify.create.CreateRatingController;
+import ch.hsr.zebrastreifensafari.controller.modify.edit.EditCrossingController;
+import ch.hsr.zebrastreifensafari.controller.modify.edit.EditRatingController;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.component.JTextPlaceHolder;
@@ -34,7 +41,7 @@ import java.util.ResourceBundle;
  * @date : 27.10.2015
  */
 
-public class MainGUI extends JFrame implements IMainCallback {
+public class MainGUI extends JFrame implements IMainCallback, IMainModifyCallback {
 
     private final MainController controller;
     private JPanel mainPanel;
@@ -176,18 +183,18 @@ public class MainGUI extends JFrame implements IMainCallback {
 
     private void onAddClick() {
         if (isRatingMode()) {
-            controller.addRating(crossingTable);
+            controller.addRatingDialog(crossingTable);
         } else {
-            controller.addCrossing();
+            controller.addCrossingDialog();
         }
     }
 
     private void onEditClick() {
         try {
             if (isRatingMode()) {
-                controller.editRating(ratingTable);
+                controller.editRatingDialog(ratingTable);
             } else {
-                controller.editCrossing(crossingTable);
+                controller.editCrossingDialog(crossingTable);
             }
         } catch (ArrayIndexOutOfBoundsException aioobe) {
             errorMessage(Properties.get("editSelectionError"));
@@ -334,23 +341,23 @@ public class MainGUI extends JFrame implements IMainCallback {
     //</editor-fold>
 
     @Override
-    public void showCreateCrossing() {
-        new CreateCrossingGUI(this).setVisible(true);
+    public void showCreateCrossing(CreateCrossingController controller) {
+        new CreateCrossingGUI(controller, this).setVisible(true);
     }
 
     @Override
-    public void showCreateRating(long osmNodeId) {
-        new CreateRatingGUI(this, osmNodeId).setVisible(true);
+    public void showCreateRating(CreateRatingController controller) {
+        new CreateRatingGUI(controller, this).setVisible(true);
     }
 
     @Override
-    public void showEditCrossing(Crossing crossing) {
-        new EditCrossingGUI(this, crossing).setVisible(true);
+    public void showEditCrossing(EditCrossingController controller) {
+        new EditCrossingGUI(controller, this).setVisible(true);
     }
 
     @Override
-    public void showEditRating(Rating rating) {
-        new EditRatingGUI(this, rating).setVisible(true);
+    public void showEditRating(EditRatingController controller) {
+        new EditRatingGUI(controller, this).setVisible(true);
     }
 
     @Override
@@ -366,6 +373,21 @@ public class MainGUI extends JFrame implements IMainCallback {
     @Override
     public void setRatingTabbedPaneTitle(String title) {
         dataTabbedPane.setTitleAt(1, title);
+    }
+
+    @Override
+    public ICrossingTable getCrossingTable() {
+        return crossingTable;
+    }
+
+    @Override
+    public IRatingTable getRatingTable() {
+        return ratingTable;
+    }
+
+    @Override
+    public String getFilter() {
+        return filterTextField.getText();
     }
 
     //<editor-fold desc="GUI Builder">

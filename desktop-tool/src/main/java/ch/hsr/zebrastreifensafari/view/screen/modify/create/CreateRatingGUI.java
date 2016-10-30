@@ -1,9 +1,9 @@
 package ch.hsr.zebrastreifensafari.view.screen.modify.create;
 
+import ch.hsr.zebrastreifensafari.controller.modify.create.CreateRatingController;
+import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import ch.hsr.zebrastreifensafari.view.screen.modify.ModifyGUI;
-import ch.hsr.zebrastreifensafari.jpa.entities.Rating;
-import ch.hsr.zebrastreifensafari.service.Properties;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityNotFoundException;
@@ -15,31 +15,26 @@ import java.util.Date;
  */
 public class CreateRatingGUI extends ModifyGUI {
 
-    private final long node;
+    private final CreateRatingController controller;
 
-    public CreateRatingGUI(MainGUI mainGUI, long node) {
-        super(mainGUI, Properties.get("createRatingGuiTitle") + node);
-        this.node = node;
+    public CreateRatingGUI(CreateRatingController controller, MainGUI mainGUI) {
+        super(controller, mainGUI, Properties.get("createRatingGuiTitle") + controller.getNode());
+        this.controller = controller;
+        controller.setCallback(this);
         hideGuiElements();
     }
 
     @Override
     protected void onSendClick() {
         try {
-            Rating rating = new Rating(
-                    null,
-                    commentTextArea.getText().isEmpty() ? null : commentTextArea.getText(),
-                    mainGUI.getIllumination(getSelectedButtonInt(illuminationButtonGroup)),
-                    mainGUI.getSpatialClarity(getSelectedButtonInt(spatialClarityButtonGroup)),
-                    mainGUI.getTraffic(getSelectedButtonInt(trafficButtonGroup)),
-                    mainGUI.getUser((String) userComboBox.getSelectedItem()),
-                    mainGUI.getCrossing(node),
-                    imageTextField.getText().isEmpty() ? null : imageTextField.getText(),
-                    new Date(),
-                    getCreationTime()
-            );
-
-            mainGUI.createRating(rating);
+            String commentText = commentTextArea.getText();
+            int selectedIllumination = getSelectedButton(illuminationButtonGroup);
+            int selectedSpatialClarity = getSelectedButton(spatialClarityButtonGroup);
+            int selectedTraffic = getSelectedButton(trafficButtonGroup);
+            String selectedUser = userComboBox.getSelectedItem().toString();
+            String imageWeblinkText = imageTextField.getText();
+            Date creationTime = getCreationTime();
+            controller.send(commentText, selectedIllumination, selectedSpatialClarity, selectedTraffic, selectedUser, imageWeblinkText, creationTime);
             dispose();
         } catch (EntityNotFoundException enfex) {
             errorMessage(Properties.get("crossingExistError"));

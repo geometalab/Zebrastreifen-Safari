@@ -1,9 +1,10 @@
 package ch.hsr.zebrastreifensafari.view.screen.modify.edit;
 
+import ch.hsr.zebrastreifensafari.controller.callback.modify.IEditCrossingCallback;
+import ch.hsr.zebrastreifensafari.controller.modify.edit.EditCrossingController;
+import ch.hsr.zebrastreifensafari.service.Properties;
 import ch.hsr.zebrastreifensafari.view.screen.MainGUI;
 import ch.hsr.zebrastreifensafari.view.screen.modify.ModifyGUI;
-import ch.hsr.zebrastreifensafari.jpa.entities.Crossing;
-import ch.hsr.zebrastreifensafari.service.Properties;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityNotFoundException;
@@ -17,13 +18,14 @@ import javax.persistence.RollbackException;
  * @date : 12.10.2015
  */
 
-public class EditCrossingGUI extends ModifyGUI {
+public class EditCrossingGUI extends ModifyGUI implements IEditCrossingCallback {
 
-    private final Crossing crossing;
+    private final EditCrossingController controller;
 
-    public EditCrossingGUI(MainGUI mainGUI, Crossing crossing) {
-        super(mainGUI, Properties.get("editCrossingGuiTitle") + crossing.getOsmNodeId());
-        this.crossing = crossing;
+    public EditCrossingGUI(EditCrossingController controller, MainGUI mainGUI) {
+        super(controller, mainGUI, Properties.get("editCrossingGuiTitle") + controller.getCrossing().getOsmNodeId());
+        this.controller = controller;
+        controller.setCallback(this);
         setInitialValues();
         hideGuiElements();
         setSize(getWidth(), 110);
@@ -31,17 +33,13 @@ public class EditCrossingGUI extends ModifyGUI {
 
     @Override
     protected void onSendClick() {
-        Crossing backupCrossing = new Crossing(crossing.getId(), crossing.getOsmNodeId(), crossing.getRatingAmount(), crossing.getStatus());
-
-        if (editCrossing()) return;
-
-        setCrossingData(backupCrossing.getOsmNodeId());
+        controller.send();
     }
 
-    private boolean editCrossing() {
+    @Override
+    public boolean editCrossing() {
         try {
-            setCrossingData(Long.parseLong(osmNodeIdTextField.getText()));
-            mainGUI.editCrossing(crossing);
+            controller.editCrossing(osmNodeIdTextField.getText());
             dispose();
             return true;
         } catch (NumberFormatException nfex) {
@@ -60,10 +58,6 @@ public class EditCrossingGUI extends ModifyGUI {
         return false;
     }
 
-    private void setCrossingData(long osmNodeId) {
-        crossing.setOsmNodeId(osmNodeId);
-    }
-
     @Override
     protected boolean checkValues() {
         if (osmNodeIdTextField.getText() == null) {
@@ -76,7 +70,7 @@ public class EditCrossingGUI extends ModifyGUI {
 
     private void setInitialValues() {
         sendButton.setText(Properties.get("change"));
-        osmNodeIdTextField.setText(Long.toString(crossing.getOsmNodeId()));
+        osmNodeIdTextField.setText(Long.toString(controller.getCrossing().getOsmNodeId()));
     }
 
     private void hideGuiElements() {

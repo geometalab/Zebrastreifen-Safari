@@ -1,8 +1,13 @@
 package ch.hsr.zebrastreifensafari.controller;
 
 import ch.hsr.zebrastreifensafari.controller.callback.IMainCallback;
+import ch.hsr.zebrastreifensafari.controller.callback.modify.IMainController;
 import ch.hsr.zebrastreifensafari.controller.callback.table.ICrossingTable;
 import ch.hsr.zebrastreifensafari.controller.callback.table.IRatingTable;
+import ch.hsr.zebrastreifensafari.controller.modify.create.CreateCrossingController;
+import ch.hsr.zebrastreifensafari.controller.modify.create.CreateRatingController;
+import ch.hsr.zebrastreifensafari.controller.modify.edit.EditCrossingController;
+import ch.hsr.zebrastreifensafari.controller.modify.edit.EditRatingController;
 import ch.hsr.zebrastreifensafari.jpa.entities.*;
 import ch.hsr.zebrastreifensafari.model.Model;
 import ch.hsr.zebrastreifensafari.service.DataServiceLoader;
@@ -20,7 +25,7 @@ import java.util.stream.Collectors;
  * @version : 1.0
  * @since : 2.0
  */
-public class MainController {
+public class MainController implements IMainController {
 
     private final Model model;
     private IMainCallback callback;
@@ -57,20 +62,20 @@ public class MainController {
         }
     }
 
-    public void addCrossing() {
-        callback.showCreateCrossing();
+    public void addCrossingDialog() {
+        callback.showCreateCrossing(new CreateCrossingController(this, model));
     }
 
-    public void addRating(ICrossingTable crossingTable) {
-        callback.showCreateRating(getCrossingFromTable(crossingTable).getOsmNodeId());
+    public void addRatingDialog(ICrossingTable crossingTable) {
+        callback.showCreateRating(new CreateRatingController(this, model, getCrossingFromTable(crossingTable).getOsmNodeId()));
     }
 
-    public void editCrossing(ICrossingTable crossingTable) throws ArrayIndexOutOfBoundsException {
-        callback.showEditCrossing(getCrossingFromTable(crossingTable));
+    public void editCrossingDialog(ICrossingTable crossingTable) throws ArrayIndexOutOfBoundsException {
+        callback.showEditCrossing(new EditCrossingController(this, model, getCrossingFromTable(crossingTable)));
     }
 
-    public void editRating(IRatingTable ratingTable) throws ArrayIndexOutOfBoundsException {
-        callback.showEditRating(getRatingFromTable(ratingTable));
+    public void editRatingDialog(IRatingTable ratingTable) throws ArrayIndexOutOfBoundsException {
+        callback.showEditRating(new EditRatingController(this, model, getRatingFromTable(ratingTable)));
     }
 
     public void openAboutDialog() {
@@ -151,6 +156,7 @@ public class MainController {
     }
 
     //<editor-fold desc="CRUD Crossing">
+    @Override
     public void createCrossing(ICrossingTable crossingTable, Crossing crossing, String filter) {
         if (model.contains(crossing)) {
             createExistingCrossing(crossingTable, crossing, filter);
@@ -185,6 +191,7 @@ public class MainController {
         }
     }
 
+    @Override
     public void editCrossing(ICrossingTable crossingTable, Crossing crossing, String filter) throws EntityNotFoundException {
         DataServiceLoader.getCrossingData().editCrossing(crossing);
 
@@ -196,6 +203,7 @@ public class MainController {
         }
     }
 
+    @Override
     public void deleteCrossing(ICrossingTable crossingTable) throws ArrayIndexOutOfBoundsException, DatabaseException, EntityNotFoundException {
         int selectedRow = crossingTable.getSelectedRow();
         Crossing crossing = getCrossingFromTable(crossingTable);
@@ -209,10 +217,10 @@ public class MainController {
 
         crossingTable.changeSelection(selectedRow);
     }
-
     //</editor-fold>
 
     //<editor-fold desc="CRUD Rating">
+    @Override
     public void createRating(ICrossingTable crossingTable, IRatingTable ratingTable, Rating rating) throws EntityNotFoundException {
         DataServiceLoader.getCrossingData().createRating(rating);
         model.add(rating);
@@ -223,6 +231,7 @@ public class MainController {
         crossingTable.setRatingAmountAtSelectedRow(crossingOfRating.getRatingAmount());
     }
 
+    @Override
     public void editRating(IRatingTable ratingTable, Rating rating) throws EntityNotFoundException {
         DataServiceLoader.getCrossingData().editRating(rating);
         ratingTable.setUserIdAtSelectedRow(rating.getUserId().getName());
