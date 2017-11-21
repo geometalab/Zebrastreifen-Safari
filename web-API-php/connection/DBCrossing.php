@@ -11,7 +11,13 @@ class DBCrossing {
     private $connection;
 
     public function __construct() {
-        $this->connection = pg_connect("host=".DBConfig::HOST." port=".DBConfig::PORT." dbname=".DBConfig::ZEBRACROSSING." user=".DBConfig::USERNAME." password=".DBConfig::PASSWORD)
+        $this->connection = pg_connect(
+            "host=".getenv('DB_HOST')
+            ." port=".getenv('DB_PORT')
+            ." dbname=".getenv('DB_NAME')
+            ." user=".getenv('DB_USER')
+            ." password=".getenv('DB_PASSWORD')
+        )
         or die("Unable to connect to the Database");
     }
 
