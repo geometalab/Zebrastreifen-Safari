@@ -7,7 +7,6 @@
  * Time: 16:09
  */
 
-require_once('connection/DBConfig.php');
 require_once('connection/DBCrossing.php');
 
 $dbConnection = new DBCrossing();
@@ -19,3 +18,5 @@ $ratingQuery = $dbConnection->getRatingAmount();
 $ratingAmount = pg_fetch_all($ratingQuery)[0]['amount'];
 $dbConnection->setRatingAmount($ratingAmount);
 $dbConnection->closeConnection();
+
+?>

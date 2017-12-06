@@ -7,7 +7,6 @@
  * Time: 08:19
  */
 
-require_once('connection/DBConfig.php');
 require_once('connection/DBCrossing.php');
 
 function crossingBarchartStatistic() {

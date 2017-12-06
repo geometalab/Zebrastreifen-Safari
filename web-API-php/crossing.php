@@ -7,7 +7,6 @@
  * Time: 11:54
  */
 
-require_once('connection/DBConfig.php');
 require_once('connection/DBCrossing.php');
 
 function crossingPoints($bounds, $maxCrossingAmount) {

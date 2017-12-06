@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  zebrastreifen-safari: &base_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8888:80"
+    volumes:
+      - ./web-API-php:/var/www/html
+  zebrastreifen-updater:
+    <<: *base_app
+    command: ["python3", "/cronjobs/run_schedule.py"]
+    ports: []
+volumes:
+  pg_data: {}
