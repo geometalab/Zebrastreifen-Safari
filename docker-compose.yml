@@ -1,6 +1,7 @@
 version: '3.3'
 services:
   zebrastreifen-safari: &base_app
+    image: geometalab/zebrastreifen-safari
     build:
       context: .
       dockerfile: Dockerfile
