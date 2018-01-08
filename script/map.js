@@ -69,8 +69,10 @@ map.on('moveend', function() {
     maxamount = zoom * 12;
 });
 map.on('moveend', function() {
+    var BASE_URL = 'https://zebrastreifen.sifs0003.infs.ch/zebra';
+
     $.ajax({
-        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crosswalks/&bounds=' + bound + '&maxamount=' + maxamount,
+        url: `${BASE_URL}/api/v1/crosswalks/&bounds=` + bound + '&maxamount=' + maxamount,
         dataType:'json',
         method: 'get',
         success:function(response){

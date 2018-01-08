@@ -1,9 +1,9 @@
 $(document).ready(function() {
+    var BASE_URL = 'https://zebrastreifen.sifs0003.infs.ch/zebra';
     var earthradius = 6378137;
 
-
     $.ajax({
-        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crosswalk/' + location.search.split('crosswalk=')[1],
+        url: `${BASE_URL}/api/v1/crosswalk/` + location.search.split('crosswalk=')[1],
         dataType: 'json',
         method: 'get',
         success : function (data){

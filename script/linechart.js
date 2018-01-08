@@ -1,6 +1,8 @@
 $(document).ready(function() {
+    var BASE_URL = 'https://zebrastreifen.sifs0003.infs.ch/zebra';
+    
     $.ajax({
-        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/crossinglinechart',
+        url: `${BASE_URL}/api/v1/crossinglinechart`,
         dataType: 'json',
         method: 'get',
         success: function (data1)  {
@@ -46,7 +48,7 @@ $(document).ready(function() {
 
     });
     $.ajax({
-        url: 'http://sifsv-80047.hsr.ch/zebra/api/v1/ratinglinechart',
+        url: `${BASE_URL}/api/v1/ratinglinechart`,
         dataType: 'json',
         method: 'get',
         success: function (data1)  {
