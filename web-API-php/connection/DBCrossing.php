@@ -64,7 +64,7 @@ class DBCrossing {
                                             FROM crossing.osm_crossings AS osm
                                             LEFT JOIN crossing.crossing AS crossing
                                             ON osm.osm_id = crossing.osm_node_id
-                                            WHERE ST_Contains(ST_GeomFromText('POLYGON(($bounds[0] $bounds[1],$bounds[0] $bounds[3],$bounds[2] $bounds[3],$bounds[2] $bounds[1],$bounds[0] $bounds[1]))', 3857), osm.wkb_geometry)
+                                            WHERE ST_Contains(ST_GeomFromText('POLYGON(($bounds[0] $bounds[1],$bounds[0] $bounds[3],$bounds[2] $bounds[3],$bounds[2] $bounds[1],$bounds[0] $bounds[1]))', 3857), ST_SETSRID(osm.wkb_geometry, 3857))
                                             GROUP BY ST_SnapToGrid(osm.wkb_geometry, $snap);");
     }
 
@@ -107,7 +107,7 @@ class DBCrossing {
 
     public function getClusteredAmount($size, $bounds) {
         return pg_query($this->connection, "SELECT count(*) AS amount FROM (SELECT count(osm.wkb_geometry) FROM crossing.osm_crossings AS osm
-                                            WHERE ST_Contains(ST_GeomFromText('POLYGON(($bounds[0] $bounds[1],$bounds[0] $bounds[3],$bounds[2] $bounds[3],$bounds[2] $bounds[1],$bounds[0] $bounds[1]))', 3857), osm.wkb_geometry)
+                                            WHERE ST_Contains(ST_GeomFromText('POLYGON(($bounds[0] $bounds[1],$bounds[0] $bounds[3],$bounds[2] $bounds[3],$bounds[2] $bounds[1],$bounds[0] $bounds[1]))', 3857), ST_SETSRID(osm.wkb_geometry, 3857))
                                             GROUP BY ST_SnapToGrid(osm.wkb_geometry, $size)) AS tmp;");
     }
 
