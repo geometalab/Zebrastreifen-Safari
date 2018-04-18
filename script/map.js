@@ -7,12 +7,12 @@ var southWest = L.latLng(45.7300, 5.8000),
     northEast = L.latLng(47.9000, 10.600),
     bounds = L.latLngBounds(southWest, northEast);
 
-var osm = L.tileLayer('http://tile.osm.ch/osm-swiss-style/{z}/{x}/{y}.png', {
+var osm = L.tileLayer('https://tile.osm.ch/osm-swiss-style/{z}/{x}/{y}.png', {
     attribution: 'v0.1 | Project data © <a href="http://opendatacommons.org/licenses/odbl/1.0/"> ODbL </a>' +
         '| Map © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' +
     ' | <a href="http://www.openstreetmap.org/fixthemap">Improve this map</a>'
 });
-var mapbox = L.tileLayer("http://api.tiles.mapbox.com/v4/sfkeller.k0onh2me/{z}/{x}/{y}.png" +
+var mapbox = L.tileLayer("https://api.tiles.mapbox.com/v4/sfkeller.k0onh2me/{z}/{x}/{y}.png" +
     "?access_token=pk.eyJ1Ijoic2ZrZWxsZXIiLCJhIjoia3h4T3pScyJ9.MDLSUwpRpPqaV7SVfGcZDw", {
     attribution: 'v0.1 | Project data © <a href="http://opendatacommons.org/licenses/odbl/1.0/"> ODbL </a>' +
     '| © <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' +
